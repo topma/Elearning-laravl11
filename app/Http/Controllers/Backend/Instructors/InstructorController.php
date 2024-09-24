@@ -42,9 +42,9 @@ class InstructorController extends Controller
             DB::beginTransaction();
             $instructor = new Instructor;
             $instructor->name_en = $request->fullName_en;
-            $instructor->name_bn = $request->fullName_bn;
+            //$instructor->name_bn = $request->fullName_bn;
             $instructor->contact_en = $request->contactNumber_en;
-            $instructor->contact_bn = $request->contactNumber_bn;
+            //$instructor->contact_bn = $request->contactNumber_bn;
             $instructor->email = $request->emailAddress;
             $instructor->role_id = $request->roleId;
             $instructor->bio = $request->bio;

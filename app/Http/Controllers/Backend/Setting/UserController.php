@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Instructor;
 use App\Http\Requests\Backend\User\AddNewRequest;
 use App\Http\Requests\Backend\User\UpdateRequest;
 use Exception;
@@ -40,28 +41,28 @@ class UserController extends Controller
         try {
             $data = new User();
             $data->name_en = $request->userName_en;
-            $data->name_bn = $request->userName_bn;
             $data->email = $request->emailAddress;
             $data->contact_en = $request->contactNumber_en;
-            $data->contact_bn = $request->contactNumber_bn;
             $data->role_id = $request->roleId;
             $data->language = 'en';
             $data->full_access = $request->fullAccess;
             $data->status = $request->status;
-            $data->password = Hash::make($request->password);
+            $data->password = Hash::make($request->password);           
 
             if ($request->hasFile('image')) {
                 $imageName = rand(111, 999) . time() . '.' . $request->image->extension();
                 $request->image->move(public_path('uploads/users'), $imageName);
-                $data->image = $imageName;
+                $data->image = $imageName;              
+                
             }
             if ($data->save())
                 return redirect()->route('user.index')->with('success', 'Data SAVED');
             else
-                return redirect()->back()->withInput()->with('error', 'Please Try again');
+                dd($data);
+                //return redirect()->back()->withInput()->with('error', 'Please Try again');
         } catch (Exception $e) {
-            // dd($e);
-            return redirect()->back()->withInput()->with('error', 'Please try again');
+             dd($e);
+            //return redirect()->back()->withInput()->with('error', 'Please try again');
         }
     }
 

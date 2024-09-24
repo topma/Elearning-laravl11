@@ -3,7 +3,7 @@
 
 @push('styles')
 <!-- Datatable -->
-<link href="{{asset('public/vendor/datatables/css/jquery.dataTables.min.css')}}" rel="stylesheet">
+<link href="{{asset('vendor/datatables/css/jquery.dataTables.min.css')}}" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -63,7 +63,7 @@
                                             <tr>
                                                 <td>
                                                     <img class="rounded-circle" width="35" height="35"
-                                                        src="{{asset('public/uploads/users/'.$d->image)}}" alt="">
+                                                        src="{{asset('uploads/users/'.$d->image)}}" alt="">
                                                 </td>
                                                 <td><strong>{{$d->name_en}}</strong></td>
                                                 <td>{{$d->email}}</td>
@@ -123,7 +123,7 @@
                                     <div class="card-body pt-2">
                                         <div class="text-center">
                                             <div class="profile-photo">
-                                                <img src="{{asset('public/uploads/instructors/'.$d->image)}}" width="100"
+                                                <img src="{{asset('uploads/users/'.$d->image)}}" width="100"
                                                     height="100" class="rounded-circle" alt="">
                                             </div>
                                             <h3 class="mt-4 mb-1">{{$d->name_en}}</h3>
@@ -145,7 +145,7 @@
                                                 </li>
                                             </ul>
                                             <a class="btn btn-outline-primary btn-rounded mt-3 px-4"
-                                                href="about-instructor.html">Read More</a>
+                                                href="#">Read More</a>
                                         </div>
                                     </div>
                                 </div>
@@ -174,7 +174,7 @@
 
 @push('scripts')
 <!-- Datatable -->
-<script src="{{asset('public/vendor/datatables/js/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('public/js/plugins-init/datatables.init.js')}}"></script>
+<script src="{{asset('vendor/datatables/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('js/plugins-init/datatables.init.js')}}"></script>
 
 @endpush

@@ -3,8 +3,8 @@
 
 @push('styles')
 <!-- Pick date -->
-<link rel="stylesheet" href="{{asset('public/vendor/pickadate/themes/default.css')}}">
-<link rel="stylesheet" href="{{asset('public/vendor/pickadate/themes/default.date.css')}}">
+<link rel="stylesheet" href="{{asset('vendor/pickadate/themes/default.css')}}">
+<link rel="stylesheet" href="{{asset('vendor/pickadate/themes/default.date.css')}}">
 @endpush
 
 @section('content')
@@ -50,13 +50,6 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">নাম (বাংলায়)</label>
-                                        <input type="text" class="form-control" name="fullName_bn"
-                                            value="{{old('fullName_bn')}}">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
                                         <label class="form-label">Phone Number</label>
                                         <input type="tel" class="form-control" name="contactNumber_en"
                                             value="{{old('contactNumber_en')}}">
@@ -64,17 +57,7 @@
                                     @if($errors->has('contactNumber_en'))
                                     <span class="text-danger"> {{ $errors->first('contactNumber_en') }}</span>
                                     @endif
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="form-label">ফোন নাম্বার (বাংলায়)</label>
-                                        <input type="tel" class="form-control" name="contactNumber_bn"
-                                            value="{{old('contactNumber_bn')}}">
-                                    </div>
-                                    @if($errors->has('contactNumber_bn'))
-                                    <span class="text-danger"> {{ $errors->first('contactNumber_bn') }}</span>
-                                    @endif
-                                </div>
+                                </div>                                
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Email</label>
@@ -171,10 +154,10 @@
 
 @push('scripts')
 <!-- pickdate -->
-<script src="{{asset('public/vendor/pickadate/picker.js')}}"></script>
-<script src="{{asset('public/vendor/pickadate/picker.time.js')}}"></script>
-<script src="{{asset('public/vendor/pickadate/picker.date.js')}}"></script>
+<script src="{{asset('vendor/pickadate/picker.js')}}"></script>
+<script src="{{asset('vendor/pickadate/picker.time.js')}}"></script>
+<script src="{{asset('vendor/pickadate/picker.date.js')}}"></script>
 
 <!-- Pickdate -->
-<script src="{{asset('public/js/plugins-init/pickadate-init.js')}}"></script>
+<script src="{{asset('js/plugins-init/pickadate-init.js')}}"></script>
 @endpush

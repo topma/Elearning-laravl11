@@ -30,9 +30,9 @@
         ***********************************-->
         <div class="nav-header">
             <a href="{{route('home')}}" class="brand-logo">
-                <img class="logo-abbr" src="{{asset('images/logo-white.png')}}" alt="">
-                <img class="logo-compact" src="{{asset('images/d-logo.png')}}" alt="">
-                <img class="brand-title" src="{{asset('images/d-logo.png')}}" alt="">
+                <img class="logo-abbr" src="{{asset('images/kdh_logo.png')}}" alt="">
+                <img class="logo-compact" src="{{asset('images/h-logo.png')}}" alt="">
+                <img class="brand-title" src="{{asset('images/h-logo.png')}}" alt="">
             </a>
 
             <div class="nav-control">
@@ -137,7 +137,7 @@
                             </li>
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" title="Profile Info" href="#" role="button" data-toggle="dropdown">
-                                    <img src="{{asset('uploads/users/'.request()->session()->get('image') .'.jpg')}}"
+                                    <img src="{{asset('uploads/users/'.request()->session()->get('image'))}}"
                                         width="20" alt="">
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
@@ -191,16 +191,16 @@
             <div class="dlabnav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="nav-label first">Admin Panel</li>
-                    <li><a class="ai-icon" href="{{route('dashboard')}}" aria-expanded="false">
-                            <i class="las la-tachometer-alt"></i>
-                            <span class="nav-text">Dashboard</span>
-                        </a>
-                    </li>
                     <li><a class="ai-icon" href="{{route('home')}}" aria-expanded="false">
                             <i class="las la-home"></i>
                             <span class="nav-text">Home</span>
                         </a>
                     </li>
+                    <li><a class="ai-icon" href="{{route('dashboard')}}" aria-expanded="false">
+                            <i class="las la-tachometer-alt"></i>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>                    
                     <li class="nav-label">Main Menu</li>
                     <li><a class="" href="{{route('role.index')}}" aria-expanded="false">
                             <i class="las la-cog"></i>
@@ -298,14 +298,14 @@
         <div class="dlabnav-scroll">
             <ul class="metismenu" id="menu">
                 <li class="nav-label first">Instructor Panel</li>
-                <li><a class="ai-icon" href="{{route('dashboard')}}" aria-expanded="false">
-                        <i class="las la-tachometer-alt"></i> <span class="nav-text">Dashboard</span>
-                    </a>
-                </li>
                 <li><a class="ai-icon" href="{{route('home')}}" aria-expanded="false">
                         <i class="las la-home"></i><span class="nav-text">Home</span>
                     </a>
                 </li>
+                <li><a class="ai-icon" href="{{route('dashboard')}}" aria-expanded="false">
+                        <i class="las la-tachometer-alt"></i> <span class="nav-text">Dashboard</span>
+                    </a>
+                </li>                
                 <li class="nav-label">Main Menu</li>
                 <li><a href="{{route('instructor.index')}}">
                         <i class="las la-chalkboard-teacher"></i>Instructors List
@@ -340,7 +340,7 @@
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright © Powered by <a href="../index.htm" target="_blank">Kings Digital Literacy Hub</a> 2023 - <?php echo date('Y') ?></p>
+                <p>Copyright © Powered by <a href="https://kingsconsult.com.ng" target="_blank">Kings Branding Consult</a> 2023 - <?php echo date('Y') ?></p>
             </div>
         </div>
         <!--**********************************

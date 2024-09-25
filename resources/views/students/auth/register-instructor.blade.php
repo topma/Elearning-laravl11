@@ -9,7 +9,7 @@
         <div class="row align-items-center justify-content-md-center">
             <div class="col-lg-5 order-2 order-lg-0">
                 <div class="signup-area-textwrapper">
-                    <h2 class="font-title--md mb-0">Sign Up</h2>                    
+                    <h2 class="font-title--md mb-0">Sign Up- Instructor</h2>                    
                     <form action="{{route('instructorRegister.store','instructordashboard')}}" method="POST">
                         @csrf
                         <div class="form-element">

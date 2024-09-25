@@ -25,7 +25,7 @@
                 <div>
                     <div class="students-info-intro-start">
                         <div class="image">
-                            <img src="{{ asset('public/uploads/students/' . $student_info->image) }}" alt="Student" />
+                            <img src="{{ asset('uploads/students/' . $student_info->image) }}" alt="Student" />
                         </div>
                         <div class="text">
                             <h5>{{$student_info->name_en}}</h5>
@@ -133,7 +133,7 @@
                                         <span>Phone Number</span>
                                     </dt>
                                     <dd class="col-sm-8">
-                                        <p>{{$student_info->contact_en?$student_info->contact_en:'+880'}}</p>
+                                        <p>{{$student_info->contact_en?$student_info->contact_en:'+n/a'}}</p>
                                     </dd>
                                 </dl>
                                 <dl class="row my-0 info-student-topic">
@@ -286,7 +286,7 @@
                             <div class="white-bg">
                                 <div class="change-image-wizard">
                                     <div class="image mx-auto">
-                                        <img src="{{ asset('public/uploads/students/' . $student_info->image) }}"
+                                        <img src="{{ asset('uploads/students/' . $student_info->image) }}"
                                             alt="User" height="200" width="200">
                                     </div>
                                     <form id="changeImageForm" action="{{ route('change_image') }}" method="post"

@@ -57,7 +57,7 @@
                 <div class="browse-categories-item default-item-one mb-2">
                     <div class="browse-categories-item-icon">
                         <div class="categories-one default-categories">
-                            <img src="{{asset('public/uploads/courseCategories/'.$cat->category_image)}}"
+                            <img src="{{asset('uploads/courseCategories/'.$cat->category_image)}}"
                                 class="rounded-circle" width="80" height="80" alt="">
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                                 <button class="nav-link" id="pills-dev-tab" data-bs-toggle="pill"
                                     data-bs-target="#pills-dev" type="button" role="tab" aria-controls="pills-dev"
                                     aria-selected="false">
-                                    Development
+                                    Programming and Development
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
@@ -499,10 +499,10 @@
     </div>
 </section>
 
-{{-- Why You'll Learn With Eduguard --}}
+{{-- Why You'll Learn With Kings Digi Hub --}}
 <section class="section feature section section--bg-offwhite-one">
     <div class="container">
-        <h2 class="font-title--md text-center">Why You'll Learn with Eduguard</h2>
+        <h2 class="font-title--md text-center">Why You'll Learn with Kings Digi Hub</h2>
         <div class="row">
             <div class="col-lg-4 col-md-6">
                 <div class="cardFeature">
@@ -518,9 +518,10 @@
                                 stroke-linejoin="round" />
                         </svg>
                     </div>
-                    <h5 class="font-title--xs">250k online course</h5>
+                    <h5 class="font-title--xs">Affordable yet enriched</h5>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed commodo enim Fusce sed.
+                    At Kings Digital Literacy Hub, we believe that quality education should be accessible to everyone. Our programs are designed to provide enriching learning experiences without breaking the bank. Join us to gain valuable skills, engage with expert instructors, 
+                    and connect with a community that supports your growth—all at an affordable price!
                     </p>
                 </div>
             </div>
@@ -548,8 +549,8 @@
                     </div>
                     <h5 class="font-title--xs">Expert Instructors</h5>
                     <p>
-                        Vivamus interdum neque massa, eget mattis mi gravida eget. Donec et dictum justo. Vivamus
-                        interdum.
+                    Our team of expert instructors is dedicated to providing top-notch education and guidance. With extensive experience in their fields, they are here to share their knowledge, answer your questions, and help you navigate the digital landscape. 
+                    Learn from the best and gain the confidence you need to excel in your career!
                     </p>
                 </div>
             </div>
@@ -567,8 +568,8 @@
                     </div>
                     <h5 class="font-title--xs">Lifetime Access</h5>
                     <p>
-                        Vivamus cursus libero quis lobortis mattis. Suspendisse in malesuada mi. Maecenas vel
-                        euismod turpis.
+                    When you join Kings Digital Literacy Hub, you receive lifetime access to all our courses and resources. This means you can revisit the materials whenever you need a refresher, keeping your skills sharp and up-to-date. Learn at your own pace, 
+                    and enjoy the freedom to grow your knowledge for years to come!
                     </p>
                 </div>
             </div>
@@ -583,7 +584,7 @@
             <div class="col-lg-6 order-2 order-lg-0">
                 <div class="learning-rules-starts">
                     <h2 class="font-title--md">
-                        Eduguard Simple <br class="d-none d-md-block" />
+                    Kings Digi Hub Simple <br class="d-none d-md-block" />
                         Learning Steps
                     </h2>
                     <div class="learning-rules__wrapper">
@@ -592,8 +593,8 @@
                             <div class="item-text">
                                 <h6>Make Your Own Place.</h6>
                                 <p>
-                                    Fusce dictum, velit eu placerat consectetur, ante nisl auctor magna, sit amet
-                                    fringilla urna nibh a risus.
+                                Create a space that reflects your unique style and personality. 
+                                Whether it’s a cozy corner or a vibrant room, design it your way!
                                 </p>
                             </div>
                         </div>
@@ -602,8 +603,8 @@
                             <div class="item-text">
                                 <h6>Find Best Course With Better Filtter.</h6>
                                 <p>
-                                    Morbi id est a risus sollicitudin maximus. Fusce lorem neque, tincidunt vel
-                                    rhoncus eget, convallis ullamcorper sem.
+                                Easily discover the perfect course for you by using our enhanced filtering options. Sort by skill level, duration, subject, 
+                                and more to find the ideal match for your learning needs!
                                 </p>
                             </div>
                         </div>
@@ -612,8 +613,8 @@
                             <div class="item-text">
                                 <h6>And Become a Master in Your Field.</h6>
                                 <p>
-                                    Sed pulvinar dignissim neque, ac consectetur urna tincidunt vel. Sed congue
-                                    nulla sed tempus ultrices.
+                                Utilize our advanced filtering tools to find the perfect course tailored to your goals. With the right training, 
+                                you can master your field and unlock new opportunities for success!
                                 </p>
                             </div>
                         </div>
@@ -1067,11 +1068,11 @@
                     <div class="main-text">
                         <h6 class="font-title--sm">Become an Instructor</h6>
                         <p>
-                            Praesent ultricies nulla ac congue bibendum. Aliquam tempor euismod purus posuere
-                            gravida. Praesent augue sapien, vulputate eu imperdiet eget, tempor at enim.
+                        Share your expertise and passion by joining us as an instructor at Kings Digital Literacy Hub. Inspire the next generation of learners, create engaging courses, 
+                        and make a meaningful impact in the digital education space!
                         </p>
                         <div class="text-center">
-                            <a href="become-instructor.html" class="green-btn">Apply as Instructor</a>
+                            <a href="{{route('instructorRegister')}}" class="green-btn">Apply as Instructor</a>
                         </div>
                     </div>
                 </div>
@@ -1083,13 +1084,13 @@
                             class="img-fluid" />
                     </div>
                     <div class="main-text">
-                        <h6 class="font-title--sm">Use Eduguard For Business</h6>
+                        <h6 class="font-title--sm">Use Kings Digi Hub For Business</h6>
                         <p>
-                            Praesent ultricies nulla ac congue bibendum. Aliquam tempor euismod purus posuere
-                            gravida. Praesent augue sapien, vulputate eu imperdiet eget, tempor at enim.
+                        Leverage Kings Digi Hub to enhance your business's digital skills and strategies. Our tailored programs provide the training needed to optimize operations, improve online presence, and drive growth. 
+                        Empower your team and stay competitive in today’s digital landscape!
                         </p>
                         <div class="text-center">
-                            <a href="#" class="green-btn">Get Eduguard For Business</a>
+                            <a href="#" class="green-btn">Get Kings Digi Hub For Business</a>
                         </div>
                     </div>
                 </div>
@@ -1107,10 +1108,10 @@
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <div class="newsletter-area">
-                    <h4>Subscribe our Newsletter</h4>
+                    <h4>Subscribe to our Newsletter</h4>
                     <p class="mt-2 mb-lg-4 mb-3">
-                        Duis posuere maximus arcu eu tincidunt. Nam rutrum, nibh vitae tempus venenatis, ex tortor
-                        ultricies magna, et faucibus magna eros quis arcu.
+                    Stay updated with the latest news, tips, and resources from Kings Digital Literacy Hub! Subscribe to our newsletter for exclusive content, upcoming courses, and special offers delivered straight to your inbox. 
+                    Don’t miss out—join our community today!
                     </p>
                     <form>
                         <div class="input-group">

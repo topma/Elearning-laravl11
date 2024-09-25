@@ -121,9 +121,8 @@
                                     <div class="col-md-6 col-12 mx-auto text-center">
                                         <h5 class="font-title--sm">Invest in your career with Us</h5>
                                         <p class="my-4 font-para--lg">
-                                            Duis posuere maximus arcu eu tincidunt. Nam rutrum, nibh vitae tempus
-                                            venenatis, ex tortor ultricies
-                                            magna, et faucibus magna eros quis arcu.
+                                        Unlock your potential and elevate your career by joining our community! With tailored resources, expert guidance, and a supportive network, 
+                                        we provide the tools you need to succeed. Invest in your future with us today!
                                         </p>
                                         <a href="{{route('searchCourse')}}"
                                             class="button button-md button--primary">Let’s Go</a>

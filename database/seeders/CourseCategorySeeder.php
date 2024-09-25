@@ -15,12 +15,12 @@ class CourseCategorySeeder extends Seeder
     {
         //
         $categories = [
-            ['category_name' => 'Data Science', 'category_status' => 1],
-            ['category_name' => 'Programming and Development', 'category_status' => 1],
-            ['category_name' => 'Business', 'category_status' => 1],
-            ['category_name' => 'Personal Development', 'category_status' => 1],
-            ['category_name' => 'Design', 'category_status' => 1],  
-            ['category_name' => 'Information Technology', 'category_status' => 1],           
+            ['category_name' => 'Data Science', 'category_status' => 1,'category_image' => 'data_science.png'],
+            ['category_name' => 'Programming and Development', 'category_status' => 1,'category_image' => 'programming.png'],
+            ['category_name' => 'Business', 'category_status' => 1, 'category_image' => 'business.png'],
+            ['category_name' => 'Personal Development', 'category_status' => 1,'category_image' => 'personal_development.png'],
+            ['category_name' => 'Design', 'category_status' => 1,'category_image' => 'design.png'],  
+            ['category_name' => 'Information Technology', 'category_status' => 1,'category_image' => 'it.png'],           
         ];
 
         DB::table('course_categories')->insert($categories);

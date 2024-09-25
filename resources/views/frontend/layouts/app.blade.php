@@ -301,8 +301,8 @@
                                 class="img-fluid" />
                         </div>
                         <p>
-                            Duis posuere maximus arcu eu tincidunt. Nam rutrum, nibh vitae tempus venenatis, ex tortor
-                            ultricies magna.
+                        Kings Digital Literacy Hub is dedicated to empowering individuals through digital education. We offer a range of programs designed to enhance your skills in technology, online communication, and digital tools. Join us to unlock new opportunities, 
+                        boost your confidence, and thrive in the digital age!
                         </p>
                         <div class="footer__wrapper_social d-none d-lg-block">
                             <ul>

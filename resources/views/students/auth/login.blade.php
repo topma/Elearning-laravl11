@@ -9,10 +9,7 @@
         <div class="row align-items-center">
             <div class="col-xl-5 order-2 order-xl-0">
                 <div class="signup-area-textwrapper">
-                    <h2 class="font-title--md mb-0">Sign in</h2>
-                    <p class="mt-2 mb-lg-4 mb-3">Don't have account? <a href="{{route('studentRegister')}}"
-                            class="text-black-50">Sign
-                            up</a></p>
+                    <h2 class="font-title--md mb-0">Sign in</h2>                    
                     <form action="{{route('studentLogin.check','studentdashboard')}}" method="POST">
                         @csrf
                         <div class="form-element">
@@ -24,8 +21,7 @@
                         </div>
                         <div class="form-element">
                             <div class="d-flex justify-content-between">
-                                <label for="password">Password</label>
-                                <a href="forget-password.html" class="text-primary fs-6">Forget Password</a>
+                                <label for="password">Password</label>                                
                             </div>
                             <div class="form-alert-input">
                                 <input type="password" placeholder="Type here..." id="password" name="password" />
@@ -44,17 +40,27 @@
                         </div>
                         <div class="form-element d-flex align-items-center terms">
                             <input class="checkbox-primary me-1" type="checkbox" id="agree" />
-                            <label for="agree" class="text-secondary mb-0 fs-6">Remember me</label>
+                            <table width="100%">
+                                <tr>
+                                    <td><label for="agree" class="text-secondary mb-0 fs-6">Remember me</label></td>
+                                    <td><div align="right"><a href="{{ route('password.request') }}" class="text-primary fs-6">Forgot Password ?</a></div></td>
+                                </tr>
+                            </table>
+                            
+                            
                         </div>
                         <div class="form-element">
                             <button type="submit" class="button button-lg button--primary w-100">Sign in</button>
                         </div>
+                        <p class="mt-2 mb-lg-4 mb-3">Don't have account? <a href="{{route('studentRegister')}}"
+                            class="text-black-50">Sign
+                            up</a></p>
                     </form>
                 </div>
             </div>
             <div class="col-xl-7 order-1 order-xl-0">
                 <div class="signup-area-image">
-                    <img src="{{asset('frontend/dist/images/signup/Illustration.png')}}" alt="Illustration Image"
+                    <img src="{{asset('frontend/dist/images/sign/img-1.png')}}" alt="Illustration Image"
                         class="img-fluid" />
                 </div>
             </div>

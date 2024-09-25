@@ -26,13 +26,15 @@ class AuthenticationController extends Controller
             $user->contact_en = $request->contact_en;
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
-            $user->role_id = 1;
-            $user->instructor_id = 1;
+            $user->role_id = 4;            
             // dd($request->all()); 
-            if ($user->save())
-                return redirect('login')->with('success', 'Successfully Registered');
-            else
+            if ($user->save()){ 
+               return redirect('login')->with('success', 'Successfully Registered');                 
+            }                               
+            else{
                 return redirect('login')->with('danger', 'Please Try Again');
+            }
+                
         } catch (Exception $e) {
             dd($e);
             return redirect('login')->with('danger', 'Please Try Again');

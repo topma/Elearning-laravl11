@@ -79,9 +79,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('contact')}}">Contact</a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="{{route('dashboard')}}">Admin</a>
-                        </li>
+                        </li> -->
                     </ul>
                     <div class="d-flex align-items-center justify-content-between rightContent">
                         <form class="header__Search-form" id="searchForm">
@@ -126,7 +126,7 @@
                         @if(request()->session()->get('studentLogin'))
                         <div class="dropdown user-image ms-3" id="imageDropdown">
                             <a href="{{route('studentdashboard')}}" onclick="toggleDropdown(event)">
-                                <img src="{{asset('public/uploads/students/'.request()->session()->get('image'))}}"
+                                <img src="{{asset('uploads/students/'.request()->session()->get('image'))}}"
                                     alt="Student Profile" height="48" width="48"/>
                             </a>
                             <div class="dropdown-content">
@@ -477,7 +477,7 @@
             <div class="container">
                 <div class="footer__bottom-content">
                     <div class="footer__bottom_copyright">
-                        <p>© 2021 - Eduguard. All rights reserved</p>
+                        <p>© 2023 - <?php echo date('Y') ?> - Kings Digital Literacy Hub. All rights reserved</p>
                     </div>
                     <div class="footer__bottom_topbutton">
                         <a href="#">

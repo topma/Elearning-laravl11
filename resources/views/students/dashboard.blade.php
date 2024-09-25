@@ -25,7 +25,7 @@
                 <div>
                     <div class="students-info-intro-start">
                         <div class="image">
-                            <img src="{{ asset('public/uploads/students/' . $student_info->image) }}" alt="Student" />
+                            <img src="{{ asset('uploads/students/' . $student_info->image) }}" alt="Student" />
                         </div>
                         <div class="text">
                             <h5>{{$student_info->name_en}}</h5>

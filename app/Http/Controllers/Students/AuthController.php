@@ -10,6 +10,7 @@ use App\Http\Requests\Students\Auth\SignUpRequest;
 use App\Http\Requests\Students\Auth\SignInRequest;
 use Illuminate\Support\Facades\Hash;
 use Exception;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -25,9 +26,21 @@ class AuthController extends Controller
             $student->name_en = $request->name;
             $student->email = $request->email;
             $student->password = Hash::make($request->password);
+            $student->email_verified_status = 0;
+            $student->nationality = "n/a";
+            $student->image = "blank.jpg";
             if ($student->save()){
                 $this->setSession($student);
-                return redirect()->route($back_route)->with('success', 'Successfully Logged In');
+                $email_token =Str::random(40);
+                $email_message = "We have sent instructions to verify your email, kindly follow instructions to continue, 
+                please check both your inbox and spam folder.";
+                session(['email' => $request->email]);
+                session(['full_name' => $request->name]);
+                session(['email_token' => $email_token]);
+                session(['email_message' => $email_message]);               
+                
+                return redirect()->route('send-mail');
+                // return redirect()->route($back_route)->with('success', 'Successfully Logged In');
             }
         } catch (Exception $e) {
             //dd($e);
@@ -48,7 +61,19 @@ class AuthController extends Controller
                 if ($student->status == 1) {
                     if (Hash::check($request->password, $student->password)) {
                         $this->setSession($student);
-                        return redirect()->route($back_route)->with('success', 'Successfully Logged In');
+                        if ($student->email_verified_status == 1) {
+                            // Email is verified, proceed with login 
+                            $request->session()->regenerate(); 
+                            // $intendedUrl = session('url.intended', '/');
+                            // return redirect()->intended($intendedUrl);
+                            return redirect()->route($back_route)->with('success', 'Successfully Logged In');
+                        } else {                    
+                            // Email is not verified, return a flash message
+                            //Auth::logout(); // Log the user out since the email is not verified                    
+                            $email_address = $request->email;         
+                             return view('auth.email-not-verify');                             
+                        }
+                        
                     } else
                         return redirect()->back()->with('error', 'Username or Password is wrong!');
                 } else

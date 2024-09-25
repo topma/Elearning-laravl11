@@ -12,7 +12,7 @@
 
 </head>
 
-<body class="h-100">
+<body class="h-100" style="background:#6633FF;">
 
     <!--**********************************
         Content body start

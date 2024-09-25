@@ -10,8 +10,9 @@
                 <div class="authincation-content">
                     <div class="row no-gutters">
                         <div class="col-xl-12">
+                        <div align="center"><img src="{{asset('images/kdh_logo_big.png')}}" width="100" height="98" alt=""></div>
                             <div class="auth-form">
-                                <h4 class="text-center mb-4">Sign up your account</h4>
+                                <h4 class="text-center mb-4"><strong>Sign up your account</strong> </h4>
                                 <form action="{{route('register.store')}}" method="POST">
                                     @csrf
                                     <div class="form-group">
@@ -56,8 +57,7 @@
                                     </div>
                                 </form>
                                 <div class="new-account mt-3">
-                                    <p>Already have an account? <a class="text-primary" href="{{route('login')}}">Sign
-                                            in</a></p>
+                                    <p>Already have an account? <a class="text-primary" href="{{route('login')}}">Login</a></p>
                                 </div>
                             </div>
                         </div>

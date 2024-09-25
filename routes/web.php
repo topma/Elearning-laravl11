@@ -18,6 +18,7 @@ use App\Http\Controllers\Backend\Quizzes\AnswerController as answer;
 use App\Http\Controllers\Backend\Reviews\ReviewController as review;
 use App\Http\Controllers\Backend\Communication\DiscussionController as discussion;
 use App\Http\Controllers\Backend\Communication\MessageController as message;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SearchCourseController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\WatchCourseController as watchCourse;
 use App\Http\Controllers\LessonController as lesson;
 use App\Http\Controllers\EnrollmentController as enrollment;
 use App\Http\Controllers\EventController as event;
+use App\Http\Controllers\CustomForgotPasswordController;
 
 /* students */
 use App\Http\Controllers\Students\AuthController as sauth;
@@ -43,7 +45,33 @@ use App\Http\Controllers\Students\sslController as sslcz;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+//------Reset Password Route
+Route::get('/forgot-password', function () {
+    return view('students.auth.forgot-password');
+})->middleware('guest')->name('password.request');
+Route::post('/forgot-password', [CustomForgotPasswordController::class, 'forgotPassword'])
+    ->middleware('guest')
+    ->name('password.email');
+Route::get('/reset-password/{token}/{email}', function ($token,$email) {
+    return view('auth.user-reset-password', ['token' => $token , 'email' => $email]);
+})->middleware('guest')->name('password.reset');
+Route::post('/reset-password', [CustomForgotPasswordController::class, 'resetPassword'])
+    ->middleware('guest')
+    ->name('password.update');
 
+//===========Verify email address routes================================
+Route::get('email-verify', [MailController::class, 'emailVerify'])
+->name('email-verify');
+Route::get('email-verify-done/{token}', [MailController::class, 'emailVerifyDone'])
+->name('email-verify-done');
+Route::get('resend-verification-email', [MailController::class, 'resendEmailVerification'])
+->name('resend-verification-email');
+Route::post('resend-verification', [MailController::class, 'resendVerification'])
+->name('resend-verification');
+Route::post('email-not-verify', [MailController::class, 'emailNotVerify'])
+->name('email-not-verify');
+
+//-----------------------
 Route::get('/register', [auth::class, 'signUpForm'])->name('register');
 Route::post('/register', [auth::class, 'signUpStore'])->name('register.store');
 Route::get('/login', [auth::class, 'signInForm'])->name('login');
@@ -124,8 +152,8 @@ Route::post('coupon_check', [CartController::class, 'coupon_check'])->name('coup
 Route::post('/payment/ssl/notify', [sslcz::class, 'notify'])->name('payment.ssl.notify');
 Route::post('/payment/ssl/cancel', [sslcz::class, 'cancel'])->name('payment.ssl.cancel');
 
-
-
+Route::get('send-mail', [MailController::class, 'index'])
+    ->name('send-mail'); 
 
 Route::get('/about', function () {
     return view('frontend.about');

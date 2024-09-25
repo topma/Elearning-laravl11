@@ -58,6 +58,20 @@ Route::get('/reset-password/{token}/{email}', function ($token,$email) {
 Route::post('/reset-password', [CustomForgotPasswordController::class, 'resetPassword'])
     ->middleware('guest')
     ->name('password.update');
+    
+//----Student/Instructor reset password routes----------------
+Route::get('user/forgot-password', function () {
+    return view('students.auth.forgot-password');
+})->middleware('guest')->name('user.password.request');
+Route::post('user/forgot-password', [CustomForgotPasswordController::class, 'userForgotPassword'])
+    ->middleware('guest')
+    ->name('user.password.email');
+Route::get('user/reset-password/{token}/{email}', function ($token,$email) {
+    return view('students.auth.reset-password', ['token' => $token , 'email' => $email]);
+})->middleware('guest')->name('user.password.reset');
+Route::post('user/reset-password', [CustomForgotPasswordController::class, 'userResetPassword'])
+    ->middleware('guest')
+    ->name('user.password.update');
 
 //===========Verify email address routes================================
 Route::get('email-verify', [MailController::class, 'emailVerify'])

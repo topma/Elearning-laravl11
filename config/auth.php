@@ -65,6 +65,12 @@ return [
             'model' => App\Models\User::class,
         ],
 
+        // Add this for students
+        'students' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Student::class, // Update the model name if needed
+        ],
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -94,6 +100,14 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        // Custom broker for students
+        'students' => [
+            'provider' => 'students',  // Ensure you have 'students' provider
+            'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
         ],

@@ -11,7 +11,7 @@
                 <div class="signup-area-textwrapper">
                     <h2 class="font-title--md mb-0">Reset Password</h2>  
                     @if(auth()->guest())                  
-                            <form action="{{ route('password.email') }}" method="POST">
+                            <form action="{{ route('user.password.email') }}" method="POST">
               @csrf
             <div>
             <div class="form-element">

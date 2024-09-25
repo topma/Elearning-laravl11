@@ -29,15 +29,6 @@ The Online Learning Management System is an eLearning platform built using Larav
 - **Database:** MySQL
 - **Frontend:** HTML, CSS, jQuery, etc.
 
-## Demo Credentials
-
-- **SuperAdmin:** 
-  - Email: admin@gmail.com
-  - Password: 123
-- **Instructor:** 
-  - Email: fuad@gmail.com
-  - Password: 123
-
 ## Getting Started
 
 To get started with the project, follow these steps:

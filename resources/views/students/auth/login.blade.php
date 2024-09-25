@@ -43,7 +43,7 @@
                             <table width="100%">
                                 <tr>
                                     <td><label for="agree" class="text-secondary mb-0 fs-6">Remember me</label></td>
-                                    <td><div align="right"><a href="{{ route('password.request') }}" class="text-primary fs-6">Forgot Password ?</a></div></td>
+                                    <td><div align="right"><a href="{{ route('user.password.request') }}" class="text-primary fs-6">Forgot Password ?</a></div></td>
                                 </tr>
                             </table>
                             

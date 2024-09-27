@@ -33,4 +33,9 @@ class HomeController extends Controller
             compact('course', 'instructor', 'category', 'popularCourses', 'designCourses', 'developmentCourses', 'businessCourses', 'itCourses')
         );
     }
+
+    public function signUpForm()
+    {
+        return view('frontend.signup');
+    }
 }

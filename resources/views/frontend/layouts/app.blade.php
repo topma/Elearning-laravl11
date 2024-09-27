@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>{{ENV('APP_NAME')}} | @yield('title', 'Home')</title>
+    <title>{{ config('app.name') }} | @yield('title', 'Home')</title>
     <link rel="stylesheet" href="{{asset('frontend/dist/main.css')}}" />
     <link rel="icon" type="image/png" href="{{asset('frontend/dist/images/favicon/favicon.png')}}" />
     <link rel="stylesheet" href="{{asset('frontend/fontawesome-free-5.15.4-web/css/all.min.css')}}">
@@ -72,7 +72,7 @@
                             <a class="nav-link" aria-current="page" href="{{route('about')}}">About</a>
                         </li>
                         {{-- <li class="nav-item">
-                            <a class="nav-link" href="http://localhost:8081/">
+                            <a class="nav-link" href="#">
                                 Events
                             </a>
                         </li> --}}
@@ -137,7 +137,7 @@
                         </div>
                         @else
                         <a href="{{route('studentLogin')}}" class="button button--text">Sign in</a>
-                        <a href="{{route('studentRegister')}}" class="button button--dark">Sign Up</a>
+                        <a href="{{route('signup')}}" class="button button--dark">Sign Up</a>
                         @endif
                     </div>
                 </div>
@@ -146,7 +146,7 @@
                 <div class="navbar-mobile">
                     <div>
                         <div class="navbar-mobile__top">
-                            <a href="index.html">
+                            <a href="{{route('home')}}">
                                 <img src="{{asset('frontend/dist/images/logo/logo.png')}}" alt="brand"
                                     class="img-fluid" />
                             </a>

@@ -47,19 +47,31 @@ use App\Http\Controllers\Students\sslController as sslcz;
 */
 //------Reset Password Route
 Route::get('/forgot-password', function () {
-    return view('students.auth.forgot-password');
+    return view('students.auth.forgot-password-instructor');
 })->middleware('guest')->name('password.request');
 Route::post('/forgot-password', [CustomForgotPasswordController::class, 'forgotPassword'])
     ->middleware('guest')
     ->name('password.email');
 Route::get('/reset-password/{token}/{email}', function ($token,$email) {
-    return view('auth.user-reset-password', ['token' => $token , 'email' => $email]);
+    return view('students.auth.reset-password-instructor', ['token' => $token , 'email' => $email]);
 })->middleware('guest')->name('password.reset');
 Route::post('/reset-password', [CustomForgotPasswordController::class, 'resetPassword'])
     ->middleware('guest')
     ->name('password.update');
+
+//===========User/Instructor Verify email address routes================================
+Route::get('user/email-verify', [MailController::class, 'emailVerifyInstructor'])
+->name('email-verify-instructor');
+Route::get('user/email-verify-done/{token}', [MailController::class, 'emailVerifyDoneInstructor'])
+->name('email-verify-done-instructor');
+Route::get('user/resend-verification-email', [MailController::class, 'resendEmailVerificationInstructor'])
+->name('resend-verification-email.instructor');
+Route::post('user/resend-verification', [MailController::class, 'resendVerificationInstructor'])
+->name('resend-verification-instructor');
+Route::post('user/email-not-verify', [MailController::class, 'emailNotVerifyInstructor'])
+->name('email-not-verify-instructor');
     
-//----Student/Instructor reset password routes----------------
+//----Student reset password routes----------------
 Route::get('user/forgot-password', function () {
     return view('students.auth.forgot-password');
 })->middleware('guest')->name('user.password.request');
@@ -73,7 +85,7 @@ Route::post('user/reset-password', [CustomForgotPasswordController::class, 'user
     ->middleware('guest')
     ->name('user.password.update');
 
-//===========Verify email address routes================================
+//===========Student Verify email address routes================================
 Route::get('email-verify', [MailController::class, 'emailVerify'])
 ->name('email-verify');
 Route::get('email-verify-done/{token}', [MailController::class, 'emailVerifyDone'])
@@ -86,8 +98,8 @@ Route::post('email-not-verify', [MailController::class, 'emailNotVerify'])
 ->name('email-not-verify');
 
 //-----------------------
-Route::get('/register', [auth::class, 'signUpForm'])->name('register');
-Route::post('/register', [auth::class, 'signUpStore'])->name('register.store');
+Route::get('/signup', [auth::class, 'signUpForm'])->name('register');
+Route::post('/signup', [auth::class, 'signUpStore'])->name('register.store');
 Route::get('/login', [auth::class, 'signInForm'])->name('login');
 Route::post('/login', [auth::class, 'signInCheck'])->name('login.check');
 Route::get('/logout', [auth::class, 'signOut'])->name('logOut');
@@ -123,13 +135,15 @@ Route::middleware(['checkrole'])->prefix('admin')->group(function () {
     Route::post('permission/{role}', [permission::class, 'save'])->name('permission.save');
 });
 
+Route::get('/register', [HomeController::class, 'signUpForm'])->name('signup');
 
 /* students controllers */
 Route::get('/student/register', [sauth::class, 'signUpForm'])->name('studentRegister');
 Route::post('/student/register/{back_route}', [sauth::class, 'signUpStore'])->name('studentRegister.store');
-Route::get('/student/login', [sauth::class, 'signInForm'])->name('studentLogin');
+
+Route::get('/user/login', [sauth::class, 'signInForm'])->name('studentLogin');
 Route::post('/student/login/{back_route}', [sauth::class, 'signInCheck'])->name('studentLogin.check');
-Route::get('/student/logout', [sauth::class, 'signOut'])->name('studentlogOut');
+Route::get('/user/logout', [sauth::class, 'signOut'])->name('studentlogOut');
 
 Route::middleware(['checkstudent'])->prefix('students')->group(function () {
     Route::get('/dashboard', [studashboard::class, 'index'])->name('studentdashboard');
@@ -145,9 +159,9 @@ Route::middleware(['checkstudent'])->prefix('students')->group(function () {
 //----------instructor routes --------------------------------
 Route::get('/instructor/register', [sauth::class, 'instructorSignUpForm'])->name('instructorRegister');
 Route::post('/instructor/register/{back_route}', [sauth::class, 'instructorSignUpStore'])->name('instructorRegister.store');
-Route::get('/instructor/login', [sauth::class, 'instructorSignInForm'])->name('instructorLogin');
+// Route::get('/instructor/login', [sauth::class, 'instructorSignInForm'])->name('instructorLogin');
 Route::post('/instructor/login/{back_route}', [sauth::class, 'instructorSignInCheck'])->name('instructorLogin.check');
-Route::get('/instructor/logout', [sauth::class, 'signOut'])->name('studentlogOut');
+// Route::get('/instructor/logout', [sauth::class, 'signOut'])->name('studentlogOut');
  
 // frontend pages
 Route::get('home', [HomeController::class, 'index'])->name('home');
@@ -174,7 +188,10 @@ Route::post('/payment/ssl/notify', [sslcz::class, 'notify'])->name('payment.ssl.
 Route::post('/payment/ssl/cancel', [sslcz::class, 'cancel'])->name('payment.ssl.cancel');
 
 Route::get('send-mail', [MailController::class, 'index'])
-    ->name('send-mail'); 
+    ->name('send-mail');
+
+Route::get('user/send-mail', [MailController::class, 'indexInstructor'])
+    ->name('send-mail-instructor'); 
 
 Route::get('/about', function () {
     return view('frontend.about');

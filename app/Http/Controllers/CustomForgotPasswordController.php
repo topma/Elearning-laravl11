@@ -16,7 +16,7 @@ class CustomForgotPasswordController extends Controller
     {
         if (Auth::check()) {
             // User is already logged in, handle it accordingly
-            return redirect()->route('studentdashboard'); // Redirect to the dashboard or another page
+            return redirect()->route('dashboard'); // Redirect to the dashboard or another page
         }
 
         $request->validate([

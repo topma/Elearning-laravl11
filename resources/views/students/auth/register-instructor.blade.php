@@ -27,6 +27,13 @@
                                 @endif
                         </div>
                         <div class="form-element">
+                            <label for="contact">Phone No</label>
+                            <input type="tel" placeholder="Enter Your Phone No" id="contact" value="{{ old('contact') }}" name="contact" pattern="[0-9]+" />
+                            @if($errors->has('contact'))
+                                <small class="d-block text-danger">{{ $errors->first('contact') }}</small>
+                            @endif
+                        </div>
+                        <div class="form-element">
                             <label for="password" class="w-100" style="text-align: left;">password</label>
                             <div class="form-alert-input">
                                 <input type="password" placeholder="Type here..." id="password"  name="password"/>

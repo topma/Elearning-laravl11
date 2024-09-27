@@ -10,6 +10,7 @@ use App\Http\Requests\Authentication\SignUpRequest;
 use App\Http\Requests\Authentication\SignInRequest;
 use Illuminate\Support\Facades\Hash;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class AuthenticationController extends Controller
 {
@@ -49,24 +50,35 @@ class AuthenticationController extends Controller
     public function signInCheck(SignInRequest $request)
     {
         try {
-            $user = User::where('contact_en', $request->username)->orWhere('email', $request->username)->first();
-            if ($user) {
-                if ($user->status == 1) {
-                    if (Hash::check($request->password, $user->password)) {
-                        $this->setSession($user);
+            // Check if the user is trying to log in using contact_en or email
+            $credentials = [
+                'password' => $request->password,
+                ['contact_en' => $request->username], // Contact-based login
+                ['email' => $request->username] // Email-based login
+            ];
 
-                        return redirect()->route('dashboard')->with('success', 'Successfully Logged In');
-                    } else
-                        return redirect()->route('login')->with('error', 'Username or Password is wrong!');
-                } else
-                    return redirect()->route('login')->with('error', 'You are not an active user! Please contact to Authority');
-            } else
+            // Attempt to log the user in using Laravel's Auth::attempt()
+            if (Auth::attempt($credentials)) {
+                $user = auth()->user();
+
+                // Check if the user is active
+                if ($user->status == 1) {
+                    $this->setSession($user);
+                    // Redirect to dashboard if successful
+                    return redirect()->route('dashboard')->with('success', 'Successfully Logged In');
+                } else {
+                    // Logout the user and show inactive status message
+                    Auth::logout();
+                    return redirect()->route('login')->with('error', 'You are not an active user! Please contact the Authority.');
+                }
+            } else {
                 return redirect()->route('login')->with('error', 'Username or Password is wrong!');
+            }
         } catch (Exception $e) {
-            // dd($e);
-            return redirect()->route('login')->with('error', 'Username or Password is wrong!');
+            return redirect()->route('login')->with('error', 'An error occurred during login. Please try again.');
         }
     }
+
 
     public function setSession($user)
     {
@@ -88,9 +100,27 @@ class AuthenticationController extends Controller
 
     public function signOut()
     {
-        request()->session()->flush();
-        return redirect('login')->with('danger', 'Succesfully Logged Out');
-    }
+        if (auth()->check()) {
+            // Capture the user's role_id before logging out
+            $userRoleId = auth()->user()->role_id;
+
+            // Log out the user
+            Auth::logout();
+
+            // Clear all session data
+            request()->session()->flush();
+
+            // Redirect based on role
+            if ($userRoleId == 1) {
+                return redirect('login')->with('danger', 'Successfully Logged Out');
+            } else {
+                return redirect('studentLogin')->with('danger', 'Successfully Logged Out');
+            }
+        } else {
+            // If the user is not authenticated, just redirect them to the login page
+            return redirect('studentLogin')->with('danger', 'Successfully Logged Out');
+        }
+    }    
 
     public function show(User $data)
     {

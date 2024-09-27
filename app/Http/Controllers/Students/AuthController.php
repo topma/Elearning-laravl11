@@ -12,6 +12,7 @@ use App\Http\Requests\Students\Auth\SignUpRequest;
 use App\Http\Requests\Students\Auth\SignUpRequestInstructor;
 use App\Http\Requests\Students\Auth\SignInRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Exception;
 use Illuminate\Support\Str;
@@ -40,6 +41,21 @@ class AuthController extends Controller
             $student->image = "blank.jpg";
             if ($student->save()){
                 $this->setSession($student);
+
+                // Create and save user data with student ID
+                $user = new User;
+                $user->instructor_id = $student->id; // Set student_id
+                $user->name_en = $request->name;
+                $user->email = $request->email;
+                $user->contact_en = '08000000000000';
+                $user->role_id = 4; // Assuming 4 is the role for student
+                $user->status = 1;
+                $user->image = 'blank.jpg';
+                $user->full_access = 0;
+                $user->language = 'en';
+                $user->password = Hash::make($request->password);
+                $user->save();
+
                 $email_token =Str::random(40);
                 $email_message = "We have sent instructions to verify your email, kindly follow instructions to continue, 
                 please check both your inbox and spam folder.";
@@ -52,7 +68,7 @@ class AuthController extends Controller
                 // return redirect()->route($back_route)->with('success', 'Successfully Logged In');
             }
         } catch (Exception $e) {
-            //dd($e);
+            Log::error('SignUpStore Error: ' . $e->getMessage());
             return redirect()->back()->with('danger', 'Please Try Again');
         }
     }
@@ -83,7 +99,8 @@ class AuthController extends Controller
                 $user->contact_en = $request->contact;
                 $user->role_id = 3; // Assuming 3 is the role for instructor
                 $user->status = 1;
-                $user->full_access = 0;
+                $user->image = 'blank.jpg';
+                $user->full_access = 1;
                 $user->language = 'en';
                 $user->password = Hash::make($request->password);
                 $user->save();
@@ -119,38 +136,39 @@ class AuthController extends Controller
     }
 
 
-    public function signInCheck(SignInRequest $request,$back_route)
+    public function signInCheck(SignInRequest $request, $back_route)
     {
         try {
-            $student = Student::Where('email', $request->email)->first();
-            if ($student) {
+            // Attempt to log in the user using Laravel's Auth system
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+                $student = Auth::user();  // Get the authenticated user
+
                 if ($student->status == 1) {
-                    if (Hash::check($request->password, $student->password)) {
+                    if ($student->email_verified_status == 1) {
                         $this->setSession($student);
-                        if ($student->email_verified_status == 1) {
-                            // Email is verified, proceed with login 
-                            $request->session()->regenerate(); 
-                            // $intendedUrl = session('url.intended', '/');
-                            // return redirect()->intended($intendedUrl);
-                            return redirect()->route($back_route)->with('success', 'Successfully Logged In');
-                        } else {                    
-                            // Email is not verified, return a flash message
-                            //Auth::logout(); // Log the user out since the email is not verified                    
-                            $email_address = $request->email;         
-                             return view('auth.email-not-verify');                             
-                        }
-                        
-                    } else
-                        return redirect()->back()->with('error', 'Username or Password is wrong!');
-                } else
-                    return redirect()->back()->with('error', 'You are not an active user! Please contact to Authority');
-            } else
+                        // Email is verified, proceed with login
+                        $request->session()->regenerate();  // Prevent session fixation attacks
+                        return redirect()->route($back_route)->with('success', 'Successfully Logged In');
+                    } else {
+                        // Email is not verified, return the email verification view
+                        Auth::logout();  // Log out since the email is not verified
+                        return view('auth.email-not-verify', ['email_address' => $request->email]);
+                    }
+                } else {
+                    // User is not active
+                    Auth::logout();  // Ensure the user is logged out
+                    return redirect()->back()->with('error', 'You are not an active user! Please contact the Authority.');
+                }
+            } else {
+                // If authentication fails
                 return redirect()->back()->with('error', 'Username or Password is wrong!');
+            }
         } catch (Exception $e) {
-            //dd($e);
-            return redirect()->back()->with('error', 'Username or Password is wrong!');
+            // Handle any errors that occur during the process
+            return redirect()->back()->with('error', 'An error occurred, please try again.');
         }
     }
+
 
     public function instructorSignInCheck(SignInRequest $request,$back_route)
     {

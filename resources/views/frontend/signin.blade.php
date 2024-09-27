@@ -80,13 +80,13 @@
                 <div class="about-feature">
                     <h5 class="font-title--sm">Signin as an Instructor</h5>                                       
                     <!-- Student Login form -->                                       
-                    <form action="{{route('instructorLogin.check','instructordashboard')}}" method="POST">
+                    <form action="{{route('login.check','instructordashboard')}}" method="POST">
                         @csrf
                         <div class="form-element">
-                            <label for="email">Email</label>
-                            <input type="email" placeholder="Username" id="email" name="email" />
-                            @if($errors->has('email'))
-                            <small class="d-block text-danger">{{$errors->first('email')}}</small>
+                            <label for="email">Email or Phone</label>
+                            <input type="email" placeholder="Username" id="username" name="username" />
+                            @if($errors->has('username'))
+                            <small class="d-block text-danger">{{$errors->first('username')}}</small>
                             @endif
                         </div>
                         <div class="form-element">
@@ -122,7 +122,7 @@
                         <div class="form-element">
                             <button type="submit" class="button button-lg button--primary w-100">Sign in</button>
                         </div>
-                        <p class="mt-2 mb-lg-4 mb-3">Don't have account? <a href="{{route('studentRegister')}}"
+                        <p class="mt-2 mb-lg-4 mb-3">Don't have account? <a href="{{route('instructorRegister')}}"
                             class="text-black-50">Sign
                             up</a></p>
                     </form>              

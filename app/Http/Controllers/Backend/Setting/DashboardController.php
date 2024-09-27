@@ -12,14 +12,15 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $user = User::get();
+        $user = User::get();        
         $student = Student::all();
         $course = Course::all();
+        
         
         if (fullAccess())
             return view('backend.adminDashboard', compact('student','course')); 
         else
-        if ($user->role = 'instructor')
+        if ($user->role = 'Instructor')
             return view('backend.instructorDashboard', compact('student','course')); 
         else
             return view('backend.dashboard', compact('student','course'));

@@ -19,7 +19,7 @@
               </div> 
               <div class="button input-box">
                 <input type="hidden" name="email" value="{{ auth()->user()->email }}">
-                <input type="submit" value="Verify Email">
+                <button type="submit" class="button button-lg button--primary w-100">Verify Email</button>
               </div>              
             </div>
         </form>

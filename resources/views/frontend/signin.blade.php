@@ -32,7 +32,7 @@
                         @csrf
                         <div class="form-element">
                             <label for="email">Email</label>
-                            <input type="email" placeholder="Username" id="email" name="email" />
+                            <input type="email" placeholder="Email" id="email" name="email" />
                             @if($errors->has('email'))
                             <small class="d-block text-danger">{{$errors->first('email')}}</small>
                             @endif
@@ -80,11 +80,11 @@
                 <div class="about-feature">
                     <h5 class="font-title--sm">Signin as an Instructor</h5>                                       
                     <!-- Student Login form -->                                       
-                    <form action="{{route('login.check','instructordashboard')}}" method="POST">
+                    <form action="{{route('login.check','dashboard')}}" method="POST">
                         @csrf
                         <div class="form-element">
-                            <label for="email">Email or Phone</label>
-                            <input type="email" placeholder="Username" id="username" name="username" />
+                            <label for="email">Email</label>
+                            <input type="email" placeholder="Email" id="username" name="username" />
                             @if($errors->has('username'))
                             <small class="d-block text-danger">{{$errors->first('username')}}</small>
                             @endif
@@ -94,8 +94,8 @@
                                 <label for="password">Password</label>                                
                             </div>
                             <div class="form-alert-input">
-                                <input type="password" placeholder="Type here..." id="password" name="password" />
-                                <div class="form-alert-icon" onclick="showPassword('password',this);">
+                                <input type="password" placeholder="Type here..." id="password_confirmation" name="password" />
+                                <div class="form-alert-icon" onclick="showPassword('password_confirmation',this);">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                         stroke-linejoin="round" class="feather feather-eye">

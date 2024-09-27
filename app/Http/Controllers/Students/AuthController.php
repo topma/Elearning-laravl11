@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Exception;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -32,19 +33,23 @@ class AuthController extends Controller
     public function signUpStore(SignUpRequest $request,$back_route)
     {
         try {
+            $email_token =Str::random(40);
+
             $student = new Student;
             $student->name_en = $request->name;
             $student->email = $request->email;
             $student->password = Hash::make($request->password);
             $student->email_verified_status = 0;
             $student->nationality = "n/a";
+            $student->remember_token = $email_token;
             $student->image = "blank.jpg";
             if ($student->save()){
                 $this->setSession($student);
 
                 // Create and save user data with student ID
+                
                 $user = new User;
-                $user->instructor_id = $student->id; // Set student_id
+                $user->student_id = $student->id; // Set student_id
                 $user->name_en = $request->name;
                 $user->email = $request->email;
                 $user->contact_en = '08000000000000';
@@ -53,10 +58,12 @@ class AuthController extends Controller
                 $user->image = 'blank.jpg';
                 $user->full_access = 0;
                 $user->language = 'en';
+                $user->email_verified_status = 0;
+                $user->remember_token = $email_token;
                 $user->password = Hash::make($request->password);
                 $user->save();
 
-                $email_token =Str::random(40);
+                
                 $email_message = "We have sent instructions to verify your email, kindly follow instructions to continue, 
                 please check both your inbox and spam folder.";
                 session(['email' => $request->email]);
@@ -77,6 +84,8 @@ class AuthController extends Controller
     {
         try {
             // Create and save instructor data
+            $email_token = Str::random(40);
+            
             $instructor = new Instructor;
             $instructor->name_en = $request->name;
             $instructor->email = $request->email;
@@ -85,6 +94,7 @@ class AuthController extends Controller
             $instructor->image = 'blank.jpg';
             $instructor->role_id = 3;
             $instructor->status = 1;
+            $instructor->remember_token = $email_token;
             $instructor->language = 'en';
             
             if ($instructor->save()) {
@@ -102,11 +112,12 @@ class AuthController extends Controller
                 $user->image = 'blank.jpg';
                 $user->full_access = 1;
                 $user->language = 'en';
+                $user->remember_token = $email_token;
                 $user->password = Hash::make($request->password);
                 $user->save();
 
                 // Set email verification session data
-                $email_token = Str::random(40);
+                
                 $email_message = "We have sent instructions to verify your email. Kindly check your inbox and spam folder.";
                 session(['email' => $request->email]);
                 session(['full_name' => $request->name]);
@@ -136,41 +147,7 @@ class AuthController extends Controller
     }
 
 
-    public function signInCheck(SignInRequest $request, $back_route)
-    {
-        try {
-            // Attempt to log in the user using Laravel's Auth system
-            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-                $student = Auth::user();  // Get the authenticated user
-
-                if ($student->status == 1) {
-                    if ($student->email_verified_status == 1) {
-                        $this->setSession($student);
-                        // Email is verified, proceed with login
-                        $request->session()->regenerate();  // Prevent session fixation attacks
-                        return redirect()->route($back_route)->with('success', 'Successfully Logged In');
-                    } else {
-                        // Email is not verified, return the email verification view
-                        Auth::logout();  // Log out since the email is not verified
-                        return view('auth.email-not-verify', ['email_address' => $request->email]);
-                    }
-                } else {
-                    // User is not active
-                    Auth::logout();  // Ensure the user is logged out
-                    return redirect()->back()->with('error', 'You are not an active user! Please contact the Authority.');
-                }
-            } else {
-                // If authentication fails
-                return redirect()->back()->with('error', 'Username or Password is wrong!');
-            }
-        } catch (Exception $e) {
-            // Handle any errors that occur during the process
-            return redirect()->back()->with('error', 'An error occurred, please try again.');
-        }
-    }
-
-
-    public function instructorSignInCheck(SignInRequest $request,$back_route)
+    public function signInCheck(SignInRequest $request,$back_route)
     {
         try {
             $student = Student::Where('email', $request->email)->first();

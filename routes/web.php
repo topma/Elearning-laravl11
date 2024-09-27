@@ -110,7 +110,7 @@ Route::middleware(['checkauth'])->prefix('admin')->group(function () {
     Route::get('userProfile', [auth::class, 'show'])->name('userProfile');
 });
 
-Route::middleware(['checkrole'])->prefix('admin')->group(function () {
+Route::prefix('admin')->group(function () {
     Route::resource('user', user::class); 
     Route::resource('role', role::class);
     Route::resource('student', student::class);
@@ -146,7 +146,7 @@ Route::post('/student/login/{back_route}', [sauth::class, 'signInCheck'])->name(
 Route::get('/user/logout', [sauth::class, 'signOut'])->name('studentlogOut');
 
 Route::middleware(['checkstudent'])->prefix('students')->group(function () {
-    Route::get('/dashboard', [studashboard::class, 'index'])->name('studentdashboard');
+    Route::get('student/dashboard', [studashboard::class, 'index'])->name('studentdashboard');
     Route::get('/profile', [stu_profile::class, 'index'])->name('student_profile');
     Route::post('/profile/save', [stu_profile::class, 'save_profile'])->name('student_save_profile');
     Route::post('/profile/savePass', [stu_profile::class, 'change_password'])->name('change_password');
@@ -160,7 +160,7 @@ Route::middleware(['checkstudent'])->prefix('students')->group(function () {
 Route::get('/instructor/register', [sauth::class, 'instructorSignUpForm'])->name('instructorRegister');
 Route::post('/instructor/register/{back_route}', [sauth::class, 'instructorSignUpStore'])->name('instructorRegister.store');
 // Route::get('/instructor/login', [sauth::class, 'instructorSignInForm'])->name('instructorLogin');
-Route::post('/instructor/login/{back_route}', [sauth::class, 'instructorSignInCheck'])->name('instructorLogin.check');
+//Route::post('/instructor/login/{back_route}', [sauth::class, 'instructorSignInCheck'])->name('instructorLogin.check');
 // Route::get('/instructor/logout', [sauth::class, 'signOut'])->name('studentlogOut');
  
 // frontend pages

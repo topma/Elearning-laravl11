@@ -142,7 +142,7 @@
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
                                 <div class="contentCard-top">
-                                    <a href="#"><img src="{{asset('public/uploads/courses/'.$pc->image)}}" alt="images"
+                                    <a href="#"><img src="{{asset('uploads/courses/'.$pc->image)}}" alt="images"
                                             class="img-fluid" /></a>
                                 </div>
                                 <div class="contentCard-bottom">
@@ -153,13 +153,13 @@
                                     <div class="contentCard-info d-flex align-items-center justify-content-between">
                                         <a href="{{route('instructorProfile', encryptor('encrypt', $pc->instructor?->id))}}"
                                             class="contentCard-user d-flex align-items-center">
-                                            <img src="{{asset('public/uploads/users/'.$pc?->instructor->image)}}"
+                                            <img src="{{asset('uploads/users/'.$pc?->instructor->image)}}"
                                                 alt="client-image" class="rounded-circle" height="34" width="34" />
                                             <p class="font-para--md">{{$pc?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                            <span>{{$pc->price?'৳'.$pc->price:'Free'}}</span>
-                                            <del>{{$pc->old_price?'৳'.$pc->old_price:''}}</del>
+                                            <span>{{$pc->price?'=N='.$pc->price:'Free'}}</span>
+                                            <del>{{$pc->old_price?'=N='.$pc->old_price:''}}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">

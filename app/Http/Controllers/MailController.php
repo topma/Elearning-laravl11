@@ -284,6 +284,12 @@ class MailController extends Controller
                 $user->email_verified_status = 1;
                 $user->save();
 
+                //
+                $userNew = User::where('remember_token', $token)->first();
+                $userNew->email_verified_at = now();
+                $userNew->email_verified_status = 1;
+                $userNew->save();
+
                 // Flash a success message and redirect
                 Session::flash('success', 'Email has been verified. You can now login to complete your profile.');
                 return redirect()->route('studentLogin');
@@ -311,6 +317,12 @@ class MailController extends Controller
                 $user->email_verified_at = now();
                 $user->email_verified_status = 1;
                 $user->save();
+
+                //
+                $userNew = Instructor::where('remember_token', $token)->first();
+                $userNew->email_verified_at = now();
+                $userNew->email_verified_status = 1;
+                $userNew->save();
 
                 // Flash a success message and redirect
                 Session::flash('success', 'Email has been verified. You can now login to complete your profile.');

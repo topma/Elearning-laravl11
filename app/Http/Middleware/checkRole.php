@@ -9,7 +9,7 @@ use Session; //custom
 use App\Models\Permission; //custom
 
 class checkRole
-{
+{ 
     /**
      * Handle an incoming request.
      *

@@ -11,6 +11,7 @@ use App\Http\Requests\Authentication\SignInRequest;
 use Illuminate\Support\Facades\Hash;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AuthenticationController extends Controller
 {
@@ -37,7 +38,7 @@ class AuthenticationController extends Controller
             }
                 
         } catch (Exception $e) {
-            dd($e);
+            //dd($e);
             return redirect('login')->with('danger', 'Please Try Again');
         }
     }
@@ -49,17 +50,10 @@ class AuthenticationController extends Controller
 
     public function signInCheck(SignInRequest $request)
     {
-        try {
-            // Check if the user is trying to log in using contact_en or email
-            $credentials = [
-                'password' => $request->password,
-                ['contact_en' => $request->username], // Contact-based login
-                ['email' => $request->username] // Email-based login
-            ];
-
+        try { 
             // Attempt to log the user in using Laravel's Auth::attempt()
-            if (Auth::attempt($credentials)) {
-                $user = auth()->user();
+            if (Auth::attempt(['email' => $request->username, 'password' => $request->password])) {
+                $user = Auth::user();  // Get the authenticated user
 
                 // Check if the user is active
                 if ($user->status == 1) {
@@ -68,14 +62,15 @@ class AuthenticationController extends Controller
                     return redirect()->route('dashboard')->with('success', 'Successfully Logged In');
                 } else {
                     // Logout the user and show inactive status message
-                    Auth::logout();
-                    return redirect()->route('login')->with('error', 'You are not an active user! Please contact the Authority.');
+                    //Auth::logout();
+                    return redirect()->route('studentLogin')->with('error', 'You are not an active user! Please contact the Authority.');
                 }
-            } else {
-                return redirect()->route('login')->with('error', 'Username or Password is wrong!');
+            } else {                
+                return redirect()->route('studentLogin')->with('error', 'Username or Password is wrong!');
             }
         } catch (Exception $e) {
-            return redirect()->route('login')->with('error', 'An error occurred during login. Please try again.');
+            Log::error('Signin Error: ' . $e->getMessage());                
+                return redirect()->route('studentLogin')->with('error', 'An error occurred during login. Please try again.');
         }
     }
 
@@ -102,19 +97,19 @@ class AuthenticationController extends Controller
     {
         if (auth()->check()) {
             // Capture the user's role_id before logging out
-            $userRoleId = auth()->user()->role_id;
-
-            // Log out the user
-            Auth::logout();
-
-            // Clear all session data
-            request()->session()->flush();
+            $userRoleId = auth()->user()->role_id;           
 
             // Redirect based on role
             if ($userRoleId == 1) {
+            Auth::logout();
+            // Clear all session data
+            request()->session()->flush();
                 return redirect('login')->with('danger', 'Successfully Logged Out');
-            } else {
-                return redirect('studentLogin')->with('danger', 'Successfully Logged Out');
+            } else {               
+            Auth::logout();
+            // Clear all session data
+            request()->session()->flush();
+                return redirect()->route('studentLogin')->with('danger', 'Successfully Logged Out');
             }
         } else {
             // If the user is not authenticated, just redirect them to the login page

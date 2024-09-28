@@ -109,10 +109,24 @@
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-data-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-data" type="button" role="tab" aria-controls="pills-design"
+                                    aria-selected="false">
+                                    Data Science
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="pills-dev-tab" data-bs-toggle="pill"
                                     data-bs-target="#pills-dev" type="button" role="tab" aria-controls="pills-dev"
                                     aria-selected="false">
-                                    Programming and Development
+                                    Programming
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-bus-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-bus" type="button" role="tab" aria-controls="pills-bus"
+                                    aria-selected="false">
+                                    Sales & Marketing
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
@@ -128,7 +142,8 @@
                                     aria-selected="false">
                                     IT & Software
                                 </button>
-                            </li>
+                            </li>                         
+                            
                         </ul>
                     </div>
                 </div>
@@ -216,7 +231,7 @@
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
                                 <div class="contentCard-top">
-                                    <a href="#"><img src="{{asset('public/uploads/courses/'.$dc->image)}}" alt="images" class="img-fluid" /></a>
+                                    <a href="#"><img src="{{asset('uploads/courses/'.$dc->image)}}" alt="images" class="img-fluid" /></a>
                                 </div>
                                 <div class="contentCard-bottom">
                                     <h5>
@@ -226,13 +241,13 @@
                                     <div class="contentCard-info d-flex align-items-center justify-content-between">
                                         <a href="{{route('instructorProfile', encryptor('encrypt', $dc->instructor?->id))}}"
                                             class="contentCard-user d-flex align-items-center">
-                                            <img src="{{asset('public/uploads/users/'.$dc?->instructor->image)}}" alt="client-image"
+                                            <img src="{{asset('uploads/users/'.$dc?->instructor->image)}}" alt="client-image"
                                                 class="rounded-circle" height="34" width="34" />
                                             <p class="font-para--md">{{$dc?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                            <span>{{$dc->price?'৳'.$dc->price:'Free'}}</span>
-                                            <del>{{$dc->old_price?'৳'.$dc->old_price:''}}</del>
+                                            <span>{{$dc->price?'=N='.$dc->price:'Free'}}</span>
+                                            <del>{{$dc->old_price?'=N='.$dc->old_price:''}}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">
@@ -279,13 +294,151 @@
                         </div>
                     </div>
                 </div>
+                <div class="tab-pane fade" id="pills-data" role="tabpanel" aria-labelledby="pills-data-tab">
+                    <div class="row">
+                        @forelse ($dataCourses as $dac)
+                        <div class="col-xl-4 col-md-6">
+                            <div class="contentCard contentCard--course">
+                                <div class="contentCard-top">
+                                    <a href="#"><img src="{{asset('uploads/courses/'.$dac->image)}}" alt="images" class="img-fluid" /></a>
+                                </div>
+                                <div class="contentCard-bottom">
+                                    <h5>
+                                        <a href="{{route('courseDetails', ['id' => encryptor('encrypt', $dac->id)])}}"
+                                            class="font-title--card">{{$dac->title_en}}</a>
+                                    </h5>
+                                    <div class="contentCard-info d-flex align-items-center justify-content-between">
+                                        <a href="{{route('instructorProfile', encryptor('encrypt', $dac->instructor?->id))}}"
+                                            class="contentCard-user d-flex align-items-center">
+                                            <img src="{{asset('uploads/users/'.$dac?->instructor->image)}}" alt="client-image"
+                                                class="rounded-circle" height="34" width="34" />
+                                            <p class="font-para--md">{{$dac?->instructor->name_en}}</p>
+                                        </a>
+                                        <div class="price">
+                                            <span>{{$dac->price?'=N='.$dac->price:'Free'}}</span>
+                                            <del>{{$dac->old_price?'=N='.$dac->old_price:''}}</del>
+                                        </div>
+                                    </div>
+                                    <div class="contentCard-more">
+                                        <div class="d-flex align-items-center">
+                                            <div class="icon">
+                                                <img src="{{asset('frontend/dist/images/icon/star.png')}}" alt="star" />
+                                            </div>
+                                            <span>4.5</span>
+                                        </div>
+                                        <div class="eye d-flex align-items-center">
+                                            <div class="icon">
+                                                <img src="{{asset('frontend/dist/images/icon/eye.png')}}" alt="eye" />
+                                            </div>
+                                            <span>10</span>
+                                        </div>
+                                        <div class="book d-flex align-items-center">
+                                            <div class="icon">
+                                                <img src="{{asset('frontend/dist/images/icon/book.png')}}" alt="location" />
+                                            </div>
+                                            <span>{{$dac->lesson?$dac->lesson:0}} Lesson</span>
+                                        </div>
+                                        <div class="clock d-flex align-items-center">
+                                            <div class="icon">
+                                                <img src="{{asset('frontend/dist/images/icon/Clock.png')}}" alt="clock" />
+                                            </div>
+                                            <span>{{$dac->duration?$dac->duration:0}} Hours</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @empty
+                        <div class="col-xl-4 col-md-6">
+                            <div class="contentCard contentCard--course">
+                                <h3>No Courses Available</h3>
+                            </div>
+                        </div>
+                        @endforelse
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <a href="{{route('searchCourse')}}" class="button button-lg button--primary">Browse all
+                                Courses</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-sales" role="tabpanel" aria-labelledby="pills-sales-tab">
+                    <div class="row">
+                        @forelse ($salesCourses as $sc)
+                        <div class="col-xl-4 col-md-6">
+                            <div class="contentCard contentCard--course">
+                                <div class="contentCard-top">
+                                    <a href="#"><img src="{{asset('uploads/courses/'.$sc->image)}}" alt="images" class="img-fluid" /></a>
+                                </div>
+                                <div class="contentCard-bottom">
+                                    <h5>
+                                        <a href="{{route('courseDetails', ['id' => encryptor('encrypt', $sc->id)])}}"
+                                            class="font-title--card">{{$sc->title_en}}</a>
+                                    </h5>
+                                    <div class="contentCard-info d-flex align-items-center justify-content-between">
+                                        <a href="{{route('instructorProfile', encryptor('encrypt', $sc->instructor?->id))}}"
+                                            class="contentCard-user d-flex align-items-center">
+                                            <img src="{{asset('uploads/users/'.$sc?->instructor->image)}}" alt="client-image"
+                                                class="rounded-circle" height="34" width="34" />
+                                            <p class="font-para--md">{{$sc?->instructor->name_en}}</p>
+                                        </a>
+                                        <div class="price">
+                                            <span>{{$sc->price?'=N='.$sc->price:'Free'}}</span>
+                                            <del>{{$sc->old_price?'=N='.$sc->old_price:''}}</del>
+                                        </div>
+                                    </div>
+                                    <div class="contentCard-more">
+                                        <div class="d-flex align-items-center">
+                                            <div class="icon">
+                                                <img src="{{asset('frontend/dist/images/icon/star.png')}}" alt="star" />
+                                            </div>
+                                            <span>4.5</span>
+                                        </div>
+                                        <div class="eye d-flex align-items-center">
+                                            <div class="icon">
+                                                <img src="{{asset('frontend/dist/images/icon/eye.png')}}" alt="eye" />
+                                            </div>
+                                            <span>24,517</span>
+                                        </div>
+                                        <div class="book d-flex align-items-center">
+                                            <div class="icon">
+                                                <img src="{{asset('frontend/dist/images/icon/book.png')}}" alt="location" />
+                                            </div>
+                                            <span>{{$dac->lesson?$dac->lesson:0}} Lesson</span>
+                                        </div>
+                                        <div class="clock d-flex align-items-center">
+                                            <div class="icon">
+                                                <img src="{{asset('frontend/dist/images/icon/Clock.png')}}" alt="clock" />
+                                            </div>
+                                            <span>{{$dac->duration?$dac->duration:0}} Hours</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @empty
+                        <div class="col-xl-4 col-md-6">
+                            <div class="contentCard contentCard--course">
+                                <h3>No Courses Available</h3>
+                            </div>
+                        </div>
+                        @endforelse
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <a href="{{route('searchCourse')}}" class="button button-lg button--primary">Browse all
+                                Courses</a>
+                        </div>
+                    </div>
+                </div>
                 <div class="tab-pane fade" id="pills-dev" role="tabpanel" aria-labelledby="pills-dev-tab">
                     <div class="row">
                         @forelse ($developmentCourses as $dv)
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
                                 <div class="contentCard-top">
-                                    <a href="#"><img src="{{asset('public/uploads/courses/'.$dv->image)}}" alt="images"
+                                    <a href="#"><img src="{{asset('uploads/courses/'.$dv->image)}}" alt="images"
                                             class="img-fluid" /></a>
                                 </div>
                                 <div class="contentCard-bottom">
@@ -296,13 +449,13 @@
                                     <div class="contentCard-info d-flex align-items-center justify-content-between">
                                         <a href="{{route('instructorProfile', encryptor('encrypt', $dv->instructor?->id))}}"
                                             class="contentCard-user d-flex align-items-center">
-                                            <img src="{{asset('public/uploads/users/'.$dv?->instructor->image)}}" alt="client-image"
+                                            <img src="{{asset('uploads/users/'.$dv?->instructor->image)}}" alt="client-image"
                                                 class="rounded-circle" height="34" width="34" />
                                             <p class="font-para--md">{{$dv?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                            <span>{{$dv->price?'৳'.$dv->price:'Free'}}</span>
-                                            <del>{{$dv->old_price?'৳'.$dv->old_price:''}}</del>
+                                            <span>{{$dv->price?'=N='.$dv->price:'Free'}}</span>
+                                            <del>{{$dv->old_price?'=N='.$dv->old_price:''}}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">
@@ -355,7 +508,7 @@
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
                                 <div class="contentCard-top">
-                                    <a href="#"><img src="{{asset('public/uploads/courses/'.$bc->image)}}" alt="images"
+                                    <a href="#"><img src="{{asset('uploads/courses/'.$bc->image)}}" alt="images"
                                             class="img-fluid" /></a>
                                 </div>
                                 <div class="contentCard-bottom">
@@ -366,13 +519,13 @@
                                     <div class="contentCard-info d-flex align-items-center justify-content-between">
                                         <a href="{{route('instructorProfile', encryptor('encrypt', $bc->instructor?->id))}}"
                                             class="contentCard-user d-flex align-items-center">
-                                            <img src="{{asset('public/uploads/users/'.$bc?->instructor->image)}}" alt="client-image"
+                                            <img src="{{asset('uploads/users/'.$bc?->instructor->image)}}" alt="client-image"
                                                 class="rounded-circle" height="34" width="34" />
                                             <p class="font-para--md">{{$bc?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                            <span>{{$bc->price?'৳'.$bc->price:'Free'}}</span>
-                                            <del>{{$bc->old_price?'৳'.$bc->old_price:''}}</del>
+                                            <span>{{$bc->price?'=N='.$bc->price:'Free'}}</span>
+                                            <del>{{$bc->old_price?'=N='.$bc->old_price:''}}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">
@@ -425,7 +578,7 @@
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
                                 <div class="contentCard-top">
-                                    <a href="#"><img src="{{asset('public/uploads/courses/'.$ic->image)}}" alt="images"
+                                    <a href="#"><img src="{{asset('uploads/courses/'.$ic->image)}}" alt="images"
                                             class="img-fluid" /></a>
                                 </div>
                                 <div class="contentCard-bottom">
@@ -436,13 +589,13 @@
                                     <div class="contentCard-info d-flex align-items-center justify-content-between">
                                         <a href="{{route('instructorProfile', encryptor('encrypt', $ic->instructor?->id))}}"
                                             class="contentCard-user d-flex align-items-center">
-                                            <img src="{{asset('public/uploads/users/'.$ic?->instructor->image)}}" alt="client-image"
+                                            <img src="{{asset('uploads/users/'.$ic?->instructor->image)}}" alt="client-image"
                                                 class="rounded-circle" height="34" width="34" />
                                             <p class="font-para--md">{{$ic?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                            <span>{{$ic->price?'৳'.$ic->price:'Free'}}</span>
-                                            <del>{{$ic->old_price?'৳'.$ic->old_price:''}}</del>
+                                            <span>{{$ic->price?'=N='.$ic->price:'Free'}}</span>
+                                            <del>{{$ic->old_price?'=N='.$ic->old_price:''}}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">
@@ -1012,7 +1165,7 @@
                     @forelse ($course as $c)
                     <div class="contentCard contentCard--event contentCard--space">
                         <div class="contentCard-top">
-                            <a href="#"><img src="{{asset('public/uploads/courses/'.$c->image)}}" alt="images"
+                            <a href="#"><img src="{{asset('uploads/courses/'.$c->image)}}" alt="images"
                                     class="img-fluid" /></a>
                         </div>
                         <div class="contentCard-bottom">

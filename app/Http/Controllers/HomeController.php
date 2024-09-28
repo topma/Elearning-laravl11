@@ -19,8 +19,14 @@ class HomeController extends Controller
         $designCategories = CourseCategory::whereIn('category_name', ['Graphics Desgin', 'Web Design', 'Video Editing'])->pluck('id')->toArray();
         $designCourses = Course::whereIn('course_category_id', $designCategories)->where('tag', 'popular')->get();
 
-        $developmentCategories = CourseCategory::whereIn('category_name', ['Web Development', 'Mobile Development', 'Game Development', 'Database Design & Development', 'Data Science'])->pluck('id')->toArray();
+        $developmentCategories = CourseCategory::whereIn('category_name', ['Web Development', 'Mobile Development', 'Game Development', 'Database Design & Development'])->pluck('id')->toArray();
         $developmentCourses = Course::whereIn('course_category_id', $developmentCategories)->where('tag', 'popular')->get();
+
+        $dataCategories = CourseCategory::whereIn('category_name', ['Data Science'])->pluck('id')->toArray();
+        $dataCourses = Course::whereIn('course_category_id', $dataCategories)->where('tag', 'popular')->get();
+
+        $salesCategories = CourseCategory::whereIn('category_name', ['Digital Marketing', 'Social Media Manager', 'Content Creation', 'Social Media Marketing', 'Copywriting'])->pluck('id')->toArray();
+        $salesCourses = Course::whereIn('course_category_id', $salesCategories)->where('tag', 'popular')->get();
 
         $businessCategories = CourseCategory::whereIn('category_name', ['Digital Marketing', 'Entrepreneurship'])->pluck('id')->toArray();
         $businessCourses = Course::whereIn('course_category_id', $businessCategories)->where('tag', 'popular')->get();
@@ -30,7 +36,8 @@ class HomeController extends Controller
 
         return view(
             'frontend.home',
-            compact('course', 'instructor', 'category', 'popularCourses', 'designCourses', 'developmentCourses', 'businessCourses', 'itCourses')
+            compact('course', 'instructor', 'category', 'popularCourses', 'designCourses', 'developmentCourses', 'businessCourses', 'itCourses'
+            ,'salesCourses', 'dataCourses')
         );
     }
 

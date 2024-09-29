@@ -375,9 +375,9 @@
                     <div class="footer__list">
                         <h6>Company</h6>
                         <ul>
-                            <li><a href="about.html">About Us</a></li>
-                            <li><a href="course-search.html">Courses</a></li>
-                            <li><a href="#">career</a></li>
+                            <li><a href="{{route('about')}}">About Us</a></li>
+                            <li><a href="{{route('searchCourse')}}">Courses</a></li>
+                            <li><a href="#">Career</a></li>
                             <li><a href="#">Affiliate</a></li>
                         </ul>
                     </div>
@@ -388,8 +388,8 @@
                         <ul>
                             <li><a href="#">Help &amp; Supports </a></li>
                             <li><a href="#">Pravacy Polocy</a></li>
-                            <li><a href="faq.html">FAQs</a></li>
-                            <li><a href="contact.html">Contact Us</a></li>
+                            <li><a href="#">FAQs</a></li>
+                            <li><a href="{{route('contact')}}">Contact Us</a></li>
                         </ul>
                     </div>
                 </div>

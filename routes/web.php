@@ -193,10 +193,14 @@ Route::get('send-mail', [MailController::class, 'index'])
 Route::get('user/send-mail', [MailController::class, 'indexInstructor'])
     ->name('send-mail-instructor'); 
 
-Route::get('/about', function () {
-    return view('frontend.about');
-})->name('about');
+Route::get('about', [HomeController::class, 'about'])
+    ->name('about'); 
+Route::get('contact', [HomeController::class, 'contact'])
+    ->name('contact'); 
+// Route::get('/about', function () {
+//     return view('frontend.about');
+// })->name('about');
 
-Route::get('/contact', function () {
-    return view('frontend.contact');
-})->name('contact');
+// Route::get('/contact', function () {
+//     return view('frontend.contact');
+// })->name('contact');

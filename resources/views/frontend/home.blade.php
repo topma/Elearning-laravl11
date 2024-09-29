@@ -35,7 +35,7 @@
             </div>
             <div class="col-lg-5 order-1 order-lg-0">
                 <div class="main-banner-end">
-                    <img src="{{asset('frontend/dist/images/banner/banner-image-01.png')}}" alt="image"
+                    <img src="{{asset('frontend/dist/images/banner/banner-image-05.png')}}" alt="image"
                         class="img-fluid" width="515" height="700"/>
                 </div>
             </div>
@@ -185,13 +185,13 @@
                                             </div>
                                             <span>4.5</span>
                                         </div>
-                                        <div class="eye d-flex align-items-center">
+                                        <!-- <div class="eye d-flex align-items-center">
                                             <div class="icon">
                                                 <img src="{{asset('frontend/dist/images/icon/eye.png')}}"
                                                     alt="eye" />
                                             </div>
                                             <span>24,517</span>
-                                        </div>
+                                        </div> -->
                                         <div class="book d-flex align-items-center">
                                             <div class="icon">
                                                 <img src="{{asset('frontend/dist/images/icon/book.png')}}"
@@ -213,7 +213,7 @@
                         @empty
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
-                                <h3>No Courses Available</h3>
+                                <h3>Courses not available for this category.</h3>
                             </div>
                         </div>
                         @endforelse
@@ -257,12 +257,13 @@
                                             </div>
                                             <span>4.5</span>
                                         </div>
-                                        <div class="eye d-flex align-items-center">
+                                        <!-- <div class="eye d-flex align-items-center">
                                             <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/eye.png')}}" alt="eye" />
+                                                <img src="{{asset('frontend/dist/images/icon/eye.png')}}"
+                                                    alt="eye" />
                                             </div>
                                             <span>24,517</span>
-                                        </div>
+                                        </div> -->
                                         <div class="book d-flex align-items-center">
                                             <div class="icon">
                                                 <img src="{{asset('frontend/dist/images/icon/book.png')}}" alt="location" />
@@ -282,7 +283,7 @@
                         @empty
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
-                                <h3>No Courses Available</h3>
+                                <h3>Courses not available for this category.</h3>
                             </div>
                         </div>
                         @endforelse
@@ -326,12 +327,12 @@
                                             </div>
                                             <span>4.5</span>
                                         </div>
-                                        <div class="eye d-flex align-items-center">
+                                        <!-- <div class="eye d-flex align-items-center">
                                             <div class="icon">
                                                 <img src="{{asset('frontend/dist/images/icon/eye.png')}}" alt="eye" />
                                             </div>
                                             <span>10</span>
-                                        </div>
+                                        </div> -->
                                         <div class="book d-flex align-items-center">
                                             <div class="icon">
                                                 <img src="{{asset('frontend/dist/images/icon/book.png')}}" alt="location" />
@@ -351,7 +352,7 @@
                         @empty
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
-                                <h3>No Courses Available</h3>
+                                <h3>Courses not available for this category.</h3>
                             </div>
                         </div>
                         @endforelse
@@ -395,12 +396,13 @@
                                             </div>
                                             <span>4.5</span>
                                         </div>
-                                        <div class="eye d-flex align-items-center">
+                                        <!-- <div class="eye d-flex align-items-center">
                                             <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/eye.png')}}" alt="eye" />
+                                                <img src="{{asset('frontend/dist/images/icon/eye.png')}}"
+                                                    alt="eye" />
                                             </div>
                                             <span>24,517</span>
-                                        </div>
+                                        </div> -->
                                         <div class="book d-flex align-items-center">
                                             <div class="icon">
                                                 <img src="{{asset('frontend/dist/images/icon/book.png')}}" alt="location" />
@@ -420,7 +422,7 @@
                         @empty
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
-                                <h3>No Courses Available</h3>
+                                <h3>Courses not available for this category.</h3>
                             </div>
                         </div>
                         @endforelse
@@ -465,12 +467,13 @@
                                             </div>
                                             <span>4.5</span>
                                         </div>
-                                        <div class="eye d-flex align-items-center">
+                                        <!-- <div class="eye d-flex align-items-center">
                                             <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/eye.png')}}" alt="eye" />
+                                                <img src="{{asset('frontend/dist/images/icon/eye.png')}}"
+                                                    alt="eye" />
                                             </div>
                                             <span>24,517</span>
-                                        </div>
+                                        </div> -->
                                         <div class="book d-flex align-items-center">
                                             <div class="icon">
                                                 <img src="{{asset('frontend/dist/images/icon/book.png')}}" alt="location" />
@@ -490,7 +493,7 @@
                         @empty
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
-                                <h3>No Courses Available</h3>
+                                <h3>Courses not available for this category.</h3>
                             </div>
                         </div>
                         @endforelse
@@ -535,12 +538,13 @@
                                             </div>
                                             <span>4.5</span>
                                         </div>
-                                        <div class="eye d-flex align-items-center">
+                                        <!-- <div class="eye d-flex align-items-center">
                                             <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/eye.png')}}" alt="eye" />
+                                                <img src="{{asset('frontend/dist/images/icon/eye.png')}}"
+                                                    alt="eye" />
                                             </div>
                                             <span>24,517</span>
-                                        </div>
+                                        </div> -->
                                         <div class="book d-flex align-items-center">
                                             <div class="icon">
                                                 <img src="{{asset('frontend/dist/images/icon/book.png')}}" alt="location" />
@@ -560,7 +564,7 @@
                         @empty
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
-                                <h3>No Courses Available</h3>
+                                <h3>Courses not available for this category.</h3>
                             </div>
                         </div>
                         @endforelse
@@ -605,12 +609,13 @@
                                             </div>
                                             <span>4.5</span>
                                         </div>
-                                        <div class="eye d-flex align-items-center">
+                                        <!-- <div class="eye d-flex align-items-center">
                                             <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/eye.png')}}" alt="eye" />
+                                                <img src="{{asset('frontend/dist/images/icon/eye.png')}}"
+                                                    alt="eye" />
                                             </div>
                                             <span>24,517</span>
-                                        </div>
+                                        </div> -->
                                         <div class="book d-flex align-items-center">
                                             <div class="icon">
                                                 <img src="{{asset('frontend/dist/images/icon/book.png')}}" alt="location" />
@@ -630,7 +635,7 @@
                         @empty
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
-                                <h3>No Courses Available</h3>
+                                <h3>Courses not available for this category.</h3>
                             </div>
                         </div>
                         @endforelse
@@ -652,10 +657,10 @@
     </div>
 </section>
 
-{{-- Why You'll Learn With Kings Digi Hub --}}
+{{-- Why You need to learn With Kings Digi Hub --}}
 <section class="section feature section section--bg-offwhite-one">
     <div class="container">
-        <h2 class="font-title--md text-center">Why You'll Learn with Kings Digi Hub</h2>
+        <h2 class="font-title--md text-center">Why You need to learn with Kings Digi Hub</h2>
         <div class="row">
             <div class="col-lg-4 col-md-6">
                 <div class="cardFeature">
@@ -754,7 +759,7 @@
                         <div class="learning-rules-item">
                             <div class="item-number"><span>02.</span></div>
                             <div class="item-text">
-                                <h6>Find Best Course With Better Filtter.</h6>
+                                <h6>Find the Best Course With a Better Filter.</h6>
                                 <p>
                                 Easily discover the perfect course for you by using our enhanced filtering options. Sort by skill level, duration, subject, 
                                 and more to find the ideal match for your learning needs!
@@ -772,12 +777,12 @@
                             </div>
                         </div>
                     </div>
-                    <a href="#" class="button button-lg button--primary">Start Learning</a>
+                    <a href="{{route('searchCourse')}}" class="button button-lg button--primary">Start Learning</a>
                 </div>
             </div>
             <div class="col-lg-6 order-1 order-lg-0">
                 <div class="learning-rules-ends">
-                    <img src="{{asset('frontend/dist/images/hero/hero-img-01.jpg')}}" alt="img"
+                    <img src="{{asset('frontend/dist/images/hero/hero-img-03.png')}}" alt="img"
                         class="img-fluid rounded"/>
                     <div class="learning-rules-ends-circle">
                         <img src="{{asset('frontend/dist/images/shape/l03.png')}}" alt="shape"
@@ -1008,7 +1013,7 @@
             class="img-fluid img-shape-02" />
         <img src="{{asset('frontend/dist/images/shape/l02.png')}}" alt="shape" class="img-fluid img-shape-03" />
     </div>
-    <div class="container overflow-hidden">
+    <!-- <div class="container overflow-hidden">
         <div class="row mb-40">
             <div class="col-lg-6 mx-auto text-center brands-area-two-heading">
                 <h4>
@@ -1050,7 +1055,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </section>
 
 <!-- Best Instructors Starts Here -->
@@ -1215,7 +1220,7 @@
             <div class="col-lg-6">
                 <div class="main-become-instructor-item me-12">
                     <div class="main-image">
-                        <img src="{{asset('frontend/dist/images/event/image01.png')}}" alt="image"
+                        <img src="{{asset('frontend/dist/images/event/image03.png')}}" alt="image"
                             class="img-fluid" />
                     </div>
                     <div class="main-text">
@@ -1233,7 +1238,7 @@
             <div class="col-lg-6">
                 <div class="main-become-instructor-item ms-12 mb-0">
                     <div class="main-image">
-                        <img src="{{asset('frontend/dist/images/event/image02.png')}}" alt="image"
+                        <img src="{{asset('frontend/dist/images/event/image04.png')}}" alt="image"
                             class="img-fluid" />
                     </div>
                     <div class="main-text">

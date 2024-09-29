@@ -45,4 +45,17 @@ class HomeController extends Controller
     {
         return view('frontend.signup');
     }
+
+    public function about()
+    {
+        $instructor = Instructor::get();
+
+        return view('frontend.about', compact('instructor'));
+    }
+    public function contact()
+    {
+        $instructor = Instructor::get();
+
+        return view('frontend.contact', compact('instructor'));
+    }
 }

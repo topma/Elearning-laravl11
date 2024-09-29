@@ -9,8 +9,8 @@
     <div class="container">
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb pb-0 mb-0">
-                <li class="breadcrumb-item"><a href="index.html" class="fs-6 text-secondary">Home</a></li>
-                <li class="breadcrumb-item active"><a href="contact.html" class="fs-6 text-secondary">Contact</a></li>
+                <li class="breadcrumb-item"><a href="{{route('home')}}" class="fs-6 text-secondary">Home</a></li>
+                <li class="breadcrumb-item active"><a href="#" class="fs-6 text-secondary">Contact</a></li>
             </ol>
         </nav>
     </div>
@@ -72,8 +72,8 @@
                     </div>
                     <div class="contact-feature-text">
                         <h6>Address</h6>
-                        <p>Street NO. #15, House NO.</p>
-                        <p>#15/B Chicago-60827, USA</p>
+                        <p>Ibadan, Nigeria.</p>
+                        <!-- <p>#15/B Chicago-60827, USA</p> -->
                     </div>
                 </div>
 
@@ -83,7 +83,7 @@
                     </div>
                     <div class="contact-feature-text">
                         <h6>Email</h6>
-                        <h5>Edu.bd@gmail.com</h5>
+                        <h5>kingsdigihub@gmail.com</h5>
                     </div>
                 </div>
 
@@ -93,7 +93,7 @@
                     </div>
                     <div class="contact-feature-text">
                         <h6>Phone</h6>
-                        <h5>+1202-555-0621</h5>
+                        <h5>+234-916-988-6500</h5>
                     </div>
                 </div>
                 <img src="{{asset('frontend/dist/images/shape/dots/dots-img-03.png')}}" alt="Shape"

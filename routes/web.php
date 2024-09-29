@@ -193,6 +193,9 @@ Route::get('send-mail', [MailController::class, 'index'])
 Route::get('user/send-mail', [MailController::class, 'indexInstructor'])
     ->name('send-mail-instructor'); 
 
+Route::get('mail-subscribe', [MailController::class, 'subscribe'])
+    ->name('mail-subscribe');
+
 Route::get('about', [HomeController::class, 'about'])
     ->name('about'); 
 Route::get('contact', [HomeController::class, 'contact'])

@@ -29,6 +29,7 @@ use App\Http\Controllers\LessonController as lesson;
 use App\Http\Controllers\EnrollmentController as enrollment;
 use App\Http\Controllers\EventController as event;
 use App\Http\Controllers\CustomForgotPasswordController;
+use App\Http\Controllers\NewsletterController;
 
 /* students */
 use App\Http\Controllers\Students\AuthController as sauth;
@@ -193,7 +194,7 @@ Route::get('send-mail', [MailController::class, 'index'])
 Route::get('user/send-mail', [MailController::class, 'indexInstructor'])
     ->name('send-mail-instructor'); 
 
-Route::get('mail-subscribe', [MailController::class, 'subscribe'])
+Route::post('mail-subscribe', [NewsletterController::class, 'subscribe'])
     ->name('mail-subscribe');
 
 Route::get('about', [HomeController::class, 'about'])

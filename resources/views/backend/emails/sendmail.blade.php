@@ -335,78 +335,87 @@
   <body>
     <span class="preheader"></span>
     <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
-      <tr>
-        <td>&nbsp;</td>
-        <td class="container">
-          <div class="content">
+  <tr>
+    <td>&nbsp;</td>
+    <td class="container">
+      <div class="content">
 
-            <!-- START CENTERED WHITE CONTAINER -->
-            <table role="presentation" class="main">            
-              <!-- START MAIN CONTENT AREA -->
-              <tr>
-                <td class="wrapper">
-                  <p align="center"><img src="https://kingsconsult.com.ng/kbc/images/kdh_logo_big.png" width="120" height="118"></p>
-                  <hr>
-                  <table role="presentation" border="0" cellpadding="0" cellspacing="0">
-                    <tr>
-                      <td width="99%" rowspan="3">
-                      <strong><p>Dear user,</p></strong>
-                        <p>Thank you for registering with Kings Digital Literacy Hub. 
-                          To complete your registration, please click the button below to verify your email address:</p>
-                        <table width="85%" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" role="presentation">
-                          <tbody>
-                            <tr>
-                              <td align="left">
-                              <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation">
-                              <tbody>
-                                    <tr>
-                                      <td> <a href="{{ route('email-verify-done', ['token' => $email_token]) }}" target="_blank">Verify Your Email</a> </td>
-                                    </tr>                                                                                                    
-                                  </tbody>
-                                </table>                              </td>
-                            </tr>                               
-                            <tr>
-                                      <p>If you didn't request this verification, you can safely ignore this email.</p>
-                                    </tr>   
-                            <tr>
-                              <td align="left"><p>Regards,</p>
-                              <strong><p> E-learning Team.</p></strong></td>
-                            </tr>
-                          </tbody>
-                        </table>                      </td>
-                      <td width="1%"><p>&nbsp;</p>                      </td>
-                    </tr>
-                    <tr>
-                      <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                      <td>&nbsp;</td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-
-            <!-- END MAIN CONTENT AREA -->
-            </table>
-            <!-- END CENTERED WHITE CONTAINER -->
-
-            <!-- START FOOTER -->
-            <div class="footer">
+        <!-- START CENTERED WHITE CONTAINER -->
+        <table role="presentation" class="main">            
+          <!-- START MAIN CONTENT AREA -->
+          <tr>
+            <td class="wrapper">
+              <p align="center"><img src="https://kingsconsult.com.ng/kbc/images/kdh_logo_big.png" width="120" height="118"></p>
+              <hr>
               <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td class="content-block">
-                    <span class="apple-link">Kings Branding Consult.</span>                    
-                  </td>
-                </tr>
-                
-              </table>
-            </div>
-            <!-- END FOOTER -->
+                  <td width="99%" rowspan="3">
+                    <strong><p>Dear {{ $user->name }},</p></strong>
+                    <p>Welcome to Kings Digital Literacy Hub! We're excited to have you on board.</p>
 
-          </div>
-        </td>
-        <td>&nbsp;</td>
-      </tr>
-    </table>
+                    <p>Your account has been successfully created. To get started, please verify your email by clicking the button below:</p>
+                    
+                    <table width="85%" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary" role="presentation">
+                      <tbody>
+                        <tr>
+                          <td align="center">
+                            <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation">
+                              <tbody>
+                                <tr>
+                                  <td> <a href="{{ route('email-verify-done', ['token' => $email_token]) }}" target="_blank">Verify Your Email</a> </td>
+                                </tr>                                                                                                  
+                              </tbody>
+                            </table>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="center">
+                            <p>If you did not create this account, please ignore this email or <a href="mailto:support@kingsconsult.com.ng">contact us</a>.</p>
+                          </td>
+                        </tr>   
+                        <tr>
+                          <td align="left">
+                            <p>We're glad to have you on board and look forward to helping you reach your goals!</p>
+                            <p>Best regards,</p>
+                            <strong><p> The Kings Digital Literacy Hub Team</p></strong>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                  <td width="1%"><p>&nbsp;</p></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- END MAIN CONTENT AREA -->
+        </table>
+        <!-- END CENTERED WHITE CONTAINER -->
+
+        <!-- START FOOTER -->
+        <div class="footer">
+          <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="content-block">
+                <span class="apple-link">Kings Digital Literacy Hub.</span>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <!-- END FOOTER -->
+
+      </div>
+    </td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+
   </body>
 </html>

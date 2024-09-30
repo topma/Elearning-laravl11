@@ -1271,11 +1271,11 @@
                     Stay updated with the latest news, tips, and resources from Kings Digital Literacy Hub! Subscribe to our newsletter for exclusive content, upcoming courses, and special offers delivered straight to your inbox. 
                     Don’t miss out—join our community today!
                     </p>
-                    <form action="" method="POST">
+                    <form action="{{route('mail-subscribe')}}" method="POST">
                         @csrf
                         <div class="input-group">
-                            <input type="email" class="form-control border-lowBlack" placeholder="Your email" />
-                            <button class="button button-lg button--primary" type="button">
+                            <input type="email" class="form-control border-lowBlack" placeholder="Your email" name="email" />
+                            <button type="submit" class="button button-lg button--primary" type="button">
                                 Subscribe
                             </button>
                         </div>

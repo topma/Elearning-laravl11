@@ -22,8 +22,8 @@ class NewsletterMail extends Mailable
 
     public function build()
     {
-        return $this->subject('Newsletter Subscription Confirmation')
-                    ->view('emails.newslettermail')  // Blade template
+        return $this->subject('Newsletter Subscription')
+                    ->view('backend.emails.newslettermail')  // Blade template
                     ->with([
                         'email_token' => $this->email_token,
                     ]);

@@ -120,19 +120,10 @@
                                     <div class="accordion-body__item">
                                         <div class="check-box">
                                             <input type="checkbox" class="checkbox-primary" />
-                                            <label> Beginner </label>
-                                        </div>
-                                        <p class="check-details">
-                                            {{$difficulty_beginner->count()}}
-                                        </p>
-                                    </div>
-                                    <div class="accordion-body__item">
-                                        <div class="check-box">
-                                            <input type="checkbox" class="checkbox-primary" />
                                             <label> Intermediate </label>
                                         </div>
                                         <p class="check-details">
-                                        {{$difficulty_intermediate->count()}}
+                                            35,790
                                         </p>
                                     </div>
                                     <div class="accordion-body__item">
@@ -141,15 +132,24 @@
                                             <label> Advanced </label>
                                         </div>
                                         <p class="check-details">
-                                        {{$difficulty_advanced->count()}}
+                                            5,770
                                         </p>
-                                    </div>                                    
+                                    </div>
+                                    <div class="accordion-body__item">
+                                        <div class="check-box">
+                                            <input type="checkbox" class="checkbox-primary" />
+                                            <label> Expert </label>
+                                        </div>
+                                        <p class="check-details">
+                                            765
+                                        </p>
+                                    </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                     <!-- Search by Price  -->
-                    <!-- <div class="accordion-item">
+                    <div class="accordion-item">
                         <h2 class="accordion-header" id="headingThree">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
@@ -187,9 +187,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                     <!-- Search by Rating  -->
-                    <!-- <div class="accordion-item">
+                    <div class="accordion-item">
                         <h2 class="accordion-header" id="ratingAcc">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#ratingCollapse" aria-expanded="false" aria-controls="ratingCollapse">
@@ -257,7 +257,7 @@
                                 </form>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                     <!-- Search by Duration  -->
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="durationAcc">
@@ -402,13 +402,13 @@
                                         </div>
                                         <span>4.5</span>
                                     </div>
-                                    <div class="eye d-flex align-items-center">
+                                    <!-- <div class="eye d-flex align-items-center">
                                         <div class="icon">
                                             <img src="{{asset('frontend/dist/images/icon/eye.png')}}"
                                                 alt="eye" />
                                         </div>
                                         <span>24,517</span>
-                                    </div>
+                                    </div> -->
                                     <div class="book d-flex align-items-center">
                                         <div class="icon">
                                             <img src="{{asset('frontend/dist/images/icon/book.png')}}"

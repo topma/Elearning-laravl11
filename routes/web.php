@@ -168,6 +168,7 @@ Route::post('/instructor/register/{back_route}', [sauth::class, 'instructorSignU
 Route::get('home', [HomeController::class, 'index'])->name('home');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('searchCourse', [SearchCourseController::class, 'index'])->name('searchCourse'); 
+Route::get('courses/{courseCategory}', [SearchCourseController::class, 'courseName'])->name('courseName'); 
 Route::get('courseDetails/{id}', [course::class, 'frontShow'])->name('courseDetails');
 Route::get('watchCourse/{id}', [watchCourse::class, 'watchCourse'])->name('watchCourse');
 Route::get('instructorProfile/{id}', [instructor::class, 'frontShow'])->name('instructorProfile');

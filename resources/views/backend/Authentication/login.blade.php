@@ -46,7 +46,7 @@
                                         </div>
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary btn-block">Login</button>
+                                        <button type="submit" class="btn btn-dark btn-block">Login</button>
                                     </div>
                                 </form>
                                 <div class="new-account mt-3">

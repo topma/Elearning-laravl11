@@ -53,6 +53,7 @@
                                                 <th>{{__('#')}}</th>
                                                 <th>{{__('Title')}}</th>
                                                 <th>{{__('Notes')}}</th>
+                                                <th>{{__('Materials Uploaded')}}</th>
                                                 <th></th>
                                                 <!-- <th>{{__('Course')}}</th> -->
                                                 <th>{{__('Action')}}</th>
@@ -61,27 +62,33 @@
                                         <tbody>
                                             @forelse ($lesson as $key => $l)
                                             <tr>
-                                                <td>{{$key + 1}}</td>
-                                                <td>{{$l->title}}</td>
-                                                <td>{{$l->notes}}</td>
-                                                <!-- <td>{{$l->course?->title_en}}</td> -->
-                                                <td><a href="{{route('material.create', ['lesson_id' => encryptor('encrypt', $l->id)])}}"
-                                                        class="btn btn-dark" title="Add Materials">+ Add Materials</a></td>
+                                                `<td>{{ $key + 1 }}</td>
+                                                <td>{{ $l->title }}</td>
+                                                <td>{{ $l->notes }}</td>
+                                                <td>{{ $l->material_count }}</td>
                                                 <td>
-                                                    <a href="{{route('lesson.edit', encryptor('encrypt',$l->id))}}"
-                                                        class="btn btn-sm btn-primary" title="Edit"><i
-                                                            class="la la-pencil"></i></a>
-                                                    <a href="javascript:void(0);" class="btn btn-sm btn-danger"
-                                                        title="Delete" onclick="$('#form{{$l->id}}').submit()"><i
-                                                            class="la la-trash-o"></i></a>
-                                                    <form id="form{{$l->id}}"
-                                                        action="{{route('lesson.destroy', encryptor('encrypt',$l->id))}}"
+                                                    @if($l->material_count > 0)
+                                                        <a href="{{ route('material.show', encryptor('encrypt', $l->id)) }}" 
+                                                        class="btn btn-info" title="View Materials">View Materials</a>
+                                                    @else
+                                                        <a href="{{ route('material.create', ['lesson_id' => encryptor('encrypt', $l->id)]) }}" 
+                                                        class="btn btn-dark" title="Add Materials">+ Add Materials</a>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('lesson.edit', encryptor('encrypt', $l->id)) }}" 
+                                                    class="btn btn-sm btn-primary" title="Edit"><i class="la la-pencil"></i></a>
+                                                    <a href="javascript:void(0);" class="btn btn-sm btn-danger" 
+                                                    title="Delete" onclick="$('#form{{ $l->id }}').submit()"><i class="la la-trash-o"></i></a>
+                                                    <form id="form{{ $l->id }}" 
+                                                        action="{{ route('lesson.destroy', encryptor('encrypt', $l->id)) }}" 
                                                         method="post">
                                                         @csrf
                                                         @method('DELETE')
-                                                    </form>                                                    
-                                                </td>                                                
+                                                    </form>
+                                                </td>                                                  
                                             </tr>
+
                                             @empty
                                             <tr>
                                                 <th colspan="6" class="text-center">No Course Lesson Found</th>

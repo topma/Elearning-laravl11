@@ -25,7 +25,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
                     <li class="breadcrumb-item active"><a href="{{route('courseCategory.index')}}">Categories</a></li>
-                    <li class="breadcrumb-item active"><a href="{{route('courseCategory.index')}}">All Category</a></li>
+                    <li class="breadcrumb-item active"><a href="#">All Category</a></li>
                 </ol>
             </div>
         </div>
@@ -35,8 +35,8 @@
                 <ul class="nav nav-pills mb-3">
                     <li class="nav-item"><a href="#list-view" data-toggle="tab"
                             class="nav-link btn-primary mr-1 show active">List View</a></li>
-                    <li class="nav-item"><a href="#grid-view" data-toggle="tab" class="nav-link btn-primary">Grid
-                            View</a></li>
+                    <!-- <li class="nav-item"><a href="#grid-view" data-toggle="tab" class="nav-link btn-primary">Grid
+                            View</a></li> -->
                 </ul>
             </div>
             <div class="col-lg-12">
@@ -60,9 +60,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ($data as $d)
+                                            @forelse ($data as $key => $d)
                                             <tr>
-                                                <td><strong>{{$d->id}}</strong></td>
+                                                <td><strong>{{$key + 1}}</strong></td>
                                                 <td><strong>{{$d->category_name}}</strong></td>
                                                 <td>
                                                     <span class="badge {{$d->category_status==1?"
@@ -70,7 +70,7 @@
                                                         @else{{__('Inactive')}}@endif</span>
                                                 </td>
                                                 <td>
-                                                    <img class="rounded" width="200" height="100"
+                                                    <img class="rounded" width="60" height="40"
                                                         src="{{asset('uploads/courseCategories/'.$d->category_image)}}"
                                                         alt="">
                                                 </td>

@@ -65,13 +65,13 @@
                                     <span class="text-danger"> {{ $errors->first('courseTitle_en') }}</span>
                                     @endif
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                <!-- <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">টাইটেল (বাংলায়)</label>
                                         <input type="text" class="form-control" name="courseTitle_bn"
                                             value="{{old('courseTitle_bn',$course->title_bn)}}">
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Description</label>
@@ -82,7 +82,7 @@
                                     <span class="text-danger"> {{ $errors->first('courseDescription_en') }}</span>
                                     @endif
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                <!-- <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">বিস্তারিত (বাংলায়)</label>
                                         <textarea class="form-control"
@@ -91,7 +91,7 @@
                                     @if($errors->has('courseDescription_bn'))
                                     <span class="text-danger"> {{ $errors->first('courseDescription_bn') }}</span>
                                     @endif
-                                </div>
+                                </div> -->
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Category</label>
@@ -236,7 +236,7 @@
                                     <span class="text-danger"> {{ $errors->first('prerequisites_en') }}</span>
                                     @endif
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                <!-- <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">পূর্বশর্ত (বাংলায়)</label>
                                         <textarea class="form-control"
@@ -245,7 +245,7 @@
                                     @if($errors->has('prerequisites_bn'))
                                     <span class="text-danger"> {{ $errors->first('prerequisites_bn') }}</span>
                                     @endif
-                                </div>
+                                </div> -->
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Course Code</label>
@@ -320,13 +320,13 @@
                                     <span class="text-danger"> {{ $errors->first('courseTitle_en') }}</span>
                                     @endif
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                <!-- <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">টাইটেল (বাংলায়)</label>
                                         <input type="text" class="form-control" name="courseTitle_bn"
                                             value="{{old('courseTitle_bn',$course->title_bn)}}">
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Description</label>
@@ -337,7 +337,7 @@
                                     <span class="text-danger"> {{ $errors->first('courseDescription_en') }}</span>
                                     @endif
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                <!-- <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">বিস্তারিত (বাংলায়)</label>
                                         <textarea class="form-control"
@@ -346,7 +346,7 @@
                                     @if($errors->has('courseDescription_bn'))
                                     <span class="text-danger"> {{ $errors->first('courseDescription_bn') }}</span>
                                     @endif
-                                </div>
+                                </div> -->
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Category</label>
@@ -443,7 +443,7 @@
                                     <div class="form-group">
                                         <label class="form-label">Subscription Price</label>
                                         <input type="number" class="form-control" name="subscription_price"
-                                            value="{{old('subscription_price')}}">
+                                            value="{{old('subscription_price', $course->subscription_price)}}">
                                     </div>
                                     @if($errors->has('subscription_price'))
                                     <span class="text-danger"> {{ $errors->first('subscription_price',
@@ -488,7 +488,7 @@
                                     <span class="text-danger"> {{ $errors->first('prerequisites_en') }}</span>
                                     @endif
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                <!-- <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">পূর্বশর্ত (বাংলায়)</label>
                                         <textarea class="form-control"
@@ -497,11 +497,11 @@
                                     @if($errors->has('prerequisites_bn'))
                                     <span class="text-danger"> {{ $errors->first('prerequisites_bn') }}</span>
                                     @endif
-                                </div>
+                                </div> -->
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Course Code</label>
-                                        <input type="number" class="form-control" name="course_code"
+                                        <input type="text" class="form-control" name="course_code"
                                             value="{{old('course_code', $course->course_code)}}">
                                     </div>
                                     @if($errors->has('course_code'))

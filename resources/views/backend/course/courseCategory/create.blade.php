@@ -26,7 +26,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
                     <li class="breadcrumb-item active"><a href="{{route('courseCategory.index')}}">Categories</a></li>
-                    <li class="breadcrumb-item active"><a href="{{route('courseCategory.create')}}">Add Category</a>
+                    <li class="breadcrumb-item active"><a href="#">Add Category</a>
                     </li>
                 </ol>
             </div>
@@ -71,7 +71,7 @@
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <button type="submit" class="btn btn-primary">Submit</button>
-                                    <button type="submit" class="btn btn-light">Cencel</button>
+                                    <button type="submit" class="btn btn-light">Cancel</button>
                                 </div>
                             </div>
                         </form>

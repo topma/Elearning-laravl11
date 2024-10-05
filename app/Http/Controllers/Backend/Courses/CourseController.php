@@ -22,7 +22,15 @@ class CourseController extends Controller
     public function index()
     {
         //$course = Course::paginate(10);
-        $course = Course::withCount('lesson')->paginate(10);
+        $userRoleId = auth()->user()->role_id;
+        $instructorId = auth()->user()->instructor_id;
+        if($userRoleId == 1) {
+            $course = Course::withCount('lesson')->paginate(10);
+        }
+        else {
+            $course = Course::where('instructor_id', $instructorId)->withCount('lesson')->paginate(10);
+        }
+        
         return view('backend.course.courses.index', compact('course'));
     }
 
@@ -38,7 +46,15 @@ class CourseController extends Controller
     public function create()
     {
         $courseCategory = CourseCategory::get();
-        $instructor = Instructor::get();
+        $userRoleId = auth()->user()->role_id;
+        $instructorId = auth()->user()->instructor_id;
+        if($userRoleId == 1){
+            $instructor = Instructor::get();
+        }
+        else{
+            $instructor = Instructor::where('id', $instructorId)->get();
+        }
+        
         return view('backend.course.courses.create', compact('courseCategory', 'instructor'));
     }
 
@@ -125,6 +141,9 @@ class CourseController extends Controller
     {
         try {
             $course = Course::findOrFail(encryptor('decrypt', $id));
+            if ($request->has('start_from') && !empty($request->start_from)) {
+                $course->start_from = $request->start_from; // Update if the date is chosen
+            }
             $course->title_en = $request->courseTitle_en;
             $course->title_bn = $request->courseTitle_bn;
             $course->description_en = $request->courseDescription_en;
@@ -134,8 +153,7 @@ class CourseController extends Controller
             $course->type = $request->courseType;
             $course->price = $request->coursePrice;
             $course->old_price = $request->courseOldPrice; 
-            $course->subscription_price = $request->subscriptionPrice;
-            $course->start_from = $request->start_from;
+            $course->subscription_price = $request->subscription_price;
             $course->duration = $request->duration;
             $course->lesson = $request->lesson;
             $course->difficulty = $request->courseDifficulty;
@@ -170,6 +188,9 @@ class CourseController extends Controller
     {
         try {
             $course = Course::findOrFail(encryptor('decrypt', $id));
+            if ($request->has('start_from') && !empty($request->start_from)) {
+                $course->start_from = $request->start_from; // Update if the date is chosen
+            }
             $course->title_en = $request->courseTitle_en;
             $course->title_bn = $request->courseTitle_bn;
             $course->description_en = $request->courseDescription_en;
@@ -179,8 +200,7 @@ class CourseController extends Controller
             $course->type = $request->courseType;
             $course->price = $request->coursePrice;
             $course->old_price = $request->courseOldPrice; 
-            $course->subscription_price = $request->subscriptionPrice;
-            $course->start_from = $request->start_from;
+            $course->subscription_price = $request->subscription_price;
             $course->duration = $request->duration;
             $course->lesson = $request->lesson;
             $course->difficulty = $request->courseDifficulty;

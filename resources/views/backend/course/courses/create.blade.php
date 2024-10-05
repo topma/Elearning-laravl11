@@ -23,7 +23,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
                     <li class="breadcrumb-item active"><a href="{{route('course.index')}}">Courses</a></li>
-                    <li class="breadcrumb-item active"><a href="{{route('course.create')}}">Add Course</a></li>
+                    <li class="breadcrumb-item active"><a href="#">Add Course</a></li>
                 </ol>
             </div>
         </div>
@@ -94,6 +94,7 @@
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Instructor</label>
+                                        
                                         <select class="form-control" name="instructorId">
                                             @forelse ($instructor as $i)
                                             <option value="{{$i->id}}" {{old('instructorId')==$i->id?'selected':''}}>

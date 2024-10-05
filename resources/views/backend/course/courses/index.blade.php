@@ -21,8 +21,7 @@
             <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active"><a href="{{route('course.index')}}">Instructors</a></li>
-                    <li class="breadcrumb-item active"><a href="{{route('course.index')}}">All Course</a></li>
+                    <li class="breadcrumb-item active"><a href="">All Course</a></li>
                 </ol>
             </div>
         </div>
@@ -83,10 +82,10 @@
                                                 </li>
                                                 <li class="list-group-item px-0 d-flex justify-content-between">
                                                     <span class="mb-0">Price :</span>
-                                                    <strong>{{$d->price?'=N='.$d->price:'Free'}}</strong>
+                                                    <strong>{{$d->price?'=N='. number_format($d->price,2):'Free'}}</strong>
                                                 </li>
                                                 <li class="list-group-item px-0 d-flex justify-content-between">
-                                                    <span class="mb-0">No of Lessons :</span>
+                                                    <span class="mb-0">No of Lessons Uploaded :</span>
                                                     <strong>{{$d->lesson_count}}</strong>
                                                 </li>
 
@@ -117,7 +116,7 @@
                                 <div class="card card-profile">
                                     <div class="card-body pt-2">
                                         <div class="text-center">
-                                            <p class="mt-3 px-4">Course Not Found</p>
+                                            <p class="mt-3 px-4">Course has not been uploaded.</p>
                                         </div>
                                     </div>
                                 </div>

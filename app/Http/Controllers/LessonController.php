@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Lesson;
 use App\Models\Course;
+use App\Models\Material;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -84,7 +85,7 @@ class LessonController extends Controller
         $course = Course::findOrFail($decryptedId);
 
         // Get lessons associated with the course
-        $lesson = Lesson::where('course_id', $course->id)->get();
+        $lesson = Lesson::where('course_id', $course->id)->withCount('material')->get();
 
         // Return the view with the course and its lessons
         return view('backend.course.lesson.view', compact('course', 'lesson'));

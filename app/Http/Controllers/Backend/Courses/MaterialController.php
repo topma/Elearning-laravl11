@@ -70,9 +70,19 @@ class MaterialController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Material $material)
-    {
-        //
+    public function show($id)
+    {        
+        // Decrypt the ID
+        $decryptedId = encryptor('decrypt', $id);
+
+        // Find the course
+        $lesson = Lesson::findOrFail($decryptedId);
+
+        // Get lessons associated with the course
+        $material = Material::where('lesson_id', $lesson->id)->get();
+
+        // Return the view with the course and its lessons
+        return view('backend.course.material.view', compact('lesson', 'material'));
     }
 
     /**
@@ -80,7 +90,8 @@ class MaterialController extends Controller
      */
     public function edit($id)
     {
-        $lesson= Lesson::get();
+        $decryptedId = encryptor('decrypt', $id);
+        $lesson = Lesson::findOrFail($decryptedId);
         $material = Material::findOrFail(encryptor('decrypt', $id));
         return view('backend.course.material.edit', compact('lesson', 'material'));
     }

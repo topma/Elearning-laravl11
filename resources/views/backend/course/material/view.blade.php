@@ -53,7 +53,7 @@
                                         <thead>
                                             <tr>
                                                 <th>{{__('#')}}</th>
-                                                <th>{{__('Title')}}</th>
+                                                <!-- <th>{{__('Title')}}</th> -->
                                                 <th>{{__('Lesson')}}</th>
                                                 <th>{{__('Material Type')}}</th>
                                                 <th>{{__('Content')}}</th>
@@ -62,10 +62,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ($material as $m)
+                                            @forelse ($material as $key => $m)
                                             <tr>
-                                                <td>{{$m->id}}</td>
-                                                <td>{{$m->title}}</td>
+                                                <td>{{$key + 1}}</td>
+                                                <!-- <td>{{$m->title}}</td> -->
                                                 <td>{{$m->lesson?->title}}</td>
                                                 <td>
                                                     {{ $m->type == 'video' ? __('Video') : ($m->type == 'document' ?

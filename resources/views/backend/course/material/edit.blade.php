@@ -21,9 +21,10 @@
             </div>
             <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active"><a href="{{route('material.index')}}">Course Materials</a></li>
-                    <li class="breadcrumb-item active"><a href="javascript:void(0);">Edit Course Material</a></li>
+                <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('course.index')}}">My Courses</a></li>
+                    <li class="breadcrumb-item active"><a href="{{route('lesson.show', encryptor('encrypt',$lesson->course_id))}}">Course Lesson</a></li>
+                    <li class="breadcrumb-item active"><a href="">Edit Course Material</a>
                 </ol>
             </div>
         </div>
@@ -55,13 +56,11 @@
                                     <div class="form-group">
                                         <label class="form-label">Lesson</label>
                                         <select class="form-control" name="lessonId">
-                                            @forelse ($lesson as $l)
-                                            <option value="{{$l->id}}" {{old('lessonId', $material->lesson_id) ==
-                                                $l->id?'selected':''}}>
-                                                {{$l->title}}</option>
-                                            @empty
-                                            <option value="">No Course Lesson Found</option>
-                                            @endforelse
+                                            
+                                            <option value="{{$lesson->id}}" {{old('lessonId', $material->lesson_id) ==
+                                                $lesson->id?'selected':''}}>
+                                                {{$lesson->title}}</option>
+                                           
                                         </select>
                                     </div>
                                     @if($errors->has('lessonId'))
@@ -104,7 +103,7 @@
                                     @endif
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
                                     <button type="submit" class="btn btn-light">Cencel</button>
                                 </div>
                             </div>

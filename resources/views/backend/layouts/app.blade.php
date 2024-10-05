@@ -229,7 +229,7 @@
                                         class="las la-chalkboard-teacher"></i>Profile</a>
                             </li>   
                     @else    
-                    <li><a href="{{route('instructor.edit', encryptor('encrypt',auth()->user()->id))}}"><i
+                    <li><a href="{{route('instructor.edit', encryptor('encrypt',auth()->user()->instructor_id))}}"><i
                                         class="las la-chalkboard-teacher"></i>Profile</a>
                             </li> 
                     @endif        
@@ -261,7 +261,7 @@
                             </li>
                             <li><a href="{{route('courseList')}}"><i class="las la-school"></i>Courses List</a></li>
                             <li><a href="{{route('course.index')}}"><i class="las la-book-open"></i>All Courses</a></li>
-                            <li><a href="{{route('lesson.index')}}"><i class="las la-chalkboard"></i>Lessons</a></li>
+                            <!-- <li><a href="{{route('lesson.index')}}"><i class="las la-chalkboard"></i>Lessons</a></li> -->
                             <li><a href="{{route('material.index')}}"><i class="las la-atom"></i></i>Materials</a></li>
                         </ul>
                     </li>
@@ -348,7 +348,7 @@
                                         class="las la-chalkboard-teacher"></i>Profile</a>
                             </li>   
                     @else    
-                    <li><a href="{{route('instructor.edit', encryptor('encrypt',auth()->user()->id))}}"><i
+                    <li><a href="{{route('instructor.edit', encryptor('encrypt',auth()->user()->instructor_id))}}"><i
                                         class="las la-chalkboard-teacher"></i>Profile</a>
                             </li> 
                     @endif               
@@ -358,8 +358,8 @@
                     </a>
                 </li>
                 <li><a href="{{route('student.index')}}"><i class="las la-book-reader"></i>Students List</a></li>
-                <li><a href="{{route('course.index')}}"><i class="las la-book-open"></i>All Courses</a></li>
-                <li><a href="{{route('lesson.index')}}"><i class="las la-chalkboard"></i>Course Lessons</a></li>
+                <li><a href="{{route('course.index')}}"><i class="las la-book-open"></i>My Courses</a></li>
+                <!-- <li><a href="{{route('lesson.index')}}"><i class="las la-chalkboard"></i>Course Lessons</a></li> -->
                 <li><a href="{{route('material.index')}}"><i class="las la-atom"></i></i>Course Materials</a></li>
                 <li><a href="{{route('coupon.index')}}"><i class="las la-tags"></i>Coupons</a></li>
                 <li><a href="{{route('enrollment.index')}}"><i class="las la-bullseye"></i>Enrollments</a></li>

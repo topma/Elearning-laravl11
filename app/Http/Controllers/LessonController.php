@@ -21,11 +21,30 @@ class LessonController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        $course = Course::get();
+    public function create(Request $request)    
+    {    
+        $courseId = $request->query('course_id');
+        $decryptedId = encryptor('decrypt', $courseId);
+        
+        // Check if the ID is valid
+        if (!$decryptedId) {
+            // Handle the error (redirect, return error message, etc.)
+            return redirect()->back()->withErrors(['error' => 'Invalid course ID.']);
+        }
+        
+        $course = Course::findOrFail($decryptedId);
         return view('backend.course.lesson.create', compact('course'));
     }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function add($id)
+    {
+        $course = Course::findOrFail(encryptor('decrypt', $id));
+        return view('backend.course.lesson.add', compact('course'));
+    }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -41,7 +60,7 @@ class LessonController extends Controller
 
             if ($lesson->save()) {
                 $this->notice::success('Data Saved');
-                return redirect()->route('lesson.index');
+                return redirect()->route('lesson.show', encryptor('encrypt', $request->courseId));
             } else {
                 $this->notice::error('Please try again');
                 return redirect()->back()->withInput();
@@ -56,9 +75,19 @@ class LessonController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Lesson $lesson)
-    {
-        //
+    public function show($id)
+    {        
+        // Decrypt the ID
+        $decryptedId = encryptor('decrypt', $id);
+
+        // Find the course
+        $course = Course::findOrFail($decryptedId);
+
+        // Get lessons associated with the course
+        $lesson = Lesson::where('course_id', $course->id)->get();
+
+        // Return the view with the course and its lessons
+        return view('backend.course.lesson.view', compact('course', 'lesson'));
     }
 
     /**
@@ -85,7 +114,7 @@ class LessonController extends Controller
 
             if ($lesson->save()) {
                 $this->notice::success('Data Saved');
-                return redirect()->route('lesson.index');
+                return redirect()->route('lesson.show', encryptor('encrypt', $request->courseId));
             } else {
                 $this->notice::error('Please try again');
                 return redirect()->back()->withInput();

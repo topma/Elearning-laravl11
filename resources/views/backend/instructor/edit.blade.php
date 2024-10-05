@@ -191,7 +191,7 @@
                                     @if($errors->has('social_youtube'))
                                     <span class="text-danger"> {{ $errors->first('social_youtube') }}</span>
                                     @endif
-                                </div>              
+                                </div>           
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Status</label>
@@ -206,7 +206,7 @@
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Password</label>
-                                        <input type="password" class="form-control" name="password">
+                                        <input type="password" class="form-control" name="password" value="" autocomplete="new-password">
                                     </div>
                                     @if($errors->has('password'))
                                     <span class="text-danger"> {{ $errors->first('password') }}</span>

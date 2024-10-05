@@ -122,6 +122,7 @@ Route::prefix('admin')->group(function () {
     Route::patch('/courseList/{update}', [course::class, 'updateforAdmin'])->name('course.updateforAdmin');
     Route::resource('material', material::class);
     Route::resource('lesson', lesson::class);
+    // Route::get('lesson/add/{id}', [lesson::class, 'add'])->name('lesson.add');
     Route::resource('event', event::class);
     Route::resource('quiz', quiz::class);
     Route::resource('question', question::class);
@@ -133,7 +134,7 @@ Route::prefix('admin')->group(function () {
     Route::resource('coupon', coupon::class);
     Route::resource('enrollment', enrollment::class);
     Route::get('permission/{role}', [permission::class, 'index'])->name('permission.list');
-    Route::post('permission/{role}', [permission::class, 'save'])->name('permission.save');
+    Route::post('permission/{role}', [permission::class, 'save'])->name('permission.save');    
 });
 
 Route::get('/register', [HomeController::class, 'signUpForm'])->name('signup');
@@ -165,7 +166,7 @@ Route::post('/instructor/register/{back_route}', [sauth::class, 'instructorSignU
 // Route::get('/instructor/logout', [sauth::class, 'signOut'])->name('studentlogOut');
  
 // frontend pages
-Route::get('home', [HomeController::class, 'index'])->name('home');
+// Route::get('home', [HomeController::class, 'index'])->name('home');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('searchCourse', [SearchCourseController::class, 'index'])->name('searchCourse'); 
 Route::get('courses/{courseCategory}', [SearchCourseController::class, 'courseName'])->name('courseName'); 

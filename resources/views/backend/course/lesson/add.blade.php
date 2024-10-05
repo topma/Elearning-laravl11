@@ -16,14 +16,14 @@
         <div class="row page-titles mx-0">
             <div class="col-sm-6 p-md-0">
                 <div class="welcome-text">
-                    <h4>Add Course Lesson for  - {{$course->title_en}}</h4>
+                    <h4>Add Course Lesson</h4>
                 </div>
             </div>
             <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('course.index')}}">My Courses</a></li>
-                    <li class="breadcrumb-item active"><a href="#">Course Lessons</a></li>
+                    <li class="breadcrumb-item active"><a href="{{route('lesson.index')}}">Course Lessons</a></li>
+                    <li class="breadcrumb-item active"><a href="{{route('lesson.create')}}">Add Course Lesson</a>
                     </li>
                 </ol>
             </div>
@@ -53,11 +53,13 @@
                                     <div class="form-group">
                                         <label class="form-label">Course</label>
                                         <select class="form-control" name="courseId">
-                                            <option value="{{ $course->id }}" {{ old('courseId') == $course->id ? 'selected' : '' }}>
-                                                {{ $course->title_en }}
-                                            </option>
+                                            @forelse ($course as $c)
+                                            <option value="{{$c->id}}" {{old('courseId')==$c->id?'selected':''}}>
+                                                {{$c->title_en}}</option>
+                                            @empty
+                                            <option value="">No Course Found</option>
+                                            @endforelse
                                         </select>
-
                                     </div>
                                     @if($errors->has('courseId'))
                                     <span class="text-danger"> {{ $errors->first('courseId') }}</span>

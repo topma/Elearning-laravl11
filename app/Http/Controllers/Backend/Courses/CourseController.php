@@ -21,7 +21,8 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $course = Course::paginate(10);
+        //$course = Course::paginate(10);
+        $course = Course::withCount('lesson')->paginate(10);
         return view('backend.course.courses.index', compact('course'));
     }
 
@@ -95,6 +96,7 @@ class CourseController extends Controller
     public function show($id)
     {
         // 
+        
     }
 
     public function frontShow($id)

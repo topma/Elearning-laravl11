@@ -15,15 +15,14 @@
         <div class="row page-titles mx-0">
             <div class="col-sm-6 p-md-0">
                 <div class="welcome-text">
-                    <h4>Course Lesson List</h4>
+                    <h4>Course Lesson List - {{$course->title_en}}</h4>
                 </div>
             </div>
             <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active"><a href="{{route('lesson.index')}}">Course Lessons</a></li>
-                    <li class="breadcrumb-item active"><a href="{{route('lesson.index')}}">All Course Lesson</a>
-                    </li>
+                    <li class="breadcrumb-item active"><a href="{{route('course.index')}}">My Courses</a></li>
+                    <li class="breadcrumb-item active"><a href="#">Course Lessons</a></li>                    
                 </ol>
             </div>
         </div>
@@ -44,7 +43,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">All Course Lessons List </h4>
-                                <a href="{{route('lesson.create')}}" class="btn btn-primary">+ Add new</a>
+                                <a href="{{route('lesson.create',['course_id' => encryptor('encrypt', $course->id)])}}" class="btn btn-primary">+ Add new</a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -53,16 +52,21 @@
                                             <tr>
                                                 <th>{{__('#')}}</th>
                                                 <th>{{__('Title')}}</th>
-                                                <th>{{__('Course')}}</th>
+                                                <th>{{__('Notes')}}</th>
+                                                <th></th>
+                                                <!-- <th>{{__('Course')}}</th> -->
                                                 <th>{{__('Action')}}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ($lesson as $l)
+                                            @forelse ($lesson as $key => $l)
                                             <tr>
-                                                <td>{{$l->id}}</td>
+                                                <td>{{$key + 1}}</td>
                                                 <td>{{$l->title}}</td>
-                                                <td>{{$l->course?->title_en}}</td>
+                                                <td>{{$l->notes}}</td>
+                                                <!-- <td>{{$l->course?->title_en}}</td> -->
+                                                <td><a href="{{route('material.create', ['lesson_id' => encryptor('encrypt', $l->id)])}}"
+                                                        class="btn btn-dark" title="Add Materials">+ Add Materials</a></td>
                                                 <td>
                                                     <a href="{{route('lesson.edit', encryptor('encrypt',$l->id))}}"
                                                         class="btn btn-sm btn-primary" title="Edit"><i
@@ -75,8 +79,8 @@
                                                         method="post">
                                                         @csrf
                                                         @method('DELETE')
-                                                    </form>
-                                                </td>
+                                                    </form>                                                    
+                                                </td>                                                
                                             </tr>
                                             @empty
                                             <tr>

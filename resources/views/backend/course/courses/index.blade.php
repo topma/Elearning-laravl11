@@ -86,6 +86,11 @@
                                                     <strong>{{$d->price?'=N='.$d->price:'Free'}}</strong>
                                                 </li>
                                                 <li class="list-group-item px-0 d-flex justify-content-between">
+                                                    <span class="mb-0">No of Lessons :</span>
+                                                    <strong>{{$d->lesson_count}}</strong>
+                                                </li>
+
+                                                <li class="list-group-item px-0 d-flex justify-content-between">
                                                     <span class="mb-0">Status :</span>
                                                     <span class="badge 
                                                     @if($d->status == 0) badge-warning 
@@ -99,8 +104,10 @@
                                                     </span>
                                                 </li>
                                             </ul>
-                                            <a class="btn btn-outline-primary btn-rounded mt-3 px-4"
-                                                href="#">Read More</a>
+                                            <a class="btn btn-outline-primary btn-rounded mt-3 px-4" 
+                                                href="{{ $d->lesson_count > 0 ? route('lesson.show', encryptor('encrypt', $d->id)) : route('lesson.create', ['course_id' => encryptor('encrypt', $d->id)]) }}">
+                                                {{ $d->lesson_count > 0 ? 'View Course Lessons' : 'Create Course Lessons' }}
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

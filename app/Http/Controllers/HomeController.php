@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Course;
+use App\Models\Event;
 use App\Models\Instructor;
 use App\Models\CourseCategory;
 
@@ -12,6 +13,7 @@ class HomeController extends Controller
     public function index()
     {
         $course = Course::get();
+        $event = Event::orderBy('date', 'Desc')->get();
         $instructor = Instructor::get();
         $category = CourseCategory::get();
         $popularCourses = Course::where('tag', 'popular')->get();
@@ -37,7 +39,7 @@ class HomeController extends Controller
         return view(
             'frontend.home',
             compact('course', 'instructor', 'category', 'popularCourses', 'designCourses', 'developmentCourses', 'businessCourses', 'itCourses'
-            ,'salesCourses', 'dataCourses')
+            ,'salesCourses', 'dataCourses','event')
         );
     }
 

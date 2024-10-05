@@ -1073,8 +1073,21 @@
                             <div class="mentor__img">
                                 <img src="{{asset('uploads/users/'.$i->image)}}" alt="Mentor image" />
                                 <ul class="list-inline">
+                                @if(!empty($i->social_facebook))
                                     <li class="list-inline-item">
-                                        <a href="#" tabindex="0">
+                                        <a href="{{$i->social_facebook}}" tabindex="0">
+                                            <svg width="9" height="18" viewBox="0 0 9 18" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M7.3575 2.98875H9.00075V0.12675C8.71725 0.08775 7.74225 0 6.60675 0C4.2375 0 2.6145 1.49025 2.6145 4.22925V6.75H0V9.9495H2.6145V18H5.82V9.95025H8.32875L8.727 6.75075H5.81925V4.5465C5.82 3.62175 6.069 2.98875 7.3575 2.98875Z"
+                                                    fill="#25252E"></path>
+                                            </svg>
+                                        </a>
+                                    </li>
+                                    @endif
+                                    @if(!empty($i->social_instagram))
+                                    <li class="list-inline-item">
+                                        <a href="{{$i->social_instagram}}" tabindex="0">
                                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -1089,8 +1102,10 @@
                                             </svg>
                                         </a>
                                     </li>
+                                    @endif
+                                    @if(!empty($i->social_linkedin))
                                     <li class="list-inline-item">
-                                        <a href="#" tabindex="0">
+                                        <a href="{{$i->social_linkedin}}" tabindex="0">
                                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -1104,8 +1119,10 @@
                                             </svg>
                                         </a>
                                     </li>
+                                    @endif
+                                    @if(!empty($i->social_twitter))
                                     <li class="list-inline-item">
-                                        <a href="#" tabindex="0">
+                                        <a href="{{$i->social_twitter}}" tabindex="0">
                                             <svg width="18" height="15" viewBox="0 0 18 15" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -1114,8 +1131,10 @@
                                             </svg>
                                         </a>
                                     </li>
+                                    @endif
+                                    @if(!empty($i->social_youtube))
                                     <li class="list-inline-item">
-                                        <a href="#" tabindex="0">
+                                        <a href="{{$i->social_youtube}}" tabindex="0">
                                             <svg width="18" height="14" viewBox="0 0 18 14" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -1124,16 +1143,7 @@
                                             </svg>
                                         </a>
                                     </li>
-                                    <li class="list-inline-item">
-                                        <a href="#" tabindex="0">
-                                            <svg width="9" height="18" viewBox="0 0 9 18" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M7.3575 2.98875H9.00075V0.12675C8.71725 0.08775 7.74225 0 6.60675 0C4.2375 0 2.6145 1.49025 2.6145 4.22925V6.75H0V9.9495H2.6145V18H5.82V9.95025H8.32875L8.727 6.75075H5.81925V4.5465C5.82 3.62175 6.069 2.98875 7.3575 2.98875Z"
-                                                    fill="#25252E"></path>
-                                            </svg>
-                                        </a>
-                                    </li>
+                                    @endif                                    
                                 </ul>
                             </div>
                             <div class="mentor__title">
@@ -1169,16 +1179,16 @@
         <div class="row">
             <div class="col-12 position-relative px-0 mx-0">
                 <div class="eventsSlider">
-                    @forelse ($course as $c)
+                    @forelse ($event as $c)
                     <div class="contentCard contentCard--event contentCard--space">
                         <div class="contentCard-top">
-                            <a href="#"><img src="{{asset('uploads/courses/'.$c->image)}}" alt="images"
+                            <a href="#"><img src="{{asset('uploads/events/'.$c->image)}}" alt="images"
                                     class="img-fluid" /></a>
                         </div>
                         <div class="contentCard-bottom">
                             <h5>
                                 <a href="{{route('courseDetails', encryptor('encrypt', $c->id))}}"
-                                    class="font-title--card">{{$c->title_en}}</a>
+                                    class="font-title--card">{{$c->title}}</a>
                             </h5>
                             <div class="contentCard-more">
                                 <div class="d-flex align-items-center">
@@ -1186,28 +1196,29 @@
                                         <img src="{{asset('frontend/dist/images/icon/location.png')}}"
                                             alt="location" />
                                     </div>
-                                    <span>Chicago, Illinois</span>
+                                    <span>{{$c->location}}</span>
                                 </div>
                                 <div class="d-flex align-items-center">
                                     <div class="icon">
                                         <img src="{{asset('frontend/dist/images/icon/calendar.png')}}"
                                             alt="calendar" />
                                     </div>
-                                    <span>29th jan, 2020</span>
+                                    <span>{{ \Carbon\Carbon::parse($c->date)->format('j F, Y, l') }}</span>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>                    
                     @empty
+                    <p>No event available</p>
                     @endforelse
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12 text-center">
-                <a href="{{route('searchCourse')}}" class="button button-lg button--primary mt-lg-5 mt-5">Browse all
-                    events</a>
-            </div>
+                    <div class="col-lg-12 text-center">
+                        <a href="{{route('searchCourse')}}" class="button button-lg button--primary mt-lg-5 mt-5">Browse all
+                            events</a>
+                    </div>
         </div>
     </div>
     <div class="main-events-featured-shape">

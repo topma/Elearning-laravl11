@@ -155,7 +155,7 @@
                                                 </li>
                                             </ul>
                                             <a class="btn btn-outline-primary btn-rounded mt-3 px-4"
-                                                href="about-student.html">Read More</a>
+                                                href="#">Read More</a>
                                         </div>
                                     </div>
                                 </div>

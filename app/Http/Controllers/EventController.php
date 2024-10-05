@@ -45,7 +45,7 @@ class EventController extends Controller
                 $event->image = $imageName;
             }
             if ($event->save()) {
-                $this->notice::success('Data Saved');
+                $this->notice::success('Event saved');
                 return redirect()->route('event.index');
             } else {
                 $this->notice::error('Please try again');
@@ -95,7 +95,7 @@ class EventController extends Controller
                 $event->image = $imageName;
             }
             if ($event->save()) {
-                $this->notice::success('Data Saved');
+                $this->notice::success('Event Saved');
                 return redirect()->route('event.index');
             } else {
                 $this->notice::error('Please try again');

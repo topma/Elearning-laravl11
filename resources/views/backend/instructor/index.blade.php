@@ -158,7 +158,7 @@
                                                 </li>
                                             </ul>
                                             <a class="btn btn-outline-primary btn-rounded mt-3 px-4"
-                                                href="#">Read More</a>
+                                                href="{{route('instructorProfile', encryptor('encrypt', $d->id))}}">Read More</a>
                                         </div>
                                     </div>
                                 </div>

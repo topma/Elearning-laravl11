@@ -24,9 +24,17 @@ class MaterialController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        $lesson= Lesson::get();
+        $lessonId = $request->query('lesson_id');
+        $decryptedId = encryptor('decrypt', $lessonId);
+        // Check if the ID is valid
+        if (!$decryptedId) {
+            // Handle the error (redirect, return error message, etc.)
+            return redirect()->back()->withErrors(['error' => 'Invalid lesson ID.']);
+        }
+        
+        $lesson = Lesson::findOrFail($decryptedId);
         return view('backend.course.material.create', compact('lesson'));
     }
 
@@ -49,7 +57,7 @@ class MaterialController extends Controller
                 $material->content = $contentName;
             }
             if ($material->save()) {
-                return redirect()->route('material.index')->with('success', 'Data Saved');;
+                return redirect()->route('material.show', encryptor('encrypt', $request->lessonId))->with('success', 'Data Saved');;
             } else {
                 return redirect()->back()->withInput()->with('error', 'Please try again');
             }
@@ -96,7 +104,7 @@ class MaterialController extends Controller
             }
             if ($material->save()) {
                 $this->notice::success('Data Saved');
-                return redirect()->route('material.index');
+                return redirect()->route('material.show', encryptor('encrypt', $request->lessonId));
             } else {
                 $this->notice::error('Please try again');
                 return redirect()->back()->withInput();

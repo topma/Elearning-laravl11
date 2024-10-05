@@ -82,7 +82,7 @@
                                                 </li>
                                                 <li class="list-group-item px-0 d-flex justify-content-between">
                                                     <span class="mb-0">Price :</span>
-                                                    <strong>{{$d->price?'=N='. number_format($d->price,2):'Free'}}</strong>
+                                                    <strong>{{ $d->price && $d->price > 0 ? $d->currency_type . number_format($d->price, 2) : 'Free' }}</strong>
                                                 </li>
                                                 <li class="list-group-item px-0 d-flex justify-content-between">
                                                     <span class="mb-0">No of Lessons Uploaded :</span>

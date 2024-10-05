@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Title</label>
+                                        <label class="form-label">Course Name</label>
                                         <input type="text" class="form-control" name="courseTitle_en"
                                             value="{{old('courseTitle_en',$course->title_en)}}">
                                     </div>
@@ -162,6 +162,26 @@
                                     </div>
                                     @if($errors->has('courseDifficulty'))
                                     <span class="text-danger"> {{ $errors->first('courseDifficulty') }}</span>
+                                    @endif
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Currency Type</label>
+                                        <select class="form-control" name="currencyType">
+                                            <option value="=N=" @if(old('currencyType', $course->currency_type)=='=N=' ) selected
+                                                @endif>Naira
+                                            </option>
+                                            <option value="$" @if(old('currencyType', $course->currency_type)=='$' ) selected
+                                                @endif>Dollar
+                                            </option>
+                                            <option value="£" @if(old('currencyType', $course->currency_type)=='£' )selected 
+                                                @endif>Pounds</option>
+                                                <option value="€" @if(old('currencyType', $course->currency_type)=='€' )selected 
+                                                @endif>Euro</option>
+                                        </select>
+                                    </div>
+                                    @if($errors->has('currencyType'))
+                                    <span class="text-danger"> {{ $errors->first('currencyType') }}</span>
                                     @endif
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
@@ -418,6 +438,23 @@
                                     @if($errors->has('courseDifficulty'))
                                     <span class="text-danger"> {{ $errors->first('courseDifficulty') }}</span>
                                     @endif
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Currency Type</label>
+                                        <select class="form-control" name="currencyType">
+                                            <option value="=N=" @if(old('currencyType', $course->currency_type)=='=N=' ) selected
+                                                @endif>Naira
+                                            </option>
+                                            <option value="$" @if(old('currencyType', $course->currency_type)=='$' ) selected
+                                                @endif>Dollar
+                                            </option>
+                                            <option value="£" @if(old('currencyType', $course->currency_type)=='£' )selected 
+                                                @endif>Pounds</option>
+                                                <option value="€" @if(old('currencyType', $course->currency_type)=='€' )selected 
+                                                @endif>Euro</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">

@@ -72,6 +72,7 @@ class CourseController extends Controller
             $course->course_category_id = $request->categoryId;
             $course->instructor_id = $request->instructorId;
             $course->type = $request->courseType;
+            $course->currency_type = $request->currencyType;
             $course->price = $request->coursePrice;
             $course->old_price = $request->courseOldPrice;
             $course->subscription_price = $request->subscriptionPrice;
@@ -151,6 +152,7 @@ class CourseController extends Controller
             $course->course_category_id = $request->categoryId;
             $course->instructor_id = $request->instructorId;
             $course->type = $request->courseType;
+            $course->currency_type = $request->currencyType;
             $course->price = $request->coursePrice;
             $course->old_price = $request->courseOldPrice; 
             $course->subscription_price = $request->subscription_price;
@@ -198,6 +200,7 @@ class CourseController extends Controller
             $course->course_category_id = $request->categoryId;
             $course->instructor_id = $request->instructorId;
             $course->type = $request->courseType;
+            $course->currency_type = $request->currencyType;
             $course->price = $request->coursePrice;
             $course->old_price = $request->courseOldPrice; 
             $course->subscription_price = $request->subscription_price;

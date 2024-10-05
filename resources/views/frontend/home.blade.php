@@ -51,9 +51,10 @@
             <div class="categories--box">
                 @forelse ($category as $cat)
                 @php
-                // Fetch the count of courses for each category
-                $courseCount = $cat->course()->count();
+                // Fetch the count of courses where status = 2 for the given category
+                $courseCount = $cat->course()->where('status', 2)->count();
                 @endphp
+                
                 <div class="browse-categories-item default-item-one mb-2">
                     <div class="browse-categories-item-icon">
                     <div class="categories-one default-categories">
@@ -125,8 +126,8 @@
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pills-bus-tab" data-bs-toggle="pill"
-                                    data-bs-target="#pills-bus" type="button" role="tab" aria-controls="pills-bus"
+                                <button class="nav-link" id="pills-sales-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-sales" type="button" role="tab" aria-controls="pills-sales"
                                     aria-selected="false">
                                     Sales & Marketing
                                 </button>
@@ -175,8 +176,8 @@
                                             <p class="font-para--md">{{$pc?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                            <span>{{$pc->price?'=N='.$pc->price:'Free'}}</span>
-                                            <del>{{$pc->old_price?'=N='.$pc->old_price:''}}</del>
+                                        <span>{{ $pc->price && $pc->price > 0 ? $pc->currency_type . $pc->price : 'Free' }}</span>
+                                        <del>{{ $pc->old_price && $pc->old_price > 0 ? $pc->currency_type . $pc->old_price : '' }}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">
@@ -248,8 +249,8 @@
                                             <p class="font-para--md">{{$dc?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                            <span>{{$dc->price?'=N='.$dc->price:'Free'}}</span>
-                                            <del>{{$dc->old_price?'=N='.$dc->old_price:''}}</del>
+                                        <span>{{ $dc->price && $dc->price > 0 ? $dc->currency_type . $dc->price : 'Free' }}</span>
+                                        <del>{{ $dc->old_price && $dc->old_price > 0 ? $dc->currency_type . $dc->old_price : '' }}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">
@@ -318,8 +319,8 @@
                                             <p class="font-para--md">{{$dac?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                            <span>{{$dac->price?'=N='.$dac->price:'Free'}}</span>
-                                            <del>{{$dac->old_price?'=N='.$dac->old_price:''}}</del>
+                                        <span>{{ $dac->price && $pc->price > 0 ? $dac->currency_type . $dac->price : 'Free' }}</span>
+                                        <del>{{ $dac->old_price && $dac->old_price > 0 ? $dac->currency_type . $dac->old_price : '' }}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">
@@ -387,8 +388,8 @@
                                             <p class="font-para--md">{{$sc?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                            <span>{{$sc->price?'=N='.$sc->price:'Free'}}</span>
-                                            <del>{{$sc->old_price?'=N='.$sc->old_price:''}}</del>
+                                        <span>{{ $sc->price && $sc->price > 0 ? $sc->currency_type . $sc->price : 'Free' }}</span>
+                                        <del>{{ $sc->old_price && $sc->old_price > 0 ? $sc->currency_type . $sc->old_price : '' }}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">
@@ -409,13 +410,13 @@
                                             <div class="icon">
                                                 <img src="{{asset('frontend/dist/images/icon/book.png')}}" alt="location" />
                                             </div>
-                                            <span>{{$dac->lesson?$dac->lesson:0}} Lesson</span>
+                                            <span>{{$sc->lesson?$sc->lesson:0}} Lesson</span>
                                         </div>
                                         <div class="clock d-flex align-items-center">
                                             <div class="icon">
                                                 <img src="{{asset('frontend/dist/images/icon/Clock.png')}}" alt="clock" />
                                             </div>
-                                            <span>{{$dac->duration?$dac->duration:0}} Hours</span>
+                                            <span>{{$sc->duration?$sc->duration:0}} Hours</span>
                                         </div>
                                     </div>
                                 </div>
@@ -458,8 +459,8 @@
                                             <p class="font-para--md">{{$dv?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                            <span>{{$dv->price?'=N='.$dv->price:'Free'}}</span>
-                                            <del>{{$dv->old_price?'=N='.$dv->old_price:''}}</del>
+                                        <span>{{ $dv->price && $dv->price > 0 ? $dv->currency_type . $dv->price : 'Free' }}</span>
+                                        <del>{{ $dv->old_price && $dv->old_price > 0 ? $dv->currency_type . $dv->old_price : '' }}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">
@@ -529,8 +530,8 @@
                                             <p class="font-para--md">{{$bc?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                            <span>{{$bc->price?'=N='.$bc->price:'Free'}}</span>
-                                            <del>{{$bc->old_price?'=N='.$bc->old_price:''}}</del>
+                                        <span>{{ $bc->price && $bc->price > 0 ? $bc->currency_type . $bc->price : 'Free' }}</span>
+                                        <del>{{ $bc->old_price && $bc->old_price > 0 ? $bc->currency_type . $bc->old_price : '' }}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">
@@ -600,8 +601,8 @@
                                             <p class="font-para--md">{{$ic?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                            <span>{{$ic->price?'=N='.$ic->price:'Free'}}</span>
-                                            <del>{{$ic->old_price?'=N='.$ic->old_price:''}}</del>
+                                        <span>{{ $ic->price && $ic->price > 0 ? $ic->currency_type . $ic->price : 'Free' }}</span>
+                                        <del>{{ $ic->old_price && $ic->old_price > 0 ? $ic->currency_type . $ic->old_price : '' }}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">

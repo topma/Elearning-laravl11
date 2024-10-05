@@ -40,7 +40,7 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Title</label>
+                                        <label class="form-label">Course Name</label>
                                         <input type="text" class="form-control" name="courseTitle_en"
                                             value="{{old('courseTitle_en')}}">
                                     </div>
@@ -133,6 +133,17 @@
                                             <option value="advanced" @if(old('courseDifficulty')=='advanced' ) selected
                                                 @endif>Advanced
                                             </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Currency Type</label>
+                                        <select class="form-control" name="currencyType">
+                                            <option value="=N=" @if(old('currencyType')=='=N=' ) selected @endif>Naira</option>
+                                            <option value="$" @if(old('currencyType')=='$' ) selected @endif>Dollar</option>
+                                            <option value="£" @if(old('currencyType')=='£' )selected @endif>Pounds</option>
+                                            <option value="€" @if(old('currencyType')=='€' )selected @endif>Euro</option>
                                         </select>
                                     </div>
                                 </div>

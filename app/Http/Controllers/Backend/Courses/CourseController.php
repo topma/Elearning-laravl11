@@ -119,8 +119,10 @@ class CourseController extends Controller
     public function frontShow($id)
     {
         $course = Course::findOrFail(encryptor('decrypt', $id));
+        $courseId = $course->id;
+        $lesson = Lesson::where('course_id', $courseId)->get();
         // dd($course); 
-        return view('frontend.courseDetails', compact('course'));
+        return view('frontend.courseDetails', compact('course','lesson'));
     } 
 
 

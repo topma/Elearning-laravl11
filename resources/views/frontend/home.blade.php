@@ -176,8 +176,8 @@
                                             <p class="font-para--md">{{$pc?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                        <span>{{ $pc->price && $pc->price > 0 ? $pc->currency_type . $pc->price : 'Free' }}</span>
-                                        <del>{{ $pc->old_price && $pc->old_price > 0 ? $pc->currency_type . $pc->old_price : '' }}</del>
+                                        <span>{{ $pc->price && $pc->price > 0 ? $pc->currency_type . number_format($pc->price,2) : 'Free' }}</span>
+                                        <del>{{ $pc->old_price && $pc->old_price > 0 ? $pc->currency_type . number_format($pc->old_price,2) : '' }}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">
@@ -207,7 +207,7 @@
                                                 <img src="{{asset('frontend/dist/images/icon/Clock.png')}}"
                                                     alt="clock" />
                                             </div>
-                                            <span>{{$pc->duration?$pc->duration:0}} Hours</span>
+                                            <!-- <span>{{$pc->duration?$pc->duration:0}} </span> -->
                                         </div>
                                     </div>
                                 </div>
@@ -249,8 +249,8 @@
                                             <p class="font-para--md">{{$dc?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                        <span>{{ $dc->price && $dc->price > 0 ? $dc->currency_type . $dc->price : 'Free' }}</span>
-                                        <del>{{ $dc->old_price && $dc->old_price > 0 ? $dc->currency_type . $dc->old_price : '' }}</del>
+                                        <span>{{ $dc->price && $dc->price > 0 ? $dc->currency_type . number_format($dc->price,2) : 'Free' }}</span>
+                                        <del>{{ $dc->old_price && $dc->old_price > 0 ? $dc->currency_type . number_format($dc->old_price,2) : '' }}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">
@@ -277,7 +277,7 @@
                                             <div class="icon">
                                                 <img src="{{asset('frontend/dist/images/icon/Clock.png')}}" alt="clock" />
                                             </div>
-                                            <span>{{$dc->duration?$dc->duration:0}} Hours</span>
+                                            <!-- <span>{{$dc->duration?$dc->duration:0}} </span> -->
                                         </div>
                                     </div>
                                 </div>
@@ -319,8 +319,8 @@
                                             <p class="font-para--md">{{$dac?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                        <span>{{ $dac->price && $pc->price > 0 ? $dac->currency_type . $dac->price : 'Free' }}</span>
-                                        <del>{{ $dac->old_price && $dac->old_price > 0 ? $dac->currency_type . $dac->old_price : '' }}</del>
+                                        <span>{{ $dac->price && $dac->price > 0 ? $dac->currency_type . number_format($dac->price,2) : 'Free' }}</span>
+                                        <del>{{ $dac->old_price && $dac->old_price > 0 ? $dac->currency_type . number_format($dac->old_price,2) : '' }}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">
@@ -346,7 +346,7 @@
                                             <div class="icon">
                                                 <img src="{{asset('frontend/dist/images/icon/Clock.png')}}" alt="clock" />
                                             </div>
-                                            <span>{{$dac->duration?$dac->duration:0}} Hours</span>
+                                            <!-- <span>{{$dac->duration?$dac->duration:0}} </span> -->
                                         </div>
                                     </div>
                                 </div>
@@ -388,8 +388,8 @@
                                             <p class="font-para--md">{{$sc?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                        <span>{{ $sc->price && $sc->price > 0 ? $sc->currency_type . $sc->price : 'Free' }}</span>
-                                        <del>{{ $sc->old_price && $sc->old_price > 0 ? $sc->currency_type . $sc->old_price : '' }}</del>
+                                        <span>{{ $sc->price && $sc->price > 0 ? $sc->currency_type . number_format($sc->price,2) : 'Free' }}</span>
+                                        <del>{{ $sc->old_price && $sc->old_price > 0 ? $sc->currency_type . number_format($sc->old_price,2) : '' }}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">
@@ -416,7 +416,7 @@
                                             <div class="icon">
                                                 <img src="{{asset('frontend/dist/images/icon/Clock.png')}}" alt="clock" />
                                             </div>
-                                            <span>{{$sc->duration?$sc->duration:0}} Hours</span>
+                                            <!-- <span>{{$sc->duration?$sc->duration:0}} </span> -->
                                         </div>
                                     </div>
                                 </div>
@@ -459,8 +459,8 @@
                                             <p class="font-para--md">{{$dv?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                        <span>{{ $dv->price && $dv->price > 0 ? $dv->currency_type . $dv->price : 'Free' }}</span>
-                                        <del>{{ $dv->old_price && $dv->old_price > 0 ? $dv->currency_type . $dv->old_price : '' }}</del>
+                                        <span>{{ $dv->price && $dv->price > 0 ? $dv->currency_type . number_format($dv->price,2) : 'Free' }}</span>
+                                        <del>{{ $dv->old_price && $dv->old_price > 0 ? $dv->currency_type . number_format($dv->old_price,2) : '' }}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">
@@ -487,7 +487,7 @@
                                             <div class="icon">
                                                 <img src="{{asset('frontend/dist/images/icon/Clock.png')}}" alt="clock" />
                                             </div>
-                                            <span>{{$dv->duration?$dv->duration:0}} Hours</span>
+                                            <!-- <span>{{$dv->duration?$dv->duration:0}} </span> -->
                                         </div>
                                     </div>
                                 </div>
@@ -530,8 +530,8 @@
                                             <p class="font-para--md">{{$bc?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                        <span>{{ $bc->price && $bc->price > 0 ? $bc->currency_type . $bc->price : 'Free' }}</span>
-                                        <del>{{ $bc->old_price && $bc->old_price > 0 ? $bc->currency_type . $bc->old_price : '' }}</del>
+                                        <span>{{ $bc->price && $bc->price > 0 ? $bc->currency_type . number_format($bc->price,2) : 'Free' }}</span>
+                                        <del>{{ $bc->old_price && $bc->old_price > 0 ? $bc->currency_type . number_format($bc->old_price,2) : '' }}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">
@@ -558,7 +558,7 @@
                                             <div class="icon">
                                                 <img src="{{asset('frontend/dist/images/icon/Clock.png')}}" alt="clock" />
                                             </div>
-                                            <span>{{$bc->duration?$bc->duration:0}} Hours</span>
+                                            <!-- <span>{{$bc->duration?$bc->duration:0}} </span> -->
                                         </div>
                                     </div>
                                 </div>
@@ -601,8 +601,8 @@
                                             <p class="font-para--md">{{$ic?->instructor->name_en}}</p>
                                         </a>
                                         <div class="price">
-                                        <span>{{ $ic->price && $ic->price > 0 ? $ic->currency_type . $ic->price : 'Free' }}</span>
-                                        <del>{{ $ic->old_price && $ic->old_price > 0 ? $ic->currency_type . $ic->old_price : '' }}</del>
+                                        <span>{{ $ic->price && $ic->price > 0 ? $ic->currency_type . number_format($ic->price,2) : 'Free' }}</span>
+                                        <del>{{ $ic->old_price && $ic->old_price > 0 ? $ic->currency_type . number_format($ic->old_price,2) : '' }}</del>
                                         </div>
                                     </div>
                                     <div class="contentCard-more">
@@ -629,7 +629,7 @@
                                             <div class="icon">
                                                 <img src="{{asset('frontend/dist/images/icon/Clock.png')}}" alt="clock" />
                                             </div>
-                                            <span>{{$ic->duration?$ic->duration:0}} Hours</span>
+                                            <!-- <span>{{$ic->duration?$ic->duration:0}} </span> -->
                                         </div>
                                     </div>
                                 </div>

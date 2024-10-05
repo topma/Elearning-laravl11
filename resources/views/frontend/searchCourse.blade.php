@@ -258,7 +258,7 @@
                             </div>
                         </div>
                     </div> -->
-                    <!-- Search by Duration  -->
+                    <!-- Search by Duration 
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="durationAcc">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -319,7 +319,7 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -390,8 +390,8 @@
                                         <p class="font-para--md">{{$c->instructor?->name_en}}</p>
                                     </a>
                                     <div class="price">
-                                        <span>{{$c->price==null?'Free':'=N='.$c->price}}</span>
-                                        <del>{{$c->old_price?'=N='.$c->old_price:''}}</del>
+                                    <span>{{ $c->price && $c->price > 0 ? $c->currency_type . number_format($c->price,2) : 'Free' }}</span>
+                                    <del>{{ $c->old_price && $c->old_price > 0 ? $c->currency_type . number_format($c->old_price,2) : '' }}</del>
                                     </div>
                                 </div>
                                 <div class="contentCard-more">
@@ -402,13 +402,13 @@
                                         </div>
                                         <span>4.5</span>
                                     </div>
-                                    <div class="eye d-flex align-items-center">
+                                    <!-- <div class="eye d-flex align-items-center">
                                         <div class="icon">
                                             <img src="{{asset('frontend/dist/images/icon/eye.png')}}"
                                                 alt="eye" />
                                         </div>
                                         <span>24,517</span>
-                                    </div>
+                                    </div> -->
                                     <div class="book d-flex align-items-center">
                                         <div class="icon">
                                             <img src="{{asset('frontend/dist/images/icon/book.png')}}"
@@ -421,7 +421,7 @@
                                             <img src="{{asset('frontend/dist/images/icon/Clock.png')}}"
                                                 alt="clock" />
                                         </div>
-                                        <span>{{$c->duration}} Hours</span>
+                                        <!-- <span>{{$c->duration?$c->duration:0}}</span> -->
                                     </div>
                                 </div>
                             </div>

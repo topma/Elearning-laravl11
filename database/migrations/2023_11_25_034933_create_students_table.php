@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->text('bio')->nullable();
             $table->string('profession')->nullable();
-            $table->string('nationality')->default('Bangladeshi')->nullable();
+            $table->string('nationality')->nullable();
             $table->text('address')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();

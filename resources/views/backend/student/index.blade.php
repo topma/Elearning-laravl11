@@ -53,10 +53,12 @@
                                                 <th>{{__('Name')}}</th>
                                                 <th>{{__('Email')}}</th>
                                                 <th>{{__('Contact')}}</th>
-                                                <th>{{__('Role')}}</th>
+                                                <!-- <th>{{__('Role')}}</th> -->
                                                 <th>{{__('Gender')}}</th>
                                                 <th>{{__('Status')}}</th>
+                                                @if(auth()->user()->role_id == 1) 
                                                 <th>{{__('Action')}}</th>
+                                                @endif
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -67,7 +69,7 @@
                                                 <td><strong>{{$d->name_en}}</strong></td>
                                                 <td>{{$d->email}}</td>
                                                 <td>{{$d->contact_en}}</td>
-                                                <td>{{$d->role?->name}}</td>
+                                                <!-- <td>{{$d->role?->name}}</td> -->
                                                 <td>
                                                    {{ $d->gender == 'male' ? __('Male') : ($d->gender == 'female' ? __('Female') : __('Other')) }}
                                                 </td>
@@ -76,6 +78,7 @@
                                                         badge-success":"badge-danger"}}">@if($d->status==1){{__('Active')}}
                                                         @else{{__('Inactive')}} @endif</span>
                                                 </td>
+                                                @if(auth()->user()->role_id == 1) 
                                                 <td>
                                                     <a href="{{route('student.edit', encryptor('encrypt',$d->id))}}"
                                                         class="btn btn-sm btn-primary" title="Edit"><i
@@ -90,6 +93,7 @@
                                                         @method('DELETE')
                                                     </form>
                                                 </td>
+                                                @endif
                                             </tr>
                                             @empty
                                             <tr>

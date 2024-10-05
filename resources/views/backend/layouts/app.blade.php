@@ -67,7 +67,7 @@
                         </div>
 
                         <ul class="navbar-nav header-right">
-                            <li class="nav-item dropdown notification_dropdown">
+                            <!-- <li class="nav-item dropdown notification_dropdown">
                                 <a class="nav-link bell ai-icon" href="#" role="button" data-toggle="dropdown">
                                     <svg id="icon-user" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                         viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -134,14 +134,15 @@
                                     <a class="all-notification" href="#">See all notifications <i
                                             class="ti-arrow-right"></i></a>
                                 </div>
-                            </li>
+                            </li> -->
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" title="Profile Info" href="#" role="button" data-toggle="dropdown">
                                     <img src="{{asset('uploads/users/'.request()->session()->get('image'))}}"
                                         width="20" alt="">
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="{{route('userProfile')}}" class="dropdown-item ai-icon">
+                                    @if(auth()->user()->role_id == 1)
+                                    <a href="{{route('user.edit', encryptor('encrypt',auth()->user()->id))}}" class="dropdown-item ai-icon">
                                         <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                             viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
@@ -150,7 +151,29 @@
                                         </svg>
                                         <span class="ml-2">Profile</span>
                                     </a>
-                                    <a href="email-inbox.html" class="dropdown-item ai-icon">
+                                    @elseif(auth()->user()->role_id == 2) 
+                                    <a href="{{route('user.edit', encryptor('encrypt',auth()->user()->id))}}" class="dropdown-item ai-icon">
+                                        <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                            viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                        </svg>
+                                        <span class="ml-2">Profile</span>
+                                    </a>
+                                    @else
+                                    <a href="{{route('instructor.edit', encryptor('encrypt',auth()->user()->instructor_id))}}" class="dropdown-item ai-icon">
+                                        <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                            viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="feather feather-user">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                        </svg>
+                                        <span class="ml-2">Profile</span>
+                                    </a>
+
+                                    @endif
+                                    <!-- <a href="email-inbox.html" class="dropdown-item ai-icon">
                                         <svg id="icon-inbox" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                             viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail">
@@ -160,7 +183,7 @@
                                             <polyline points="22,6 12,13 2,6"></polyline>
                                         </svg>
                                         <span class="ml-2">Inbox </span>
-                                    </a>
+                                    </a> -->
                                     <a href="{{route('logOut')}}" class="dropdown-item ai-icon">
                                         <svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                             viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -200,7 +223,16 @@
                             <i class="las la-tachometer-alt"></i>
                             <span class="nav-text">Dashboard</span>
                         </a>
-                    </li>                    
+                    </li> 
+                    @if(auth()->user()->role_id == 1) 
+                    <li><a href="{{route('user.edit', encryptor('encrypt',auth()->user()->id))}}"><i
+                                        class="las la-chalkboard-teacher"></i>Profile</a>
+                            </li>   
+                    @else    
+                    <li><a href="{{route('instructor.edit', encryptor('encrypt',auth()->user()->id))}}"><i
+                                        class="las la-chalkboard-teacher"></i>Profile</a>
+                            </li> 
+                    @endif        
                     <li class="nav-label">Main Menu</li>
                     <li><a class="" href="{{route('role.index')}}" aria-expanded="false">
                             <i class="las la-cog"></i>
@@ -248,7 +280,7 @@
                             <span class="nav-text">Coupons</span>
                         </a>
                     </li>
-                    {{-- <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="las la-tasks"></i>
                             <span class="nav-text">Quizzes</span>
                         </a>
@@ -287,7 +319,12 @@
                             <li><a href="javascript:void()"><i class="lab la-gg-circle"></i>Subscription Fees</a></li>
                             <li><a href="{{route('coupon.index')}}"><i class="las la-tags"></i>Coupons</a></li>
                         </ul>
-                    </li> --}}
+                    </li> 
+                    <li><a class="" href="{{route('logOut')}}" aria-expanded="false">
+                            <i class="lab la-gg-circle"></i>
+                            <span class="nav-text">Logout</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -305,7 +342,16 @@
                 <li><a class="ai-icon" href="{{route('dashboard')}}" aria-expanded="false">
                         <i class="las la-tachometer-alt"></i> <span class="nav-text">Dashboard</span>
                     </a>
-                </li>                
+                </li>  
+                @if(auth()->user()->role_id == 1) 
+                    <li><a href="{{route('user.edit', encryptor('encrypt',auth()->user()->id))}}"><i
+                                        class="las la-chalkboard-teacher"></i>Profile</a>
+                            </li>   
+                    @else    
+                    <li><a href="{{route('instructor.edit', encryptor('encrypt',auth()->user()->id))}}"><i
+                                        class="las la-chalkboard-teacher"></i>Profile</a>
+                            </li> 
+                    @endif               
                 <li class="nav-label">Main Menu</li>
                 <li><a href="{{route('instructor.index')}}">
                         <i class="las la-chalkboard-teacher"></i>Instructors List
@@ -317,6 +363,7 @@
                 <li><a href="{{route('material.index')}}"><i class="las la-atom"></i></i>Course Materials</a></li>
                 <li><a href="{{route('coupon.index')}}"><i class="las la-tags"></i>Coupons</a></li>
                 <li><a href="{{route('enrollment.index')}}"><i class="las la-bullseye"></i>Enrollments</a></li>
+                <li><a href="{{route('logOut')}}"><i class="lab la-gg-circle"></i>Logout</a></li>
             </ul>
         </div>
         </div>

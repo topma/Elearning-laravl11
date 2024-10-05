@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Exception;
 use File;
 use DB;
+use Illuminate\Support\Facades\Log;
 
 class InstructorController extends Controller
 {
@@ -20,7 +21,18 @@ class InstructorController extends Controller
      */
     public function index()
     {
-        $instructor = Instructor::paginate(10);
+        $role_id = auth()->user()->role_id;
+        $user_id = auth()->user()->instructor_id;
+
+        // If role is Superadmin, show all instructors
+        if ($role_id == 1) {
+            $instructor = Instructor::paginate(10);
+        } 
+        // If role is Instructor, show all except the logged-in instructor
+        elseif ($role_id == 3) {
+            $instructor = Instructor::where('id', '!=', $user_id)->get();
+        }
+        
         return view('backend.instructor.index', compact('instructor'));
     }
 
@@ -49,6 +61,11 @@ class InstructorController extends Controller
             $instructor->role_id = $request->roleId;
             $instructor->bio = $request->bio;
             $instructor->designation = $request->designation;
+            $instructor->social_facebook = $request->social_facebook;
+            $instructor->social_twitter = $request->social_twitter;
+            $instructor->social_instagram = $request->social_instagram;
+            $instructor->social_linkedin = $request->social_linkedin;
+            $instructor->social_youtube = $request->social_youtube;
             $instructor->title = $request->title;
             $instructor->status = $request->status;
             $instructor->password = Hash::make($request->password);
@@ -125,6 +142,11 @@ class InstructorController extends Controller
             $instructor->role_id = $request->roleId;
             $instructor->bio = $request->bio;
             $instructor->designation = $request->designation;
+            $instructor->social_facebook = $request->social_facebook;
+            $instructor->social_twitter = $request->social_twitter;
+            $instructor->social_instagram = $request->social_instagram;
+            $instructor->social_linkedin = $request->social_linkedin;
+            $instructor->social_youtube = $request->social_youtube;
             $instructor->title = $request->title;
             $instructor->status = $request->status;
             $instructor->password = Hash::make($request->password);
@@ -156,7 +178,7 @@ class InstructorController extends Controller
             }
             return redirect()->back()->withInput()->with('error', 'Please try again');
         } catch (Exception $e) {
-            // dd($e);
+            Log::error('Update error: ' . $e->getMessage());   
             return redirect()->back()->withInput()->with('error', 'Please try again');
         }
     }

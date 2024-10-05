@@ -31,14 +31,14 @@
             <div class="col-lg-12">
                 <ul class="nav nav-pills mb-3">
                     <li class="nav-item"><a href="#list-view" data-toggle="tab"
-                            class="nav-link btn-primary mr-1 show active">List View</a></li>
-                    <li class="nav-item"><a href="#grid-view" data-toggle="tab" class="nav-link btn-primary">Grid
+                            class="nav-link btn-primary mr-1">List View</a></li>
+                    <li class="nav-item"><a href="#grid-view" data-toggle="tab" class="nav-link btn-primary show active">Grid
                             View</a></li>
                 </ul>
             </div>
             <div class="col-lg-12">
                 <div class="row tab-content">
-                    <div id="list-view" class="tab-pane fade active show col-lg-12">
+                    <div id="list-view" class="tab-pane fade col-lg-12">
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">All Instructors List </h4>
@@ -55,7 +55,9 @@
                                                 <th>{{__('Contact')}}</th>
                                                 <th>{{__('Designation')}}</th>
                                                 <th>{{__('Status')}}</th>
+                                                @if(auth()->user()->role_id == 1) 
                                                 <th>{{__('Action')}}</th>
+                                                @endif
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -73,7 +75,8 @@
                                                     <span class="badge {{$d->status==1?"
                                                         badge-success":"badge-danger"}}">@if($d->status==1){{__('Active')}}
                                                         @else{{__('Inactive')}} @endif</span>
-                                                </td>
+                                                </td> 
+                                                @if(auth()->user()->role_id == 1)                                               
                                                 <td>
                                                     <a href="{{route('instructor.edit', encryptor('encrypt',$d->id))}}"
                                                         class="btn btn-sm btn-primary" title="Edit"><i
@@ -88,6 +91,7 @@
                                                         @method('DELETE')
                                                     </form>
                                                 </td>
+                                                   @endif
                                             </tr>
                                             @empty
                                             <tr>
@@ -100,7 +104,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="grid-view" class="tab-pane fade col-lg-12">
+                    <div id="grid-view" class="tab-pane fade active show col-lg-12">
                         <div class="row">
                             @forelse ($instructor as $d)
                             <div class="col-lg-4 col-md-6 col-sm-6 col-12">
@@ -110,13 +114,22 @@
                                             <button class="btn btn-link" type="button" data-toggle="dropdown">
                                                 <span class="dropdown-dots fs--1"></span>
                                             </button>
-                                            <div class="dropdown-menu dropdown-menu-right border py-0">
+                                            <div class="dropdown-menu dropdown-menu-right border py-0"> 
+                                            @if(auth()->user()->role_id == 1)                                            
                                                 <div class="py-2">
                                                     <a class="dropdown-item"
                                                         href="{{route('instructor.edit', encryptor('encrypt',$d->id))}}">Edit</a>
-                                                    <a class="dropdown-item text-danger"
-                                                        href="javascript:void(0);">Delete</a>
+                                                    
+                                                        <a class="dropdown-item text-danger"
+                                                        href="javascript:void(0);" title="Delete" onclick="$('#form{{$d->id}}').submit()">Delete</a>
+                                                        <form id="form{{$d->id}}"
+                                                        action="{{route('instructor.destroy', encryptor('encrypt',$d->id))}}"
+                                                        method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
                                                 </div>
+                                            @endif                                            
                                             </div>
                                         </div>
                                     </div>
@@ -127,7 +140,7 @@
                                                     height="100" class="rounded-circle" alt="">
                                             </div>
                                             <h3 class="mt-4 mb-1">{{$d->name_en}}</h3>
-                                            <p class="text-muted">{{$d->role?->name}}</p>
+                                            <p class="text-muted">{{$d->designation}}</p>
                                             <ul class="list-group mb-3 list-group-flush">
                                                 <li class="list-group-item px-0 d-flex justify-content-between">
                                                     <span>Phone No. :</span>

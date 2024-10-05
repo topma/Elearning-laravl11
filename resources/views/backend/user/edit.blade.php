@@ -23,7 +23,7 @@
         <div class="row page-titles mx-0">
             <div class="col-sm-6 p-md-0">
                 <div class="welcome-text">
-                    <h4>Add User</h4>
+                    <h4>Edit User</h4>
                 </div>
             </div>
             <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
@@ -68,7 +68,7 @@
                                     <span class="text-danger"> {{ $errors->first('contactNumber_en') }}</span>
                                     @endif
                                 </div>
-                                
+                                @if(auth()->user()->role_id == 1)
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Email</label>
@@ -78,7 +78,7 @@
                                     @if($errors->has('emailAddress'))
                                     <span class="text-danger"> {{ $errors->first('emailAddress') }}</span>
                                     @endif
-                                </div>
+                                </div>                                
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Role</label>
@@ -118,6 +118,41 @@
                                         </select>
                                     </div>
                                 </div>
+                                @else
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Email</label>
+                                        <p>{{$instructor->email}}</p>
+                                    </div>                                    
+                                </div>    
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Role</label>
+                                        <strong>@if($instructor->role_id == 1)
+                                                <p> Superadmin </p>
+                                            @elseif($instructor->role_id == 2)
+                                                <p> Admin </p>
+                                            @elseif($instructor->role_id == 3)
+                                                <p> Instructor </p>
+                                            @else
+                                                <p> Unknown Role </p>
+                                            @endif
+                                        </strong>
+                                    </div>                                    
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Full Access</label>
+                                        <p>{{$instructor->full_access}}</p>
+                                    </div>                                    
+                                </div> 
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Status</label>
+                                        <p>{{$instructor->status}}</p>                                        
+                                    </div>                                    
+                                </div> 
+                                @endif
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <label class="form-label">Image(If applicable)</label>
                                     <div class="form-group fallback w-100">

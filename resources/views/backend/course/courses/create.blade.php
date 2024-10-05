@@ -50,13 +50,6 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">টাইটেল (বাংলায়)</label>
-                                        <input type="text" class="form-control" name="courseTitle_bn"
-                                            value="{{old('courseTitle_bn')}}">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
                                         <label class="form-label">Description</label>
                                         <textarea class="form-control" name="courseDescription_en">{{old('courseDescription_en')}}</textarea>
                                     </div>
@@ -64,6 +57,14 @@
                                     <span class="text-danger"> {{ $errors->first('courseDescription_en') }}</span>
                                     @endif
                                 </div>
+                                <!-- <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">টাইটেল (বাংলায়)</label>
+                                        <input type="text" class="form-control" name="courseTitle_bn"
+                                            value="{{old('courseTitle_bn')}}">
+                                    </div>
+                                </div>
+                                
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">বিস্তারিত (বাংলায়)</label>
@@ -73,7 +74,7 @@
                                     @if($errors->has('courseDescription_bn'))
                                     <span class="text-danger"> {{ $errors->first('courseDescription_bn') }}</span>
                                     @endif
-                                </div>
+                                </div> -->
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Category</label>
@@ -176,7 +177,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Duration</label>
+                                        <label class="form-label">Duration(Minutes)</label>
                                         <input type="number" class="form-control" name="duration"
                                             value="{{old('duration')}}">
                                     </div>
@@ -204,7 +205,7 @@
                                     <span class="text-danger"> {{ $errors->first('prerequisites_en') }}</span>
                                     @endif
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                <!-- <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">পূর্বশর্ত (বাংলায়)</label>
                                         <textarea class="form-control" name="prerequisites_bn"
@@ -213,7 +214,7 @@
                                     @if($errors->has('prerequisites_bn'))
                                     <span class="text-danger"> {{ $errors->first('prerequisites_bn') }}</span>
                                     @endif
-                                </div>
+                                </div> -->
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Course Code</label>

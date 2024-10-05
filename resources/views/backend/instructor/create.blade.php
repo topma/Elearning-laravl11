@@ -38,6 +38,15 @@
                         <form action="{{route('instructor.store')}}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Title</label>
+                                        <input type="text" class="form-control" name="title" value="{{old('title')}}">
+                                    </div>
+                                    @if($errors->has('title'))
+                                    <span class="text-danger"> {{ $errors->first('title') }}</span>
+                                    @endif
+                                </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Name</label>
@@ -93,16 +102,66 @@
                                     @if($errors->has('designation'))
                                     <span class="text-danger"> {{ $errors->first('designation') }}</span>
                                     @endif
+                                </div>   
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Bio</label>
+                                        <textarea class="form-control" name="bio" value="{{old('bio')}}"></textarea>
+                                    </div>
+                                    @if($errors->has('bio'))
+                                    <span class="text-danger"> {{ $errors->first('bio') }}</span>
+                                    @endif
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Title</label>
-                                        <input type="text" class="form-control" name="title" value="{{old('title')}}">
+                                        <label class="form-label">Social Facebook Link</label>
+                                        <input type="text" class="form-control" name="social_facebook"
+                                            value="{{old('social_facebook')}}">
                                     </div>
-                                    @if($errors->has('title'))
-                                    <span class="text-danger"> {{ $errors->first('title') }}</span>
+                                    @if($errors->has('social_facebook'))
+                                    <span class="text-danger"> {{ $errors->first('social_facebook') }}</span>
                                     @endif
-                                </div>
+                                </div>         
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Social Instagram Link</label>
+                                        <input type="text" class="form-control" name="social_instagram"
+                                            value="{{old('social_instagram')}}">
+                                    </div>
+                                    @if($errors->has('social_instagram'))
+                                    <span class="text-danger"> {{ $errors->first('social_instagram') }}</span>
+                                    @endif
+                                </div>  
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Social Twitter Link</label>
+                                        <input type="text" class="form-control" name="social_twitter"
+                                            value="{{old('social_twitter')}}">
+                                    </div>
+                                    @if($errors->has('social_twitter'))
+                                    <span class="text-danger"> {{ $errors->first('social_twitter') }}</span>
+                                    @endif
+                                </div>    
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Social LinkedIn Link</label>
+                                        <input type="text" class="form-control" name="social_linkedin"
+                                            value="{{old('social_linkedin')}}">
+                                    </div>
+                                    @if($errors->has('social_linkedin'))
+                                    <span class="text-danger"> {{ $errors->first('social_linkedin') }}</span>
+                                    @endif
+                                </div> 
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Social Youtube Link</label>
+                                        <input type="text" class="form-control" name="social_youtube"
+                                            value="{{old('social_youtube')}}">
+                                    </div>
+                                    @if($errors->has('social_youtube'))
+                                    <span class="text-danger"> {{ $errors->first('social_youtube') }}</span>
+                                    @endif
+                                </div>                                          
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Status</label>
@@ -120,16 +179,7 @@
                                     @if($errors->has('password'))
                                     <span class="text-danger"> {{ $errors->first('password') }}</span>
                                     @endif
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Bio</label>
-                                        <textarea class="form-control" name="bio" value="{{old('bio')}}"></textarea>
-                                    </div>
-                                    @if($errors->has('bio'))
-                                    <span class="text-danger"> {{ $errors->first('bio') }}</span>
-                                    @endif
-                                </div>
+                                </div>                                
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <label class="form-label">Image</label>
                                     <div class="form-group fallback w-100">

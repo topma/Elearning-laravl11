@@ -44,6 +44,19 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
+                                        <label class="form-label">Course</label>
+                                        <select name="course_id" id="course_id" class="form-control">
+                                            @foreach($course as $co)
+                                            <option value="{{$co->id}}">{{$co->title_en}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @if($errors->has('course_id'))
+                                    <span class="text-danger"> {{$errors->first('course_id')}}</span>
+                                    @endif
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
                                         <label class="form-label">Coupon Code</label>
                                         <input type="text" class="form-control" name="code"
                                             value="{{old('code')}}">
@@ -54,7 +67,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Discount</label>
+                                        <label class="form-label">Discount(%)</label>
                                         <input type="text" class="form-control" name="discount"
                                             value="{{old('discount')}}">
                                     </div>
@@ -83,6 +96,7 @@
                                     @endif
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <input type="hidden" name="instructor_id" value="$co->instructor_id">
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                     <button type="submit" class="btn btn-light">Cancel</button>
                                 </div>

@@ -120,9 +120,11 @@ class CourseController extends Controller
     {
         $course = Course::findOrFail(encryptor('decrypt', $id));
         $courseId = $course->id;
+        $instructorId = $course->instructor_id;
         $lesson = Lesson::where('course_id', $courseId)->get();
+        $courseNo = Course::where('instructor_id', $instructorId)->get();
         // dd($course); 
-        return view('frontend.courseDetails', compact('course','lesson'));
+        return view('frontend.courseDetails', compact('course','lesson','courseNo'));
     } 
 
 

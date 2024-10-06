@@ -137,13 +137,13 @@
                                 Instructor
                             </button>
                         </li>
-                        <li class="nav-item" role="presentation">
+                        <!-- <li class="nav-item" role="presentation">
                             <button class="nav-link me-0 font-para--lg" id="pills-course-review-tab"
                                 data-bs-toggle="pill" data-bs-target="#pills-review" type="button" role="tab"
                                 aria-controls="pills-course-review-tab" aria-selected="false">
                                 Review
                             </button>
-                        </li>
+                        </li> -->
                     </ul>
 
                     <div class="tab-content course-overview-content" id="pills-tabContentTwo">
@@ -223,19 +223,22 @@
                                             </div>
                                         </div>
                                         <div class="curriculum-area-bottom collapse show" id="collapse1">
-                                            @foreach($lesson as $key => ls)
+                                            @foreach($lesson as $key => $ls)
                                             <div class="curriculum-description">
                                                 <div class="curriculum-description-start">
                                                     <p>
                                                         <a href="#">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                height="24" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="feather feather-play-circle">
-                                                                <circle cx="12" cy="12" r="10"></circle>
-                                                                <polygon points="10 8 16 12 10 16 10 8"></polygon>
-                                                            </svg>
+                                                        <svg width="18" height="19" viewBox="0 0 18 19" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M1.5 2.75H6C6.79565 2.75 7.55871 3.06607 8.12132 3.62868C8.68393 4.19129 9 4.95435 9 5.75V16.25C9 15.6533 8.76295 15.081 8.34099 14.659C7.91903 14.2371 7.34674 14 6.75 14H1.5V2.75Z"
+                                                            stroke="#00AF91" stroke-width="1.8" stroke-linecap="round"
+                                                            stroke-linejoin="round" />
+                                                        <path
+                                                            d="M16.5 2.75H12C11.2044 2.75 10.4413 3.06607 9.87868 3.62868C9.31607 4.19129 9 4.95435 9 5.75V16.25C9 15.6533 9.23705 15.081 9.65901 14.659C10.081 14.2371 10.6533 14 11.25 14H16.5V2.75Z"
+                                                            stroke="#00AF91" stroke-width="1.8" stroke-linecap="round"
+                                                            stroke-linejoin="round" />
+                                                    </svg>
                                                         </a>
                                                         <a href="#">{{$key + 1}} . {{$ls->title}}</a>
                                                     </p>
@@ -276,7 +279,7 @@
                                             <div class="instructor-text">
                                                 <h6 class="font-title--xs mb-0">
                                                     <a
-                                                        href="instructor-profile.html">{{$course->instructor?->name_en}}</a>
+                                                        href="{{route('instructorProfile',encryptor('encrypt', $course->instructor_id))}}">{{$course->instructor?->name_en}}</a>
                                                 </h6>
                                                 <p class="font-para--md">
                                                     {{($course->instructor?->designation)?$course->instructor?->designation:'No
@@ -304,16 +307,19 @@
                                                                 stroke="#00AF91" stroke-width="1.8"
                                                                 stroke-linecap="round" stroke-linejoin="round" />
                                                         </svg>
-
-                                                        <p class="font-para--md">5 Courses</p>
+                                                        @if($courseNo->count() > 1)
+                                                        <p class="font-para--md">{{$courseNo->count()}} Courses</p>
+                                                        @elseif($courseNo->count() == 1)
+                                                        <p class="font-para--md">{{$courseNo->count()}} Course</p>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <p class="lead-p font-para--lg">
-                                            {{($course->instructor?->title)?$course->instructor?->title:'No Title'}}</p>
+                                        <!-- <p class="lead-p font-para--lg">
+                                            {{($course->instructor?->title)?$course->instructor?->title:'n/a'}}</p>
                                         <p class="font-para--md">
-                                            {{($course->instructor?->bio)?$course->instructor?->bio:'No Title'}}</p>
+                                            {{($course->instructor?->bio)?$course->instructor?->bio:'n/a'}}</p> -->
                                     </div>
                                 </div>
                             </div>
@@ -2009,8 +2015,8 @@
                     <div class="cart">
                         <div class="cart__price">
                             <div class="current-price">
-                                <h3 class="font-title--sm">{{$course->price?'৳'.$course->price:'Free'}}</h3>
-                                <p><del>{{$course->old_price?'৳'.$course->old_price:''}}</del></p>
+                                <h3 class="font-title--sm">{{number_format($course->price,2)?$course->currency_type.number_format($course->price,2):'Free'}}</h3>
+                                <p><del>{{number_format($course->old_price,2)?$course->currency_type.number_format($course->old_price,2):''}}</del></p>
                             </div>
                             <div class="current-discount">
                                 <p class="font-para--md">90% off</p>

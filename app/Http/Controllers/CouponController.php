@@ -13,7 +13,15 @@ class CouponController extends Controller
      */
     public function index()
     {
-        $coupon= Coupon::get();
+        $userRoleId = auth()->user()->role_id;
+        $instructorId = auth()->user()->instructor_id;
+        if($userRoleId == 1){
+            $coupon= Coupon::get();
+        }
+        else{
+            $coupon= Coupon::where('instructor_id', $instructorId)->get();
+        }
+        
         return view('backend.coupon.index', compact('coupon'));
     }
 

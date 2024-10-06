@@ -45,6 +45,7 @@
                                         <thead>
                                             <tr>
                                                 <th>{{__('#')}}</th>
+                                                <th>{{__('Course')}}</th>
                                                 <th>{{__('Coupon Code')}}</th>
                                                 <th>{{__('Discount')}}</th>
                                                 <th>{{__('Valid From')}}</th>
@@ -53,15 +54,16 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ($coupon as $c)
+                                            @forelse ($coupon as $key => $c)
                                             <tr>
-                                                <td>{{$c->id}}</td>
+                                                <td>{{$key + 1}}</td>
+                                                <td>{{ $c->course ? $c->course->title_en : 'No Course' }}</td>
                                                 <td><strong>{{$c->code}}</strong></td>
                                                 <td><strong>{{$c->discount}}</strong></td>
                                                 <td>{{$c->valid_from}}</td>
                                                 <td>{{$c->valid_until}}</td>
                                                 <td>
-                                                    <a href="{{route('coupon.edit', $c->id)}}"
+                                                    <a href="{{route('coupon.edit', encryptor('encrypt', $c->id))}}"
                                                         class="btn btn-sm btn-primary" title="Edit"><i
                                                             class="la la-pencil"></i></a>
                                                     <a href="javascript:void(0);" class="btn btn-sm btn-danger"

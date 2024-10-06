@@ -18,11 +18,12 @@ class CouponController extends Controller
     {
         $userRoleId = auth()->user()->role_id;
         $instructorId = auth()->user()->instructor_id;
-        if($userRoleId == 1){
-            $coupon= Coupon::get();
-        }
-        else{
-            $coupon= Coupon::where('instructor_id', $instructorId)->get();
+        if ($userRoleId == 1) {
+            // Eager load the course relationship
+            $coupon = Coupon::with('course')->get();
+        } else {
+            // Eager load the course relationship for specific instructor
+            $coupon = Coupon::with('course')->where('instructor_id', $instructorId)->get();
         }
         
         return view('backend.coupon.index', compact('coupon'));
@@ -51,10 +52,15 @@ class CouponController extends Controller
      */
     public function store(AddNewRequest $request)
     {
+        // $data = [
+        //     'instructor_id' => $request->instructor_id,
+        //     'course_id' => $request->course_id,
+        // ];
+        // return response()->json(['data' => $data]);
         try {
             $coupon = new Coupon;
             $coupon->course_id = $request->course_id;
-            $course->instructor_id = $request->instructor_id;
+            $coupon->instructor_id = $request->instructor_id;
             $coupon->code = $request->code;
             $coupon->discount = $request->discount;
             $coupon->valid_from = $request->valid_from;
@@ -65,7 +71,7 @@ class CouponController extends Controller
                 else 
                 return redirect()->back()->withInput()->with('error', 'Please try again');
         } catch (\Exception $e) {
-            dd($e);
+            Log::error('Create error: ' . $e->getMessage());
             return redirect()->back()->withInput()->with('error', 'Please try again');
         }
     }
@@ -83,8 +89,10 @@ class CouponController extends Controller
      */
     public function edit($id)
     {
-        $coupon = Coupon::findOrFail($id);
-        return view('backend.coupon.edit', compact('coupon'));
+        $coupon = Coupon::findOrFail(encryptor('decrypt', $id));
+        $courseId = $coupon->course_id;
+        $course = Course::where('id', $courseId)->first();
+        return view('backend.coupon.edit', compact('coupon','course'));
     }
 
     /**
@@ -93,9 +101,9 @@ class CouponController extends Controller
     public function update(UpdateRequest $request, $id)
     {
         try {
-            $coupon = Coupon::findOrFail($id);
-            $coupon->course_id = $request->course_id;
-            $course->instructor_id = $request->instructor_id;
+            $coupon = Coupon::findOrFail(encryptor('decrypt', $id));
+            // $coupon->course_id = $request->course_id;
+            // $coupon->instructor_id = $request->instructor_id;
             $coupon->code = $request->code;
             $coupon->discount = $request->discount;
             $coupon->valid_from = $request->valid_from;

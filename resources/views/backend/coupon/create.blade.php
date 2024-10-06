@@ -48,6 +48,7 @@
                                         <select name="course_id" id="course_id" class="form-control">
                                             @foreach($course as $co)
                                             <option value="{{$co->id}}">{{$co->title_en}}</option>
+                                            <input type="hidden" name="instructor_id" value="{{$co->instructor_id}}">
                                             @endforeach
                                         </select>
                                     </div>
@@ -96,7 +97,7 @@
                                     @endif
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <input type="hidden" name="instructor_id" value="$co->instructor_id">
+                                    
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                     <button type="submit" class="btn btn-light">Cancel</button>
                                 </div>

@@ -19,7 +19,7 @@
         <div class="row page-titles mx-0">
             <div class="col-sm-6 p-md-0">
                 <div class="welcome-text">
-                    <h4>Edit Coupon</h4>
+                    <h4>Edit Coupon - {{$course->title_en}}</h4>
                 </div>
             </div>
             <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
@@ -38,7 +38,7 @@
                         <h5 class="card-title">Coupon Info</h5>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('coupon.update', $coupon->id) }}" method="post"
+                        <form action="{{ route('coupon.update', encryptor('encrypt',$coupon->id)) }}" method="post"
                             enctype="multipart/form-data">
                             @csrf
                             @method('PATCH')
@@ -84,7 +84,7 @@
                                     @endif
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
                                     <button type="submit" class="btn btn-light">Cancel</button>
                                 </div>
                             </div>

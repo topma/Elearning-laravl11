@@ -37,8 +37,8 @@
                         <p>By <a href="#">{{$details['instructor']}}</a></p>
                         <div class="bottom-wizard d-flex justify-content-between align-items-center">
                             <p>
-                                {{$details['price'] ? '৳' . $details['price'] : 'Free'}}
-                                <span><del>{{$details['old_price'] ? '৳' . $details['old_price'] : ''}}</del></span>
+                                {{$details['price'] ? $details['currency_type'] . $details['price'] : 'Free'}}
+                                <span><del>{{$details['old_price'] ? $details['currency_type'] . $details['old_price'] : ''}}</del></span>
                             </p>
                             <div class="trash-icon">
                                 <a href="#" class="remove-from-cart" data-id="{{$id}}">
@@ -52,7 +52,7 @@
                 @endif
             </div>
             <div class="col-lg-4">
-                <h6 class="cart-area__label">Summery</h6>
+                <h6 class="cart-area__label">Summary</h6>
                 <div class="summery-wizard">
                     <div class="summery-wizard-text pt-0">
                         <h6>Subtotal</h6>

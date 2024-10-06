@@ -11,6 +11,7 @@ use App\Models\CourseCategory;
 use App\Models\Instructor;
 use App\Models\Lesson;
 use App\Models\Material;
+use App\Models\Coupon;
 use Exception;
 use File; 
 
@@ -123,8 +124,9 @@ class CourseController extends Controller
         $instructorId = $course->instructor_id;
         $lesson = Lesson::where('course_id', $courseId)->get();
         $courseNo = Course::where('instructor_id', $instructorId)->get();
-        // dd($course); 
-        return view('frontend.courseDetails', compact('course','lesson','courseNo'));
+        $coupon = Coupon::where('course_id', $courseId)->first();       
+        // dd($coupon); 
+        return view('frontend.courseDetails', compact('course','lesson','courseNo','coupon'));
     } 
 
 

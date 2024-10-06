@@ -2019,11 +2019,51 @@
                                 <p><del>{{number_format($course->old_price,2)?$course->currency_type.number_format($course->old_price,2):''}}</del></p>
                             </div>
                             <div class="current-discount">
-                                <p class="font-para--md">90% off</p>
+                            @if(!empty($coupon))
+                                <p class="font-para--md">{{ number_format($coupon->discount, 0) }}% off</p>
+                            @else
+
+                            @endif
                             </div>
                         </div>
                         <div class="cart__checkout-process">
-                            <p class="time-left text-center"><span>5 hours</span> to remaining this price</p>
+                        @if(!empty($coupon))
+                            @php
+                                // Current date
+                                $now = \Carbon\Carbon::now();
+                                
+                                // Coupon's valid_until date
+                                $validUntil = \Carbon\Carbon::parse($coupon->valid_until);
+
+                                // Calculate the difference in days, hours, and minutes
+                                $diffInDays = $now->diffInDays($validUntil, false);
+                                $diffInHours = $now->diffInHours($validUntil, false) % 24; // Remaining hours after days
+                                $diffInMinutes = $now->diffInMinutes($validUntil, false) % 60; // Remaining minutes after hours
+                            @endphp
+
+                            @if($diffInDays > 0 || $diffInHours > 0 || $diffInMinutes > 0)
+                                <p class="time-left text-center">
+                                    @if($diffInDays > 0)
+                                        <span>{{ $diffInDays }} days</span>
+                                    @endif
+
+                                    @if($diffInHours > 0)
+                                        <span>{{ $diffInHours }} hours</span>
+                                    @endif
+
+                                    {{-- Only show minutes if no days --}}
+                                    @if($diffInMinutes > 0 && $diffInDays == 0)
+                                        <span>{{ $diffInMinutes }} minutes</span>
+                                    @endif
+                                    
+                                    remaining for this offer
+                                </p>
+                            @else
+                                <p class="time-left text-center">Offer has expired</p>
+                            @endif
+                        @endif
+
+
                             <form action="#">
                                 <a href="{{route('add.to.cart', $course->id)}}"
                                     class="text-white button button-lg button--primary w-100">Add to Cart</a>
@@ -2039,11 +2079,11 @@
                                             alt="dollar" /></span>
                                     <p class="font-para--md">Full Lifetime Access</p>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <span><img src="{{asset('frontend/dist/images/icon/clock-2.png')}}"
                                             alt="clock" /></span>
                                     <p class="font-para--md">30 Days Money Back Guarantee</p>
-                                </li>
+                                </li> -->
                                 <li>
                                     <span><img src="{{asset('frontend/dist/images/icon/paper-plus.png')}}"
                                             alt="paper-plus" /></span>
@@ -2052,7 +2092,7 @@
                                 <li>
                                     <span><img src="{{asset('frontend/dist/images/icon/airplay.png')}}"
                                             alt="airplay" /></span>
-                                    <p class="font-para--md">Access on Mobile , Tablet and TV</p>
+                                    <p class="font-para--md">Access on Mobile , Tablet and Laptop</p>
                                 </li>
                                 <li>
                                     <span><img src="{{asset('frontend/dist/images/icon/clipboard.png')}}"
@@ -2081,7 +2121,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ urlencode(route('courseDetails', encryptor('encrypt', $course->id))) }}">
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -2096,7 +2136,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="https://twitter.com/intent/tweet?url={{ urlencode(route('courseDetails', encryptor('encrypt', $course->id))) }}&text={{ urlencode($course->title_en) }}">
                                         <svg width="18" height="15" viewBox="0 0 18 15" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -2104,19 +2144,9 @@
                                                 fill="currentColor"></path>
                                         </svg>
                                     </a>
-                                </li>
+                                </li>                                
                                 <li>
-                                    <a href="#">
-                                        <svg width="18" height="14" viewBox="0 0 18 14" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" clip-rule="evenodd"
-                                                d="M16.0427 0.885481C16.8137 1.09312 17.4216 1.70094 17.6291 2.47204C18.0148 3.88048 17.9999 6.81629 17.9999 6.81629C17.9999 6.81629 17.9999 9.73713 17.6293 11.1457C17.4216 11.9167 16.8138 12.5246 16.0427 12.7321C14.6341 13.1029 8.99996 13.1029 8.99996 13.1029C8.99996 13.1029 3.38048 13.1029 1.95721 12.7174C1.18611 12.5098 0.57829 11.9018 0.37065 11.1309C0 9.73713 0 6.80146 0 6.80146C0 6.80146 0 3.88048 0.37065 2.47204C0.578153 1.70108 1.20094 1.07829 1.95707 0.870787C3.36565 0.5 8.99983 0.5 8.99983 0.5C8.99983 0.5 14.6341 0.5 16.0427 0.885481ZM11.8913 6.80154L7.20605 9.50006V4.10303L11.8913 6.80154Z"
-                                                fill="currentColor"></path>
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
+                                    <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('courseDetails', encryptor('encrypt', $course->id))) }}&t={{ urlencode($course->title_en) }}">
                                         <svg width="9" height="18" viewBox="0 0 9 18" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -2125,6 +2155,16 @@
                                         </svg>
                                     </a>
                                 </li>
+                                <!-- <li>
+                                    <a href="#">
+                                        <svg width="18" height="14" viewBox="0 0 18 14" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M16.0427 0.885481C16.8137 1.09312 17.4216 1.70094 17.6291 2.47204C18.0148 3.88048 17.9999 6.81629 17.9999 6.81629C17.9999 6.81629 17.9999 9.73713 17.6293 11.1457C17.4216 11.9167 16.8138 12.5246 16.0427 12.7321C14.6341 13.1029 8.99996 13.1029 8.99996 13.1029C8.99996 13.1029 3.38048 13.1029 1.95721 12.7174C1.18611 12.5098 0.57829 11.9018 0.37065 11.1309C0 9.73713 0 6.80146 0 6.80146C0 6.80146 0 3.88048 0.37065 2.47204C0.578153 1.70108 1.20094 1.07829 1.95707 0.870787C3.36565 0.5 8.99983 0.5 8.99983 0.5C8.99983 0.5 14.6341 0.5 16.0427 0.885481ZM11.8913 6.80154L7.20605 9.50006V4.10303L11.8913 6.80154Z"
+                                                fill="currentColor"></path>
+                                        </svg>
+                                    </a>
+                                </li> -->
                             </ul>
                         </div>
                     </div>

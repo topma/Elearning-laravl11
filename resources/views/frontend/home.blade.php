@@ -160,7 +160,7 @@
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
                                 <div class="contentCard-top">
-                                    <a href="#"><img src="{{asset('uploads/courses/'.$pc->image)}}" alt="images"
+                                    <a href="{{route('courseDetails', ['id' => encryptor('encrypt', $pc->id)])}}"><img src="{{asset('uploads/courses/'.$pc->image)}}" alt="images"
                                             class="img-fluid" /></a>
                                 </div>
                                 <div class="contentCard-bottom">
@@ -234,7 +234,7 @@
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
                                 <div class="contentCard-top">
-                                    <a href="#"><img src="{{asset('uploads/courses/'.$dc->image)}}" alt="images" class="img-fluid" /></a>
+                                    <a href="{{route('courseDetails', ['id' => encryptor('encrypt', $dc->id)])}}"><img src="{{asset('uploads/courses/'.$dc->image)}}" alt="images" class="img-fluid" /></a>
                                 </div>
                                 <div class="contentCard-bottom">
                                     <h5>
@@ -304,7 +304,7 @@
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
                                 <div class="contentCard-top">
-                                    <a href="#"><img src="{{asset('uploads/courses/'.$dac->image)}}" alt="images" class="img-fluid" /></a>
+                                    <a href="{{route('courseDetails', ['id' => encryptor('encrypt', $dac->id)])}}"><img src="{{asset('uploads/courses/'.$dac->image)}}" alt="images" class="img-fluid" /></a>
                                 </div>
                                 <div class="contentCard-bottom">
                                     <h5>
@@ -373,7 +373,7 @@
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
                                 <div class="contentCard-top">
-                                    <a href="#"><img src="{{asset('uploads/courses/'.$sc->image)}}" alt="images" class="img-fluid" /></a>
+                                    <a href="{{route('courseDetails', ['id' => encryptor('encrypt', $sc->id)])}}"><img src="{{asset('uploads/courses/'.$sc->image)}}" alt="images" class="img-fluid" /></a>
                                 </div>
                                 <div class="contentCard-bottom">
                                     <h5>
@@ -443,7 +443,7 @@
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
                                 <div class="contentCard-top">
-                                    <a href="#"><img src="{{asset('uploads/courses/'.$dv->image)}}" alt="images"
+                                    <a href="{{route('courseDetails', ['id' => encryptor('encrypt', $dv->id)])}}"><img src="{{asset('uploads/courses/'.$dv->image)}}" alt="images"
                                             class="img-fluid" /></a>
                                 </div>
                                 <div class="contentCard-bottom">
@@ -514,7 +514,7 @@
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
                                 <div class="contentCard-top">
-                                    <a href="#"><img src="{{asset('uploads/courses/'.$bc->image)}}" alt="images"
+                                    <a href="{{route('courseDetails', ['id' => encryptor('encrypt', $bc->id)])}}"><img src="{{asset('uploads/courses/'.$bc->image)}}" alt="images"
                                             class="img-fluid" /></a>
                                 </div>
                                 <div class="contentCard-bottom">
@@ -585,7 +585,7 @@
                         <div class="col-xl-4 col-md-6">
                             <div class="contentCard contentCard--course">
                                 <div class="contentCard-top">
-                                    <a href="#"><img src="{{asset('uploads/courses/'.$ic->image)}}" alt="images"
+                                    <a href="{{route('courseDetails', ['id' => encryptor('encrypt', $ic->id)])}}"><img src="{{asset('uploads/courses/'.$ic->image)}}" alt="images"
                                             class="img-fluid" /></a>
                                 </div>
                                 <div class="contentCard-bottom">

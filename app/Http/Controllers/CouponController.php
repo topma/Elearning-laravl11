@@ -41,7 +41,9 @@ class CouponController extends Controller
             $course = Course::get();
         }
         else{
-            $course= Course::where('instructor_id', $instructorId)->get();
+            $course= Course::where('instructor_id', $instructorId)
+            ->where('price','!=',0)
+            ->get();
         }
         
         return view('backend.coupon.create', compact('course'));
@@ -52,12 +54,16 @@ class CouponController extends Controller
      */
     public function store(AddNewRequest $request)
     {
-        // $data = [
-        //     'instructor_id' => $request->instructor_id,
-        //     'course_id' => $request->course_id,
-        // ];
-        // return response()->json(['data' => $data]);
         try {
+            // Check if a coupon already exists for the selected course
+            $existingCoupon = Coupon::where('course_id', $request->course_id)->first();
+            
+            if ($existingCoupon) {
+                // If a coupon already exists, return back with an error message
+                return redirect()->route('coupon.index')->with('error', 'A coupon has already been created for this course.');
+            }
+
+            // If no coupon exists, proceed to create a new coupon
             $coupon = new Coupon;
             $coupon->course_id = $request->course_id;
             $coupon->instructor_id = $request->instructor_id;
@@ -65,16 +71,21 @@ class CouponController extends Controller
             $coupon->discount = $request->discount;
             $coupon->valid_from = $request->valid_from;
             $coupon->valid_until = $request->valid_until;
-           
-            if($coupon->save())
-                return redirect()->route('coupon.index')->with('success','Coupon Saved');
-                else 
+
+            // Save the new coupon and check if successful
+            if ($coupon->save()) {
+                return redirect()->route('coupon.index')->with('success', 'Coupon Saved');
+            } else {
                 return redirect()->back()->withInput()->with('error', 'Please try again');
+            }
+
         } catch (\Exception $e) {
+            // Log the error and return back with an error message
             Log::error('Create error: ' . $e->getMessage());
             return redirect()->back()->withInput()->with('error', 'Please try again');
         }
     }
+
 
     /**
      * Display the specified resource.

@@ -46,11 +46,16 @@
                                     <div class="form-group">
                                         <label class="form-label">Course</label>
                                         <select name="course_id" id="course_id" class="form-control">
-                                            @foreach($course as $co)
-                                            <option value="{{$co->id}}">{{$co->title_en}}</option>
-                                            <input type="hidden" name="instructor_id" value="{{$co->instructor_id}}">
-                                            @endforeach
+                                            @forelse($course as $co)
+                                                <option value="{{$co->id}}">{{$co->title_en}}</option>
+                                            @empty
+                                                <option value="">You do not have a course to add a coupon.</option>
+                                            @endforelse
                                         </select>
+
+                                        @if(!empty($course) && count($course) > 0)                                            
+                                            <input type="hidden" name="instructor_id" value="{{$course->first()->instructor_id}}">
+                                        @endif
                                     </div>
                                     @if($errors->has('course_id'))
                                     <span class="text-danger"> {{$errors->first('course_id')}}</span>

@@ -387,7 +387,7 @@
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright © Powered by <a href="https://kingsconsult.com.ng" target="_blank">Kings Branding Consult</a> 2023 - <?php echo date('Y') ?></p>
+                <p>Copyright © Powered by <a href="https://kingsconsult.com.ng" target="_blank">Kings Digital Literacy Hub</a> 2023 - <?php echo date('Y') ?></p>
             </div>
         </div>
         <!--**********************************

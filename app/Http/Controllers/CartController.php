@@ -37,6 +37,7 @@ class CartController extends Controller
                 "quantity" => 1,
                 "price" => $course->price,
                 "old_price" => $course->old_price,
+                "currency_type" => $course->currency_type,
                 "image" => $course->image,
                 "difficulty" => $course->difficulty,
                 "instructor" => $course->instructor ? $course->instructor->name_en : 'Unknown Instructor',
@@ -71,19 +72,23 @@ class CartController extends Controller
         if(isset(session('cart_details')['coupon_code'])){
             $cart_total=$total;
             $discount=($cart_total*(session('cart_details')['discount']/100));
-            $tax=(($cart_total-$discount)*0.15);
-            $total_amount=(($cart_total+$tax)-$discount);
+            //----calculate tax 5%
+            //$tax=(($cart_total-$discount)*0.05);
+            //$total_amount=(($cart_total+$tax)-$discount);
+            $total_amount=(($cart_total)-$discount);
             $coupondata=array(
                 'cart_total'=>$cart_total,
                 'coupon_code'=>session('cart_details')['coupon_code'],
                 'discount'=>session('cart_details')['discount'],
                 'discount_amount'=>$discount,
-                'tax'=>$tax,
+                //'tax'=>$tax,
                 'total_amount'=>$total_amount
             );
             session()->put('cart_details', $coupondata);
         }else{
-            $cart_data=array('cart_total'=>$total,'tax'=>($total*0.15),'total_amount'=>($total + ($total*0.15)));
+            // $cart_data=array('cart_total'=>$total,'tax'=>($total*0.05),'total_amount'=>($total + ($total*0.05)));
+            // session()->put('cart_details', $cart_data);
+            $cart_data=array('cart_total'=>$total,'total_amount'=>($total));
             session()->put('cart_details', $cart_data);
         }
 
@@ -99,8 +104,8 @@ class CartController extends Controller
         if(!empty($coupon)){
             $cart_total=session('cart_details')['cart_total'];
             $discount=($cart_total*($coupon[0]/100));
-            $tax=(($cart_total-$discount)*0.15);
-            $total_amount=(($cart_total+$tax)-$discount);
+            //$tax=(($cart_total-$discount)*0.15);
+            $total_amount=(($cart_total)-$discount);
             $coupondata=array(
                 'cart_total'=>$cart_total,
                 'coupon_code'=>$request->coupon,

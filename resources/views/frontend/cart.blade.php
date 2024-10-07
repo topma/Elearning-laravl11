@@ -8,8 +8,8 @@
     <div class="container">
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb align-items-center bg-transparent mb-0">
-                <li class="breadcrumb-item"><a href="index.html" class="fs-6 text-secondary">Home</a></li>
-                <li class="breadcrumb-item active"><a href="cart.html" class="fs-6 text-secondary">Cart</a></li>
+                <li class="breadcrumb-item"><a href="{{route('home')}}" class="fs-6 text-secondary">Home</a></li>
+                <li class="breadcrumb-item active"><a href="{{route('cart')}}" class="fs-6 text-secondary">Cart</a></li>
             </ol>
         </nav>
     </div>
@@ -56,19 +56,16 @@
                 <div class="summery-wizard">
                     <div class="summery-wizard-text pt-0">
                         <h6>Subtotal</h6>
-                        <p> {{'৳' . number_format((float) session('cart_details')['cart_total'] , 2)}}</p>
+                        <p> {{$details['currency_type'] . number_format((float) session('cart_details')['cart_total'] , 2)}}</p>
                     </div>
                     <div class="summery-wizard-text">
                         <h6>Coupon Discount ({{session('cart_details')['discount'] ?? 0.00}}%)</h6>
-                        <p>{{'৳' . number_format((float) isset(session('cart_details')['discount_amount']) ? session('cart_details')['discount_amount']: 0.00 , 2)}}</p>
+                        <p>{{$details['currency_type'] . number_format((float) isset(session('cart_details')['discount_amount']) ? session('cart_details')['discount_amount']: 0.00 , 2)}}</p>
                     </div>
-                    <div class="summery-wizard-text">
-                        <h6>Taxes (15%)</h6>
-                        <p> {{'৳' . number_format((float) session('cart_details')['tax'] , 2)}}</p>
-                    </div>
+                    
                     <div class="total-wizard">
                         <h6 class="font-title--card">Total:</h6>
-                        <p class="font-title--card">{{'৳' . number_format((float) session('cart_details')['total_amount'] , 2)}}</p>
+                        <p class="font-title--card">{{$details['currency_type'] . number_format((float) session('cart_details')['total_amount'] , 2)}}</p>
                     </div>
                     <form action="{{route('coupon_check')}}" method="post">
                         @csrf
@@ -77,6 +74,7 @@
                         <label for="coupon">Apply Coupon</label>
                         <div class="cart-input">
                             <input type="text" name="coupon" class="form-control" placeholder="Coupon Code" id="coupon" />
+                            <input type="hidden" name="course" value="{{$details['title_en']}}">
                             <button type="submit" class="sm-button">Apply</button>
                         </div>
                     </form>

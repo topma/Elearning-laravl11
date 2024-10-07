@@ -9,8 +9,8 @@
     <div class="container">
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent mb-0 align-items-center">
-                <li class="breadcrumb-item"><a href="index.html" class="fs-6 text-secondary">Home</a></li>
-                <li class="breadcrumb-item active"><a href="checkout.html" class="fs-6 text-secondary">Checkout</a></li>
+                <li class="breadcrumb-item"><a href="{{route('home')}}" class="fs-6 text-secondary">Home</a></li>
+                <li class="breadcrumb-item active"><a href="{{route('checkout')}}" class="fs-6 text-secondary">Checkout</a></li>
             </ol>
         </nav>
     </div>
@@ -47,7 +47,7 @@
             </div>
             <div class="col-lg-6 mt-4 mt-lg-0">
                 <div class="checkout-area-summery">
-                    <h6 class="checkout-area__label">Summery</h6>
+                    <h6 class="checkout-area__label">Summary</h6>
 
                     <div class="cart">
                         <div class="cart__includes-info cart__includes-info--bordertop-0">
@@ -68,9 +68,9 @@
                                         </h6>
                                         <p>by {{$details['instructor']}}</p>
                                         <div class="price">
-                                            <h6 class="font-para--md">{{$details['price'] ? '৳' . $details['price'] :
+                                            <h6 class="font-para--md">{{$details['price'] ? $details['currency_type'] . $details['price'] :
                                                 'Free'}}</h6>
-                                            <p><del>{{$details['old_price'] ? '৳' . $details['old_price'] : ''}}</del>
+                                            <p><del>{{$details['old_price'] ? $details['currency_type'] . $details['old_price'] : ''}}</del>
                                             </p>
                                         </div>
                                     </div>
@@ -84,29 +84,23 @@
                             <ul>
                                 <li>
                                     <p>Subtotal</p>
-                                    <p>{{'৳' . number_format((float) session('cart_details')['cart_total'] , 2)}}
+                                    <p>{{$details['currency_type'] . number_format((float) session('cart_details')['cart_total'] , 2)}}
                                     </p>
-                                    {{-- {{ '৳' . (session('cart_details') && array_key_exists('cart_total',
+                                    {{-- {{ $details['currency_type'] . (session('cart_details') && array_key_exists('cart_total',
                                     session('cart_details')) ? number_format(session('cart_details')['cart_total'], 2) :
                                     '0.00') }} --}}
                                 </li>
                                 <li>
                                     <p>Coupon Discount ({{session('cart_details')['discount'] ?? 0.00}}%)</p>
-                                    <p>{{'৳' . number_format((float) isset(session('cart_details')['discount_amount']) ?
+                                    <p>{{$details['currency_type'] . number_format((float) isset(session('cart_details')['discount_amount']) ?
                                         session('cart_details')['discount_amount']: 0.00 , 2)}}</p>
                                 </li>
-                                <li>
-                                    <p>Taxes (15%)</p>
-                                    <p>{{'৳' . number_format((float) session('cart_details')['tax'] , 2)}}</p>
-                                    {{-- {{ '৳' . (session('cart_details') && array_key_exists('tax',
-                                    session('cart_details')) ? number_format(session('cart_details')['tax'], 2) :
-                                    '0.00') }} --}}
-                                </li>
+                                
                                 <li>
                                     <p class="font-title--card">Total:</p>
-                                    <p class="total-price font-title--card">{{'৳' .
+                                    <p class="total-price font-title--card">{{$details['currency_type'] .
                                         number_format((float)session('cart_details')['total_amount'] , 2)}}</p>
-                                    {{-- {{ '৳' . (session('cart_details') && array_key_exists('total_amount',
+                                    {{-- {{ $details['currency_type'] . (session('cart_details') && array_key_exists('total_amount',
                                     session('cart_details')) ? number_format(session('cart_details')['total_amount'], 2)
                                     : '0.00') }} --}}
                                 </li>
@@ -136,11 +130,7 @@
                                     <small class="d-block text-danger">{{$errors->first('email')}}</small>
                                     @endif
                                 </div>
-                                <div class="form-element">
-                                    <div class="d-flex justify-content-between">
-                                        <label for="password">Password</label>
-                                        <a href="forget-password.html" class="text-primary fs-6">Forget Password</a>
-                                    </div>
+                                <div class="form-element">                                    
                                     <div class="form-alert-input">
                                         <input type="password" placeholder="Type here..." id="password"
                                             name="password" />
@@ -162,6 +152,10 @@
                                     <button type="submit" class="button button-lg button--primary w-100">Sign
                                         in</button>
                                 </div>
+                                <div class="d-flex justify-content-between">
+                                        <label for="password">Password</label>
+                                        <a href="forget-password.html" class="text-primary fs-6">Forgot Password</a>
+                                    </div>
                             </form>
                         </div>
                     </div>

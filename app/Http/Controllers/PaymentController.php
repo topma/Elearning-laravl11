@@ -16,6 +16,11 @@ class PaymentController extends Controller
         //
     }
 
+    public function verifyTransaction ()
+    {
+        
+    }
+
     /**
      * Show the form for creating a new resource.
      */

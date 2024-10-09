@@ -13,6 +13,15 @@ class CheckoutController extends Controller
      */
     public function index()
     {
+        // Check if the cart session is empty or not
+        $cart = session('cart', []);
+
+        if (empty($cart)) {
+            // If the cart is empty, return back with a message
+            return redirect()->back()->with('error', 'No items in the cart.');
+        }
+
+        // If cart is not empty, proceed to checkout view
         return view('frontend.checkout');
     }
 

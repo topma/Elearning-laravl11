@@ -121,13 +121,21 @@ class CourseController extends Controller
     {
         $course = Course::findOrFail(encryptor('decrypt', $id));
         $courseId = $course->id;
+        $courseCategoryId = $course->course_category_id;
         $instructorId = $course->instructor_id;
+        
         $lesson = Lesson::where('course_id', $courseId)->get();
         $courseNo = Course::where('instructor_id', $instructorId)->get();
-        $coupon = Coupon::where('course_id', $courseId)->first();       
-        // dd($coupon); 
-        return view('frontend.courseDetails', compact('course','lesson','courseNo','coupon'));
-    } 
+        $coupon = Coupon::where('course_id', $courseId)->first();
+        
+        // Exclude the current course from related courses
+        $relatedCourse = Course::where('course_category_id', $courseCategoryId)
+            ->where('id', '!=', $courseId) // Exclude the current course
+            ->get();
+        
+        return view('frontend.courseDetails', compact('course','lesson','courseNo','coupon','relatedCourse'));
+    }
+
 
 
     /**

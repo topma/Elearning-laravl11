@@ -30,6 +30,7 @@ use App\Http\Controllers\EnrollmentController as enrollment;
 use App\Http\Controllers\EventController as event;
 use App\Http\Controllers\CustomForgotPasswordController;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\PaymentController;
 
 /* students */
 use App\Http\Controllers\Students\AuthController as sauth;
@@ -155,7 +156,10 @@ Route::middleware(['checkstudent'])->prefix('students')->group(function () {
     Route::post('/change-image', [stu_profile::class, 'changeImage'])->name('change_image');
 
     // ssl Routes
-    Route::post('/payment/ssl/submit', [sslcz::class, 'store'])->name('payment.ssl.submit');
+   // Route::post('/payment/ssl/submit', [sslcz::class, 'store'])->name('payment.ssl.submit');
+    // ----payment routes --------------------------------
+    Route::get('/payment/verify-transaction', [PaymentController::class, 'verifyTransaction'])
+    ->name('payment.verify-transaction');
 });
 
 //----------instructor routes --------------------------------
@@ -203,10 +207,3 @@ Route::get('about', [HomeController::class, 'about'])
     ->name('about'); 
 Route::get('contact', [HomeController::class, 'contact'])
     ->name('contact'); 
-// Route::get('/about', function () {
-//     return view('frontend.about');
-// })->name('about');
-
-// Route::get('/contact', function () {
-//     return view('frontend.contact');
-// })->name('contact');

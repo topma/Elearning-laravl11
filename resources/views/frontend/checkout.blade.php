@@ -130,7 +130,8 @@
                                     <small class="d-block text-danger">{{$errors->first('email')}}</small>
                                     @endif
                                 </div>
-                                <div class="form-element">                                    
+                                <div class="form-element">  
+                                <label for="password">Password</label>                                  
                                     <div class="form-alert-input">
                                         <input type="password" placeholder="Type here..." id="password"
                                             name="password" />
@@ -153,8 +154,8 @@
                                         in</button>
                                 </div>
                                 <div class="d-flex justify-content-between">
-                                        <label for="password">Password</label>
-                                        <a href="forget-password.html" class="text-primary fs-6">Forgot Password</a>
+                                        
+                                        <a href="{{ route('user.password.request') }}" class="text-primary fs-6">Forgot Password</a>
                                     </div>
                             </form>
                         </div>

@@ -13,10 +13,10 @@
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb align-items-center bg-transparent p-0 mb-0">
                 <li class="breadcrumb-item">
-                    <a href="index.html" class="fs-6 text-secondary">Home</a>
+                    <a href="{{route('home')}}" class="fs-6 text-secondary">Home</a>
                 </li>
                 <li class="breadcrumb-item">
-                    <a href="#" class="fs-6 text-secondary">Course</a>
+                    <a href="{{route('searchCourse')}}" class="fs-6 text-secondary">Courses</a>
                 </li>
                 <li class="breadcrumb-item fs-6 text-secondary d-none d-lg-inline-block" aria-current="page">
                     {{ $course->title_en }}
@@ -50,7 +50,7 @@
                                 d="M9.94438 2.34287L11.7457 5.96656C11.8359 6.14934 12.0102 6.2769 12.2124 6.30645L16.2452 6.88901C16.4085 6.91079 16.5555 6.99635 16.6559 7.12701C16.8441 7.37201 16.8153 7.71891 16.5898 7.92969L13.6668 10.7561C13.5183 10.8961 13.4522 11.1015 13.4911 11.3014L14.1911 15.2898C14.2401 15.6204 14.0145 15.93 13.684 15.9836C13.5471 16.0046 13.4071 15.9829 13.2826 15.9214L9.69082 14.0384C9.51037 13.9404 9.29415 13.9404 9.1137 14.0384L5.49546 15.9315C5.1929 16.0855 4.82267 15.9712 4.65778 15.6748C4.59478 15.5551 4.57301 15.419 4.59478 15.286L5.29479 11.2975C5.32979 11.0984 5.26368 10.8938 5.11901 10.753L2.18055 7.92735C1.94099 7.68935 1.93943 7.30201 2.17821 7.06246C2.17899 7.06168 2.17977 7.06012 2.18055 7.05935C2.27932 6.9699 2.40066 6.91001 2.5321 6.88668L6.56569 6.30412C6.76713 6.27223 6.94058 6.14623 7.03236 5.96345L8.83215 2.34287C8.90448 2.19587 9.03281 2.08309 9.18837 2.03176C9.3447 1.97965 9.51582 1.99209 9.66282 2.06598C9.78337 2.12587 9.88215 2.22309 9.94438 2.34287Z"
                                 stroke="#FF7A1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        <p class="font-para--md">5.0 Star <span></span></p>
+                        <p class="font-para--md">5.0 <span></span></p>
                     </div>
                     <div class="icon-with-date-end d-flex align-items-center">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -105,7 +105,8 @@
                     <!-- Thumbnails -->
                     <div class="course-overview-image">
                         <img src="{{asset('uploads/courses/thumbnails/'.$course->thumbnail_image)}}" alt="img" />
-                        <a class="popup-video play-button" href="{{$course->thumbnail_video}}">
+                        <!-- <a class="popup-video play-button" href="{{$course->thumbnail_video}}"></a> -->
+                        <a href="#">
                             <svg width="23" height="27" viewBox="0 0 23 27" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -2015,18 +2016,28 @@
                     <div class="cart">
                         <div class="cart__price">
                             <div class="current-price">
-                                <h3 class="font-title--sm">{{number_format($course->price,2)?$course->currency_type.number_format($course->price,2):'Free'}}</h3>
-                                <p><del>{{number_format($course->old_price,2)?$course->currency_type.number_format($course->old_price,2):''}}</del></p>
-                            </div>
-                            <div class="current-discount">
-                            @if(!empty($coupon))
-                                <p class="font-para--md">{{ number_format($coupon->discount, 0) }}% off</p>
-                            @else
-
-                            @endif
-                            </div>
+                            <h4 class="font-title--sm">
+                                {{-- Check if price is greater than 0, otherwise display 'Free' --}}
+                                {{$course->price > 0 ? $course->currency_type . number_format($course->price, 2) : 'Free'}}
+                            </h4>
+                            
+                            </div>                            
                         </div>
-                        <div class="cart__checkout-process">
+                        <div class="current-discount">
+                        <p>
+                                {{-- Check if old price is greater than 0 before displaying --}}
+                                <del>{{$course->old_price > 0 ? $course->currency_type . number_format($course->old_price, 2) : ''}}</del>                            
+                            </p>  
+                            <p style="color: red;">
+                                
+                                @if(!empty($coupon))
+                                Coupon discount = {{ number_format($coupon->discount, 0) }}% off
+                                @else
+                                    
+                                @endif
+                            </p>                         
+                            </div>
+                        <div class="cart__checkout-process">                           
                         @if(!empty($coupon))
                             @php
                                 // Current date
@@ -2042,8 +2053,8 @@
                             @endphp
 
                             @if($diffInDays > 0 || $diffInHours > 0 || $diffInMinutes > 0)
-                                <p class="time-left text-center">
-                                    @if($diffInDays > 0)
+                                <p style="color: black;" class="time-left text-center">
+                                    <strong> @if($diffInDays > 0)
                                         <span>{{ $diffInDays }} days</span>
                                     @endif
 
@@ -2054,9 +2065,10 @@
                                     {{-- Only show minutes if no days --}}
                                     @if($diffInMinutes > 0 && $diffInDays == 0)
                                         <span>{{ $diffInMinutes }} minutes</span>
-                                    @endif
+                                    @endif</strong>
+                                   
                                     
-                                    remaining for this offer
+                                    remaining for this coupon offer to expire.
                                 </p>
                             @else
                                 <p class="time-left text-center">Offer has expired</p>
@@ -2068,7 +2080,7 @@
                                 <a href="{{route('add.to.cart', $course->id)}}"
                                     class="text-white button button-lg button--primary w-100">Add to Cart</a>
                                 <a href="{{route('checkout')}}"
-                                    class="button button-lg button--primary-outline mt-3 w-100">Buy Now</a>
+                                    class="button button-lg button--primary-outline mt-3 w-100">Checkout</a>
                             </form>
                         </div>
                         <div class="cart__includes-info">
@@ -2184,26 +2196,27 @@
             <div class="row">
                 <div class="col-12 position-relative px-0 mx-0">
                     <div class="new__courses">
+                        @forelse($relatedCourse as $rc)
                         <div class="contentCard contentCard--course contentCard--space">
                             <div class="contentCard-top">
-                                <a href="#"><img src="{{asset('frontend/dist/images/courses/demo-img-01.png')}}"
+                                <a href="{{route('courseDetails', encryptor('encrypt', $rc->id))}}">
+                                    <img src="{{asset('uploads/courses/'.$rc->image)}}"
                                         alt="images" class="img-fluid" /></a>
                             </div>
                             <div class="contentCard-bottom">
                                 <h5>
-                                    <a href="#" class="font-title--card">Chicago International
-                                        Conference on Education</a>
+                                    <a href="#" class="font-title--card">{{$rc->title_en}}</a>
                                 </h5>
                                 <div class="contentCard-info d-flex align-items-center justify-content-between">
                                     <a href="instructor-profile.html"
                                         class="contentCard-user d-flex align-items-center">
                                         <img src="{{asset('frontend/dist/images/courses/7.png')}}"
                                             alt="client-image" class="rounded-circle" />
-                                        <p class="font-para--md">Brandon Dias</p>
+                                        <p class="font-para--md">{{$rc->instructor?->name_en}}</p>
                                     </a>
                                     <div class="price">
-                                        <span>৳12</span>
-                                        <del>৳95</del>
+                                    <span>{{ $rc->price && $rc->price > 0 ? $rc->currency_type . number_format($rc->price,2) : 'Free' }}</span>
+                                    <del>{{ $rc->old_price && $rc->old_price > 0 ? $rc->currency_type . number_format($rc->old_price,2) : '' }}</del>
                                     </div>
                                 </div>
                                 <div class="contentCard-more">
@@ -2214,193 +2227,38 @@
                                         </div>
                                         <span>4.5</span>
                                     </div>
-                                    <div class="eye d-flex align-items-center">
+                                    <!-- <div class="eye d-flex align-items-center">
                                         <div class="icon">
                                             <img src="{{asset('frontend/dist/images/icon/eye.png')}}"
                                                 alt="eye" />
                                         </div>
                                         <span>24,517</span>
-                                    </div>
+                                    </div> -->
                                     <div class="book d-flex align-items-center">
                                         <div class="icon">
                                             <img src="{{asset('frontend/dist/images/icon/book.png')}}"
                                                 alt="location" />
                                         </div>
-                                        <span>37 Lesson</span>
+                                        <span>{{$rc->lesson}} Lesson</span>
                                     </div>
                                     <div class="clock d-flex align-items-center">
                                         <div class="icon">
                                             <img src="{{asset('frontend/dist/images/icon/Clock.png')}}"
                                                 alt="clock" />
                                         </div>
-                                        <span>3 Hours</span>
+                                        <!-- <span>3 Hours</span> -->
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="contentCard contentCard--course contentCard--space">
-                            <div class="contentCard-top">
-                                <a href="#"><img src="{{asset('frontend/dist/images/courses/demo-img-02.png')}}"
-                                        alt="images" class="img-fluid" /></a>
-                            </div>
-                            <div class="contentCard-bottom">
-                                <h5>
-                                    <a href="#" class="font-title--card">Chicago International
-                                        Conference on Education</a>
-                                </h5>
-                                <div class="contentCard-info d-flex align-items-center justify-content-between">
-                                    <a href="instructor-profile.html"
-                                        class="contentCard-user d-flex align-items-center">
-                                        <img src="{{asset('frontend/dist/images/courses/7.png')}}"
-                                            alt="client-image" class="rounded-circle" />
-                                        <p class="font-para--md">Brandon Dias</p>
-                                    </a>
-                                    <div class="price">
-                                        <span>৳12</span>
-                                        <del>৳95</del>
-                                    </div>
-                                </div>
-                                <div class="contentCard-more">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon">
-                                            <img src="{{asset('frontend/dist/images/icon/star.png')}}"
-                                                alt="star" />
-                                        </div>
-                                        <span>4.5</span>
-                                    </div>
-                                    <div class="eye d-flex align-items-center">
-                                        <div class="icon">
-                                            <img src="{{asset('frontend/dist/images/icon/eye.png')}}"
-                                                alt="eye" />
-                                        </div>
-                                        <span>24,517</span>
-                                    </div>
-                                    <div class="book d-flex align-items-center">
-                                        <div class="icon">
-                                            <img src="{{asset('frontend/dist/images/icon/book.png')}}"
-                                                alt="location" />
-                                        </div>
-                                        <span>37 Lesson</span>
-                                    </div>
-                                    <div class="clock d-flex align-items-center">
-                                        <div class="icon">
-                                            <img src="{{asset('frontend/dist/images/icon/Clock.png')}}"
-                                                alt="clock" />
-                                        </div>
-                                        <span>3 Hours</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="contentCard contentCard--course contentCard--space">
-                            <div class="contentCard-top">
-                                <a href="#"><img src="{{asset('frontend/dist/images/courses/demo-img-03.png')}}"
-                                        alt="images" class="img-fluid" /></a>
-                            </div>
-                            <div class="contentCard-bottom">
-                                <h5>
-                                    <a href="#" class="font-title--card">Chicago International
-                                        Conference on Education</a>
-                                </h5>
-                                <div class="contentCard-info d-flex align-items-center justify-content-between">
-                                    <a href="instructor-profile.html"
-                                        class="contentCard-user d-flex align-items-center">
-                                        <img src="{{asset('frontend/dist/images/courses/7.png')}}"
-                                            alt="client-image" class="rounded-circle" />
-                                        <p class="font-para--md">Brandon Dias</p>
-                                    </a>
-                                    <div class="price">
-                                        <span>৳12</span>
-                                        <del>৳95</del>
-                                    </div>
-                                </div>
-                                <div class="contentCard-more">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon">
-                                            <img src="{{asset('frontend/dist/images/icon/star.png')}}"
-                                                alt="star" />
-                                        </div>
-                                        <span>4.5</span>
-                                    </div>
-                                    <div class="eye d-flex align-items-center">
-                                        <div class="icon">
-                                            <img src="{{asset('frontend/dist/images/icon/eye.png')}}"
-                                                alt="eye" />
-                                        </div>
-                                        <span>24,517</span>
-                                    </div>
-                                    <div class="book d-flex align-items-center">
-                                        <div class="icon">
-                                            <img src="{{asset('frontend/dist/images/icon/book.png')}}"
-                                                alt="location" />
-                                        </div>
-                                        <span>37 Lesson</span>
-                                    </div>
-                                    <div class="clock d-flex align-items-center">
-                                        <div class="icon">
-                                            <img src="{{asset('frontend/dist/images/icon/Clock.png')}}"
-                                                alt="clock" />
-                                        </div>
-                                        <span>3 Hours</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="contentCard contentCard--course contentCard--space">
-                            <div class="contentCard-top">
-                                <a href="#"><img src="{{asset('frontend/dist/images/courses/demo-img-04.png')}}"
-                                        alt="images" class="img-fluid" /></a>
-                            </div>
-                            <div class="contentCard-bottom">
-                                <h5>
-                                    <a href="#" class="font-title--card">Chicago International
-                                        Conference on Education</a>
-                                </h5>
-                                <div class="contentCard-info d-flex align-items-center justify-content-between">
-                                    <a href="instructor-profile.html"
-                                        class="contentCard-user d-flex align-items-center">
-                                        <img src="{{asset('frontend/dist/images/courses/7.png')}}"
-                                            alt="client-image" class="rounded-circle" />
-                                        <p class="font-para--md">Brandon Dias</p>
-                                    </a>
-                                    <div class="price">
-                                        <span>৳12</span>
-                                        <del>৳95</del>
-                                    </div>
-                                </div>
-                                <div class="contentCard-more">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon">
-                                            <img src="{{asset('frontend/dist/images/icon/star.png')}}"
-                                                alt="star" />
-                                        </div>
-                                        <span>4.5</span>
-                                    </div>
-                                    <div class="eye d-flex align-items-center">
-                                        <div class="icon">
-                                            <img src="{{asset('frontend/dist/images/icon/eye.png')}}"
-                                                alt="eye" />
-                                        </div>
-                                        <span>24,517</span>
-                                    </div>
-                                    <div class="book d-flex align-items-center">
-                                        <div class="icon">
-                                            <img src="{{asset('frontend/dist/images/icon/book.png')}}"
-                                                alt="location" />
-                                        </div>
-                                        <span>37 Lesson</span>
-                                    </div>
-                                    <div class="clock d-flex align-items-center">
-                                        <div class="icon">
-                                            <img src="{{asset('frontend/dist/images/icon/Clock.png')}}"
-                                                alt="clock" />
-                                        </div>
-                                        <span>3 Hours</span>
-                                    </div>
-                                </div>
-                            </div>
+                            </div>                           
                         </div>
                     </div>
+                    @empty
+                    <div class="col-md-6 mb-4">
+                        <div class="contentCard contentCard--course">
+                            <h3>No Course Found</h3>
+                        </div>
+                    </div>
+                    @endforelse
                 </div>
             </div>
         </div>

@@ -41,6 +41,7 @@ class CartController extends Controller
                 "image" => $course->image,
                 "difficulty" => $course->difficulty,
                 "instructor" => $course->instructor ? $course->instructor->name_en : 'Unknown Instructor',
+                // "discount" => 0,
             ];
             session()->put('cart', $cart);
             $this->cart_total();
@@ -111,7 +112,7 @@ class CartController extends Controller
                 'coupon_code'=>$request->coupon,
                 'discount'=>$coupon[0],
                 'discount_amount'=>$discount,
-                'tax'=>$tax,
+                //'tax'=>$tax,
                 'total_amount'=>$total_amount
             );
             session()->put('cart_details', $coupondata);

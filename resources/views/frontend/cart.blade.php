@@ -9,6 +9,7 @@
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb align-items-center bg-transparent mb-0">
                 <li class="breadcrumb-item"><a href="{{route('home')}}" class="fs-6 text-secondary">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{route('searchCourse')}}" class="fs-6 text-secondary">Courses</a></li>
                 <li class="breadcrumb-item active"><a href="{{route('cart')}}" class="fs-6 text-secondary">Cart</a></li>
             </ol>
         </nav>
@@ -59,8 +60,14 @@
                         <p> {{$details['currency_type'] . number_format((float) session('cart_details')['cart_total'] , 2)}}</p>
                     </div>
                     <div class="summery-wizard-text">
-                        <h6>Coupon Discount ({{session('cart_details')['discount'] ?? 0.00}}%)</h6>
+                        @if(!empty(session('cart_details')['discount']))
+                        <h6>Coupon Discount ({{number_format(session('cart_details')['discount'],0) ?? 0.00}}%)</h6>
                         <p>{{$details['currency_type'] . number_format((float) isset(session('cart_details')['discount_amount']) ? session('cart_details')['discount_amount']: 0.00 , 2)}}</p>
+                        @else
+                        <h6>Coupon Discount (0%)</h6>
+                        <p>{{$details['currency_type'] }} 0.00</p>
+                        @endif
+                        
                     </div>
                     
                     <div class="total-wizard">

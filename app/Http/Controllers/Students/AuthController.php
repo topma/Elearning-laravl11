@@ -187,6 +187,7 @@ class AuthController extends Controller
                 'userId' => encryptor('encrypt', $student->id),
                 'userName' => encryptor('encrypt', $student->name_en),
                 'emailAddress' => encryptor('encrypt', $student->email),
+                'email' => $student->email,
                 'studentLogin' => 1,
                 'image' => $student->image ?? 'No Image Found' 
             ]

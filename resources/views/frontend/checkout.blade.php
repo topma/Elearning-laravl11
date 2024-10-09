@@ -10,6 +10,7 @@
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent mb-0 align-items-center">
                 <li class="breadcrumb-item"><a href="{{route('home')}}" class="fs-6 text-secondary">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{route('searchCourse')}}" class="fs-6 text-secondary">Courses</a></li>
                 <li class="breadcrumb-item active"><a href="{{route('checkout')}}" class="fs-6 text-secondary">Checkout</a></li>
             </ol>
         </nav>
@@ -28,7 +29,7 @@
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-checkout" role="tabpanel"
                             aria-labelledby="pills-checkout-tab">
-                            <form action="{{route('payment.ssl.submit')}}" method="post">
+                            <form action="" method="post">
                                 @csrf
                                 <div class="mb-4">
                                     <div class="ps-0 ">
@@ -37,6 +38,8 @@
                                         </label>
                                     </div>
                                 </div>
+                                <input type="hidden" name="total_amount" id="total_amount" value="{{session('cart_details')['total_amount']}}">
+                                <input type="hidden" name="email_addy" id="email_addy" value="{{request()->session()->get('email')}}">
                                 <button type="submit" class="button button-lg button--primary w-100"> Click Here to
                                     Confirm
                                     Payment</button>

@@ -42,6 +42,7 @@ class CartController extends Controller
                 "image" => $course->image,
                 "difficulty" => $course->difficulty,
                 "instructor" => $course->instructor ? $course->instructor->name_en : 'Unknown Instructor',
+                "instructor_id" => $course->instructor ? $course->instructor->id : 'Unknown instructor',
                 // "discount" => 0,
             ];
             session()->put('cart', $cart);

@@ -66,6 +66,9 @@
                             <a class="nav-link" aria-current="page" href="{{route('home')}}">Home</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{{route('studentdashboard')}}">My Dashboard</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="{{route('searchCourse')}}">Courses</a>
                         </li>
                         <li class="nav-item">

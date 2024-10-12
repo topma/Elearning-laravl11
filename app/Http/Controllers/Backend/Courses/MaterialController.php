@@ -90,9 +90,12 @@ class MaterialController extends Controller
      */
     public function edit($id)
     {
-        $decryptedId = encryptor('decrypt', $id);
-        $lesson = Lesson::findOrFail($decryptedId);
+        $decryptedId = encryptor('decrypt', $id); 
         $material = Material::findOrFail(encryptor('decrypt', $id));
+        $lessonId = $material->lesson_id;
+        //return response()->json($decryptedId);
+        $lesson = Lesson::findOrFail($lessonId);
+        
         return view('backend.course.material.edit', compact('lesson', 'material'));
     }
 

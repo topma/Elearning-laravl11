@@ -72,12 +72,42 @@
             {{-- Video Area --}}
             <div class="col-lg-8">
                 <div class="course-description-start">
-                    <div class="video-area">
-                        <video controls id="myvideo" class="video-js w-100"
-                            poster="{{asset('frontend/dist/images/courses/vthumb.jpg')}}">
-                            <source src="" class="w-100" />
-                        </video>
+                @if($currentMaterial->type == 'video')
+                    <div class="video-area"> 
+                        @if(!empty($currentMaterial->content))
+                            {{-- Local video --}}
+                            <video controls id="myvideo" class="video-js w-100"
+                                poster="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}">
+                                <source src="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" class="w-100" autostart="true"/>
+                                
+                            </video>
+                        @elseif(!empty($currentMaterial->content_url))
+                            {{-- YouTube video --}}
+                            @php
+                                // Extract the video ID from the YouTube URL
+                                $url = $currentMaterial->content_url;
+                                preg_match('/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|[^\/\n\s]+\/\S*\/|watch\?v=|watch\?.+&v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $url, $matches);
+                                $videoId = $matches[1] ?? null;
+                            @endphp
+                            @if($videoId)
+                            <iframe width="100%" height="600"
+                                    src="https://www.youtube.com/embed/{{ $videoId }}"
+                                    title="Freelance Bootcamp Onboarding Brief"
+                                    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin"
+                                    allowfullscreen>
+                            </iframe>
+                            @endif
+                        @endif
                     </div>
+                @elseif($currentMaterial->type == 'document')
+                    {{-- Display document content --}}
+                    <div class="document-content">
+                        {!! $currentMaterial->content_data !!}
+                    </div>
+                @endif
+
+
                     <div class="course-description-start-content">
                         <h5 class="font-title--sm material-title">{{$currentLesson->title}}</h5>
                         <nav class="course-description-start-content-tab">

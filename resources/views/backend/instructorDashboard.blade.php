@@ -17,7 +17,7 @@
                 <div class="widget-stat card bg-primary overflow-hidden">
                     <div class="card-header">
                         <h3 class="card-title text-white">Total Students</h3>
-                        <h5 class="text-white mb-0"><i class="fa fa-caret-up"></i> 422</h5>
+                        <h5 class="text-white mb-0"><i class="fa fa-caret-up"></i> {{$student->count()}}</h5>
                     </div>
                     <div class="card-body text-center mt-3">
                         <div class="ico-sparkline">
@@ -29,8 +29,8 @@
             <div class="col-xl-3 col-xxl-3 col-sm-6">
                 <div class="widget-stat card bg-success overflow-hidden">
                     <div class="card-header">
-                        <h3 class="card-title text-white">New Students</h3>
-                        <h5 class="text-white mb-0"><i class="fa fa-caret-up"></i> 357</h5>
+                        <h3 class="card-title text-white">Enrolled Students</h3>
+                        <h5 class="text-white mb-0"><i class="fa fa-caret-up"></i> {{$enrollment->count()}}</h5>
                     </div>
                     <div class="card-body text-center mt-4 p-0">
                         <div class="ico-sparkline">
@@ -42,8 +42,8 @@
             <div class="col-xl-3 col-xxl-3 col-sm-6">
                 <div class="widget-stat card bg-secondary overflow-hidden">
                     <div class="card-header pb-3">
-                        <h3 class="card-title text-white">Total Course</h3>
-                        <h5 class="text-white mb-0"><i class="fa fa-caret-up"></i> 547</h5>
+                        <h3 class="card-title text-white">My Course</h3>
+                        <h5 class="text-white mb-0"><i class="fa fa-caret-up"></i> {{$course->count()}}</h5>
                     </div>
                     <div class="card-body p-0 mt-2">
                         <div class="px-4"><span class="bar1"
@@ -56,7 +56,7 @@
                 <div class="widget-stat card bg-danger overflow-hidden">
                     <div class="card-header pb-3">
                         <h3 class="card-title text-white">Fees Collection</h3>
-                        <h5 class="text-white mb-0"><i class="fa fa-caret-up"></i> 3280$</h5>
+                        <h5 class="text-white mb-0"><i class="fa fa-caret-up"></i>0</h5>
                     </div>
                     <div class="card-body p-0 mt-1">
                         <span class="peity-line-2" data-width="100%">7,6,8,7,3,8,3,3,6,5,9,2,8</span>

@@ -62,7 +62,7 @@
                                         <tbody>
                                             @forelse ($lesson as $key => $l)
                                             <tr>
-                                                `<td>{{ $key + 1 }}</td>
+                                                <td>{{ $key + 1 }}</td>
                                                 <td>{{ $l->title }}</td>
                                                 <td>{{ $l->notes }}</td>
                                                 <td>{{ $l->material_count }}</td>

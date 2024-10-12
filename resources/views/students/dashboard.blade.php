@@ -156,12 +156,12 @@
                                             <p class="font-para--md">{{$a->course?->instructor?->name_en}}</p>
                                         </a>
                                         <div class="contentCard-course--status d-flex align-items-center">
-                                            <span class="percentage">43%</span>
-                                            <p>Finish</p>
+                                            <span class="percentage">5%</span>
+                                            <!-- <p>Finish</p> -->
                                         </div>
                                     </div>
                                     <a class="button button-md button--primary-outline w-100 my-3"
-                                        href="{{route('watchCourse', encryptor('encrypt', $a->course?->id))}}">Watch
+                                        href="{{route('watchCourse', encryptor('encrypt', $a->course?->id))}}">Start
                                         Course</a>
                                     <div class="contentCard-watch--progress">
                                         <span class="percentage" style="width: 43%;"></span>
@@ -216,12 +216,12 @@
                                             <p class="font-para--md">{{$a->course?->instructor?->name_en}}</p>
                                         </a>
                                         <div class="contentCard-course--status d-flex align-items-center">
-                                            <span class="percentage">43%</span>
-                                            <p>Finish</p>
+                                            <span class="percentage">5%</span>
+                                            <!-- <p>Finish</p> -->
                                         </div>
                                     </div>
                                     <a class="button button-md button--primary-outline w-100 my-3"
-                                        href="{{route('watchCourse', encryptor('encrypt', $a->course?->id))}}">Watch
+                                        href="{{route('watchCourse', encryptor('encrypt', $a->course?->id))}}">Start
                                         Course</a>
                                     <div class="contentCard-watch--progress">
                                         <span class="percentage" style="width: 43%;"></span>
@@ -276,12 +276,12 @@
                                             <p class="font-para--md">{{$a->course?->instructor?->name_en}}</p>
                                         </a>
                                         <div class="contentCard-course--status d-flex align-items-center">
-                                            <span class="percentage">43%</span>
-                                            <p>Finish</p>
+                                            <span class="percentage">5%</span>
+                                            <!-- <p>Finish</p> -->
                                         </div>
                                     </div>
                                     <a class="button button-md button--primary-outline w-100 my-3"
-                                        href="{{route('watchCourse', encryptor('encrypt', $a->course?->id))}}">Watch
+                                        href="{{route('watchCourse', encryptor('encrypt', $a->course?->id))}}">Start
                                         Course</a>
                                     <div class="contentCard-watch--progress">
                                         <span class="percentage" style="width: 43%;"></span>
@@ -292,7 +292,7 @@
                         @empty
                         <div class="col-12 py-5">
                             <div class="col-md-6 col-12 mx-auto text-center">
-                                <h5 class="font-title--sm">You Haven't Enrolled Any Course Yet...</h5>
+                                <h5 class="font-title--sm">You Haven't Completed Any Course Yet...</h5>
                                 <p class="my-4 font-para--lg">
                                     Your Course List is Empty!
                                 </p>

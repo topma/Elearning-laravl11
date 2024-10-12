@@ -25,48 +25,46 @@ class PaymentController extends Controller
     public function getEnrollee(Request $request)
     {
         $user = Student::findOrFail(currentUserId());
-        $txnid = "KDH".uniqid();
+        $txnid = "KDH" . uniqid();
         $item_amount = session('cart_details')['total_amount'];
 
-        //$settings = Generalsetting::findOrFail(1);
-        $cart_details=array('cart'=>session('cart'),'cart_details'=>session('cart_details'));
-         
+        $cart_details = array('cart' => session('cart'), 'cart_details' => session('cart_details'));
+
+        // Check if the student is already enrolled in any of the courses in the cart
+        foreach ($cart_details['cart'] as $key => $course) {
+            $existingEnrollment = Enrollment::where('student_id', $user->id)
+                                ->where('course_id', $key)
+                                ->first();
+
+            if ($existingEnrollment) {
+                return redirect()->back()->with('error', 'You have already enrolled in the course: ' . $course['title_en']);
+            }
+        }
+
+        // Save Checkout details
         $check = new Checkout;
         $check->cart_data = base64_encode(json_encode($cart_details));
         $check->student_id = $user->id;
         $check->txnid = $txnid;
-        $check->currency_code = $request->currency_type; 
-        if ($request->currency_type == '=N='){
-            $currency = 'NAIRA';        
-        }
-        elseif ($request->currency_type == '$') {
+        $check->currency_code = $request->currency_type;
+
+        if ($request->currency_type == '=N=') {
+            $currency = 'NAIRA';
+        } elseif ($request->currency_type == '$') {
             $currency = 'USD';
-        }
-        elseif ($request->currency_type == '£') {
+        } elseif ($request->currency_type == '£') {
             $currency = 'POUNDS';
-        }
-        elseif ($request->currency_type == '€') {
+        } elseif ($request->currency_type == '€') {
             $currency = 'EURO';
         }
         $check->currency = $currency;
         $check->status = 0;
         $check->save();
 
+        // Save Payment details
         $deposit = new Payment;
         $deposit->student_id = $user->id;
         $deposit->currency_code = $request->currency_type;
-        if ($request->currency_type == '=N='){
-            $currency = 'NAIRA';        
-        }
-        elseif ($request->currency_type == '$') {
-            $currency = 'USD';
-        }
-        elseif ($request->currency_type == '£') {
-            $currency = 'POUNDS';
-        }
-        elseif ($request->currency_type == '€') {
-            $currency = 'EURO';
-        }
         $deposit->currency = $currency;
         $deposit->amount = session('cart_details')['total_amount'];
         $deposit->currency_value = 1;
@@ -74,29 +72,34 @@ class PaymentController extends Controller
         $deposit->txnid = $txnid;
         $deposit->save();
 
-        //-----enroll if successful-----
-        $deposit = Payment::where('txnid','=',$txnid)->orderBy('created_at','desc')->first();
-            
-        $check = Checkout::where('txnid','=',$txnid)->orderBy('created_at','desc')->first();
+        // Mark deposit and checkout as successful
+        $deposit = Payment::where('txnid', '=', $txnid)->orderBy('created_at', 'desc')->first();
+        $check = Checkout::where('txnid', '=', $txnid)->orderBy('created_at', 'desc')->first();
         $check->status = 1;
         $check->save();
-        
+
         $student = Student::findOrFail($deposit->student_id);
         $this->setSession($student);
 
         $deposit->status = 1;
         $deposit->save();
 
-        // store in transaction table
+        // Store enrollment data if payment is successful
         if ($deposit->status == 1) {
-            foreach(json_decode(base64_decode($check->cart_data))->cart as $key=>$course){
-                $enrole=new Enrollment;
-                $enrole->student_id=$check->student_id;
-                $enrole->course_id=$key;
-                $enrole->enrollment_date=date('Y-m-d');
+            foreach (json_decode(base64_decode($check->cart_data))->cart as $key => $course) {
+                $enrole = new Enrollment;
+                $enrole->student_id = $check->student_id;
+                $enrole->course_id = $key;
+                $enrole->instructor_id = $course->instructor_id;
+                $enrole->enrollment_date = date('Y-m-d');
                 $enrole->save();
             }
+
+            // Clear the cart session after successful enrollment
+            session()->forget('cart');
+            session()->forget('cart_details');
         }
+
         return redirect()->route('studentdashboard')->with('success', 'Payment done!');
     }
 

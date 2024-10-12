@@ -72,9 +72,10 @@
                                                     __('Document') : __('Quiz')) }}
                                                 </td>
                                                 <td>
-                                                    <embed
-                                                        src="{{asset('uploads/courses/contents/'.$m->content)}}"
-                                                        width="200px" height="100px" />
+                                                <video width="200" height="100" controls>
+                                                    <source src="{{asset('uploads/courses/contents/'.$m->content)}}" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
                                                 </td>
                                                 <td>{{$m->content_url}}</td>
                                                 <td>

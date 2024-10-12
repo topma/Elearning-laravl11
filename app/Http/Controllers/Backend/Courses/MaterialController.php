@@ -24,17 +24,20 @@ class MaterialController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function createMaterial($id)
     {
-        $lessonId = $request->query('lesson_id');
-        $decryptedId = encryptor('decrypt', $lessonId);
-        // Check if the ID is valid
-        if (!$decryptedId) {
-            // Handle the error (redirect, return error message, etc.)
-            return redirect()->back()->withErrors(['error' => 'Invalid lesson ID.']);
-        }
+        $decryptedId = encryptor('decrypt', $id);   
         
-        $lesson = Lesson::findOrFail($decryptedId);
+        // Find the lesson by decrypted ID
+        $lesson = Lesson::where('id', $decryptedId)->first();
+        
+        // Check if the lesson exists
+        if (!$lesson) {
+            // Return an error message or redirect back with an error
+            return redirect()->back()->withErrors(['danger' => 'Lesson not found.']);
+        }
+
+        // Pass the lesson to the view
         return view('backend.course.material.create', compact('lesson'));
     }
 

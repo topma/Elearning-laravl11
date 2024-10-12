@@ -45,7 +45,9 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">All Course Materials List </h4>
-                                <a href="{{route('material.create')}}" class="btn btn-primary">+ Add new</a>
+                                @foreach ($material as $m)
+                                <a href="{{route('material.createNew', encryptor('encrypt',$m->lesson?->id))}}" class="btn btn-primary">+ Add new</a>
+                                @endforeach
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">

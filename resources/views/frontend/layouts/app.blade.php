@@ -65,9 +65,11 @@
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="{{route('home')}}">Home</a>
                         </li>
+                        @if(request()->session()->get('studentLogin'))
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="{{route('studentdashboard')}}">My Dashboard</a>
                         </li>
+                        @endif
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="{{route('searchCourse')}}">Courses</a>
                         </li>

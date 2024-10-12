@@ -359,6 +359,16 @@
                 </li>
                 <li><a href="{{route('student.index')}}"><i class="las la-book-reader"></i>Students List</a></li>
                 <li><a href="{{route('course.index')}}"><i class="las la-book-open"></i>My Courses</a></li>
+                <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="las la-tasks"></i>
+                            <span class="nav-text">Quizzes</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{route('quiz.index')}}"><i class="las la-icons"></i>All Quizzes</a></li>
+                            <li><a href="{{route('question.index')}}"><i
+                                        class="las la-question-circle"></i>Questions</a></li>
+                        </ul>
+                    </li>
                 <!-- <li><a href="{{route('lesson.index')}}"><i class="las la-chalkboard"></i>Course Lessons</a></li> -->
                 <!-- <li><a href="{{route('material.index')}}"><i class="las la-atom"></i></i>Course Materials</a></li> -->
                 <li><a href="{{route('coupon.index')}}"><i class="las la-tags"></i>Coupons</a></li>

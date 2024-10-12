@@ -29,7 +29,7 @@
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-checkout" role="tabpanel"
                             aria-labelledby="pills-checkout-tab">
-                            <form action="" method="post">
+                            <form action="{{route('payment.enrollee.submit')}}" method="post">
                                 @csrf
                                 <div class="mb-4">
                                     <div class="ps-0 ">
@@ -39,8 +39,15 @@
                                     </div>
                                 </div>
                                 <input type="hidden" name="total_amount" id="total_amount" value="{{session('cart_details')['total_amount']}}">
+                                @foreach (session('cart') as $id => $details)
+                                <input type="hidden" name="currency_type" id="currency_type" value="{{$details['currency_type']}}">
+                                @endforeach
                                 <input type="hidden" name="email_addy" id="email_addy" value="{{request()->session()->get('email')}}">
-                                <button type="submit" class="button button-lg button--primary w-100"> Click Here to
+                                <!-- <script src="https://js.paystack.co/v1/inline.js"></script> -->
+                                <!-- <a class="button button-lg button--primary w-100" onClick="payWithPaystack()"> Click Here to
+                                    Confirm
+                                    Payment</a> -->
+                                    <button class="button button-lg button--primary w-100"> Click Here to
                                     Confirm
                                     Payment</button>
                             </form>
@@ -271,3 +278,35 @@
     }
 </script>
 @endpush
+
+<script>
+const paymentForm = document.getElementById('paymentForm');
+paymentForm.addEventListener("submit", payWithPaystack, false);
+
+function payWithPaystack(){
+    var handler = PaystackPop.setup({
+        key: 'pk_live_af75db5adac1cb07ba98e7e4d0d7d23adef8d6a6',
+        email: document.getElementById("email_addy").value,
+        amount: document.getElementById("total_amount").value * 100,
+
+        ref: 'KDH'+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+        // label: "Optional string that replaces customer email"
+     
+        callback: function(response){
+            var reference = response.reference;
+            alert('Payment complete! Reference: ' + reference);
+
+            // Use Laravel route for verifying the transaction
+            window.location = "{{ route('payment.verify-transaction') }}?reference=" + response.reference;
+        },
+        onClose: function(){
+            alert('Transaction Cancelled.');
+            
+            // Use Laravel route for cancelling the transaction
+            window.location = "{{ route('payment.cancel-transaction') }}";
+        }
+    });
+    handler.openIframe();
+}
+</script>
+

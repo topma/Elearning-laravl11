@@ -14,7 +14,7 @@ class sslController extends Controller
 {
     public function store(Request $request){
         $user = Student::findOrFail(currentUserId());
-        $txnid = "SSLCZ_TXN_".uniqid();
+        $txnid = "KDH".uniqid();
         $item_amount = session('cart_details')['total_amount'];
 
         //$settings = Generalsetting::findOrFail(1);

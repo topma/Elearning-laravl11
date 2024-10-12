@@ -444,15 +444,15 @@
                                         <label class="form-label">Currency Type</label>
                                         <select class="form-control" name="currencyType">
                                             <option value="=N=" @if(old('currencyType', $course->currency_type)=='=N=' ) selected
-                                                @endif>Naira
+                                                @endif>NAIRA
                                             </option>
                                             <option value="$" @if(old('currencyType', $course->currency_type)=='$' ) selected
-                                                @endif>Dollar
+                                                @endif>USD
                                             </option>
                                             <option value="£" @if(old('currencyType', $course->currency_type)=='£' )selected 
-                                                @endif>Pounds</option>
+                                                @endif>POUNDS</option>
                                                 <option value="€" @if(old('currencyType', $course->currency_type)=='€' )selected 
-                                                @endif>Euro</option>
+                                                @endif>EURO</option>
                                         </select>
                                     </div>
                                 </div>

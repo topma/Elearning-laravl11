@@ -124,7 +124,7 @@ class CourseController extends Controller
         $courseCategoryId = $course->course_category_id;
         $instructorId = $course->instructor_id;
         
-        $lesson = Lesson::where('course_id', $courseId)->get();
+        $lesson = Lesson::where('course_id', $courseId)->get(); 
         $courseNo = Course::where('instructor_id', $instructorId)->get();
         $coupon = Coupon::where('course_id', $courseId)->first();
         

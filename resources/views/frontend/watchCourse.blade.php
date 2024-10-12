@@ -43,21 +43,22 @@
                                     <i class="fas fa-book-open text-primary"></i>
                                     <span>{{$course->lesson?$course->lesson:0}} Lesson</span>
                                 </div>
-                                <div class="totoal-hours">
+                                <!-- <div class="totoal-hours">
                                     <i class="far fa-clock text-danger"></i>
                                     <span>{{$course->duration?$course->duration:0}} Hours</span>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="coursedescription-header-end">
+                <a href="{{route('studentdashboard')}}" class="button button--text">My Dashboard</a>
                     <!-- <a href="#" class="rating-link" data-bs-toggle="modal" data-bs-target="#ratingModal">Leave a Rating</a> -->
                     <a href="#" class="button button--text" data-bs-toggle="modal" data-bs-target="#ratingModal">Leave a
                         Rating</a>
 
                     <!-- <a href="#" class="btn btn-primary regular-fill-btn">Next Lession</a> -->
-                    <button class="button button--primary">Next Lession</button>
+                    <button class="button button--primary">Next Lesson</button>
                 </div>
             </div>
         </div>
@@ -78,7 +79,7 @@
                         </video>
                     </div>
                     <div class="course-description-start-content">
-                        <h5 class="font-title--sm material-title">{{$course->title_en}}</h5>
+                        <h5 class="font-title--sm material-title">{{$currentLesson->title}}</h5>
                         <nav class="course-description-start-content-tab">
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                 <button class="nav-link active" id="nav-ldescrip-tab" data-bs-toggle="tab"
@@ -106,13 +107,7 @@
                                 aria-labelledby="nav-ldescrip-tab">
                                 <div class="lesson-description">
                                     <p>
-                                        Donec imperdiet erat tortor, nec consectetur odio fermentum et. Mauris vehicula
-                                        faucibus viverra. Vestibulum varius ante enim. eu posuere ligula eleifend non.
-                                        Praesent sapien nisi, luctus a tellus
-                                        a, porta dapibus massa. Cras non mattis mauris. Etiam convallis purus a ante
-                                        mattis,
-                                        id tincidunt sapien hendrerit. Sed laoreet Check out my portfolio: <a
-                                            href="#">https://bit.ly/2OZkYCo</a>
+                                    {{$currentLesson->description}}
                                     </p>
                                 </div>
                                 <!-- Lesson Description Ends Here -->
@@ -123,13 +118,7 @@
                                     <div class="course-notes">
                                         <div class="course-notes-item">
                                             <p>
-                                                You have to take a minute to understand what is the goal, what is the
-                                                problem, what they're trying to achieve with it who is the target
-                                                audience,
-                                                who is the competition, and understand
-                                                what are you trying to do here and how will success will look like of
-                                                the
-                                                project. the way to do that is basically by doing two things
+                                            {{$currentLesson->notes}}
                                             </p>
                                         </div>
                                     </div>
@@ -152,43 +141,7 @@
                                     <div class="students-feedback pt-0 ps-0 pe-0 pb-0 mb-0">
                                         <div class="students-feedback-heading">
                                             <h5 class="font-title--card">Comments <span>(57,685)</span></h5>
-                                        </div>
-                                        <div class="students-feedback-item">
-                                            <div class="feedback-rating">
-                                                <div class="feedback-rating-start">
-                                                    <div class="image">
-                                                        <img src="{{asset('frontend/dist/images/ellipse/user.jpg')}}" alt="Image" />
-                                                    </div>
-                                                    <div class="text">
-                                                        <h6><a href="#">Harry Pinsky</a></h6>
-                                                        <p>1 hour ago</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <p>
-                                                Aliquam eget leo quis neque molestie dictum. Etiam ut tortor tempor,
-                                                vestibulum ante non, vulputate nibh. Cras non molestie diam. Great
-                                                Course
-                                                for Beginner 😀
-                                            </p>
-                                        </div>
-                                        <div class="students-feedback-item">
-                                            <div class="feedback-rating">
-                                                <div class="feedback-rating-start">
-                                                    <div class="image">
-                                                        <img src="{{asset('frontend/dist/images/ellipse/1.png')}}" alt="Image" />
-                                                    </div>
-                                                    <div class="text">
-                                                        <h6><a href="#">Harry Pinsky</a></h6>
-                                                        <p>2 hour ago</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <p>
-                                                Aliquam eget leo quis neque molestie dictum. Etiam ut tortor tempor,
-                                                vestibulum ante non, vulputate nibh.
-                                            </p>
-                                        </div>
+                                        </div>                                        
                                         <div class="students-feedback-item">
                                             <div class="feedback-rating">
                                                 <div class="feedback-rating-start">
@@ -208,24 +161,8 @@
                                                 auctor.
                                             </p>
                                         </div>
-                                        <div class="students-feedback-item border-0">
-                                            <div class="feedback-rating">
-                                                <div class="feedback-rating-start">
-                                                    <div class="image">
-                                                        <img src="{{asset('frontend/dist/images/ellipse/3.png')}}" alt="Image" />
-                                                    </div>
-                                                    <div class="text">
-                                                        <h6><a href="#">Watcraz Eggsy</a></h6>
-                                                        <p>1 day ago</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <p>
-                                                Cras non molestie diam. Aenean vulputate nisi ligula. Quisque in tempus
-                                                sapien. Quisque vestibulum massa eget consequat scelerisque.
-                                            </p>
-                                        </div>
-                                        <button class="button button-md button--primary-outline">Load More</button>
+                                        
+                                        <!-- <button class="button button-md button--primary-outline">Load More</button> -->
                                     </div>
                                 </div>
                                 <!-- Lesson Comments Ends Here -->
@@ -258,7 +195,7 @@
                                             <div class="course-instructor-info">
                                                 <div class="instructor-image">
                                                     <img src="{{asset('uploads/users/'.$course?->instructor?->image)}}"
-                                                        alt="Instructor" />
+                                                        alt="Instructor" width="160" height="120" />
                                                 </div>
                                                 <div class="instructor-text">
                                                     <h6 class="font-title--xs">
@@ -292,12 +229,16 @@
                                                                 </path>
                                                             </svg>
 
-                                                            <p>5 Courses</p>
+                                                            @if($courseNo->count() > 1)
+                                                            <p class="font-para--md">{{$courseNo->count()}} Courses</p>
+                                                            @elseif($courseNo->count() == 1)
+                                                            <p class="font-para--md">{{$courseNo->count()}} Course</p>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <p class="lead-p">{{$course?->instructor?->title}}
+                                            <!-- <p class="lead-p">{{$course?->instructor?->title}} -->
                                             </p>
                                             <p class="course-instructor-description">
                                                 {{$course?->instructor?->bio}}

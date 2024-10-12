@@ -156,10 +156,18 @@ Route::middleware(['checkstudent'])->prefix('students')->group(function () {
     Route::post('/change-image', [stu_profile::class, 'changeImage'])->name('change_image');
 
     // ssl Routes
-   // Route::post('/payment/ssl/submit', [sslcz::class, 'store'])->name('payment.ssl.submit');
+//    Route::post('/payment/ssl/submit', [sslcz::class, 'store'])->name('payment.ssl.submit');
+    Route::post('/payment/enrollee/submit', [PaymentController::class, 'getEnrollee'])
+    ->name('payment.enrollee.submit');
     // ----payment routes --------------------------------
     Route::get('/payment/verify-transaction', [PaymentController::class, 'verifyTransaction'])
     ->name('payment.verify-transaction');
+    Route::get('/payment/cancel-transaction', [PaymentController::class, 'cancelTransaction'])
+    ->name('payment.cancel-transaction');
+    Route::get('/payment/error-transaction', [PaymentController::class, 'errorTransaction'])
+    ->name('payment.error-transaction');
+    Route::get('/payment/success-transaction', [PaymentController::class, 'successTransaction'])
+    ->name('payment.success-transaction');
 });
 
 //----------instructor routes --------------------------------

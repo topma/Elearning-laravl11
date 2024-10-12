@@ -14,7 +14,7 @@ class DashboardController extends Controller
     public function index()
     {
         $student_info = Student::find(currentUserId());
-        $enrollment = Enrollment::where('student_id', currentUserId())->get();
+        $enrollment = Enrollment::where('student_id', currentUserId())->paginate(10);
         $course = Course::get();
         $checkout = Checkout::where('student_id', currentUserId())->get();
         // $purchaseHistory = Enrollment::with(['course', 'checkout'])->orderBy('enrollment_date', 'desc')->get();

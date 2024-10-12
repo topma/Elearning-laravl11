@@ -39,15 +39,17 @@
             <div class="col-lg-6">
                 <div class="about-intro__textContent">
                     <h2 class="font-title--md mb-3">A Great Place to Grow.</h2>
-                    <p class="mt-2 mt-lg-1 mb-2 mb-lg-4 text-secondary">
-                        Vestibulum efficitur accumsan sapien ut lacinia. Sed euismod ullamcorper rhoncus. Phasellus
-                        interdum rutrum nisi ut lacinia. Nulla et sapien at turpis viverra. Cras odio ex, posuere id
-                        est
-                        et, viverra
-                        condimentum felis
+                    <p class="mt-2 mt-lg-1 mb-2 mb-lg-4 text-secondary" style="color:black;">
+                    Kings Digital Literacy Hub is a premier platform dedicated to empowering individuals with essential digital skills. We provide a wide range of online courses designed to enhance your proficiency in today’s technology-driven world. 
+                    From beginner to advanced levels, our expertly crafted programs cover areas such as digital marketing, coding, data science, graphic design, and more.
                     </p>
-                    <p class="text-secondary">
-                        congue quis non odio. Aliquam sem ligula, commodo quis ipsum mattis, lacinia cursus magna.
+                    <p class="mt-2 mt-lg-1 mb-2 mb-lg-4 text-secondary" style="color:black;">
+                    At Kings Digital Literacy Hub, we believe in affordable and accessible education for all. With lifetime access to our resources, learners can study at their own pace, ensuring that knowledge is available whenever needed. Our platform is supported 
+                    by expert instructors who are passionate about helping you achieve your career goals.
+                    </p>
+                    <p class="mt-2 mt-lg-1 mb-2 mb-lg-4 text-secondary" style="color:black;">
+                    Whether you’re looking to advance your skills, switch careers, or grow your business, Kings Digital Literacy Hub is here to guide you every step of the way. 
+                    Join us today and take control of your digital future!
                     </p>
                 </div>
             </div>
@@ -63,24 +65,25 @@
             <div class="col-lg-6">
                 <div class="about-feature dark-feature">
                     <h5 class="text-white font-title--sm">Who We Are</h5>
-                    <p class="text-lowblack">
-                        Suspendisse potenti. Pellentesque augue ligula, dictum at pretium eu, fermentum sit amet
-                        risus.
-                        Maecenas congue feugiat libero, sed euismod urna congue eleifend. Maecenas et gravida felis.
-                        Vivamus iaculis
-                        tellus sit amet egestas luctus. Phasellus urna eros.
+                    <p class="text-lowblack" style="color:white;">
+                    At Kings Digital Literacy Hub, we are a dynamic team committed to bridging the digital skills gap by providing top-notch, affordable education. Our mission is to empower individuals, businesses, 
+                    and communities with the tools and knowledge needed to thrive in today’s digital world.
                     </p>
+                    <p class="text-lowblack" style="color:white;">
+                    We specialize in delivering a wide array of courses that cover essential digital skills, from coding and digital marketing to data science and graphic design. Our platform offers flexible learning options with lifetime access, 
+                    enabling learners to grow at their own pace.
+</p>
                 </div>
             </div>
             <div class="col-lg-6 mt-4 mt-lg-0">
                 <div class="about-feature">
                     <h5 class="font-title--sm">Our Mission</h5>
-                    <p class="text-secondary">
-                        Maecenas consectetur ultrices tortor, eget efficitur tortor finibus at. Sed convallis
-                        efficitur
-                        turpis, eget dapibus magna. Nam euismod lacus ac nulla vehicula aliquam.Curabitur efficitur
-                        vehicula sagittis.
-                        Cras convallis tellus ac quam efficitur viverra. Maecenas consectetur
+                    <p class="text-secondary" style="color:black;">
+                    Our mission is to empower individuals with the digital skills necessary to succeed in an increasingly technology-driven world. We strive to provide accessible, affordable, and high-quality education that enables learners to unlock their potential, 
+                    advance their careers, and positively impact their communities.
+                    </p>
+                    <p class="text-secondary" style="color:black;">
+                    Through our expertly crafted courses and dedicated support, we aim to bridge the digital divide and create opportunities for lifelong learning and growth in the digital economy.
                     </p>
                 </div>
             </div>

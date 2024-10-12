@@ -34,25 +34,12 @@
             </div>
             <div class="col-lg-6">
                 <div class="hero__content-info">
-                    <h2 class="font-title--md mb-0">Our Branches</h2>
-                    <p class="font-para--lg">
-                        Mauris eu fringilla lorem. Phasellus a sem nisl. Sed tempor arcu ac condimentum molestie. Morbi
-                        ullamcorper eleifend scelerisque. Aliquam venenatis eros elementum felis tincidunt scelerisque.
+                    <h4 class="font-title--md mb-0">We're Here to Help! Reach Out Anytime</h4><br>
+                    <p class="font-para--lg" style="color:black;">
+                    Have questions or need assistance? We’re here to help! Reach out to Kings Digital Literacy Hub through any of the following methods:<br>
+Our support team is available to assist you with inquiries about our courses, enrollment, or technical support. Don’t hesitate to get in touch—we look forward to hearing from you!
                     </p>
-                    <ul class="hero__content-location">
-                        <li>
-                            <span><i class="fas fa-map-marker-alt fa-2x"></i></span>
-                            <p>Chikago, USA</p>
-                        </li>
-                        <li>
-                            <span><i class="fas fa-map-marker-alt fa-2x"></i></span>
-                            <p>Mumbai, India</p>
-                        </li>
-                        <li>
-                            <span><i class="fas fa-map-marker-alt fa-2x"></i></span>
-                            <p>Rome, italy</p>
-                        </li>
-                    </ul>
+                    
                 </div>
             </div>
         </div>
@@ -83,7 +70,7 @@
                     </div>
                     <div class="contact-feature-text">
                         <h6>Email</h6>
-                        <h5>kingsdigihub@gmail.com</h5>
+                        <p>kingsdigihub@gmail.com</p>
                     </div>
                 </div>
 
@@ -93,7 +80,7 @@
                     </div>
                     <div class="contact-feature-text">
                         <h6>Phone</h6>
-                        <h5>+234-916-988-6500</h5>
+                        <p>+234-916-988-6500</p>
                     </div>
                 </div>
                 <img src="{{asset('frontend/dist/images/shape/dots/dots-img-03.png')}}" alt="Shape"

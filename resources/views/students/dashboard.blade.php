@@ -9,8 +9,8 @@
     <div class="container">
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb align-items-center bg-transparent mb-0">
-                <li class="breadcrumb-item"><a href="index.html" class="fs-6 text-secondary">Home</a></li>
-                <li class="breadcrumb-item fs-6 text-secondary" aria-current="page">My Profile</li>
+                <li class="breadcrumb-item"><a href="{{route('home')}}" class="fs-6 text-secondary">Home</a></li>
+                <li class="breadcrumb-item fs-6 text-secondary" aria-current="page">My Dashboard</li>
             </ol>
         </nav>
     </div>
@@ -140,7 +140,7 @@
                         <div class="col-lg-4 col-md-6 col-md-6 mb-4">
                             <div class="contentCard contentCard--watch-course">
                                 <div class="contentCard-top">
-                                    <a href="#"><img src="{{asset('public/uploads/courses/'.$a->course?->image)}}"
+                                    <a href="#"><img src="{{asset('uploads/courses/'.$a->course?->image)}}"
                                             alt="images" class="img-fluid" /></a>
                                 </div>
                                 <div class="contentCard-bottom">
@@ -151,7 +151,7 @@
                                     <div class="contentCard-info d-flex align-items-center justify-content-between">
                                         <a href="{{route('instructorProfile', encryptor('encrypt', $a->course?->instructor->id))}}"
                                             class="contentCard-user d-flex align-items-center">
-                                            <img src="{{asset('public/uploads/users/'.$a->course?->instructor?->image)}}"
+                                            <img src="{{asset('uploads/users/'.$a->course?->instructor?->image)}}"
                                                 alt="client-image" class="rounded-circle" height="34" width="34" />
                                             <p class="font-para--md">{{$a->course?->instructor?->name_en}}</p>
                                         </a>
@@ -185,24 +185,7 @@
                         <div class="col-lg-12 mt-lg-5">
                             <div class="pagination justify-content-center pb-0">
                                 <div class="pagination-group">
-                                    <a href="#" class="p_prev">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="9.414" height="16.828"
-                                            viewBox="0 0 9.414 16.828">
-                                            <path data-name="Icon feather-chevron-left" d="M20.5,23l-7-7,7-7"
-                                                transform="translate(-12.5 -7.586)" fill="none" stroke="#1a2224"
-                                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                                        </svg>
-                                    </a>
-                                    <a href="#!1" class="cdp_i active">01</a>
-                                    <a href="#!2" class="cdp_i">02</a>
-                                    <a href="#!3" class="cdp_i">03</a>
-                                    <a href="#!+1" class="p_next">
-                                        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M1.5 1L8.5 8L1.5 15" stroke="#35343E" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                    </a>
+                                    {{$enrollment->links()}}
                                 </div>
                             </div>
                         </div>
@@ -213,31 +196,32 @@
                 <div class="tab-pane fade" id="nav-activecourses" role="tabpanel"
                     aria-labelledby="nav-activecourses-tab">
                     <div class="row">
+                        @forelse ($enrollment as $a)
                         <div class="col-lg-4 col-md-6 col-md-6 mb-4">
                             <div class="contentCard contentCard--watch-course">
                                 <div class="contentCard-top">
-                                    <a href="#"><img
-                                            src="{{asset('public/frontend/dist/images/courses/demo-img-04.png')}}"
+                                    <a href="#"><img src="{{asset('uploads/courses/'.$a->course?->image)}}"
                                             alt="images" class="img-fluid" /></a>
                                 </div>
                                 <div class="contentCard-bottom">
                                     <h5>
-                                        <a href="#" class="font-title--card">Chicago International
-                                            Conference on Education</a>
+                                        <a href="{{route('courseDetails', encryptor('encrypt', $a->course?->id))}}"
+                                            class="font-title--card">{{$a->course?->title_en}}</a>
                                     </h5>
                                     <div class="contentCard-info d-flex align-items-center justify-content-between">
-                                        <a href="instructor-profile.html"
+                                        <a href="{{route('instructorProfile', encryptor('encrypt', $a->course?->instructor->id))}}"
                                             class="contentCard-user d-flex align-items-center">
-                                            <img src="{{asset('public/frontend/dist/images/courses/7.png')}}"
-                                                alt="client-image" class="rounded-circle" />
-                                            <p class="font-para--md">Brandon Dias</p>
+                                            <img src="{{asset('uploads/users/'.$a->course?->instructor?->image)}}"
+                                                alt="client-image" class="rounded-circle" height="34" width="34" />
+                                            <p class="font-para--md">{{$a->course?->instructor?->name_en}}</p>
                                         </a>
                                         <div class="contentCard-course--status d-flex align-items-center">
                                             <span class="percentage">43%</span>
                                             <p>Finish</p>
                                         </div>
                                     </div>
-                                    <a class="button button-md button--primary-outline w-100 my-3" href="#">Watch
+                                    <a class="button button-md button--primary-outline w-100 my-3"
+                                        href="{{route('watchCourse', encryptor('encrypt', $a->course?->id))}}">Watch
                                         Course</a>
                                     <div class="contentCard-watch--progress">
                                         <span class="percentage" style="width: 43%;"></span>
@@ -245,91 +229,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-6 col-md-6 mb-4">
-                            <div class="contentCard contentCard--watch-course">
-                                <div class="contentCard-top">
-                                    <a href="#"><img
-                                            src="{{asset('public/frontend/dist/images/courses/demo-img-05.png')}}"
-                                            alt="images" class="img-fluid" /></a>
-                                </div>
-                                <div class="contentCard-bottom">
-                                    <h5>
-                                        <a href="#" class="font-title--card">Chicago International
-                                            Conference on Education</a>
-                                    </h5>
-                                    <div class="contentCard-info d-flex align-items-center justify-content-between">
-                                        <a href="instructor-profile.html"
-                                            class="contentCard-user d-flex align-items-center">
-                                            <img src="{{asset('public/frontend/dist/images/courses/7.png')}}"
-                                                alt="client-image" class="rounded-circle" />
-                                            <p class="font-para--md">Brandon Dias</p>
-                                        </a>
-                                        <div class="contentCard-course--status d-flex align-items-center">
-                                            <span class="percentage">43%</span>
-                                            <p>Finish</p>
-                                        </div>
-                                    </div>
-                                    <a class="button button-md button--primary-outline w-100 my-3" href="#">Watch
-                                        Course</a>
-                                    <div class="contentCard-watch--progress">
-                                        <span class="percentage" style="width: 43%;"></span>
-                                    </div>
-                                </div>
+                        @empty
+                        <div class="col-12 py-5">
+                            <div class="col-md-6 col-12 mx-auto text-center">
+                                <h5 class="font-title--sm">You Haven't Enrolled Any Course Yet...</h5>
+                                <p class="my-4 font-para--lg">
+                                    Your Course List is Empty!
+                                </p>
+                                <a href="{{route('searchCourse')}}" class="button button-md button--primary">Enroll
+                                    Now!</a>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-6 col-md-6 mb-4">
-                            <div class="contentCard contentCard--watch-course">
-                                <div class="contentCard-top">
-                                    <a href="#"><img
-                                            src="{{asset('public/frontend/dist/images/courses/demo-img-01.png')}}"
-                                            alt="images" class="img-fluid" /></a>
-                                </div>
-                                <div class="contentCard-bottom">
-                                    <h5>
-                                        <a href="#" class="font-title--card">Chicago International
-                                            Conference on Education</a>
-                                    </h5>
-                                    <div class="contentCard-info d-flex align-items-center justify-content-between">
-                                        <a href="instructor-profile.html"
-                                            class="contentCard-user d-flex align-items-center">
-                                            <img src="{{asset('public/frontend/dist/images/courses/7.png')}}"
-                                                alt="client-image" class="rounded-circle" />
-                                            <p class="font-para--md">Brandon Dias</p>
-                                        </a>
-                                        <div class="contentCard-course--status d-flex align-items-center">
-                                            <span class="percentage">43%</span>
-                                            <p>Finish</p>
-                                        </div>
-                                    </div>
-                                    <a class="button button-md button--primary-outline w-100 my-3" href="#">Watch
-                                        Course</a>
-                                    <div class="contentCard-watch--progress">
-                                        <span class="percentage" style="width: 43%;"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforelse
+
                         <div class="col-lg-12 mt-lg-5">
                             <div class="pagination justify-content-center pb-0">
                                 <div class="pagination-group">
-                                    <a href="#" class="p_prev">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="9.414" height="16.828"
-                                            viewBox="0 0 9.414 16.828">
-                                            <path data-name="Icon feather-chevron-left" d="M20.5,23l-7-7,7-7"
-                                                transform="translate(-12.5 -7.586)" fill="none" stroke="#1a2224"
-                                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                                        </svg>
-                                    </a>
-                                    <a href="#!1" class="cdp_i active">01</a>
-                                    <a href="#!2" class="cdp_i">02</a>
-                                    <a href="#!3" class="cdp_i">03</a>
-                                    <a href="#!+1" class="p_next">
-                                        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M1.5 1L8.5 8L1.5 15" stroke="#35343E" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                    </a>
+                                    {{$enrollment->links()}}
                                 </div>
                             </div>
                         </div>
@@ -340,123 +256,56 @@
                 <div class="tab-pane fade" id="nav-completedcourses" role="tabpanel"
                     aria-labelledby="nav-completedcourses-tab">
                     <div class="row">
+                        @forelse ($enrollment as $a)
                         <div class="col-lg-4 col-md-6 col-md-6 mb-4">
                             <div class="contentCard contentCard--watch-course">
                                 <div class="contentCard-top">
-                                    <a href="#"><img
-                                            src="{{asset('public/frontend/dist/images/courses/demo-img-02.png')}}"
+                                    <a href="#"><img src="{{asset('uploads/courses/'.$a->course?->image)}}"
                                             alt="images" class="img-fluid" /></a>
                                 </div>
                                 <div class="contentCard-bottom">
                                     <h5>
-                                        <a href="#" class="font-title--card">Chicago International
-                                            Conference on Education</a>
+                                        <a href="{{route('courseDetails', encryptor('encrypt', $a->course?->id))}}"
+                                            class="font-title--card">{{$a->course?->title_en}}</a>
                                     </h5>
                                     <div class="contentCard-info d-flex align-items-center justify-content-between">
-                                        <a href="instructor-profile.html"
+                                        <a href="{{route('instructorProfile', encryptor('encrypt', $a->course?->instructor->id))}}"
                                             class="contentCard-user d-flex align-items-center">
-                                            <img src="{{asset('public/frontend/dist/images/courses/7.png')}}"
-                                                alt="client-image" class="rounded-circle" />
-                                            <p class="font-para--md">Brandon Dias</p>
+                                            <img src="{{asset('uploads/users/'.$a->course?->instructor?->image)}}"
+                                                alt="client-image" class="rounded-circle" height="34" width="34" />
+                                            <p class="font-para--md">{{$a->course?->instructor?->name_en}}</p>
                                         </a>
                                         <div class="contentCard-course--status d-flex align-items-center">
-                                            <span class="percentage">100%</span>
+                                            <span class="percentage">43%</span>
                                             <p>Finish</p>
                                         </div>
                                     </div>
-                                    <a class="button button-md button--primary-outline w-100 my-3" href="#">Watch
+                                    <a class="button button-md button--primary-outline w-100 my-3"
+                                        href="{{route('watchCourse', encryptor('encrypt', $a->course?->id))}}">Watch
                                         Course</a>
                                     <div class="contentCard-watch--progress">
-                                        <span class="percentage" style="width: 100%;"></span>
+                                        <span class="percentage" style="width: 43%;"></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-6 col-md-6 mb-4">
-                            <div class="contentCard contentCard--watch-course">
-                                <div class="contentCard-top">
-                                    <a href="#"><img
-                                            src="{{asset('public/frontend/dist/images/courses/demo-img-03.png')}}"
-                                            alt="images" class="img-fluid" /></a>
-                                </div>
-                                <div class="contentCard-bottom">
-                                    <h5>
-                                        <a href="#" class="font-title--card">Chicago International
-                                            Conference on Education</a>
-                                    </h5>
-                                    <div class="contentCard-info d-flex align-items-center justify-content-between">
-                                        <a href="instructor-profile.html"
-                                            class="contentCard-user d-flex align-items-center">
-                                            <img src="{{asset('public/frontend/dist/images/courses/7.png')}}"
-                                                alt="client-image" class="rounded-circle" />
-                                            <p class="font-para--md">Brandon Dias</p>
-                                        </a>
-                                        <div class="contentCard-course--status d-flex align-items-center">
-                                            <span class="percentage">100%</span>
-                                            <p>Finish</p>
-                                        </div>
-                                    </div>
-                                    <a class="button button-md button--primary-outline w-100 my-3" href="#">Watch
-                                        Course</a>
-                                    <div class="contentCard-watch--progress">
-                                        <span class="percentage" style="width: 100%;"></span>
-                                    </div>
-                                </div>
+                        @empty
+                        <div class="col-12 py-5">
+                            <div class="col-md-6 col-12 mx-auto text-center">
+                                <h5 class="font-title--sm">You Haven't Enrolled Any Course Yet...</h5>
+                                <p class="my-4 font-para--lg">
+                                    Your Course List is Empty!
+                                </p>
+                                <a href="{{route('searchCourse')}}" class="button button-md button--primary">Enroll
+                                    Now!</a>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-6 col-md-6 mb-4">
-                            <div class="contentCard contentCard--watch-course">
-                                <div class="contentCard-top">
-                                    <a href="#"><img
-                                            src="{{asset('public/frontend/dist/images/courses/demo-img-04.png')}}"
-                                            alt="images" class="img-fluid" /></a>
-                                </div>
-                                <div class="contentCard-bottom">
-                                    <h5>
-                                        <a href="#" class="font-title--card">Chicago International
-                                            Conference on Education</a>
-                                    </h5>
-                                    <div class="contentCard-info d-flex align-items-center justify-content-between">
-                                        <a href="instructor-profile.html"
-                                            class="contentCard-user d-flex align-items-center">
-                                            <img src="{{asset('public/frontend/dist/images/courses/7.png')}}"
-                                                alt="client-image" class="rounded-circle" />
-                                            <p class="font-para--md">Brandon Dias</p>
-                                        </a>
-                                        <div class="contentCard-course--status d-flex align-items-center">
-                                            <span class="percentage">100%</span>
-                                            <p>Finish</p>
-                                        </div>
-                                    </div>
-                                    <a class="button button-md button--primary-outline w-100 my-3" href="#">Watch
-                                        Course</a>
-                                    <div class="contentCard-watch--progress">
-                                        <span class="percentage" style="width: 100%;"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforelse
+
                         <div class="col-lg-12 mt-lg-5">
                             <div class="pagination justify-content-center pb-0">
                                 <div class="pagination-group">
-                                    <a href="#" class="p_prev">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="9.414" height="16.828"
-                                            viewBox="0 0 9.414 16.828">
-                                            <path data-name="Icon feather-chevron-left" d="M20.5,23l-7-7,7-7"
-                                                transform="translate(-12.5 -7.586)" fill="none" stroke="#1a2224"
-                                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                                        </svg>
-                                    </a>
-                                    <a href="#!1" class="cdp_i active">01</a>
-                                    <a href="#!2" class="cdp_i">02</a>
-                                    <a href="#!3" class="cdp_i">03</a>
-                                    <a href="#!+1" class="p_next">
-                                        <svg width="10" height="16" viewBox="0 0 10 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M1.5 1L8.5 8L1.5 15" stroke="#35343E" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                    </a>
+                                    {{$enrollment->links()}}
                                 </div>
                             </div>
                         </div>
@@ -492,7 +341,7 @@
                                             class="purchase-area-items-start d-flex align-items-lg-center flex-column flex-lg-row">
                                             <div class="image">
                                                 <a href="#">
-                                                    <img src="{{asset('public/uploads/courses/'.$data->image)}}"
+                                                    <img src="{{asset('uploads/courses/'.$data->image)}}"
                                                         alt="Image" />
                                                 </a>
                                             </div>
@@ -506,7 +355,7 @@
                                                          {{$data->instructor}}</a>
                                                     </p>
                                                 </div>
-                                                <p class="ms-2">{{$data->price?('৳'.$data->price):'Free'}}</p>
+                                                <p class="ms-2">{{$data->price?($data->currency_type.number_format($data->price,2)):'Free'}}</p>
                                             </div>
                                         </div>
                                         @endforeach
@@ -515,8 +364,8 @@
                                         <p>{{$e->created_at}}</p>
                                         <dl class="row">
                                             <dt class="col-sm-4">Total</dt>
-                                            <dd class="col-sm-8">
-                                                {{json_decode(base64_decode($e->cart_data))->cart_details->total_amount}}
+                                            <dd class="col-sm-8">                                            
+                                                {{number_format(json_decode(base64_decode($e->cart_data))->cart_details->total_amount,2)}}
                                             </dd>
                                             <dt class="col-sm-4">Total Courses</dt>
                                             <dd class="col-sm-8">

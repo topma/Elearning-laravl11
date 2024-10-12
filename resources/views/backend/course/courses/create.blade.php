@@ -140,10 +140,10 @@
                                     <div class="form-group">
                                         <label class="form-label">Currency Type</label>
                                         <select class="form-control" name="currencyType">
-                                            <option value="=N=" @if(old('currencyType')=='=N=' ) selected @endif>Naira</option>
-                                            <option value="$" @if(old('currencyType')=='$' ) selected @endif>Dollar</option>
-                                            <option value="£" @if(old('currencyType')=='£' )selected @endif>Pounds</option>
-                                            <option value="€" @if(old('currencyType')=='€' )selected @endif>Euro</option>
+                                            <option value="=N=" @if(old('currencyType')=='=N=' ) selected @endif>NAIRA</option>
+                                            <option value="$" @if(old('currencyType')=='$' ) selected @endif>USD</option>
+                                            <option value="£" @if(old('currencyType')=='£' )selected @endif>POUNDS</option>
+                                            <option value="€" @if(old('currencyType')=='€' )selected @endif>EURO</option>
                                         </select>
                                     </div>
                                 </div>

@@ -33,6 +33,7 @@ class CartController extends Controller
             //$cart[$id]['quantity']++;
         } else {
             $cart[$id] = [
+                "id" => $course->id,
                 "title_en" => $course->title_en,
                 "quantity" => 1,
                 "price" => $course->price,

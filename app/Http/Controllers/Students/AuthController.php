@@ -210,6 +210,6 @@ class AuthController extends Controller
     public function signOut()
     {
         request()->session()->flush();
-        return redirect()->route('studentLogin')->with('danger', 'Succesfully Logged Out');
+        return redirect()->route('home')->with('danger', 'Succesfully Logged Out');
     }
 }

@@ -22,7 +22,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
                     <li class="breadcrumb-item"><a href="{{route('course.index')}}">My Courses</a></li>
-                    <li class="breadcrumb-item active"><a href="{{route('lesson.show', encryptor('encrypt',$lesson->course_id))}}">Course Lesson</a></li>
+                    <li class="breadcrumb-item active"><a href="{{route('lesson.show', encryptor('encrypt',$lesson->course_id))}}">Course Lessons</a></li>
                     <li class="breadcrumb-item active"><a href="">All Course Material</a>
                     </li>
                 </ol>
@@ -59,7 +59,7 @@
                                                 <th>{{__('Lesson')}}</th>
                                                 <th>{{__('Material Type')}}</th>
                                                 <th>{{__('Content')}}</th>
-                                                <th>{{__('Content Url')}}</th>
+                                                <!-- <th>{{__('Content Url')}}</th> -->
                                                 <th>{{__('Action')}}</th>
                                             </tr>
                                         </thead>
@@ -68,18 +68,22 @@
                                             <tr>
                                                 <td>{{$key + 1}}</td>
                                                 <!-- <td>{{$m->title}}</td> -->
-                                                <td>{{$m->lesson?->title}}</td>
+                                                <td>{{$m->lesson?->title}}</td>                                                
                                                 <td>
-                                                    {{ $m->type == 'video' ? __('Video') : ($m->type == 'document' ?
-                                                    __('Document') : __('Quiz')) }}
-                                                </td>
+                                                    {{ $m->type == 'video' ? __('Video') : ($m->type == 'text' ?
+                                                    __('Text') : __('Quiz')) }}
+                                                </td>                                               
+                                                @if($m->type == 'video')
                                                 <td>
                                                 <video width="200" height="100" controls>
                                                     <source src="{{asset('uploads/courses/contents/'.$m->content)}}" type="video/mp4">
                                                     Your browser does not support the video tag.
                                                 </video>
                                                 </td>
-                                                <td>{{$m->content_url}}</td>
+                                                @else
+                                                <td></td>
+                                                @endif
+                                                <!-- <td>{{$m->content_url}}</td> -->
                                                 <td>
                                                     <a href="{{route('material.edit', encryptor('encrypt',$m->id))}}"
                                                         class="btn btn-sm btn-primary" title="Edit"><i

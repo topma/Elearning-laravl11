@@ -6,6 +6,8 @@ use App\Models\Lesson;
 use App\Models\Course;
 use App\Models\Material;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Backend\Course\Lessons\AddNewRequest;
+use App\Http\Requests\Backend\Course\Lessons\UpdateRequest;
 use Illuminate\Http\Request;
 
 class LessonController extends Controller
@@ -50,11 +52,12 @@ class LessonController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AddNewRequest $request)
     {
         try {
             $lesson = new Lesson;
             $lesson->title = $request->lessonTitle;
+            $lesson->serial_no = $request->serialNo;
             $lesson->course_id = $request->courseId;
             $lesson->description = $request->lessonDescription;
             $lesson->notes = $request->lessonNotes;
@@ -85,7 +88,10 @@ class LessonController extends Controller
         $course = Course::findOrFail($decryptedId);
 
         // Get lessons associated with the course
-        $lesson = Lesson::where('course_id', $course->id)->withCount('material')->get();
+        $lesson = Lesson::where('course_id', $course->id)
+        ->withCount('material') 
+        ->orderBy('serial_no', 'asc')
+        ->get();
 
         // Return the view with the course and its lessons
         return view('backend.course.lesson.view', compact('course', 'lesson'));
@@ -104,11 +110,12 @@ class LessonController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
         try {
             $lesson = Lesson::findOrFail(encryptor('decrypt', $id));
             $lesson->title = $request->lessonTitle;
+            $lesson->serial_no = $request->serialNo;
             $lesson->course_id = $request->courseId;
             $lesson->description = $request->lessonDescription;
             $lesson->notes = $request->lessonNotes;

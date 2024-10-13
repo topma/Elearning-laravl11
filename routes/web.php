@@ -123,6 +123,7 @@ Route::prefix('admin')->group(function () {
     Route::patch('/courseList/{update}', [course::class, 'updateforAdmin'])->name('course.updateforAdmin');
     Route::resource('material', material::class);
     Route::get('material/add/{id}', [material::class, 'createMaterial'])->name('material.createNew');
+    Route::get('editor', [material::class, 'editorShow'])->name('editor.show');
     Route::resource('lesson', lesson::class);
     // Route::get('lesson/add/{id}', [lesson::class, 'add'])->name('lesson.add');
     Route::resource('event', event::class);

@@ -39,17 +39,7 @@
                         <form action="{{route('lesson.store')}}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Title</label>
-                                        <input type="text" class="form-control" name="lessonTitle"
-                                            value="{{old('lessonTitle')}}">
-                                    </div>
-                                    @if($errors->has('lessonTitle'))
-                                    <span class="text-danger"> {{ $errors->first('lessonTitle') }}</span>
-                                    @endif
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Course</label>
                                         <select class="form-control" name="courseId">
@@ -65,6 +55,17 @@
                                     <span class="text-danger"> {{ $errors->first('courseId') }}</span>
                                     @endif
                                 </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Title</label>
+                                        <input type="text" class="form-control" name="lessonTitle"
+                                            value="{{old('lessonTitle')}}">
+                                    </div>
+                                    @if($errors->has('lessonTitle'))
+                                    <span class="text-danger"> {{ $errors->first('lessonTitle') }}</span>
+                                    @endif
+                                </div>
+                                
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Lesson Description</label>

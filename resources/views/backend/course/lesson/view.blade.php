@@ -62,7 +62,7 @@
                                         <tbody>
                                             @forelse ($lesson as $key => $l)
                                             <tr>
-                                                <td>{{ $key + 1 }}</td>
+                                                <td>{{ $l->serial_no }}</td>
                                                 <td>{{ $l->title }}</td>
                                                 <td>{{ $l->notes }}</td>
                                                 <td>{{ $l->material_count }}</td>
@@ -71,7 +71,7 @@
                                                         <a href="{{ route('material.show', encryptor('encrypt', $l->id)) }}" 
                                                         class="btn btn-info" title="View Materials">View Materials</a>
                                                     @else
-                                                        <a href="{{ route('material.create', ['lesson_id' => encryptor('encrypt', $l->id)]) }}" 
+                                                        <a href="{{ route('material.createNew', ['id' => encryptor('encrypt', $l->id)]) }}" 
                                                         class="btn btn-dark" title="Add Materials">+ Add Materials</a>
                                                     @endif
                                                 </td>

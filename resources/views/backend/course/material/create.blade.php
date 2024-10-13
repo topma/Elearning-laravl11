@@ -25,6 +25,7 @@
                     <li class="breadcrumb-item"><a href="{{route('course.index')}}">My Courses</a></li>
                     <li class="breadcrumb-item active"><a href="{{route('lesson.show', encryptor('encrypt',$lesson->course_id))}}">Course Lesson</a></li>
                     <li class="breadcrumb-item active"><a href="">Add Course Material</a>
+                    <li class="breadcrumb-item"><a href="{{route('editor.show')}}">Editor</a></li>
                     </li>
                 </ol>
             </div>
@@ -70,28 +71,28 @@
                                             <option value="video" @if(old('materialType')=='video' ) selected @endif>
                                                 Video
                                             </option>
-                                            <option value="document" @if(old('materialType')=='document' ) selected
-                                                @endif>Document
+                                            <option value="text" @if(old('materialType')=='text' ) selected
+                                                @endif>Text
                                             </option>
-                                            <option value="quiz" @if(old('materialType')=='quiz' ) selected @endif>Quiz
-                                            </option>
+                                            <!-- <option value="quiz" @if(old('materialType')=='quiz' ) selected @endif>Quiz
+                                            </option> -->
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Content</label>
+                                        <label class="form-label">Content(Video)</label>
                                         <input type="file" class="form-control" name="content">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Content Url</label>
+                                        <label class="form-label">Content(Text)</label>
                                         <textarea class="form-control"
-                                            name="contentURL">{{old('contentURL')}}</textarea>
+                                            name="contentData" id="myEditor">{{old('contentData')}}</textarea>
                                     </div>
-                                    @if($errors->has('contentURL'))
-                                    <span class="text-danger"> {{ $errors->first('contentURL') }}</span>
+                                    @if($errors->has('contentData'))
+                                    <span class="text-danger"> {{ $errors->first('contentData') }}</span>
                                     @endif
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -119,4 +120,6 @@
 
 <!-- Pickdate -->
 <script src="{{asset('js/plugins-init/pickadate-init.js')}}"></script>
+
 @endpush
+

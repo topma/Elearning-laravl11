@@ -52,7 +52,7 @@
                                     <span class="text-danger"> {{ $errors->first('materialTitle') }}</span>
                                     @endif
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                <!-- <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Lesson</label>
                                         <select class="form-control" name="lessonId">
@@ -66,7 +66,7 @@
                                     @if($errors->has('lessonId'))
                                     <span class="text-danger"> {{ $errors->first('lessonId') }}</span>
                                     @endif
-                                </div>
+                                </div> -->
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Material Type</label>
@@ -74,12 +74,12 @@
                                             <option value="video" @if(old('materialType', $material->type)=='video' ) selected
                                                 @endif>Video
                                             </option>
-                                            <option value="document" @if(old('materialType', $material->type)=='document' ) selected
-                                                @endif>Document
+                                            <option value="text" @if(old('materialType', $material->type)=='text' ) selected
+                                                @endif>Text
                                             </option>
-                                            <option value="quiz" @if(old('materialType', $material->type)
+                                            <!-- <option value="quiz" @if(old('materialType', $material->type)
                                                 =='quiz' )
-                                                selected @endif>Quiz</option>
+                                                selected @endif>Quiz</option> -->
                                         </select>
                                     </div>
                                     @if($errors->has('materialType'))
@@ -88,18 +88,18 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Content</label>
+                                        <label class="form-label">Content(Video)</label>
                                         <input type="file" class="form-control" name="content">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Content Url</label>
-                                        <textarea class="form-control"
-                                            name="contentURL">{{old('contentURL',$material->content_url)}}</textarea>
+                                        <label class="form-label">Content(text)</label>
+                                        <textarea class="form-control" id="myEditor"
+                                            name="contentData">{{old('contentData',$material->content_data)}}</textarea>
                                     </div>
-                                    @if($errors->has('contentURL'))
-                                    <span class="text-danger"> {{ $errors->first('contentURL') }}</span>
+                                    @if($errors->has('contentData'))
+                                    <span class="text-danger"> {{ $errors->first('contentData') }}</span>
                                     @endif
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">

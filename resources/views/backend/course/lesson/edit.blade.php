@@ -42,17 +42,7 @@
                             @method('PATCH')
                             <input type="hidden" name="uptoken" value="{{encryptor('encrypt',$lesson->id)}}">
                             <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Title</label>
-                                        <input type="text" class="form-control" name="lessonTitle"
-                                            value="{{old('lessonTitle',$lesson->title)}}">
-                                    </div>
-                                    @if($errors->has('lessonTitle'))
-                                    <span class="text-danger"> {{ $errors->first('lessonTitle') }}</span>
-                                    @endif
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Course</label>
                                         <select class="form-control" name="courseId">
@@ -67,6 +57,26 @@
                                     </div>
                                     @if($errors->has('courseId'))
                                     <span class="text-danger"> {{ $errors->first('courseId') }}</span>
+                                    @endif
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Title</label>
+                                        <input type="text" class="form-control" name="lessonTitle"
+                                            value="{{old('lessonTitle',$lesson->title)}}">
+                                    </div>
+                                    @if($errors->has('lessonTitle'))
+                                    <span class="text-danger"> {{ $errors->first('lessonTitle') }}</span>
+                                    @endif
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Serial No</label>
+                                        <input type="number" class="form-control" name="serialNo"
+                                            value="{{old('serialNo',$lesson->serial_no)}}">
+                                    </div>
+                                    @if($errors->has('serialNo'))
+                                    <span class="text-danger"> {{ $errors->first('serialNo') }}</span>
                                     @endif
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
@@ -90,7 +100,7 @@
                                     @endif
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
                                     <button type="submit" class="btn btn-light">Cancel</button>
                                 </div>
                             </div>

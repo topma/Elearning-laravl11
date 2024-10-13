@@ -21,6 +21,11 @@ class MaterialController extends Controller
         return view('backend.course.material.index', compact('material'));
     }
 
+    public function editorShow()
+    {
+        return view('backend.course.material.editor');
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -52,7 +57,7 @@ class MaterialController extends Controller
             $material->lesson_id = $request->lessonId;
             $material->type = $request->materialType;
             $material->content = $request->content;
-            $material->content_url = $request->contentURL;
+            $material->content_data = $request->contentData;
 
             if ($request->hasFile('content')) {
                 $contentName = rand(111, 999) . time() . '.' . $request->content->extension();

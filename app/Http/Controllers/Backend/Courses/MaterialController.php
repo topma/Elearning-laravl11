@@ -58,14 +58,16 @@ class MaterialController extends Controller
             $material->type = $request->materialType;
             $material->content = $request->content;
             $material->content_data = $request->contentData;
+            $lesson = Lesson::where('id', $request->lessonId)->first();
+            $courseId = $lesson->course_id;
 
             if ($request->hasFile('content')) {
                 $contentName = rand(111, 999) . time() . '.' . $request->content->extension();
                 $request->content->move(public_path('uploads/courses/contents'), $contentName);
                 $material->content = $contentName;
             }
-            if ($material->save()) {
-                return redirect()->route('material.show', encryptor('encrypt', $request->lessonId))->with('success', 'Data Saved');;
+            if ($material->save()) {                
+                return redirect()->route('lesson.show', encryptor('encrypt', $courseId))->with('success', 'Data Saved');;
             } else {
                 return redirect()->back()->withInput()->with('error', 'Please try again');
             }

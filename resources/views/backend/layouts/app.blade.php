@@ -12,7 +12,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset('images/favicon.png')}}">
     <link rel="stylesheet" href="{{asset('vendor/bootstrap-select/dist/css/bootstrap-select.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
-    <link href="{{asset('frontend/summernote/summernote-lite.min.css')}}" rel="stylesheet">
+    <!-- <link href="{{asset('frontend/summernote/summernote-lite.min.css')}}" rel="stylesheet"> -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-lite.min.css" rel="stylesheet">
     @stack('styles')
 </head>
 
@@ -452,8 +453,8 @@
     {!! Toastr::message() !!}
 
    
-<script src="{{asset('frontend/summernote/summernote-lite.min.js')}}"></script>
-
+<!-- <script src="{{asset('frontend/summernote/summernote-lite.min.js')}}"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-lite.min.js"></script>
 <script>
   $(document).ready(function() {
     $('#myEditor').summernote({

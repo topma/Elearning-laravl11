@@ -44,6 +44,10 @@
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right border py-0">
                                                 <div class="py-2">
+                                                <a class="dropdown-item" 
+                                                href="{{ $d->lesson_count > 0 ? route('lesson.show', encryptor('encrypt', $d->id)) : route('lesson.create', ['course_id' => encryptor('encrypt', $d->id)]) }}">
+                                                {{ $d->lesson_count > 0 ? 'View Course Lessons' : 'Create Course Lessons' }}
+                                            </a>
                                                     <a class="dropdown-item"
                                                         href="{{route('course.edit', encryptor('encrypt',$d->id))}}">Edit</a>
                                                     <a class="dropdown-item text-danger" href="javascript:void(0);"

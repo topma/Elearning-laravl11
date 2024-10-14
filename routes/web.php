@@ -31,6 +31,7 @@ use App\Http\Controllers\EventController as event;
 use App\Http\Controllers\CustomForgotPasswordController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ProgressController;
 
 /* students */
 use App\Http\Controllers\Students\AuthController as sauth;
@@ -137,7 +138,7 @@ Route::prefix('admin')->group(function () {
     Route::resource('coupon', coupon::class);
     Route::resource('enrollment', enrollment::class);
     Route::get('permission/{role}', [permission::class, 'index'])->name('permission.list');
-    Route::post('permission/{role}', [permission::class, 'save'])->name('permission.save');    
+    Route::post('permission/{role}', [permission::class, 'save'])->name('permission.save');       
 });
 
 Route::get('/register', [HomeController::class, 'signUpForm'])->name('signup');
@@ -170,6 +171,9 @@ Route::middleware(['checkstudent'])->prefix('students')->group(function () {
     ->name('payment.error-transaction');
     Route::get('/payment/success-transaction', [PaymentController::class, 'successTransaction'])
     ->name('payment.success-transaction');
+    Route::post('/update-progress', [ProgressController::class, 'updateProgress'])
+    ->name('update.progress');
+    Route::get('/load-lesson', [LessonController::class, 'loadLesson'])->name('load.lesson');
 });
 
 //----------instructor routes --------------------------------

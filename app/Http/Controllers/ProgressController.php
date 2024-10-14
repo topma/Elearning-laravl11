@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Progress;
+use App\Models\ProgressAll;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -18,18 +19,51 @@ class ProgressController extends Controller
 
     public function updateProgress(Request $request)
     {
-        $validated = $request->validate([
-            'current_material_id' => 'required|integer',
-        ]);
+        \Log::info('Request Data: ', $request->all());
+        
+        $studentId = currentUserId(); // Replace with your method to get the current user ID
+        $courseId = $request->input('courseid');
+        $materialId = $request->input('materialid');
+        $lessonId = $request->input('lessonid');
 
-        // Assuming you have a 'progress' table with user_id and current_material_id
-        $progress = Progress::updateOrCreate(
-            ['user_id' => currentUserId()], // Find by user
-            ['current_material_id' => $validated['current_material_id']] // Update or create with new material ID
-        );
+        // Check if a record exists in progress_alls with the given criteria
+        $progressAllExists = ProgressAll::where('student_id', $studentId)
+            ->where('course_id', $courseId)
+            ->where('lesson_id', $lessonId)
+            ->where('material_id', $materialId)
+            ->exists();
 
-        return response()->json(['success' => true]);
+        // If the record does not exist, create a new one
+        if (!$progressAllExists) {
+            ProgressAll::create([
+                'student_id' => $studentId,
+                'course_id' => $courseId,
+                'lesson_id' => $lessonId,
+                'material_id' => $materialId,
+                'last_viewed_at' => now(), 
+                'progress_percentage' => 0,
+                'completed' => true,
+            ]);
+        }
+
+        // Check if the progress record exists for the student and course
+        $progress = Progress::where('student_id', $studentId)
+                            ->where('course_id', $courseId)
+                            ->first();
+
+        // If the record exists, update the last viewed material and lesson
+        if ($progress) {
+            $progress->last_viewed_material_id = $materialId;
+            $progress->last_viewed_lesson_id = $lessonId;
+            $progress->save();
+
+            return response()->json(['success' => true, 'message' => 'Progress updated successfully.']);
+        }
+
+        // If the record does not exist, return a failure response
+        return response()->json(['success' => false, 'message' => 'Progress not found.']);
     }
+
 
     /**
      * Show the form for creating a new resource.

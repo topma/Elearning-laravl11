@@ -12,13 +12,12 @@ class WatchCourseController extends Controller
 {
     public function watchCourse($id)
     {
+        // Get the authenticated student's ID
+        $studentId = currentUserId();
         $course = Course::findOrFail(encryptor('decrypt', $id));
         $instructorId = $course->instructor_id;
         $lessons = Lesson::where('course_id', $course->id)->get();
-        $courseNo = Course::where('instructor_id', $instructorId)->get();       
-
-        // Get the authenticated student's ID
-        $studentId = currentUserId(); // Ensure this function returns the current user's ID
+        $courseNo = Course::where('instructor_id', $instructorId)->get();   
 
         // Check if progress record exists for the student and course
         $progress = Progress::where('student_id', $studentId)

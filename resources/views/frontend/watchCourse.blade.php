@@ -24,7 +24,7 @@
     }
     
     .text-frame, .document-frame {
-        max-height: 800px; /* Set your desired height */
+        max-height: 600px; /* Set your desired height */
         overflow-y: auto;  /* Enable vertical scrolling */
         border: 2px solid #ccc; /* Optional: Border for visual separation */
         padding: 10px; /* Optional: Padding for better spacing */
@@ -32,7 +32,7 @@
     }
 
     .video-area {
-        max-height: 800px; /* Set your desired height for the video area */
+        max-height: 600px; /* Set your desired height for the video area */
         overflow: hidden; /* Prevent overflow of video area */
     }
 </style>
@@ -92,7 +92,7 @@
                 <div class="course-description-start">
                 <div id="lesson-container">
                 <!-- <h5 class="font-title--sm material-title">{{$currentLesson->title}}</h5> -->
-                <hr>
+                
                     @if($currentMaterial->type == 'video')
                         <div class="video-area">
                             @if(!empty($currentMaterial->content))
@@ -329,12 +329,15 @@
                                 </div>
                                 @foreach ($lesson->material as $material)
                                 <div class="main-wizard"
+                                    data-lesson-id="{{ $lesson->id }}"
                                     data-material-title="{{$loop->parent->iteration}}.{{$loop->iteration}} {{$material->title}}"
                                     data-material-type="{{$material->type}}"
                                     data-material-content="{{$material->content}}"
                                     data-material-content-data="{{ $material->content_data }}"
                                     data-material-description="{{$lesson->description}}"
-                                    data-material-notes="{{$lesson->notes}}">
+                                    data-material-notes="{{$lesson->notes}}"
+                                    data-material-id="{{ $material->id }}"
+                                    data-course-id = "{{$course->id}}">
                                     <div class="main-wizard__wrapper">
                                         <a class="main-wizard-start">
                                             @if ($material->type=='video')
@@ -369,6 +372,7 @@
                     </div>
                 </div>
             </div>
+
 
         </div>
     </div>
@@ -415,7 +419,7 @@
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-   <script>
+    <script>
     function show_content(material) {
         const contentType = material.type; // Get the type of content
         const contentLink = "{{ asset('uploads/courses/contents') }}/" + material.content; // Construct the link
@@ -464,7 +468,7 @@
     $(document).ready(function() {
         $('.main-wizard').on('click', function(e) {
             e.preventDefault(); // Prevent default link behavior
-            
+
             // Uncheck all checkboxes and remove highlighting from all lessons
             $('.form-check-input').prop('checked', false); // Uncheck all checkboxes
             $('.main-wizard').removeClass('highlight'); // Remove highlight class
@@ -476,7 +480,10 @@
                 content: $(this).data('material-content'),
                 content_data: $(this).data('material-content-data') || '', // Ensure it's set
                 description: $(this).data('material-description'), // Capture lesson description
-                notes: $(this).data('material-notes') // Capture lesson notes
+                notes: $(this).data('material-notes'), // Capture lesson notes
+                id: $(this).data('material-id'), // Capture material ID
+                course_id: $(this).data('course-id'), // Capture course ID
+                lesson_id: $(this).data('lesson-id') // Capture lesson ID
             };
 
             // Check the checkbox for the clicked lesson
@@ -494,9 +501,32 @@
             
             // Show content based on the type
             show_content(material);
+
+            // Send AJAX request to update progress
+            $.ajax({
+                url: "{{ route('update.progress') }}", 
+                type: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",                   
+                    courseid: material.course_id,
+                    lessonid: material.lesson_id, // Use the captured lesson ID
+                    materialid: material.id
+                },
+                success: function(response) {
+                    console.log('Progress updated successfully');
+                },
+                error: function(error) {
+                    console.log('Error updating progress:', error);
+                }
+            });
         });
     });
 </script>
+
+
+
+
+
 
 
 

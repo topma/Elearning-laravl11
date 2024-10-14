@@ -134,6 +134,61 @@ class LessonController extends Controller
         }
     }
 
+    public function loadLesson(Request $request)
+    {
+        $studentId = currentUserId();
+        $course = Course::findOrFail(encryptor('decrypt', $id));
+        $instructorId = $course->instructor_id;
+        $lessons = Lesson::where('course_id', $course->id)->get();
+        $courseNo = Course::where('instructor_id', $instructorId)->get();   
+
+        // Check if progress record exists for the student and course
+        $progress = Progress::where('student_id', $studentId)
+        ->where('course_id', $course->id)->first();
+
+        if ($progress) {
+            // Progress record exists, get the last viewed material and last viewed time
+            $lastViewedMaterial = $progress->last_viewed_material_id ? Material::find($progress->last_viewed_material_id) : null;
+            $lastViewedAt = $progress->last_viewed_at;
+        } else {
+            // If no progress exists, initialize variables for the view
+            $progress = null; // Set progress to null if it doesn't exist
+            $lastViewedMaterial = null; // No material viewed yet
+            $lastViewedAt = null; // No last viewed time
+            // Create a new progress record
+            Progress::create([
+                'student_id' => $studentId,
+                'course_id' => $course->id,
+                'progress_percentage' => 0, // Set to 0% if no progress
+                'completed' => 0, 
+                'last_viewed_material_id' => $currentMaterial ? $currentMaterial->id : null,
+                'last_viewed_at' => now(), 
+            ]);
+        }
+
+        //$currentLesson = Lesson::where('course_id', $course->id)->first();
+        $currentMaterial = Material::where('lesson_id', $currentLesson->id)->first();
+        // Get the lesson ID from the request
+        $lessonId = $request->input('lesson_id');
+        
+        // Find the current lesson
+        $currentMaterial = Material::findOrFail($lessonId);
+
+        // Fetch the previous lesson
+        $previousLesson = Material::where('id', '<', $lessonId)
+            ->orderBy('id', 'desc') // Get the highest ID less than the current one
+            ->first();
+
+        // Fetch the next lesson
+        $nextLesson = Material::where('id', '>', $lessonId)
+            ->orderBy('id', 'asc') // Get the lowest ID greater than the current one
+            ->first();
+
+        // Return the view with the current material and the previous/next lessons
+        return view('frontend.watchCourse', compact('currentMaterial', 'previousLesson', 'nextLesson'));
+    }
+
+
     /**
      * Remove the specified resource from storage.
      */

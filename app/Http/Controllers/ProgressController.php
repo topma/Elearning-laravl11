@@ -16,6 +16,21 @@ class ProgressController extends Controller
         //
     }
 
+    public function updateProgress(Request $request)
+    {
+        $validated = $request->validate([
+            'current_material_id' => 'required|integer',
+        ]);
+
+        // Assuming you have a 'progress' table with user_id and current_material_id
+        $progress = Progress::updateOrCreate(
+            ['user_id' => currentUserId()], // Find by user
+            ['current_material_id' => $validated['current_material_id']] // Update or create with new material ID
+        );
+
+        return response()->json(['success' => true]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

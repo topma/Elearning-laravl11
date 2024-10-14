@@ -15,15 +15,14 @@ class WatchCourseController extends Controller
         $course = Course::findOrFail(encryptor('decrypt', $id));
         $instructorId = $course->instructor_id;
         $lessons = Lesson::where('course_id', $course->id)->get();
-        $courseNo = Course::where('instructor_id', $instructorId)->get();
-        $currentLesson = Lesson::where('course_id', $course->id)->first();
-        $currentMaterial = Material::where('lesson_id', $currentLesson->id)->first();
+        $courseNo = Course::where('instructor_id', $instructorId)->get();       
 
         // Get the authenticated student's ID
         $studentId = currentUserId(); // Ensure this function returns the current user's ID
 
         // Check if progress record exists for the student and course
-        $progress = Progress::where('student_id', $studentId)->where('course_id', $course->id)->first();
+        $progress = Progress::where('student_id', $studentId)
+        ->where('course_id', $course->id)->first();
 
         if ($progress) {
             // Progress record exists, get the last viewed material and last viewed time
@@ -45,6 +44,8 @@ class WatchCourseController extends Controller
             ]);
         }
 
+        $currentLesson = Lesson::where('course_id', $course->id)->first();
+        $currentMaterial = Material::where('lesson_id', $currentLesson->id)->first();
         // Continue with the course view, passing all necessary variables
         return view('frontend.watchCourse', compact('course', 'lessons', 'courseNo', 'currentLesson', 'currentMaterial', 'progress', 'lastViewedMaterial', 'lastViewedAt'));
     }

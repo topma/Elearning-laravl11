@@ -18,20 +18,23 @@
         }
     </style>
 <style>
-.text-area {
-    margin: 20px 0; /* Add some margin for spacing */
-}
+    .highlight {
+        background-color: #e0f7fa; /* Light blue background for highlighting */
+        border-left: 4px solid #007bff; /* Blue left border for additional emphasis */
+    }
+    
+    .text-frame, .document-frame {
+        max-height: 800px; /* Set your desired height */
+        overflow-y: auto;  /* Enable vertical scrolling */
+        border: 2px solid #ccc; /* Optional: Border for visual separation */
+        padding: 10px; /* Optional: Padding for better spacing */
+        background-color: #f9f9f9; /* Optional: Background color */
+    }
 
-.text-frame {
-    border: 1px solid #ccc; /* Light gray border */
-    border-radius: 5px; /* Rounded corners */
-    padding: 15px; /* Space inside the frame */
-    background-color: #f9f9f9; /* Light background color */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for a lifted effect */
-    height: 700px; /* Set a fixed height */
-    overflow-y: auto; /* Enable vertical scrolling */
-    overflow-x: hidden; /* Hide horizontal overflow */
-}
+    .video-area {
+        max-height: 800px; /* Set your desired height for the video area */
+        overflow: hidden; /* Prevent overflow of video area */
+    }
 </style>
 </head>
 
@@ -412,45 +415,7 @@
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-    <!-- <script>
-        $(".my-rating").starRating({
-                    starSize: 30,
-                    activeColor: "#FF7A1A",
-                    hoverColor: "#FF7A1A",
-                    ratedColors: ["#FF7A1A", "#FF7A1A", "#FF7A1A", "#FF7A1A", "#FF7A1A"],
-                    starShape: "rounded",
-        });
-
-        function show_video(e){
-            let link="{{asset('uploads/courses/contents')}}/"+e
-           
-            var video = document.getElementById('myvideo');
-                        video.src = link;
-                        video.play();
-        }
-    </script>
-
-    <script>
-        $(document).ready(function() {
-        $('.videolist-area-wizard').on('click', function() {
-            // Get lesson and material details
-            var lessonDescription = $(this).data('lesson-description');
-            var lessonNotes = $(this).data('lesson-notes');
-            // Update lesson description
-            $('#nav-ldescrip .lesson-description p').html(lessonDescription);
-            // Update lesson notes
-            $('#nav-lnotes .course-notes-area .course-notes-item p').html(lessonNotes);
-        });
-
-        $('.main-wizard').on('click', function() {
-            // Get material title
-            var materialTitle = $(this).data('material-title');
-            // Update material title
-            $('.material-title').html(materialTitle);
-        });
-    });
-    </script> -->
-    <script>
+   <script>
     function show_content(material) {
         const contentType = material.type; // Get the type of content
         const contentLink = "{{ asset('uploads/courses/contents') }}/" + material.content; // Construct the link
@@ -484,7 +449,9 @@
             // If it's a document, display it
             const documentHTML = `
                 <div class="document-content">
-                    ${material.content_data ? material.content_data : 'No content available.'}
+                    <div class="document-frame">
+                        ${material.content_data ? material.content_data : 'No content available.'}
+                    </div>
                 </div>
             `;
             $('#lesson-container').append(documentHTML);
@@ -498,6 +465,10 @@
         $('.main-wizard').on('click', function(e) {
             e.preventDefault(); // Prevent default link behavior
             
+            // Uncheck all checkboxes and remove highlighting from all lessons
+            $('.form-check-input').prop('checked', false); // Uncheck all checkboxes
+            $('.main-wizard').removeClass('highlight'); // Remove highlight class
+
             // Get material data attributes
             var material = {
                 title: $(this).data('material-title'),
@@ -507,6 +478,12 @@
                 description: $(this).data('material-description'), // Capture lesson description
                 notes: $(this).data('material-notes') // Capture lesson notes
             };
+
+            // Check the checkbox for the clicked lesson
+            $(this).find('.form-check-input').prop('checked', true); // Check the current checkbox
+
+            // Highlight the current lesson
+            $(this).addClass('highlight'); // Add highlight class to the clicked lesson
 
             // Update material title
             $('.material-title').html(material.title);

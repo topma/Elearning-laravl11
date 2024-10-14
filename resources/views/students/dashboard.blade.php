@@ -3,7 +3,10 @@
 @section('body-attr') style="background-color: #ebebf2;" @endsection
 
 @section('content')
-
+<?php
+use App\Models\Material;
+use Carbon\Carbon;
+?>
 <!-- Breadcrumb Starts Here -->
 <div class="py-0">
     <div class="container">
@@ -136,55 +139,70 @@
                 {{-- All Courses --}}
                 <div class="tab-pane fade" id="nav-coursesall" role="tabpanel" aria-labelledby="nav-coursesall-tab">
                     <div class="row">
-                        @forelse ($enrollment as $a)
-                        <div class="col-lg-4 col-md-6 col-md-6 mb-4">
-                            <div class="contentCard contentCard--watch-course">
-                                <div class="contentCard-top">
-                                    <a href="#"><img src="{{asset('uploads/courses/'.$a->course?->image)}}"
-                                            alt="images" class="img-fluid" /></a>
-                                </div>
-                                <div class="contentCard-bottom">
-                                    <h5>
-                                        <a href="{{route('courseDetails', encryptor('encrypt', $a->course?->id))}}"
-                                            class="font-title--card">{{$a->course?->title_en}}</a>
-                                    </h5>
-                                    <div class="contentCard-info d-flex align-items-center justify-content-between">
-                                        <a href="{{route('instructorProfile', encryptor('encrypt', $a->course?->instructor->id))}}"
-                                            class="contentCard-user d-flex align-items-center">
-                                            <img src="{{asset('uploads/users/'.$a->course?->instructor?->image)}}"
-                                                alt="client-image" class="rounded-circle" height="34" width="34" />
-                                            <p class="font-para--md">{{$a->course?->instructor?->name_en}}</p>
-                                        </a>
-                                        <div class="contentCard-course--status d-flex align-items-center">
-                                        @if ($a->course->lesson_count == 1)
-                                        <span class="percentage">{{ $a->course->lesson_count }} lesson</span>
-                                        @else
-                                        <span class="percentage">{{ $a->course->lesson_count }} lessons</span>
-                                        @endif
-                                            <!-- <p>Finish</p> -->
-                                        </div>
-                                    </div>
-                                    <a class="button button-md button--primary-outline w-100 my-3"
-                                        href="{{route('watchCourse', encryptor('encrypt', $a->course?->id))}}">Start
-                                        Course</a>
-                                    <div class="contentCard-watch--progress">
-                                        <span class="percentage" style="width: 43%;"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @empty
-                        <div class="col-12 py-5">
-                            <div class="col-md-6 col-12 mx-auto text-center">
-                                <h5 class="font-title--sm">You Haven't Enrolled Any Course Yet...</h5>
-                                <p class="my-4 font-para--lg">
-                                    Your Course List is Empty!
-                                </p>
-                                <a href="{{route('searchCourse')}}" class="button button-md button--primary">Enroll
-                                    Now!</a>
-                            </div>
-                        </div>
-                        @endforelse
+                    @forelse ($enrollment as $a)
+    <div class="col-lg-4 col-md-6 col-md-6 mb-4">
+        <div class="contentCard contentCard--watch-course">
+            <div class="contentCard-top">
+                <a href="#"><img src="{{ asset('uploads/courses/' . $a->course?->image) }}" alt="images" class="img-fluid" /></a>
+            </div>
+            <div class="contentCard-bottom">
+                <h5>
+                    <a href="{{ route('courseDetails', encryptor('encrypt', $a->course?->id)) }}" class="font-title--card">{{ $a->course?->title_en }}</a>
+                </h5>
+                <div class="contentCard-info d-flex align-items-center justify-content-between">
+                    <a href="{{ route('instructorProfile', encryptor('encrypt', $a->course?->instructor->id)) }}" class="contentCard-user d-flex align-items-center">
+                        <img src="{{ asset('uploads/users/' . $a->course?->instructor?->image) }}" alt="client-image" class="rounded-circle" height="34" width="34" />
+                        <p class="font-para--md">{{ $a->course?->instructor?->name_en }}</p>
+                    </a>
+                    <div class="contentCard-course--status d-flex align-items-center">
+                        <span class="percentage">{{ $a->course->lesson_count }} {{ $a->course->lesson_count == 1 ? 'lesson' : 'lessons' }}</span>
+                    </div>
+                </div>
+                <hr>
+                <div class="contentCard-course--status d-flex align-items-center">
+                @if($a->course->progress->isNotEmpty())
+                        @php
+                            $progress = $a->course->progress->first(); // Get the first progress record
+                            $percentage = $progress->progress_percentage; // Get the progress percentage
+                        @endphp
+                        @if ($progress->last_viewed_material_id)
+                                @php
+                                    $lastViewedMaterial = Material::find($progress->last_viewed_material_id);
+                                @endphp
+                                <p style="color:black;">Last Viewed Lesson: {{ $lastViewedMaterial->title ?? 'N/A' }}</p>
+                            @else
+                                <p>No material viewed yet.</p>
+                            @endif
+                            <p style="color:black;">Viewed At: {{ $progress->last_viewed_at ? Carbon::parse($progress->last_viewed_at)->format('Y-m-d H:i:s') : 'N/A' }}</p>
+                </div><hr>
+                @if($a->course->progress->isNotEmpty())
+                <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('watchCourse', encryptor('encrypt', $a->course?->id)) }}">Continue Course</a>
+                @else
+                <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('watchCourse', encryptor('encrypt', $a->course?->id)) }}">Start Course</a>
+                @endif
+                <hr>
+                <div class="contentCard-watch--progress"> 
+                     <span class="percentage" style="width: {{ $percentage }}%;"></span>                        
+                    @else
+                        <span class="percentage" style="width: 0%;"></span>
+                        <p>No progress recorded yet.</p>
+                    @endif
+                </div>                
+
+            </div>
+        </div>
+    </div>
+@empty
+    <div class="col-12 py-5">
+        <div class="col-md-6 col-12 mx-auto text-center">
+            <h5 class="font-title--sm">You Haven't Enrolled Any Course Yet...</h5>
+            <p class="my-4 font-para--lg">Your Course List is Empty!</p>
+            <a href="{{ route('searchCourse') }}" class="button button-md button--primary">Enroll Now!</a>
+        </div>
+    </div>
+@endforelse
+
+
 
                         <div class="col-lg-12 mt-lg-5">
                             <div class="pagination justify-content-center pb-0">

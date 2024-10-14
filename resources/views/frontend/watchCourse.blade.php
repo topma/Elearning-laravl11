@@ -17,7 +17,22 @@
             background-size: cover;
         }
     </style>
+<style>
+.text-area {
+    margin: 20px 0; /* Add some margin for spacing */
+}
 
+.text-frame {
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 15px; /* Space inside the frame */
+    background-color: #f9f9f9; /* Light background color */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for a lifted effect */
+    height: 700px; /* Set a fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Hide horizontal overflow */
+}
+</style>
 </head>
 
 <body style="background-color: #ebebf2;">
@@ -72,40 +87,50 @@
             {{-- Video Area --}}
             <div class="col-lg-8">
                 <div class="course-description-start">
-                @if($currentMaterial->type == 'video')
-                    <div class="video-area"> 
-                        @if(!empty($currentMaterial->content))
-                            {{-- Local video --}}
-                            <video controls id="myvideo" class="video-js w-100"
-                                poster="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}">
-                                <source src="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" class="w-100" autostart="true"/>
-                                
-                            </video>
-                        @elseif(!empty($currentMaterial->content_url))
-                            {{-- YouTube video --}}
-                            @php
-                                // Extract the video ID from the YouTube URL
-                                $url = $currentMaterial->content_url;
-                                preg_match('/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|[^\/\n\s]+\/\S*\/|watch\?v=|watch\?.+&v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $url, $matches);
-                                $videoId = $matches[1] ?? null;
-                            @endphp
-                            @if($videoId)
-                            <iframe width="100%" height="600"
-                                    src="https://www.youtube.com/embed/{{ $videoId }}"
-                                    title="Freelance Bootcamp Onboarding Brief"
-                                    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    referrerpolicy="strict-origin-when-cross-origin"
-                                    allowfullscreen>
-                            </iframe>
+                <div id="lesson-container">
+                <!-- <h5 class="font-title--sm material-title">{{$currentLesson->title}}</h5> -->
+                <hr>
+                    @if($currentMaterial->type == 'video')
+                        <div class="video-area">
+                            @if(!empty($currentMaterial->content))
+                                {{-- Local video --}}
+                                <video controls id="myvideo" class="video-js w-100"
+                                    poster="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}">
+                                    <source src="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" class="w-100" autostart="true"/>
+                                </video>
+                            @elseif(!empty($currentMaterial->content_url))
+                                {{-- YouTube video --}}
+                                @php
+                                    // Extract the video ID from the YouTube URL
+                                    $url = $currentMaterial->content_url;
+                                    preg_match('/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|[^\/\n\s]+\/\S*\/|watch\?v=|watch\?.+&v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $url, $matches);
+                                    $videoId = $matches[1] ?? null;
+                                @endphp
+                                @if($videoId)
+                                <iframe width="100%" height="400"
+                                        src="https://www.youtube.com/embed/{{ $videoId }}"
+                                        title="Freelance Bootcamp Onboarding Brief"
+                                        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        referrerpolicy="strict-origin-when-cross-origin"
+                                        allowfullscreen>
+                                </iframe>
+                                @endif
                             @endif
-                        @endif
-                    </div>
-                @elseif($currentMaterial->type == 'document')
-                    {{-- Display document content --}}
-                    <div class="document-content">
-                        {!! $currentMaterial->content_data !!}
-                    </div>
-                @endif
+                        </div>
+                    @elseif($currentMaterial->type == 'text')
+                        {{-- Display text content --}}
+                        <div class="lesson-text">
+                            {!! $currentMaterial->content_data !!} <!-- Assuming content_data holds the text -->
+                        </div>
+                    @elseif($currentMaterial->type == 'document')
+                        {{-- Display document content --}}
+                        <div class="document-content">
+                            {!! $currentMaterial->content_data !!}
+                        </div>
+                    @else
+                        <p>No valid content available for this lesson.</p>
+                    @endif
+                </div>
 
 
                     <div class="course-description-start-content">
@@ -287,52 +312,61 @@
                 <div class="videolist-area">
                     <div class="videolist-area-heading">
                         <h6>Course Contents</h6>
-                        <p>5% Completed</p>
                     </div>
                     <div class="videolist-area-bar">
                         <span class="videolist-area-bar--progress"></span>
                     </div>
                     <div class="videolist-area-bar__wrapper">
                         @foreach($lessons as $lesson)
-                        <div class="videolist-area-wizard" data-lesson-description="{{$lesson->description}}"
-                            data-lesson-notes="{{$lesson->notes}}">
-                            <div class="wizard-heading">
-                                <h6 class="">{{$loop->iteration}}. {{$lesson->title}}</h6>
-                            </div>
-                            @foreach ($lesson->material as $material)
-                            <div class="main-wizard"
-                                data-material-title="{{$loop->parent->iteration}}.{{$loop->iteration}} {{$material->title}}">
-                                <div class="main-wizard__wrapper">
-                                    <a class="main-wizard-start" onclick="show_video('{{$material->content}}')">
-                                        @if ($material->type=='video')
-                                        <div class="main-wizard-icon">
-                                            <i class="far fa-play-circle fa-lg"></i>
-                                        </div>
-                                        @else
-                                        <div class="main-wizard-icon">
-                                            <i class="far fa-file fa-lg text-success"></i>
-                                        </div>
-                                        @endif
-                                        <div class="main-wizard-title">
-                                            <p>{{$loop->parent->iteration}}.{{$loop->iteration}} {{$material->title}}
-                                            </p>
-                                        </div>
-                                    </a>
-                                    <div class="main-wizard-end d-flex align-items-center">
-                                        <span>12:34</span>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                style="border-radius: 0px; margin-left: 5px;" />
+                            <div class="videolist-area-wizard" 
+                                data-lesson-description="{{$lesson->description}}"
+                                data-lesson-notes="{{$lesson->notes}}">
+                                <div class="wizard-heading">
+                                    <h6 class="">{{$loop->iteration}}. {{$lesson->title}}</h6>
+                                </div>
+                                @foreach ($lesson->material as $material)
+                                <div class="main-wizard"
+                                    data-material-title="{{$loop->parent->iteration}}.{{$loop->iteration}} {{$material->title}}"
+                                    data-material-type="{{$material->type}}"
+                                    data-material-content="{{$material->content}}"
+                                    data-material-content-data="{{ $material->content_data }}"
+                                    data-material-description="{{$lesson->description}}"
+                                    data-material-notes="{{$lesson->notes}}">
+                                    <div class="main-wizard__wrapper">
+                                        <a class="main-wizard-start">
+                                            @if ($material->type=='video')
+                                            <div class="main-wizard-icon">
+                                                <i class="far fa-play-circle fa-lg"></i>
+                                            </div>
+                                            @else
+                                            <div class="main-wizard-icon">
+                                                <i class="far fa-file fa-lg text-success"></i>
+                                            </div>
+                                            @endif
+                                            <div class="main-wizard-title">
+                                                <p>{{$loop->parent->iteration}}.{{$loop->iteration}} {{$material->title}}</p>
+                                            </div>
+                                        </a>
+                                        <div class="main-wizard-end d-flex align-items-center">
+                                            @if ($material->type=='video')
+                                            <strong><span style="color:green;">{{$material->file_duration}}</span></strong>
+                                            @else
+                                            <span></span>
+                                            @endif
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    style="border-radius: 0px; margin-left: 5px;" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                @endforeach
                             </div>
-                            @endforeach
-                        </div>
                         @endforeach
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
     <!-- Course Description Ends Here -->
@@ -378,7 +412,7 @@
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-    <script>
+    <!-- <script>
         $(".my-rating").starRating({
                     starSize: 30,
                     activeColor: "#FF7A1A",
@@ -415,7 +449,80 @@
             $('.material-title').html(materialTitle);
         });
     });
-    </script>
+    </script> -->
+    <script>
+    function show_content(material) {
+        const contentType = material.type; // Get the type of content
+        const contentLink = "{{ asset('uploads/courses/contents') }}/" + material.content; // Construct the link
+
+        // Hide the lesson container initially
+        $('#lesson-container').empty(); // Clear existing content
+
+        // Check if the content is video or text
+        if (contentType === 'video') {
+            // If it's a video, set the video source and create the video element
+            const videoHTML = `
+                <div class="video-area">
+                    <video controls id="myvideo" class="video-js w-100" poster="${contentLink}">
+                        <source src="${contentLink}" class="w-100" autostart="true"/>
+                    </video>
+                </div>
+            `;
+            $('#lesson-container').append(videoHTML);
+            $('#myvideo').get(0).play(); // Play the video
+        } else if (contentType === 'text') {
+            // If it's text, display it within a styled frame
+            const textHTML = `
+                <div class="text-area">
+                    <div class="text-frame">
+                        <p>${material.content_data ? material.content_data : 'No content available.'}</p>
+                    </div>
+                </div>
+            `;
+            $('#lesson-container').append(textHTML);
+        } else if (contentType === 'document') {
+            // If it's a document, display it
+            const documentHTML = `
+                <div class="document-content">
+                    ${material.content_data ? material.content_data : 'No content available.'}
+                </div>
+            `;
+            $('#lesson-container').append(documentHTML);
+        } else {
+            // Handle other types of content if necessary
+            alert('No valid content available for this lesson.');
+        }
+    }
+
+    $(document).ready(function() {
+        $('.main-wizard').on('click', function(e) {
+            e.preventDefault(); // Prevent default link behavior
+            
+            // Get material data attributes
+            var material = {
+                title: $(this).data('material-title'),
+                type: $(this).data('material-type'),
+                content: $(this).data('material-content'),
+                content_data: $(this).data('material-content-data') || '', // Ensure it's set
+                description: $(this).data('material-description'), // Capture lesson description
+                notes: $(this).data('material-notes') // Capture lesson notes
+            };
+
+            // Update material title
+            $('.material-title').html(material.title);
+
+            // Update lesson description and notes
+            $('#nav-ldescrip .lesson-description p').html(material.description); // Update description
+            $('#nav-lnotes .course-notes-area .course-notes-item p').html(material.notes); // Update notes
+            
+            // Show content based on the type
+            show_content(material);
+        });
+    });
+</script>
+
+
+
 
 
 </body>

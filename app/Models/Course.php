@@ -52,4 +52,9 @@ class Course extends Model
     {
         return $this->hasMany(Lesson::class);
     }
+
+    public function progress()
+    {
+        return $this->hasMany(Progress::class, 'course_id', 'id');
+    }
 }

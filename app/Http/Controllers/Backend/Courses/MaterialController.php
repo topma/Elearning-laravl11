@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Backend\Courses;
-
+use getID3;
 use App\Models\Material;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -9,6 +9,9 @@ use App\Http\Requests\Backend\Course\Materials\AddNewRequest;
 use App\Http\Requests\Backend\Course\Materials\UpdateRequest;
 use App\Models\Lesson;
 use Exception;
+use Illuminate\Support\Facades\File; 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class MaterialController extends Controller
 {
@@ -62,11 +65,50 @@ class MaterialController extends Controller
             $courseId = $lesson->course_id;
 
             if ($request->hasFile('content')) {
-                $contentName = rand(111, 999) . time() . '.' . $request->content->extension();
-                $request->content->move(public_path('uploads/courses/contents'), $contentName);
-                $material->content = $contentName;
+                $file = $request->file('content');
+
+                // Check if the file is a video
+                $mimeType = $file->getMimeType();
+                $extension = $file->extension();
+
+                // Allowed video MIME types
+                $allowedMimeTypes = [
+                    'video/mp4',
+                    'video/x-msvideo',
+                    'video/x-flv',
+                    'video/x-matroska',
+                    'video/quicktime',
+                    'video/x-ms-wmv',
+                    'video/mpeg',
+                    'video/webm',
+                    'video/ogg',
+                ];
+
+                // Allowed video file extensions
+                $allowedExtensions = ['mp4', 'avi', 'flv', 'mkv', 'mov', 'wmv', 'mpg', 'webm', 'ogv'];
+
+                // Validate MIME type and extension
+                if (in_array($mimeType, $allowedMimeTypes) && in_array($extension, $allowedExtensions)) {
+                    // Move the file and save the content
+                    $contentName = rand(111, 999) . time() . '.' . $extension;
+                    $file->move(public_path('uploads/courses/contents'), $contentName);
+                    $material->content = $contentName;
+
+                    // Get video duration
+                    $getID3 = new getID3;
+                    $fileInfo = $getID3->analyze(public_path('uploads/courses/contents/' . $contentName));
+                    if (isset($fileInfo['playtime_string'])) {
+                        $material->file_duration = $fileInfo['playtime_string']; // e.g., "12:34"
+                    }
+                    if (isset($fileInfo['filesize'])) {
+                        $material->file_size = $fileInfo['filesize']; // Size in bytes
+                    }
+                } else {
+                    return redirect()->back()->withInput()->with('error', 'Please upload a valid video file.');
+                }
             }
-            if ($material->save()) {                
+
+            if ($material->save()) {
                 return redirect()->route('lesson.show', encryptor('encrypt', $courseId))->with('success', 'Data Saved');;
             } else {
                 return redirect()->back()->withInput()->with('error', 'Please try again');
@@ -111,44 +153,126 @@ class MaterialController extends Controller
 
     /** 
      * Update the specified resource in storage.
-     */
-    public function update(UpdateRequest $request, $id)
+     */      
+
+     public function update(UpdateRequest $request, $id)
     {
         try {
+            // Find the existing material
             $material = Material::findOrFail(encryptor('decrypt', $id));
+            
+            // Update the material attributes
             $material->title = $request->materialTitle;
             $material->lesson_id = $request->lessonId;
             $material->type = $request->materialType;
-            $material->content_url = $request->contentURL;
+            $material->content_data = $request->contentData;
 
+            // Get the course ID from the lesson
+            $lesson = Lesson::where('id', $request->lessonId)->first();
+            $courseId = $lesson->course_id;
+
+            // Check if a new file is being uploaded
             if ($request->hasFile('content')) {
-                $contentName = rand(111, 999) . time() . '.' . $request->content->extension();
-                $request->content->move(public_path('uploads/courses/contents'), $contentName);
-                $material->content = $contentName;
+                // Remove the current video file if it exists
+                if ($material->content) {
+                    // Construct the video file path
+                    $videoFilePath = public_path('uploads/courses/contents/') . $material->content; // Removed basename
+
+                    // Check if the file exists and delete it
+                    if (File::exists($videoFilePath)) {
+                        File::delete($videoFilePath);
+                    } else {
+                        Log::warning('File not found for deletion: ' . $videoFilePath);
+                    }                     
+                }
+
+                // Handle the new file upload
+                $file = $request->file('content');
+                $mimeType = $file->getMimeType();
+                $extension = $file->extension();
+
+                // Allowed video MIME types
+                $allowedMimeTypes = [
+                    'video/mp4',
+                    'video/x-msvideo',
+                    'video/x-flv',
+                    'video/x-matroska',
+                    'video/quicktime',
+                    'video/x-ms-wmv',
+                    'video/mpeg',
+                    'video/webm',
+                    'video/ogg',
+                ];
+
+                // Allowed video file extensions
+                $allowedExtensions = ['mp4', 'avi', 'flv', 'mkv', 'mov', 'wmv', 'mpg', 'webm', 'ogv'];
+
+                // Validate MIME type and extension
+                if (in_array($mimeType, $allowedMimeTypes) && in_array($extension, $allowedExtensions)) {
+                    // Move the new file
+                    $contentName = rand(111, 999) . time() . '.' . $extension;
+                    $file->move(public_path('uploads/courses/contents'), $contentName);
+                    $material->content = $contentName;
+
+                    // Get video duration and size using getID3
+                    $getID3 = new getID3;
+                    $fileInfo = $getID3->analyze(public_path('uploads/courses/contents/' . $contentName));
+                    if (isset($fileInfo['playtime_string'])) {
+                        $material->file_duration = $fileInfo['playtime_string']; // e.g., "12:34"
+                    }
+                    if (isset($fileInfo['filesize'])) {
+                        $material->file_size = $fileInfo['filesize']; // Size in bytes
+                    }
+                } else {
+                    return redirect()->back()->withInput()->with('error', 'Please upload a valid video file.');
+                }
             }
+
+            // Save the updated material
             if ($material->save()) {
                 $this->notice::success('Data Saved');
-                return redirect()->route('material.show', encryptor('encrypt', $request->lessonId));
+                return redirect()->route('lesson.show', encryptor('encrypt', $courseId));
             } else {
                 $this->notice::error('Please try again');
                 return redirect()->back()->withInput();
             }
         } catch (Exception $e) {
-            dd($e);
+            // Log the error instead of using dd()
+            Log::error('Error updating material: ' . $e->getMessage());
             $this->notice::error('Please try again');
             return redirect()->back()->withInput();
         }
     }
 
+
+     
     /**
      * Remove the specified resource from storage.
      */
     public function destroy($id)
     {
         $data = Material::findOrFail(encryptor('decrypt', $id));
+
+        // Check if the material type is 'video'
+        if ($data->type === 'video') {
+            // Retrieve the video filename or ID from the content
+            $videoFilePath = public_path('uploads/courses/contents/') . basename($data->content);
+
+            // Check if the file exists and delete it
+            if (File::exists($videoFilePath)) {
+                File::delete($videoFilePath);
+            }
+        }
+
+        // Delete the material record
         if ($data->delete()) {
             $this->notice::error('Data Deleted!');
             return redirect()->back();
         }
+
+        // Optional: handle case where delete fails
+        $this->notice::error('Data could not be deleted!');
+        return redirect()->back();
     }
+
 }

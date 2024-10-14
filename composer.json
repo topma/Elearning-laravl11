@@ -9,9 +9,11 @@
         "barryvdh/laravel-dompdf": "^2.2",
         "brian2694/laravel-toastr": "^5.58",
         "guzzlehttp/guzzle": "^7.2",
+        "james-heinrich/getid3": "^1.9",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
-        "laravel/tinker": "^2.8"
+        "laravel/tinker": "^2.8",
+        "pbmedia/laravel-ffmpeg": "^8.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

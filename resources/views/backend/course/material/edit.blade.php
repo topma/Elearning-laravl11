@@ -42,7 +42,7 @@
                             @method('PATCH')
                             <input type="hidden" name="uptoken" value="{{encryptor('encrypt',$material->id)}}">
                             <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                <!-- <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Title</label>
                                         <input type="text" class="form-control" name="materialTitle"
@@ -51,8 +51,8 @@
                                     @if($errors->has('materialTitle'))
                                     <span class="text-danger"> {{ $errors->first('materialTitle') }}</span>
                                     @endif
-                                </div>
-                                <!-- <div class="col-lg-6 col-md-6 col-sm-12">
+                                </div> -->
+                                <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Lesson</label>
                                         <select class="form-control" name="lessonId">
@@ -66,7 +66,7 @@
                                     @if($errors->has('lessonId'))
                                     <span class="text-danger"> {{ $errors->first('lessonId') }}</span>
                                     @endif
-                                </div> -->
+                                </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Material Type</label>
@@ -103,6 +103,7 @@
                                     @endif
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
+                                <input type="hidden" class="form-control" name="materialTitle" value="{{$material->title}}">
                                     <button type="submit" class="btn btn-primary">Save</button>
                                     <button type="submit" class="btn btn-light">Cancel</button>
                                 </div>

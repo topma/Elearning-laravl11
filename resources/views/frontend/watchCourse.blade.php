@@ -51,14 +51,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="coursedescription-header-end">
-                <a href="{{route('studentdashboard')}}" class="button button--text">My Dashboard</a>
+                <div class="coursedescription-header-end">                
                     <!-- <a href="#" class="rating-link" data-bs-toggle="modal" data-bs-target="#ratingModal">Leave a Rating</a> -->
-                    <a href="#" class="button button--text" data-bs-toggle="modal" data-bs-target="#ratingModal">Leave a
+                    <a href="#" class="button button--dark" data-bs-toggle="modal" data-bs-target="#ratingModal">Leave a
                         Rating</a>
+                    <a href="{{route('studentdashboard')}}" class="button button--primary">My Dashboard</a>
 
                     <!-- <a href="#" class="btn btn-primary regular-fill-btn">Next Lession</a> -->
-                    <button class="button button--primary">Next Lesson</button>
+                    <!-- <button class="button button--primary">Next Lesson</button> -->
                 </div>
             </div>
         </div>

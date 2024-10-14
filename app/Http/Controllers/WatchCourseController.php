@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Material;
 use App\Models\Progress;
+use App\Models\ProgressAll;
 
 class WatchCourseController extends Controller
 {
@@ -16,12 +17,12 @@ class WatchCourseController extends Controller
         $studentId = currentUserId();
         $course = Course::findOrFail(encryptor('decrypt', $id));
         $instructorId = $course->instructor_id;
-        $lessons = Lesson::where('course_id', $course->id)->get();
+        $lessons = Lesson::where('course_id', $course->id)->with('material')->get();
         $courseNo = Course::where('instructor_id', $instructorId)->get();   
 
         // Check if progress record exists for the student and course
         $progress = Progress::where('student_id', $studentId)
-        ->where('course_id', $course->id)->first();
+            ->where('course_id', $course->id)->first();
 
         if ($progress) {
             // Progress record exists, get the last viewed material and last viewed time
@@ -29,24 +30,38 @@ class WatchCourseController extends Controller
             $lastViewedAt = $progress->last_viewed_at;
         } else {
             // If no progress exists, initialize variables for the view
-            $progress = null; // Set progress to null if it doesn't exist
             $lastViewedMaterial = null; // No material viewed yet
             $lastViewedAt = null; // No last viewed time
+
             // Create a new progress record
             Progress::create([
                 'student_id' => $studentId,
                 'course_id' => $course->id,
                 'progress_percentage' => 0, // Set to 0% if no progress
                 'completed' => 0, 
-                'last_viewed_material_id' => $currentMaterial ? $currentMaterial->id : null,
+                'last_viewed_material_id' => null, // No material viewed yet
                 'last_viewed_at' => now(), 
             ]);
         }
 
+        // Retrieve all progress records for this student and course
+        $progressRecords = ProgressAll::where('student_id', $studentId)
+            ->where('course_id', $course->id)
+            ->pluck('material_id') // Get the material IDs that have been clicked
+            ->toArray();
+
         $currentLesson = Lesson::where('course_id', $course->id)->first();
         $currentMaterial = Material::where('lesson_id', $currentLesson->id)->first();
         // Continue with the course view, passing all necessary variables
-        return view('frontend.watchCourse', compact('course', 'lessons', 'courseNo', 'currentLesson', 'currentMaterial', 'progress', 'lastViewedMaterial', 'lastViewedAt'));
+        return view('frontend.watchCourse', compact(
+            'course', 
+            'lessons', 
+            'courseNo', 
+            'lastViewedMaterial', 
+            'lastViewedAt', 
+            'progressRecords','currentLesson','currentMaterial' // Pass the progress records to the view
+        ));
     }
+
 
 }

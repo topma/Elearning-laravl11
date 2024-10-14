@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2024 at 04:20 PM
+-- Generation Time: Oct 14, 2024 at 11:07 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -466,7 +466,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (41, '2024_10_13_110651_add_serial_no_to_lessons_table', 13),
 (42, '2024_10_13_131506_alter_content_data_column_in_your_table', 14),
 (43, '2024_10_14_083232_add_duration_and_size_to_materials_table', 15),
-(44, '2024_10_14_141727_add_last_viewed_lesson_to_progress_table', 16);
+(44, '2024_10_14_141727_add_last_viewed_lesson_to_progress_table', 16),
+(45, '2024_10_14_201217_create_progreaa_alls_table', 17);
 
 -- --------------------------------------------------------
 
@@ -622,7 +623,35 @@ CREATE TABLE `progress` (
 --
 
 INSERT INTO `progress` (`id`, `student_id`, `course_id`, `progress_percentage`, `completed`, `last_viewed_lesson_id`, `last_viewed_material_id`, `last_viewed_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 12, 3, 0, 0, 0, 31, '2024-10-14 18:01:22', '2024-10-14 18:01:22', '2024-10-14 18:01:22', NULL);
+(1, 12, 3, 0, 0, 10, 6, '2024-10-14 18:01:22', '2024-10-14 18:01:22', '2024-10-15 04:06:30', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `progress_alls`
+--
+
+CREATE TABLE `progress_alls` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `student_id` bigint(20) UNSIGNED NOT NULL,
+  `course_id` bigint(20) UNSIGNED NOT NULL,
+  `lesson_id` bigint(20) UNSIGNED NOT NULL,
+  `material_id` bigint(20) UNSIGNED NOT NULL,
+  `progress_percentage` int(11) NOT NULL DEFAULT 0,
+  `completed` tinyint(1) NOT NULL DEFAULT 0,
+  `last_viewed_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `progress_alls`
+--
+
+INSERT INTO `progress_alls` (`id`, `student_id`, `course_id`, `lesson_id`, `material_id`, `progress_percentage`, `completed`, `last_viewed_at`, `created_at`, `updated_at`) VALUES
+(1, 12, 3, 8, 31, 0, 1, '2024-10-15 04:06:07', '2024-10-15 04:06:07', '2024-10-15 04:06:07'),
+(2, 12, 3, 9, 32, 0, 1, '2024-10-15 04:06:10', '2024-10-15 04:06:10', '2024-10-15 04:06:10'),
+(3, 12, 3, 10, 6, 0, 1, '2024-10-15 04:06:30', '2024-10-15 04:06:30', '2024-10-15 04:06:30');
 
 -- --------------------------------------------------------
 
@@ -976,6 +1005,16 @@ ALTER TABLE `progress`
   ADD KEY `progress_last_viewed_material_id_index` (`last_viewed_material_id`);
 
 --
+-- Indexes for table `progress_alls`
+--
+ALTER TABLE `progress_alls`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `progress_alls_student_id_index` (`student_id`),
+  ADD KEY `progress_alls_course_id_index` (`course_id`),
+  ADD KEY `progress_alls_lesson_id_index` (`lesson_id`),
+  ADD KEY `progress_alls_material_id_index` (`material_id`);
+
+--
 -- Indexes for table `questions`
 --
 ALTER TABLE `questions`
@@ -1122,7 +1161,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `news_letters`
@@ -1159,6 +1198,12 @@ ALTER TABLE `personal_access_tokens`
 --
 ALTER TABLE `progress`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `progress_alls`
+--
+ALTER TABLE `progress_alls`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `questions`

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{asset('frontend/dist/main.css')}}" />
     <link rel="icon" type="image/png" href="{{asset('frontend/dist/images/favicon/favicon.png')}}" />
     <link rel="stylesheet" href="{{asset('frontend/fontawesome-free-5.15.4-web/css/all.min.css')}}">
+    <link href="https://vjs.zencdn.net/7.18.1/video-js.css" rel="stylesheet" />
     <style>
         .vjs-poster {
             width: 100%;
@@ -34,6 +35,22 @@
     .video-area {
         max-height: 600px; /* Set your desired height for the video area */
         overflow: hidden; /* Prevent overflow of video area */
+    }
+</style>
+<style>
+    video::-webkit-media-controls-panel {
+        display: none !important; /* Hide the control panel */
+    }
+</style>
+<style>
+    /* Optionally, you can customize the video.js skin */
+    .video-js .vjs-control {
+        display: none; /* Hide all controls */
+    }
+
+    .video-js .vjs-volume-panel,
+    .video-js .vjs-fullscreen-control {
+        display: inline-block; /* Show volume and fullscreen controls */
     }
 </style>
 </head>
@@ -90,19 +107,22 @@
             {{-- Video Area --}}
             <div class="col-lg-8">
                 <div class="course-description-start">
-                <div id="lesson-container">
-                <!-- <h5 class="font-title--sm material-title">{{$currentLesson->title}}</h5> -->
-                
-                    @if($currentMaterial->type == 'video')
+                    <div id="lesson-container" style="position: relative;">
+                        {{-- Existing content rendering logic --}}
+                        @if($currentMaterial->type == 'video')
                         <div class="video-area">
                             @if(!empty($currentMaterial->content))
-                                {{-- Local video --}}
-                                <video controls id="myvideo" class="video-js w-100"
-                                    poster="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}">
-                                    <source src="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" class="w-100" autostart="true"/>
+                                <video
+                                    controls
+                                    id="myvideo"
+                                    class="video-js w-100"
+                                    poster="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}"
+                                    oncontextmenu="return false;"
+                                    data-setup='{"controls": true, "autoplay": true, "preload": "auto"}'>
+                                    <source src="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" type="video/mp4" />
+                                    Your browser does not support the video tag.
                                 </video>
                             @elseif(!empty($currentMaterial->content_url))
-                                {{-- YouTube video --}}
                                 @php
                                     // Extract the video ID from the YouTube URL
                                     $url = $currentMaterial->content_url;
@@ -110,30 +130,33 @@
                                     $videoId = $matches[1] ?? null;
                                 @endphp
                                 @if($videoId)
-                                <iframe width="100%" height="400"
-                                        src="https://www.youtube.com/embed/{{ $videoId }}"
-                                        title="Freelance Bootcamp Onboarding Brief"
-                                        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                        referrerpolicy="strict-origin-when-cross-origin"
-                                        allowfullscreen>
-                                </iframe>
+                                    <iframe width="100%" height="400"
+                                            src="https://www.youtube.com/embed/{{ $videoId }}?controls=1&modestbranding=1&rel=0"
+                                            title="Freelance Bootcamp Onboarding Brief"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen>
+                                    </iframe>
                                 @endif
                             @endif
                         </div>
-                    @elseif($currentMaterial->type == 'text')
-                        {{-- Display text content --}}
-                        <div class="lesson-text">
-                            {!! $currentMaterial->content_data !!} <!-- Assuming content_data holds the text -->
-                        </div>
-                    @elseif($currentMaterial->type == 'document')
-                        {{-- Display document content --}}
-                        <div class="document-content">
-                            {!! $currentMaterial->content_data !!}
-                        </div>
-                    @else
-                        <p>No valid content available for this lesson.</p>
-                    @endif
-                </div>
+                        @elseif($currentMaterial->type == 'text')
+                            <div class="lesson-text">
+                                {!! $currentMaterial->content_data !!} <!-- Assuming content_data holds the text -->
+                            </div>
+                        @elseif($currentMaterial->type == 'document')
+                            <div class="document-content">
+                                {!! $currentMaterial->content_data !!}
+                            </div>
+                        @else
+                            <p>No valid content available for this lesson.</p>
+                        @endif
+
+                        <!-- Transparent overlay to block interaction -->
+                        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255, 255, 255, 0);"></div>
+                    </div>
+                <!-- </div>
+            </div> -->
 
 
                     <div class="course-description-start-content">
@@ -328,44 +351,45 @@
                                     <h6 class="">{{$loop->iteration}}. {{$lesson->title}}</h6>
                                 </div>
                                 @foreach ($lesson->material as $material)
-                                <div class="main-wizard"
-                                    data-lesson-id="{{ $lesson->id }}"
-                                    data-material-title="{{$loop->parent->iteration}}.{{$loop->iteration}} {{$material->title}}"
-                                    data-material-type="{{$material->type}}"
-                                    data-material-content="{{$material->content}}"
-                                    data-material-content-data="{{ $material->content_data }}"
-                                    data-material-description="{{$lesson->description}}"
-                                    data-material-notes="{{$lesson->notes}}"
-                                    data-material-id="{{ $material->id }}"
-                                    data-course-id = "{{$course->id}}">
-                                    <div class="main-wizard__wrapper">
-                                        <a class="main-wizard-start">
-                                            @if ($material->type=='video')
-                                            <div class="main-wizard-icon">
-                                                <i class="far fa-play-circle fa-lg"></i>
-                                            </div>
-                                            @else
-                                            <div class="main-wizard-icon">
-                                                <i class="far fa-file fa-lg text-success"></i>
-                                            </div>
-                                            @endif
-                                            <div class="main-wizard-title">
-                                                <p>{{$loop->parent->iteration}}.{{$loop->iteration}} {{$material->title}}</p>
-                                            </div>
-                                        </a>
-                                        <div class="main-wizard-end d-flex align-items-center">
-                                            @if ($material->type=='video')
-                                            <strong><span style="color:green;">{{$material->file_duration}}</span></strong>
-                                            @else
-                                            <span></span>
-                                            @endif
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value=""
-                                                    style="border-radius: 0px; margin-left: 5px;" />
+                                    <div class="main-wizard"
+                                        data-lesson-id="{{ $lesson->id }}"
+                                        data-material-title="{{$loop->parent->iteration}}.{{$loop->iteration}} {{$material->title}}"
+                                        data-material-type="{{$material->type}}"
+                                        data-material-content="{{$material->content}}"
+                                        data-material-content-data="{{ $material->content_data }}"
+                                        data-material-description="{{$lesson->description}}"
+                                        data-material-notes="{{$lesson->notes}}"
+                                        data-material-id="{{ $material->id }}"
+                                        data-course-id="{{$course->id}}">
+                                        <div class="main-wizard__wrapper">
+                                            <a class="main-wizard-start">
+                                                @if ($material->type=='video')
+                                                    <div class="main-wizard-icon">
+                                                        <i class="far fa-play-circle fa-lg"></i>
+                                                    </div>
+                                                @else
+                                                    <div class="main-wizard-icon">
+                                                        <i class="far fa-file fa-lg text-success"></i>
+                                                    </div>
+                                                @endif
+                                                <div class="main-wizard-title">
+                                                    <p>{{$loop->parent->iteration}}.{{$loop->iteration}} {{$material->title}}</p>
+                                                </div>
+                                            </a>
+                                            <div class="main-wizard-end d-flex align-items-center">
+                                                @if ($material->type=='video')
+                                                    <strong><span style="color:green;">{{$material->file_duration}}</span></strong>
+                                                @else
+                                                    <span></span>
+                                                @endif
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value=""
+                                                        style="border-radius: 0px; margin-left: 5px;"
+                                                        @if(in_array($material->id, $progressRecords)) checked @endif />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
                                 @endforeach
                             </div>
                         @endforeach
@@ -416,6 +440,7 @@
     <script src="{{asset('frontend/src/scss/vendors/plugin/js/jquery.nice-select.min.js')}}"></script>
     <script src="{{asset('frontend/src/scss/vendors/plugin/js/jquery.star-rating-svg.js')}}"></script>
     <script src="{{asset('frontend/src/js/app.js')}}"></script>
+    <script src="https://vjs.zencdn.net/7.18.1/video.min.js"></script>
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -466,12 +491,17 @@
     }
 
     $(document).ready(function() {
+        // Set the initial checked state for checkboxes based on progress records
+        var progressRecords = @json($progressRecords); // Pass this from the server-side
+        $('.main-wizard').each(function() {
+            var materialId = $(this).data('material-id');
+            if (progressRecords.includes(materialId)) {
+                $(this).find('.form-check-input').prop('checked', true); // Check the checkbox if progress exists
+            }
+        });
+
         $('.main-wizard').on('click', function(e) {
             e.preventDefault(); // Prevent default link behavior
-
-            // Uncheck all checkboxes and remove highlighting from all lessons
-            $('.form-check-input').prop('checked', false); // Uncheck all checkboxes
-            $('.main-wizard').removeClass('highlight'); // Remove highlight class
 
             // Get material data attributes
             var material = {
@@ -523,12 +553,18 @@
     });
 </script>
 
+<script>
+    // Disable right-click and keyboard shortcuts
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
 
-
-
-
-
-
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && (e.key === 'c' || e.key === 's')) {
+            e.preventDefault();
+        }
+    });
+</script>
 
 
 

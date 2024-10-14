@@ -414,7 +414,11 @@
                                             <img src="{{asset('frontend/dist/images/icon/book.png')}}"
                                                 alt="location" />
                                         </div>
-                                        <span>{{$c->lesson}} Lesson</span>
+                                        @if($c->lessons_count == 1)
+                                        <span>{{ $c->lesson_count }} Lesson</span>
+                                        @else
+                                        <span>{{ $c->lesson_count }} Lessons</span>
+                                        @endif
                                     </div>
                                     <div class="clock d-flex align-items-center">
                                         <div class="icon">

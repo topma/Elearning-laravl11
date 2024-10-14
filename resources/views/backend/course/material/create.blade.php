@@ -25,7 +25,6 @@
                     <li class="breadcrumb-item"><a href="{{route('course.index')}}">My Courses</a></li>
                     <li class="breadcrumb-item active"><a href="{{route('lesson.show', encryptor('encrypt',$lesson->course_id))}}">Course Lesson</a></li>
                     <li class="breadcrumb-item active"><a href="">Add Course Material</a>
-                    <li class="breadcrumb-item"><a href="{{route('editor.show')}}">Editor</a></li>
                     </li>
                 </ol>
             </div>

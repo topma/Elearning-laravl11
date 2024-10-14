@@ -30,7 +30,7 @@
             <div class="col-lg-12">
                 <div class="row tab-content">
                     <div class="card-header">
-                        <a href="{{route('course.create')}}" class="btn btn-primary">+ Add new</a>
+                        <a href="{{route('course.create')}}" class="btn btn-primary">+ Add new course <i class="baseline-golf_course"></i></a>
                     </div>
                     <div class="col-lg-12">
                         <div class="row">

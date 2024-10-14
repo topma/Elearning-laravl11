@@ -156,7 +156,11 @@
                                             <p class="font-para--md">{{$a->course?->instructor?->name_en}}</p>
                                         </a>
                                         <div class="contentCard-course--status d-flex align-items-center">
-                                            <span class="percentage">5%</span>
+                                        @if ($a->course->lesson_count == 1)
+                                        <span class="percentage">{{ $a->course->lesson_count }} lesson</span>
+                                        @else
+                                        <span class="percentage">{{ $a->course->lesson_count }} lessons</span>
+                                        @endif
                                             <!-- <p>Finish</p> -->
                                         </div>
                                     </div>
@@ -216,7 +220,7 @@
                                             <p class="font-para--md">{{$a->course?->instructor?->name_en}}</p>
                                         </a>
                                         <div class="contentCard-course--status d-flex align-items-center">
-                                            <span class="percentage">5%</span>
+                                            <!-- <span class="percentage">5%</span> -->
                                             <!-- <p>Finish</p> -->
                                         </div>
                                     </div>
@@ -276,7 +280,7 @@
                                             <p class="font-para--md">{{$a->course?->instructor?->name_en}}</p>
                                         </a>
                                         <div class="contentCard-course--status d-flex align-items-center">
-                                            <span class="percentage">5%</span>
+                                            <!-- <span class="percentage">5%</span> -->
                                             <!-- <p>Finish</p> -->
                                         </div>
                                     </div>

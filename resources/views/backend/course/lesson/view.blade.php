@@ -43,7 +43,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">All Course Lessons List </h4>
-                                <a href="{{route('lesson.create',['course_id' => encryptor('encrypt', $course->id)])}}" class="btn btn-primary">+ Add new</a>
+                                <a href="{{route('lesson.create',['course_id' => encryptor('encrypt', $course->id)])}}" class="btn btn-primary">+ Add new lesson</a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">

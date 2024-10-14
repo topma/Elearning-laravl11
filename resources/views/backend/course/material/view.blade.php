@@ -46,7 +46,7 @@
                             <div class="card-header">
                                 <h4 class="card-title">All Course Materials List </h4>
                                 @foreach ($material as $m)
-                                <a href="{{route('material.createNew', encryptor('encrypt',$m->lesson?->id))}}" class="btn btn-primary">+ Add new</a>
+                                <a href="{{route('material.createNew', encryptor('encrypt',$m->lesson?->id))}}" class="btn btn-primary">+ Add new material</a>
                                 @endforeach
                             </div>
                             <div class="card-body">

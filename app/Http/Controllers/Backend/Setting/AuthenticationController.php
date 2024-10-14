@@ -113,7 +113,7 @@ class AuthenticationController extends Controller
             }
         } else {
             // If the user is not authenticated, just redirect them to the login page
-            return redirect('studentLogin')->with('danger', 'Successfully Logged Out');
+            return redirect()->route('studentLogin')->with('danger', 'Successfully Logged Out');
         }
     }    
 

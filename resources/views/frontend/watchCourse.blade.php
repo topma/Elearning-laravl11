@@ -41,7 +41,7 @@
                             <div class="lesson-hours">
                                 <div class="book-lesson">
                                     <i class="fas fa-book-open text-primary"></i>
-                                    <span>{{$course->lesson?$course->lesson:0}} Lesson</span>
+                                    <span>{{$lessons->count()}} Lesson</span>
                                 </div>
                                 <!-- <div class="totoal-hours">
                                     <i class="far fa-clock text-danger"></i>

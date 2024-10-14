@@ -33,7 +33,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">All Course List </h4>
-                                <a href="{{route('enrollment.create')}}" class="btn btn-primary">+ Add new</a>
+                                <a href="{{route('enrollment.create')}}" class="btn btn-primary">+ Add new course</a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">

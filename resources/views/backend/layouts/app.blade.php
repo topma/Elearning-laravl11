@@ -141,7 +141,7 @@
                                         width="20" alt="">
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    @if(auth()->user()->role_id == 1)
+                                @if(Auth::check() && auth()->user()->role_id == 1)
                                     <a href="{{route('user.edit', encryptor('encrypt',auth()->user()->id))}}" class="dropdown-item ai-icon">
                                         <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                             viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -151,7 +151,7 @@
                                         </svg>
                                         <span class="ml-2">Profile</span>
                                     </a>
-                                    @elseif(auth()->user()->role_id == 2) 
+                                    @elseif(Auth::check() && auth()->user()->role_id == 2) 
                                     <a href="{{route('user.edit', encryptor('encrypt',auth()->user()->id))}}" class="dropdown-item ai-icon">
                                         <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                             viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -161,7 +161,7 @@
                                         </svg>
                                         <span class="ml-2">Profile</span>
                                     </a>
-                                    @else
+                                    @elseif(Auth::check() && auth()->user()->role_id == 3)
                                     <a href="{{route('instructor.edit', encryptor('encrypt',auth()->user()->instructor_id))}}" class="dropdown-item ai-icon">
                                         <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                                             viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -171,7 +171,10 @@
                                         </svg>
                                         <span class="ml-2">Profile</span>
                                     </a>
-
+                                    @else
+                                    <script>
+                                        window.location.href = "{{ route('logOut') }}";
+                                    </script>
                                     @endif
                                     <!-- <a href="email-inbox.html" class="dropdown-item ai-icon">
                                         <svg id="icon-inbox" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
@@ -224,14 +227,22 @@
                             <span class="nav-text">Dashboard</span>
                         </a>
                     </li> 
-                    @if(auth()->user()->role_id == 1) 
+                    @if(Auth::check() && auth()->user()->role_id == 1) 
                     <li><a href="{{route('user.edit', encryptor('encrypt',auth()->user()->id))}}"><i
                                         class="las la-chalkboard-teacher"></i>Profile</a>
                             </li>   
-                    @else    
+                    @elseif(Auth::check() && auth()->user()->role_id == 2) 
+                    <li><a href="{{route('user.edit', encryptor('encrypt',auth()->user()->id))}}"><i
+                                        class="las la-chalkboard-teacher"></i>Profile</a>
+                            </li>  
+                    @elseif(Auth::check() && auth()->user()->role_id == 3)     
                     <li><a href="{{route('instructor.edit', encryptor('encrypt',auth()->user()->instructor_id))}}"><i
                                         class="las la-chalkboard-teacher"></i>Profile</a>
                             </li> 
+                    @else
+                    <script>
+                        window.location.href = "{{ route('logOut') }}";
+                    </script>
                     @endif        
                     <li class="nav-label">Main Menu</li>
                     <li><a class="" href="{{route('role.index')}}" aria-expanded="false">
@@ -343,15 +354,23 @@
                         <i class="las la-tachometer-alt"></i> <span class="nav-text">Dashboard</span>
                     </a>
                 </li>  
-                @if(auth()->user()->role_id == 1) 
+                @if(Auth::check() && auth()->user()->role_id == 1) 
                     <li><a href="{{route('user.edit', encryptor('encrypt',auth()->user()->id))}}"><i
                                         class="las la-chalkboard-teacher"></i>Profile</a>
                             </li>   
-                    @else    
+                    @elseif(Auth::check() && auth()->user()->role_id == 2) 
+                    <li><a href="{{route('user.edit', encryptor('encrypt',auth()->user()->id))}}"><i
+                                        class="las la-chalkboard-teacher"></i>Profile</a>
+                            </li>  
+                    @elseif(Auth::check() && auth()->user()->role_id == 3)     
                     <li><a href="{{route('instructor.edit', encryptor('encrypt',auth()->user()->instructor_id))}}"><i
                                         class="las la-chalkboard-teacher"></i>Profile</a>
                             </li> 
-                    @endif               
+                    @else
+                    <script>
+                        window.location.href = "{{ route('logOut') }}";
+                    </script>
+                    @endif                     
                 <li class="nav-label">Main Menu</li>
                 <li><a href="{{route('instructor.index')}}">
                         <i class="las la-chalkboard-teacher"></i>Instructors List

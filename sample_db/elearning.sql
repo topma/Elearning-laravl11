@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2024 at 11:07 PM
+-- Generation Time: Oct 16, 2024 at 11:58 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -97,6 +97,7 @@ INSERT INTO `coupons` (`id`, `course_id`, `instructor_id`, `code`, `discount`, `
 
 CREATE TABLE `courses` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `segments` int(11) NOT NULL,
   `title_en` varchar(255) NOT NULL,
   `title_bn` varchar(255) DEFAULT NULL,
   `description_en` text DEFAULT NULL,
@@ -130,10 +131,10 @@ CREATE TABLE `courses` (
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`id`, `title_en`, `title_bn`, `description_en`, `description_bn`, `course_category_id`, `instructor_id`, `currency_type`, `type`, `price`, `old_price`, `subscription_price`, `start_from`, `duration`, `lesson`, `prerequisites_en`, `prerequisites_bn`, `difficulty`, `course_code`, `image`, `thumbnail_image`, `thumbnail_video`, `status`, `language`, `tag`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Data Science for Beginners', NULL, 'This will introduce you to the concepts of Data Science and how it is used to solve real-world problems. You will learn Data Science with an example on UBER dataset. Data science is the process of using the data to find solutions / to predict outcomes of a problem statemen', NULL, 19, 3, '=N=', 'free', 0.00, 0.00, NULL, NULL, 10, 1, 'No tech skill required.', NULL, 'beginner', NULL, '5801727444624.png', '9551727444625.png', 'https://youtu.be/KdgQvgE3ji4', 2, 'en', 'popular', '2024-09-27 20:43:45', '2024-09-27 21:20:36', NULL),
-(2, 'Data Science In 5 Minutes', NULL, 'This video will give you an idea of a life of Data Scientist. This Data Science for Beginners video will also explain the steps involved in the Data Science project, roles & salary offered to a Data Scientist. Data Science is basically dealing with unstructured and structured data.', NULL, 19, 3, '=N=', 'free', 0.00, 0.00, NULL, NULL, 10, 1, 'No tech skill required.', NULL, 'beginner', NULL, '7211727444901.png', '5771727444901.png', 'https://youtu.be/X3paOmcrTjQ', 2, 'en', 'popular', '2024-09-27 20:48:21', '2024-09-27 21:20:54', NULL),
-(3, 'SMM Freelance Bootcamp', NULL, 'SMM Freelance Bootcamp', NULL, 25, 4, '=N=', 'paid', 27500.00, 35000.00, 27500.00, '2025-01-01 08:00:00', NULL, 10, 'A good smart phone and internet.', NULL, 'beginner', 'SMM001', '7181728146583.jpg', '6311728146583.jpg', NULL, 2, 'en', 'popular', '2024-10-05 23:43:03', '2024-10-08 03:53:22', NULL);
+INSERT INTO `courses` (`id`, `segments`, `title_en`, `title_bn`, `description_en`, `description_bn`, `course_category_id`, `instructor_id`, `currency_type`, `type`, `price`, `old_price`, `subscription_price`, `start_from`, `duration`, `lesson`, `prerequisites_en`, `prerequisites_bn`, `difficulty`, `course_code`, `image`, `thumbnail_image`, `thumbnail_video`, `status`, `language`, `tag`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 0, 'Data Science for Beginners', NULL, 'This will introduce you to the concepts of Data Science and how it is used to solve real-world problems. You will learn Data Science with an example on UBER dataset. Data science is the process of using the data to find solutions / to predict outcomes of a problem statemen', NULL, 19, 3, '=N=', 'free', 0.00, 0.00, NULL, NULL, 10, 1, 'No tech skill required.', NULL, 'beginner', NULL, '5801727444624.png', '9551727444625.png', 'https://youtu.be/KdgQvgE3ji4', 2, 'en', 'popular', '2024-09-27 20:43:45', '2024-09-27 21:20:36', NULL),
+(2, 0, 'Data Science In 5 Minutes', NULL, 'This video will give you an idea of a life of Data Scientist. This Data Science for Beginners video will also explain the steps involved in the Data Science project, roles & salary offered to a Data Scientist. Data Science is basically dealing with unstructured and structured data.', NULL, 19, 3, '=N=', 'free', 0.00, 0.00, NULL, NULL, 10, 1, 'No tech skill required.', NULL, 'beginner', NULL, '7211727444901.png', '5771727444901.png', 'https://youtu.be/X3paOmcrTjQ', 2, 'en', 'popular', '2024-09-27 20:48:21', '2024-09-27 21:20:54', NULL),
+(3, 4, 'Freelance Bootcamp', NULL, 'SMM Freelance Bootcamp', NULL, 25, 4, '=N=', 'paid', 27500.00, 35000.00, 27500.00, '2025-01-01 08:00:00', NULL, 10, 'A good smart phone and internet.', NULL, 'beginner', 'SMM001', '7181728146583.jpg', '6311728146583.jpg', NULL, 2, 'en', 'popular', '2024-10-05 23:43:03', '2024-10-17 03:05:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -286,6 +287,7 @@ CREATE TABLE `lessons` (
   `serial_no` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `course_id` bigint(20) UNSIGNED NOT NULL,
+  `segments_id` int(10) NOT NULL,
   `description` text DEFAULT NULL,
   `notes` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -297,34 +299,56 @@ CREATE TABLE `lessons` (
 -- Dumping data for table `lessons`
 --
 
-INSERT INTO `lessons` (`id`, `serial_no`, `title`, `course_id`, `description`, `notes`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'What is data science?', 1, 'What is data science?', 'You will know about what data science entails.', '2024-09-27 20:59:27', '2024-09-27 21:02:58', NULL),
-(2, 1, 'Data Science as a tool.', 2, 'Data Science as a tool.', 'Data Science as a tool.', '2024-10-05 20:04:51', '2024-10-05 20:04:51', NULL),
-(7, 2, 'What data science stands for', 2, 'What data science stands for', 'What data science stands for', '2024-10-05 20:20:51', '2024-10-05 20:20:51', NULL),
-(8, 1, 'Onboarding brief', 3, 'Onboarding brief', 'Onboarding brief', '2024-10-06 00:05:20', '2024-10-13 18:24:23', NULL),
-(9, 2, 'An overview of social media management 1', 3, 'An overview of social media management 1', 'An overview of social media management 1', '2024-10-06 00:05:48', '2024-10-13 18:28:08', NULL),
-(10, 3, 'An overview of social media management 2', 3, 'An overview of social media management 2', 'An overview of social media management 2', '2024-10-06 00:06:05', '2024-10-13 18:28:21', NULL),
-(11, 4, 'Setting up and optimizing social media profiles', 3, 'Setting up and optimizing social media profiles', 'Setting up and optimizing social media profiles', '2024-10-06 00:06:24', '2024-10-13 18:28:35', NULL),
-(12, 5, 'Social media management skills', 3, 'Social media management skills', 'Social media management skills', '2024-10-06 00:06:42', '2024-10-13 18:28:48', NULL),
-(13, 6, 'Social media Content creation', 3, 'Social media Content creation', 'Social media Content creation', '2024-10-06 00:07:02', '2024-10-13 18:29:29', NULL),
-(14, 7, 'Guide to content creation', 3, 'Guide to content creation', 'Guide to content creation', '2024-10-06 00:07:18', '2024-10-13 18:29:57', NULL),
-(15, 8, 'Content writing', 3, 'Content writing', 'Content writing', '2024-10-06 00:11:12', '2024-10-13 18:30:17', NULL),
-(16, 10, 'What makes content viral', 3, 'What makes content viral', 'What makes content viral', '2024-10-06 00:11:40', '2024-10-13 18:30:36', NULL),
-(17, 11, 'Utilizing storytelling techniques to connect with the audience', 3, 'Utilizing storytelling techniques to connect with the audience', 'Utilizing storytelling techniques to connect with the audience', '2024-10-06 00:12:02', '2024-10-13 18:30:58', NULL),
-(18, 9, 'Content Writing Tools', 3, 'Content Writing Tools', 'Content Writing Tools', '2024-10-13 18:22:30', '2024-10-13 18:31:26', NULL),
-(19, 12, 'Social Media & Personal Branding', 3, 'Social Media & Personal Branding', 'Social Media & Personal Branding', '2024-10-13 18:32:08', '2024-10-13 18:32:08', NULL),
-(20, 13, 'Social media Content Strategy', 3, 'Social media Content Strategy', 'Social media Content Strategy', '2024-10-13 18:32:30', '2024-10-13 18:32:30', NULL),
-(21, 14, 'Creating a content calendar and schedule', 3, 'Creating a content calendar and schedule', 'Creating a content calendar and schedule', '2024-10-13 18:32:59', '2024-10-13 18:32:59', NULL),
-(22, 15, 'Target audience', 3, 'Target audience', 'Target audience', '2024-10-13 18:33:17', '2024-10-13 18:33:17', NULL),
-(23, 16, 'How to find a target audience', 3, 'How to find a target audience', 'How to find a target audience', '2024-10-13 18:33:46', '2024-10-13 18:33:46', NULL),
-(24, 17, 'Tools for social media management', 3, 'Tools for social media management', 'Tools for social media management', '2024-10-13 18:34:08', '2024-10-13 18:34:08', NULL),
-(25, 18, 'Social media advertising Strategy', 3, 'Social media advertising Strategy', 'Social media advertising Strategy', '2024-10-13 18:34:30', '2024-10-13 18:34:30', NULL),
-(26, 19, 'Meta Business Suite', 3, 'Meta Business Suite', 'Meta Business Suite', '2024-10-13 18:35:00', '2024-10-13 18:35:00', NULL),
-(27, 20, 'Facebook advertising', 3, 'Facebook advertising', 'Facebook advertising', '2024-10-13 18:35:21', '2024-10-13 18:35:21', NULL),
-(28, 21, 'Instagram advertising', 3, 'Instagram advertising', 'Instagram advertising', '2024-10-13 18:35:40', '2024-10-13 18:35:40', NULL),
-(29, 22, 'Calculating insights and ROI', 3, 'Calculating insights and ROI', 'Calculating insights and ROI', '2024-10-13 18:35:58', '2024-10-13 18:35:58', NULL),
-(30, 23, 'Continuous learning and professional development', 3, 'Continuous learning and professional development', 'Continuous learning and professional development', '2024-10-13 18:36:23', '2024-10-13 18:36:23', NULL),
-(31, 24, 'Getting started after learning', 3, 'Getting started after learning', 'Getting started after learning', '2024-10-13 18:36:45', '2024-10-13 18:36:45', NULL);
+INSERT INTO `lessons` (`id`, `serial_no`, `title`, `course_id`, `segments_id`, `description`, `notes`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'What is data science?', 1, 0, 'What is data science?', 'You will know about what data science entails.', '2024-09-27 20:59:27', '2024-09-27 21:02:58', NULL),
+(2, 1, 'Data Science as a tool.', 2, 0, 'Data Science as a tool.', 'Data Science as a tool.', '2024-10-05 20:04:51', '2024-10-05 20:04:51', NULL),
+(7, 2, 'What data science stands for', 2, 0, 'What data science stands for', 'What data science stands for', '2024-10-05 20:20:51', '2024-10-05 20:20:51', NULL),
+(8, 1, 'Onboarding brief', 3, 1, 'Onboarding brief', 'Onboarding brief', '2024-10-06 00:05:20', '2024-10-13 18:24:23', NULL),
+(9, 2, 'An overview of social media management 1', 3, 1, 'An overview of social media management 1', 'An overview of social media management 1', '2024-10-06 00:05:48', '2024-10-13 18:28:08', NULL),
+(10, 3, 'An overview of social media management 2', 3, 1, 'An overview of social media management 2', 'An overview of social media management 2', '2024-10-06 00:06:05', '2024-10-13 18:28:21', NULL),
+(11, 4, 'Setting up and optimizing social media profiles', 3, 1, 'Setting up and optimizing social media profiles', 'Setting up and optimizing social media profiles', '2024-10-06 00:06:24', '2024-10-13 18:28:35', NULL),
+(12, 5, 'Social media management skills', 3, 1, 'Social media management skills', 'Social media management skills', '2024-10-06 00:06:42', '2024-10-13 18:28:48', NULL),
+(13, 6, 'Social media Content creation', 3, 1, 'Social media Content creation', 'Social media Content creation', '2024-10-06 00:07:02', '2024-10-13 18:29:29', NULL),
+(14, 7, 'Guide to content creation', 3, 1, 'Guide to content creation', 'Guide to content creation', '2024-10-06 00:07:18', '2024-10-13 18:29:57', NULL),
+(15, 8, 'Content writing', 3, 1, 'Content writing', 'Content writing', '2024-10-06 00:11:12', '2024-10-13 18:30:17', NULL),
+(16, 10, 'What makes content viral', 3, 1, 'What makes content viral', 'What makes content viral', '2024-10-06 00:11:40', '2024-10-13 18:30:36', NULL),
+(17, 11, 'Utilizing storytelling techniques to connect with the audience', 3, 1, 'Utilizing storytelling techniques to connect with the audience', 'Utilizing storytelling techniques to connect with the audience', '2024-10-06 00:12:02', '2024-10-13 18:30:58', NULL),
+(18, 9, 'Content Writing Tools', 3, 1, 'Content Writing Tools', 'Content Writing Tools', '2024-10-13 18:22:30', '2024-10-13 18:31:26', NULL),
+(19, 12, 'Social Media & Personal Branding', 3, 1, 'Social Media & Personal Branding', 'Social Media & Personal Branding', '2024-10-13 18:32:08', '2024-10-13 18:32:08', NULL),
+(20, 13, 'Social media Content Strategy', 3, 1, 'Social media Content Strategy', 'Social media Content Strategy', '2024-10-13 18:32:30', '2024-10-13 18:32:30', NULL),
+(21, 14, 'Creating a content calendar and schedule', 3, 1, 'Creating a content calendar and schedule', 'Creating a content calendar and schedule', '2024-10-13 18:32:59', '2024-10-13 18:32:59', NULL),
+(22, 15, 'Target audience', 3, 1, 'Target audience', 'Target audience', '2024-10-13 18:33:17', '2024-10-13 18:33:17', NULL),
+(23, 16, 'How to find a target audience', 3, 1, 'How to find a target audience', 'How to find a target audience', '2024-10-13 18:33:46', '2024-10-13 18:33:46', NULL),
+(24, 17, 'Tools for social media management', 3, 1, 'Tools for social media management', 'Tools for social media management', '2024-10-13 18:34:08', '2024-10-13 18:34:08', NULL),
+(25, 18, 'Social media advertising Strategy', 3, 1, 'Social media advertising Strategy', 'Social media advertising Strategy', '2024-10-13 18:34:30', '2024-10-13 18:34:30', NULL),
+(26, 19, 'Meta Business Suite', 3, 1, 'Meta Business Suite', 'Meta Business Suite', '2024-10-13 18:35:00', '2024-10-13 18:35:00', NULL),
+(27, 20, 'Facebook advertising', 3, 1, 'Facebook advertising', 'Facebook advertising', '2024-10-13 18:35:21', '2024-10-13 18:35:21', NULL),
+(28, 21, 'Instagram advertising', 3, 1, 'Instagram advertising', 'Instagram advertising', '2024-10-13 18:35:40', '2024-10-13 18:35:40', NULL),
+(29, 22, 'Calculating insights and ROI', 3, 1, 'Calculating insights and ROI', 'Calculating insights and ROI', '2024-10-13 18:35:58', '2024-10-13 18:35:58', NULL),
+(30, 23, 'Continuous learning and professional development', 3, 1, 'Continuous learning and professional development', 'Continuous learning and professional development', '2024-10-13 18:36:23', '2024-10-13 18:36:23', NULL),
+(31, 24, 'Getting started after learning', 3, 1, 'Getting started after learning', 'Getting started after learning', '2024-10-13 18:36:45', '2024-10-13 18:36:45', NULL),
+(34, 1, 'Definition and scope of virtual assistance', 3, 3, 'Definition and scope of virtual assistance', 'Definition and scope of virtual assistance', '2024-10-17 04:43:58', '2024-10-17 04:43:58', NULL),
+(35, 2, 'Overview of virtual assistance roles and responsibilities', 3, 3, 'Overview of virtual assistance roles and responsibilities', 'Overview of virtual assistance roles and responsibilities', '2024-10-17 04:44:41', '2024-10-17 04:44:41', NULL),
+(36, 3, 'Managing confidentiality and data privacy', 3, 3, 'Managing confidentiality and data privacy', 'Managing confidentiality and data privacy', '2024-10-17 04:45:25', '2024-10-17 04:45:25', NULL),
+(37, 4, 'Establishing boundaries and expectations with clients', 3, 3, 'Establishing boundaries and expectations with clients', 'Establishing boundaries and expectations with clients', '2024-10-17 04:45:51', '2024-10-17 04:45:51', NULL),
+(38, 5, 'Efficient time management strategies for virtual assistance', 3, 3, 'Efficient time management strategies for virtual assistance', 'Efficient time management strategies for virtual assistance', '2024-10-17 04:46:18', '2024-10-17 04:46:18', NULL),
+(39, 6, 'Utilizing productivity tools and applications (Slack, Asana, Zendex, etc)', 3, 3, 'Utilizing productivity tools and applications (Slack, Asana, Zendex, etc)', 'Utilizing productivity tools and applications (Slack, Asana, Zendex, etc)', '2024-10-17 04:46:43', '2024-10-17 04:46:43', NULL),
+(40, 7, 'Organization and File Management', 3, 3, 'Organization and File Management', 'Organization and File Management', '2024-10-17 04:47:05', '2024-10-17 04:47:05', NULL),
+(41, 8, 'Conducting effective online research', 3, 3, 'Conducting effective online research', 'Conducting effective online research', '2024-10-17 04:47:45', '2024-10-17 04:48:55', NULL),
+(42, 9, 'Validating and verifying sources', 3, 3, 'Validating and verifying sources', 'Validating and verifying sources', '2024-10-17 04:49:52', '2024-10-17 04:49:52', NULL),
+(43, 10, 'Calendar management', 3, 3, 'Calendar management', 'Calendar management', '2024-10-17 04:50:22', '2024-10-17 04:50:22', NULL),
+(44, 11, 'Managing emails and scheduling', 3, 3, 'Managing emails and scheduling', 'Managing emails and scheduling', '2024-10-17 04:50:50', '2024-10-17 04:50:50', NULL),
+(45, 12, 'Data entry and database management', 3, 3, 'Data entry and database management', 'Data entry and database management', '2024-10-17 04:51:17', '2024-10-17 04:51:17', NULL),
+(46, 13, 'Online meeting coordination and note-taking', 3, 3, 'Online meeting coordination and note-taking', 'Online meeting coordination and note-taking', '2024-10-17 04:51:37', '2024-10-17 04:51:37', NULL),
+(47, 14, 'Travel and event planning', 3, 3, 'Travel and event planning', 'Travel and event planning', '2024-10-17 04:51:59', '2024-10-17 04:51:59', NULL),
+(48, 15, 'Tracking expenses and income for clients', 3, 3, 'Tracking expenses and income for clients', 'Tracking expenses and income for clients', '2024-10-17 04:52:58', '2024-10-17 04:53:23', NULL),
+(49, 16, 'Working through unfamiliar tasks', 3, 3, 'Working through unfamiliar tasks', 'Working through unfamiliar tasks', '2024-10-17 04:53:57', '2024-10-17 04:53:57', NULL),
+(50, 17, 'Navigating Google Workspace 1', 3, 3, 'Navigating Google Workspace 1', 'Navigating Google Workspace 1', '2024-10-17 04:54:23', '2024-10-17 04:54:23', NULL),
+(51, 18, 'Navigating Google Workspace 2', 3, 3, 'Navigating Google Workspace 2', 'Navigating Google Workspace 2', '2024-10-17 04:55:18', '2024-10-17 04:55:18', NULL),
+(52, 19, 'Exploring Monday.com', 3, 3, 'Exploring Monday.com', 'Exploring Monday.com', '2024-10-17 04:55:40', '2024-10-17 04:55:40', NULL),
+(53, 20, 'ClickUp: Streamlining Task Management and Project Collaboration', 3, 3, 'ClickUp: Streamlining Task Management and Project Collaboration', 'ClickUp: Streamlining Task Management and Project Collaboration', '2024-10-17 04:56:10', '2024-10-17 04:56:10', NULL),
+(54, 21, 'Slack: A Communication and Collaboration Tool', 3, 3, 'Slack: A Communication and Collaboration Tool', 'Slack: A Communication and Collaboration Tool', '2024-10-17 04:56:32', '2024-10-17 04:56:32', NULL),
+(55, 22, 'Places to learn online', 3, 3, 'Places to learn online', 'Places to learn online', '2024-10-17 04:56:58', '2024-10-17 04:56:58', NULL);
 
 -- --------------------------------------------------------
 
@@ -467,7 +491,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (42, '2024_10_13_131506_alter_content_data_column_in_your_table', 14),
 (43, '2024_10_14_083232_add_duration_and_size_to_materials_table', 15),
 (44, '2024_10_14_141727_add_last_viewed_lesson_to_progress_table', 16),
-(45, '2024_10_14_201217_create_progreaa_alls_table', 17);
+(45, '2024_10_14_201217_create_progreaa_alls_table', 17),
+(46, '2024_10_16_180642_add_segments_to_courses_table', 18),
+(47, '2024_10_16_181320_create_segments_table', 19),
+(48, '2024_10_16_181900_add_course_id_to_segments_table', 20),
+(49, '2024_10_16_190829_add_status_to_segments_table', 21);
 
 -- --------------------------------------------------------
 
@@ -731,6 +759,38 @@ INSERT INTO `roles` (`id`, `name`, `identity`, `created_at`, `updated_at`) VALUE
 (2, 'Admin', 'admin', '2024-09-26 01:25:46', NULL),
 (3, 'Instructor', 'instructor', '2024-09-26 01:25:46', NULL),
 (4, 'Student', 'student', '2024-09-26 01:25:46', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `segments`
+--
+
+CREATE TABLE `segments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `course_category_id` bigint(20) UNSIGNED NOT NULL,
+  `title_en` varchar(255) NOT NULL,
+  `description_en` text DEFAULT NULL,
+  `instructor_id` bigint(20) UNSIGNED NOT NULL,
+  `duration` int(11) DEFAULT NULL,
+  `lesson` int(11) DEFAULT NULL,
+  `image` varchar(255) NOT NULL,
+  `thumbnail_image` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 0 COMMENT '0 pending, 1 inactive, 2 active',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `segments`
+--
+
+INSERT INTO `segments` (`id`, `course_id`, `course_category_id`, `title_en`, `description_en`, `instructor_id`, `duration`, `lesson`, `image`, `thumbnail_image`, `status`, `created_at`, `updated_at`) VALUES
+(1, 3, 25, 'Social Media Management', 'Social Media Management', 4, NULL, 24, '1141729110315.jpg', '7401729110183.jpg', 2, '2024-10-17 02:40:25', '2024-10-17 03:25:15'),
+(3, 3, 25, 'Virtual Assistance', 'Virtual Assistance', 4, NULL, 10, '9921729110537.jpg', '6031729110537.jpg', 2, '2024-10-17 03:28:57', '2024-10-17 03:28:57'),
+(4, 3, 25, 'Customer Support', 'Customer Support', 4, NULL, 10, '5381729111145.jpg', '1521729111145.jpg', 2, '2024-10-17 03:39:05', '2024-10-17 03:39:05'),
+(5, 3, 25, 'Lead Generation', 'Lead Generation', 4, NULL, 10, '1411729111256.jpg', '9081729111256.jpg', 2, '2024-10-17 03:40:56', '2024-10-17 03:40:56');
 
 -- --------------------------------------------------------
 
@@ -1045,6 +1105,14 @@ ALTER TABLE `roles`
   ADD UNIQUE KEY `roles_identity_unique` (`identity`);
 
 --
+-- Indexes for table `segments`
+--
+ALTER TABLE `segments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `segments_course_category_id_index` (`course_category_id`),
+  ADD KEY `segments_instructor_id_index` (`instructor_id`);
+
+--
 -- Indexes for table `students`
 --
 ALTER TABLE `students`
@@ -1143,7 +1211,7 @@ ALTER TABLE `instructors`
 -- AUTO_INCREMENT for table `lessons`
 --
 ALTER TABLE `lessons`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `materials`
@@ -1161,7 +1229,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `news_letters`
@@ -1228,6 +1296,12 @@ ALTER TABLE `reviews`
 --
 ALTER TABLE `roles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `segments`
+--
+ALTER TABLE `segments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `students`

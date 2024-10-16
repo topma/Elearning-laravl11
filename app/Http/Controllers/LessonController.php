@@ -119,7 +119,7 @@ class LessonController extends Controller
             $lesson->title = $request->lessonTitle;
             $lesson->serial_no = $request->serialNo;
             $lesson->course_id = $request->courseId;
-            $lesson->segments_id = $request->segmentId;
+            // $lesson->segments_id = $request->segmentId;
             $lesson->description = $request->lessonDescription;
             $lesson->notes = $request->lessonNotes;
 

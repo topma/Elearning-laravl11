@@ -47,7 +47,7 @@
                                             <div class="dropdown-menu dropdown-menu-right border py-0">
                                                 <div class="py-2">
                                                 <a class="dropdown-item" 
-                                                href="{{ $d->lesson_count > 0 ? route('lesson.show', encryptor('encrypt', $d->id)) : route('lesson.create', ['course_id' => encryptor('encrypt', $d->id)]) }}">
+                                                href="{{ $d->lesson_count > 0 ? route('lesson.show', encryptor('encrypt', $d->id)) : route('lesson.create', ['segment_id' => encryptor('encrypt', $d->id)]) }}">
                                                 {{ $d->lesson_count > 0 ? 'View Segment Lessons' : 'Create Segment Lessons' }}
                                             </a>
                                                     <a class="dropdown-item"
@@ -101,7 +101,7 @@
                                                 </li>
                                             </ul>
                                             <a class="btn btn-outline-primary btn-rounded mt-3 px-4" 
-                                                href="{{ $d->lesson_count > 0 ? route('lesson.show', encryptor('encrypt', $d->id)) : route('lesson.create', ['course_id' => encryptor('encrypt', $d->id)]) }}">
+                                                href="{{ $d->lesson_count > 0 ? route('lesson.show', encryptor('encrypt', $d->id)) : route('lesson.create', ['segment_id' => encryptor('encrypt', $d->id)]) }}">
                                                 {{ $d->lesson_count > 0 ? 'View Segment Lessons' : 'Create Segment Lessons' }}
                                             </a>
                                         </div>

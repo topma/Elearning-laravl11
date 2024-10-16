@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Lesson;
 use App\Models\Course;
 use App\Models\Material;
+use App\Models\Segments;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\Course\Lessons\AddNewRequest;
 use App\Http\Requests\Backend\Course\Lessons\UpdateRequest;
@@ -26,8 +27,8 @@ class LessonController extends Controller
      */
     public function create(Request $request)    
     {    
-        $courseId = $request->query('course_id');
-        $decryptedId = encryptor('decrypt', $courseId);
+        $segmentId = $request->query('segment_id');
+        $decryptedId = encryptor('decrypt', $segmentId);
         
         // Check if the ID is valid
         if (!$decryptedId) {
@@ -35,8 +36,8 @@ class LessonController extends Controller
             return redirect()->back()->withErrors(['error' => 'Invalid course ID.']);
         }
         
-        $course = Course::findOrFail($decryptedId);
-        return view('backend.course.lesson.create', compact('course'));
+        $segment = Segments::findOrFail($decryptedId);        
+        return view('backend.course.lesson.create', compact('segment'));
     }
 
     /**
@@ -59,12 +60,13 @@ class LessonController extends Controller
             $lesson->title = $request->lessonTitle;
             $lesson->serial_no = $request->serialNo;
             $lesson->course_id = $request->courseId;
+            $lesson->segments_id = $request->segmentId;
             $lesson->description = $request->lessonDescription;
             $lesson->notes = $request->lessonNotes;
 
             if ($lesson->save()) {
                 $this->notice::success('Data Saved');
-                return redirect()->route('lesson.show', encryptor('encrypt', $request->courseId));
+                return redirect()->route('lesson.show', encryptor('encrypt', $request->segmentId));
             } else {
                 $this->notice::error('Please try again');
                 return redirect()->back()->withInput();
@@ -85,16 +87,16 @@ class LessonController extends Controller
         $decryptedId = encryptor('decrypt', $id);
 
         // Find the course
-        $course = Course::findOrFail($decryptedId);
+        $segment = Segments::findOrFail($decryptedId);
 
         // Get lessons associated with the course
-        $lesson = Lesson::where('course_id', $course->id)
+        $lesson = Lesson::where('segments_id', $segment->id)
         ->withCount('material') 
         ->orderBy('serial_no', 'asc')
         ->get();
 
         // Return the view with the course and its lessons
-        return view('backend.course.lesson.view', compact('course', 'lesson'));
+        return view('backend.course.lesson.view', compact('segment', 'lesson'));
     }
 
     /**
@@ -117,6 +119,7 @@ class LessonController extends Controller
             $lesson->title = $request->lessonTitle;
             $lesson->serial_no = $request->serialNo;
             $lesson->course_id = $request->courseId;
+            $lesson->segments_id = $request->segmentId;
             $lesson->description = $request->lessonDescription;
             $lesson->notes = $request->lessonNotes;
 

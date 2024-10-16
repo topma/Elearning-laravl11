@@ -15,7 +15,7 @@
         <div class="row page-titles mx-0">
             <div class="col-sm-6 p-md-0">
                 <div class="welcome-text">
-                    <h4>Segment List</h4>
+                    <h4>Segment List - {{$course->title_en}}</h4>
                 </div>
             </div>
             <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
@@ -30,13 +30,13 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="row tab-content">
-                @forelse ($segment as $d)
+                
                     <div class="card-header">
-                        <a href="{{route('segment.createNew', encryptor('encrypt', $d->course_id ))}}" class="btn btn-primary">+ Add new segment <i class="baseline-golf_course"></i></a>
+                        <a href="{{route('segment.createNew', encryptor('encrypt', $courseId ))}}" class="btn btn-primary">+ Add new segment <i class="baseline-golf_course"></i></a>
                     </div>
                     <div class="col-lg-12">
                         <div class="row">
-                            
+                        @forelse ($segment as $d)
                             <div class="col-lg-4 col-md-4 col-sm-6">
                                 <div class="card card-profile">
                                     <div class="card-header justify-content-end pb-0">

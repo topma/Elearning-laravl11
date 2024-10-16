@@ -15,14 +15,15 @@
         <div class="row page-titles mx-0">
             <div class="col-sm-6 p-md-0">
                 <div class="welcome-text">
-                    <h4>Course Lesson List - {{$course->title_en}}</h4>
+                    <h4>Segment Lesson List - {{$segment->title_en}}</h4>
                 </div>
             </div>
             <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
                     <li class="breadcrumb-item active"><a href="{{route('course.index')}}">My Courses</a></li>
-                    <li class="breadcrumb-item active"><a href="#">Course Lessons</a></li>                    
+                    <li class="breadcrumb-item active"><a href="{{route('segment.show', encryptor('encrypt', $segment->course_id))}}">Segments</a></li>
+                    <li class="breadcrumb-item active"><a href="#">Segment Lessons</a></li>                    
                 </ol>
             </div>
         </div>
@@ -43,7 +44,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">All Course Lessons List </h4>
-                                <a href="{{route('lesson.create',['course_id' => encryptor('encrypt', $course->id)])}}" class="btn btn-primary">+ Add new lesson</a>
+                                <a href="{{route('lesson.create',['segment_id' => encryptor('encrypt', $segment->id)])}}" class="btn btn-primary">+ Add new lesson</a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">

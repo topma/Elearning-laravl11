@@ -134,13 +134,17 @@ class SegmentController extends Controller
         $userRoleId = auth()->user()->role_id;
         $instructorId = auth()->user()->instructor_id;
         if($userRoleId == 1) {
-            $segment = Segments::withCount('lesson')->paginate(10);
-        }
+            $segment = Segments::withCount('lesson')->paginate(10);           
+           
+        }        
         else {
             $segment = Segments::where('course_id', encryptor('decrypt', $id))->withCount('lesson')->paginate(10);
+            $segmentNew = Segments::where('course_id', encryptor('decrypt', $id))->first();
+            $courseId = $segmentNew->course_id;
+            $course = Course::where('id', $courseId)->first();            
         }
         
-        return view('backend.course.segments.index', compact('segment'));
+        return view('backend.course.segments.index', compact('segment','courseId','course','segmentNew'));
         
     }
 

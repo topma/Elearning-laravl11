@@ -16,14 +16,15 @@
         <div class="row page-titles mx-0">
             <div class="col-sm-6 p-md-0">
                 <div class="welcome-text">
-                    <h4>Add Course Lesson for  - {{$course->title_en}}</h4>
+                    <h4>Add Segment Lesson for  - {{$segment->title_en}}</h4>
                 </div>
             </div>
             <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
                     <li class="breadcrumb-item"><a href="{{route('course.index')}}">My Courses</a></li>
-                    <li class="breadcrumb-item active"><a href="#">Course Lessons</a></li>
+                    <li class="breadcrumb-item active"><a href="{{route('segment.show', encryptor('encrypt', $segment->course_id))}}">Segments</a></li>
+                    <li class="breadcrumb-item active"><a href="#">Segment Lessons</a></li>
                     </li>
                 </ol>
             </div>
@@ -41,10 +42,10 @@
                             <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Course</label>
-                                        <select class="form-control" name="courseId">
-                                            <option value="{{ $course->id }}" {{ old('courseId') == $course->id ? 'selected' : '' }}>
-                                                {{ $course->title_en }}
+                                        <label class="form-label">Segment</label>
+                                        <select class="form-control" name="segmentId">
+                                            <option value="{{ $segment->id }}" {{ old('segmentId') == $segment->id ? 'selected' : '' }}>
+                                                {{ $segment->title_en }}
                                             </option>
                                         </select>
 
@@ -55,7 +56,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Title</label>
+                                        <label class="form-label">Lesson Title</label>
                                         <input type="text" class="form-control" name="lessonTitle"
                                             value="{{old('lessonTitle')}}">
                                     </div>
@@ -94,6 +95,7 @@
                                     @endif
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <input type="hidden" name="courseId" value="{{$segment->course_id}}">
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                     <button type="submit" class="btn btn-light">Cancel</button>
                                 </div>

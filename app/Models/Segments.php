@@ -5,14 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Course extends Model
+class Segments extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'title_en', 'price', 'image', 'subscription_price','status',
+        'title_en', 'course_id', 'duration', 'lesson','instructor_id','course_category_id'
     ];
 
+    public function lesson()
+    {
+        return $this->hasMany(Lesson::class);
+    }
     public function courseCategory()
     {
         return $this->belongsTo(CourseCategory::class); 
@@ -46,16 +50,6 @@ class Course extends Model
     public function enrollment()
     {
         return $this->hasMany(Enrollment::class);
-    }
-
-    public function lesson()
-    {
-        return $this->hasMany(Lesson::class);
-    }
-
-    public function segment()
-    {
-        return $this->hasMany(Segments::class);
     }
 
     public function progress()

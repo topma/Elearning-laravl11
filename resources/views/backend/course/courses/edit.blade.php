@@ -508,11 +508,11 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Number of Lesson</label>
-                                        <input type="number" class="form-control" name="lesson" value="{{old('lesson',$course->lesson)}}">
+                                        <label class="form-label">Number of Segment</label>
+                                        <input type="number" class="form-control" name="segment" value="{{old('segment',$course->segments)}}">
                                     </div>
-                                    @if($errors->has('lesson'))
-                                    <span class="text-danger"> {{ $errors->first('lesson') }}</span>
+                                    @if($errors->has('segment'))
+                                    <span class="text-danger"> {{ $errors->first('segment') }}</span>
                                     @endif
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">

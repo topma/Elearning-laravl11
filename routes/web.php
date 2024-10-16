@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\Students\StudentController as student;
 use App\Http\Controllers\Backend\Instructors\InstructorController as instructor;
 use App\Http\Controllers\Backend\Courses\CourseCategoryController as courseCategory;
 use App\Http\Controllers\Backend\Courses\CourseController as course;
+use App\Http\Controllers\Backend\Courses\SegmentController as segment;
 use App\Http\Controllers\Backend\Courses\MaterialController as material;
 use App\Http\Controllers\Backend\Quizzes\QuizController as quiz;
 use App\Http\Controllers\Backend\Quizzes\QuestionController as question;
@@ -120,6 +121,8 @@ Route::prefix('admin')->group(function () {
     Route::resource('instructor', instructor::class);
     Route::resource('courseCategory', courseCategory::class);
     Route::resource('course', course::class);
+    Route::resource('segment', segment::class);
+    Route::get('segment/add/{id}', [segment::class, 'createSegment'])->name('segment.createNew');
     Route::get('/courseList', [course::class, 'indexForAdmin'])->name('courseList');
     Route::patch('/courseList/{update}', [course::class, 'updateforAdmin'])->name('course.updateforAdmin');
     Route::resource('material', material::class);

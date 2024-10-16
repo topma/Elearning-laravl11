@@ -14,6 +14,11 @@ class Lesson extends Model
         return $this->belongsTo(Course::class);
     }
 
+    public function segment()
+    {
+        return $this->belongsTo(Segments::class);
+    }
+
     public function material()
     {
         return $this->hasMany(Material::class);

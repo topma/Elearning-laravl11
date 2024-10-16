@@ -15,13 +15,14 @@
         <div class="row page-titles mx-0">
             <div class="col-sm-6 p-md-0">
                 <div class="welcome-text">
-                    <h4>Course List</h4>
+                    <h4>Segment List</h4>
                 </div>
             </div>
             <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active"><a href="">All Course</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('course.index')}}">My Courses</a></li>
+                    <li class="breadcrumb-item active"><a href="">All Segments</a></li>
                 </ol>
             </div>
         </div>
@@ -29,12 +30,13 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="row tab-content">
+                @forelse ($segment as $d)
                     <div class="card-header">
-                        <a href="{{route('course.create')}}" class="btn btn-primary">+ Add new course <i class="baseline-golf_course"></i></a>
+                        <a href="{{route('segment.createNew', encryptor('encrypt', $d->course_id ))}}" class="btn btn-primary">+ Add new segment <i class="baseline-golf_course"></i></a>
                     </div>
                     <div class="col-lg-12">
                         <div class="row">
-                            @forelse ($course as $d)
+                            
                             <div class="col-lg-4 col-md-4 col-sm-6">
                                 <div class="card card-profile">
                                     <div class="card-header justify-content-end pb-0">
@@ -45,15 +47,15 @@
                                             <div class="dropdown-menu dropdown-menu-right border py-0">
                                                 <div class="py-2">
                                                 <a class="dropdown-item" 
-                                                href="{{ $d->segment_count > 0 ? route('segment.show', encryptor('encrypt', $d->id)) : route('segment.createNew', ['id' => encryptor('encrypt', $d->id)]) }}">
-                                                {{ $d->segment_count > 0 ? 'View Segment' : 'Create Segment' }}
+                                                href="{{ $d->lesson_count > 0 ? route('lesson.show', encryptor('encrypt', $d->id)) : route('lesson.create', ['course_id' => encryptor('encrypt', $d->id)]) }}">
+                                                {{ $d->lesson_count > 0 ? 'View Segment Lessons' : 'Create Segment Lessons' }}
                                             </a>
                                                     <a class="dropdown-item"
-                                                        href="{{route('course.edit', encryptor('encrypt',$d->id))}}">Edit</a>
+                                                        href="{{route('segment.edit', encryptor('encrypt',$d->id))}}">Edit</a>
                                                     <a class="dropdown-item text-danger" href="javascript:void(0);"
                                                         onclick="$('#form{{$d->id}}').submit()">Delete</a>
                                                     <form id="form{{$d->id}}"
-                                                        action="{{route('course.destroy', encryptor('encrypt',$d->id))}}"
+                                                        action="{{route('segment.destroy', encryptor('encrypt',$d->id))}}"
                                                         method="post">
                                                         @csrf
                                                         @method('DELETE')
@@ -70,12 +72,7 @@
                                             </div>
                                             <h3 class="mt-4 mb-1">{{$d->title_en}}</h3>
                                             <ul class="list-group mb-3 list-group-flush">
-                                                <li class="list-group-item px-0 d-flex justify-content-between">
-                                                    <span>Difficulty</span>
-                                                    <strong>{{ $d->difficulty == 'beginner' ? __('Beginner') :
-                                                        ($d->difficulty == 'intermediate' ? __('Intermediate') :
-                                                        __('Advanced')) }}</strong>
-                                                </li>
+                                                
                                                 <li class="list-group-item px-0 d-flex justify-content-between">
                                                     <span class="mb-0">Instructor :</span>
                                                     <strong>{{$d->instructor?->name_en}}</strong>
@@ -83,14 +80,10 @@
                                                 <li class="list-group-item px-0 d-flex justify-content-between">
                                                     <span class="mb-0">Category :</span>
                                                     <strong>{{$d->courseCategory?->category_name}}</strong>
-                                                </li>
+                                                </li>                                                
                                                 <li class="list-group-item px-0 d-flex justify-content-between">
-                                                    <span class="mb-0">Price :</span>
-                                                    <strong>{{ $d->price && $d->price > 0 ? $d->currency_type . number_format($d->price, 2) : 'Free' }}</strong>
-                                                </li>
-                                                <li class="list-group-item px-0 d-flex justify-content-between">
-                                                    <span class="mb-0">No of Segments Uploaded :</span>
-                                                    <strong>{{$d->segment_count}}</strong>
+                                                    <span class="mb-0">No of Lessons Uploaded :</span>
+                                                    <strong>{{$d->lesson_count}}</strong>
                                                 </li>
 
                                                 <li class="list-group-item px-0 d-flex justify-content-between">
@@ -108,8 +101,8 @@
                                                 </li>
                                             </ul>
                                             <a class="btn btn-outline-primary btn-rounded mt-3 px-4" 
-                                                href="{{ $d->segment_count > 0 ? route('segment.show', encryptor('encrypt', $d->id)) : route('segment.createNew', ['id' => encryptor('encrypt', $d->id)]) }}">
-                                                {{ $d->segment_count > 0 ? 'View Segment' : 'Create Segment' }}
+                                                href="{{ $d->lesson_count > 0 ? route('lesson.show', encryptor('encrypt', $d->id)) : route('lesson.create', ['course_id' => encryptor('encrypt', $d->id)]) }}">
+                                                {{ $d->lesson_count > 0 ? 'View Segment Lessons' : 'Create Segment Lessons' }}
                                             </a>
                                         </div>
                                     </div>
@@ -120,7 +113,7 @@
                                 <div class="card card-profile">
                                     <div class="card-body pt-2">
                                         <div class="text-center">
-                                            <p class="mt-3 px-4">Course has not been uploaded.</p>
+                                            <p class="mt-3 px-4">Segment has not been uploaded.</p>
                                         </div>
                                     </div>
                                 </div>

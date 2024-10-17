@@ -18,8 +18,12 @@ class DashboardController extends Controller
         $student_info = Student::find(currentUserId());
         
         // Fetch enrollment with course, lesson count, and progress
-        $enrollment = Enrollment::with(['course.segments', 'course.lessons'])
-       ->where('student_id', currentUserId())
+        $enrollment = Enrollment::with([
+            'course.segments', 
+            'course.lessons',
+            'course.instructor.courses' // Add this line to fetch the instructor's courses
+        ])
+        ->where('student_id', currentUserId())
         ->paginate(10);
 
         $course = Course::get();

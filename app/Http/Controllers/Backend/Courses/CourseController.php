@@ -80,7 +80,7 @@ class CourseController extends Controller
             $course->subscription_price = $request->subscriptionPrice;
             $course->start_from = $request->start_from;
             $course->duration = $request->duration;
-            $course->segments = $request->segment;
+            $course->segment = $request->segment;
             $course->difficulty = $request->courseDifficulty;
             $course->course_code = $request->course_code;
             $course->prerequisites_en = $request->prerequisites_en;
@@ -172,7 +172,7 @@ class CourseController extends Controller
             $course->old_price = $request->courseOldPrice; 
             $course->subscription_price = $request->subscription_price;
             $course->duration = $request->duration;
-            $course->segments = $request->segment;
+            $course->segment = $request->segment;
             $course->difficulty = $request->courseDifficulty;
             $course->course_code = $request->course_code;
             $course->prerequisites_en = $request->prerequisites_en;
@@ -220,7 +220,7 @@ class CourseController extends Controller
             $course->old_price = $request->courseOldPrice; 
             $course->subscription_price = $request->subscription_price;
             $course->duration = $request->duration;
-            $course->segments = $request->segment;
+            $course->segment = $request->segment;
             $course->difficulty = $request->courseDifficulty;
             $course->course_code = $request->course_code;
             $course->prerequisites_en = $request->prerequisites_en;

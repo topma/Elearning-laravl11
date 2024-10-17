@@ -154,80 +154,72 @@
         </div>
         <div class="row">
             <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
-                    <div class="row">
-                        @forelse ($popularCourses as $pc)
-                        <div class="col-xl-4 col-md-6">
-                            <div class="contentCard contentCard--course">
-                                <div class="contentCard-top">
-                                    <a href="{{route('courseDetails', ['id' => encryptor('encrypt', $pc->id)])}}"><img src="{{asset('uploads/courses/'.$pc->image)}}" alt="images"
-                                            class="img-fluid" /></a>
-                                </div>
-                                <div class="contentCard-bottom">
-                                    <h5>
-                                        <a href="{{route('courseDetails', ['id' => encryptor('encrypt', $pc->id)])}}"
-                                            class="font-title--card">{{$pc->title_en}}</a>
-                                    </h5>
-                                    <div class="contentCard-info d-flex align-items-center justify-content-between">
-                                        <a href="{{route('instructorProfile', encryptor('encrypt', $pc->instructor?->id))}}"
-                                            class="contentCard-user d-flex align-items-center">
-                                            <img src="{{asset('uploads/users/'.$pc?->instructor->image)}}"
-                                                alt="client-image" class="rounded-circle" height="34" width="34" />
-                                            <p class="font-para--md">{{$pc?->instructor->name_en}}</p>
-                                        </a>
-                                        <div class="price">
-                                        <span>{{ $pc->price && $pc->price > 0 ? $pc->currency_type . number_format($pc->price,2) : 'Free' }}</span>
-                                        <del>{{ $pc->old_price && $pc->old_price > 0 ? $pc->currency_type . number_format($pc->old_price,2) : '' }}</del>
-                                        </div>
-                                    </div>
-                                    <div class="contentCard-more">
-                                        <div class="d-flex align-items-center">
-                                            <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/star.png')}}"
-                                                    alt="star" />
-                                            </div>
-                                            <span>4.5</span>
-                                        </div>
-                                        <!-- <div class="eye d-flex align-items-center">
-                                            <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/eye.png')}}"
-                                                    alt="eye" />
-                                            </div>
-                                            <span>24,517</span>
-                                        </div> -->
-                                        <div class="book d-flex align-items-center">
-                                            <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/book.png')}}"
-                                                    alt="location" />
-                                            </div>
-                                            <span>{{$pc->lesson?$pc->lesson:0}} Lesson</span>
-                                        </div>
-                                        <div class="clock d-flex align-items-center">
-                                            <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/Clock.png')}}"
-                                                    alt="clock" />
-                                            </div>
-                                            <!-- <span>{{$pc->duration?$pc->duration:0}} </span> -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
+    <div class="row"> 
+        @forelse ($popularCourses as $pc)
+        <div class="col-xl-4 col-md-6">
+            <div class="contentCard contentCard--course">
+                <div class="contentCard-top">
+                    <a href="{{ route('courseDetails', ['id' => encryptor('encrypt', $pc->id)]) }}">
+                        <img src="{{ asset('uploads/courses/' . $pc->image) }}" alt="Course Image" class="img-fluid" />
+                    </a>
+                </div>
+                <div class="contentCard-bottom">
+                    <h5>
+                        <a href="{{ route('courseDetails', ['id' => encryptor('encrypt', $pc->id)]) }}" class="font-title--card">
+                            {{ $pc->title_en }}
+                        </a>
+                    </h5>
+                    <div class="contentCard-info d-flex align-items-center justify-content-between">
+                        <a href="{{ route('instructorProfile', encryptor('encrypt', $pc->instructor?->id)) }}" class="contentCard-user d-flex align-items-center">
+                            <img src="{{ asset('uploads/users/' . $pc->instructor?->image) }}" alt="Instructor Image" class="rounded-circle" height="34" width="34" />
+                            <p class="font-para--md">{{ $pc->instructor?->name_en ?? 'Unknown Instructor' }}</p>
+                        </a>
+                        <div class="price">
+                            <span>{{ $pc->price && $pc->price > 0 ? $pc->currency_type . number_format($pc->price, 2) : 'Free' }}</span>
+                            <del>{{ $pc->old_price && $pc->old_price > 0 ? $pc->currency_type . number_format($pc->old_price, 2) : '' }}</del>
                         </div>
-                        @empty
-                        <div class="col-xl-4 col-md-6">
-                            <div class="contentCard contentCard--course">
-                                <h3>Courses not available for this category.</h3>
-                            </div>
-                        </div>
-                        @endforelse
                     </div>
-                    <div class="row">
-                        <div class="col-lg-12 text-center">
-                            <a href="{{route('searchCourse')}}" class="button button-lg button--primary">Browse all
-                                Courses</a>
+                    <div class="contentCard-more d-flex justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <div class="icon">
+                                <img src="{{ asset('frontend/dist/images/icon/star.png') }}" alt="Rating Star" />
+                            </div>
+                            <span>4.5</span>
                         </div>
+                        <div class="segments d-flex align-items-center">
+                            <div class="icon">
+                                <img src="{{ asset('frontend/dist/images/icon/clock-2.png') }}" alt="Segment Icon" /> 
+                            </div>
+                            <span>{{ $pc->segments->count() }} {{ Str::plural('segment', $pc->segments->count()) }}</span> 
+                        </div>
+                        <div class="book d-flex align-items-center">
+                            <div class="icon">
+                                <img src="{{ asset('frontend/dist/images/icon/book.png') }}" alt="Book Icon" />
+                            </div>
+                            <span>{{ $pc->lessons->count() }} {{ Str::plural('lesson', $pc->lessons->count()) }}</span>
+                        </div>
+                        
                     </div>
                 </div>
+            </div>
+        </div>
+        @empty
+        <div class="col-xl-4 col-md-6">
+            <div class="contentCard contentCard--course">
+                <h3>Courses not available for this category.</h3>
+            </div>
+        </div>
+        @endforelse
+    </div>
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <a href="{{ route('searchCourse') }}" class="button button-lg button--primary">Browse all Courses</a>
+        </div>
+    </div>
+</div>
+
+
                 <div class="tab-pane fade" id="pills-design" role="tabpanel" aria-labelledby="pills-design-tab">
                     <div class="row">
                         @forelse ($designCourses as $dc)
@@ -267,17 +259,17 @@
                                             </div>
                                             <span>24,517</span>
                                         </div> -->
+                                        <div class="segments d-flex align-items-center">
+                                            <div class="icon">
+                                                <img src="{{ asset('frontend/dist/images/icon/clock-2.png') }}" alt="Segment Icon" /> 
+                                            </div>
+                                            <span>{{ $dc->segments->count() }} {{ Str::plural('segment', $dc->segments->count()) }}</span> 
+                                        </div>
                                         <div class="book d-flex align-items-center">
                                             <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/book.png')}}" alt="location" />
+                                                <img src="{{ asset('frontend/dist/images/icon/book.png') }}" alt="Book Icon" />
                                             </div>
-                                            <span>{{$dc->lesson?$dc->lesson:0}} Lesson</span>
-                                        </div>
-                                        <div class="clock d-flex align-items-center">
-                                            <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/Clock.png')}}" alt="clock" />
-                                            </div>
-                                            <!-- <span>{{$dc->duration?$dc->duration:0}} </span> -->
+                                            <span>{{ $dc->lessons->count() }} {{ Str::plural('lesson', $dc->lessons->count()) }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -336,17 +328,17 @@
                                             </div>
                                             <span>10</span>
                                         </div> -->
+                                        <div class="segments d-flex align-items-center">
+                                            <div class="icon">
+                                                <img src="{{ asset('frontend/dist/images/icon/clock-2.png') }}" alt="Segment Icon" /> 
+                                            </div>
+                                            <span>{{ $dac->segments->count() }} {{ Str::plural('segment', $dac->segments->count()) }}</span> 
+                                        </div>
                                         <div class="book d-flex align-items-center">
                                             <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/book.png')}}" alt="location" />
+                                                <img src="{{ asset('frontend/dist/images/icon/book.png') }}" alt="Book Icon" />
                                             </div>
-                                            <span>{{$dac->lesson?$dac->lesson:0}} Lesson</span>
-                                        </div>
-                                        <div class="clock d-flex align-items-center">
-                                            <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/Clock.png')}}" alt="clock" />
-                                            </div>
-                                            <!-- <span>{{$dac->duration?$dac->duration:0}} </span> -->
+                                            <span>{{ $dac->lessons->count() }} {{ Str::plural('lesson', $dac->lessons->count()) }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -406,17 +398,17 @@
                                             </div>
                                             <span>24,517</span>
                                         </div> -->
+                                        <div class="segments d-flex align-items-center">
+                                            <div class="icon">
+                                                <img src="{{ asset('frontend/dist/images/icon/clock-2.png') }}" alt="Segment Icon" /> 
+                                            </div>
+                                            <span>{{ $sc->segments->count() }} {{ Str::plural('segment', $sc->segments->count()) }}</span> 
+                                        </div>
                                         <div class="book d-flex align-items-center">
                                             <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/book.png')}}" alt="location" />
+                                                <img src="{{ asset('frontend/dist/images/icon/book.png') }}" alt="Book Icon" />
                                             </div>
-                                            <span>{{$sc->lesson?$sc->lesson:0}} Lesson</span>
-                                        </div>
-                                        <div class="clock d-flex align-items-center">
-                                            <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/Clock.png')}}" alt="clock" />
-                                            </div>
-                                            <!-- <span>{{$sc->duration?$sc->duration:0}} </span> -->
+                                            <span>{{ $sc->lessons->count() }} {{ Str::plural('lesson', $sc->lessons->count()) }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -477,17 +469,17 @@
                                             </div>
                                             <span>24,517</span>
                                         </div> -->
+                                        <div class="segments d-flex align-items-center">
+                                            <div class="icon">
+                                                <img src="{{ asset('frontend/dist/images/icon/clock-2.png') }}" alt="Segment Icon" /> 
+                                            </div>
+                                            <span>{{ $dv->segments->count() }} {{ Str::plural('segment', $dv->segments->count()) }}</span> 
+                                        </div>
                                         <div class="book d-flex align-items-center">
                                             <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/book.png')}}" alt="location" />
+                                                <img src="{{ asset('frontend/dist/images/icon/book.png') }}" alt="Book Icon" />
                                             </div>
-                                            <span>{{$dv->lesson?$dv->lesson:0}} Lesson</span>
-                                        </div>
-                                        <div class="clock d-flex align-items-center">
-                                            <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/Clock.png')}}" alt="clock" />
-                                            </div>
-                                            <!-- <span>{{$dv->duration?$dv->duration:0}} </span> -->
+                                            <span>{{ $dv->lessons->count() }} {{ Str::plural('lesson', $dv->lessons->count()) }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -548,17 +540,17 @@
                                             </div>
                                             <span>24,517</span>
                                         </div> -->
+                                        <div class="segments d-flex align-items-center">
+                                            <div class="icon">
+                                                <img src="{{ asset('frontend/dist/images/icon/clock-2.png') }}" alt="Segment Icon" /> 
+                                            </div>
+                                            <span>{{ $bc->segments->count() }} {{ Str::plural('segment', $bc->segments->count()) }}</span> 
+                                        </div>
                                         <div class="book d-flex align-items-center">
                                             <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/book.png')}}" alt="location" />
+                                                <img src="{{ asset('frontend/dist/images/icon/book.png') }}" alt="Book Icon" />
                                             </div>
-                                            <span>{{$bc->lesson?$bc->lesson:0}} Lesson</span>
-                                        </div>
-                                        <div class="clock d-flex align-items-center">
-                                            <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/Clock.png')}}" alt="clock" />
-                                            </div>
-                                            <!-- <span>{{$bc->duration?$bc->duration:0}} </span> -->
+                                            <span>{{ $bc->lessons->count() }} {{ Str::plural('lesson', $bc->lessons->count()) }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -619,17 +611,17 @@
                                             </div>
                                             <span>24,517</span>
                                         </div> -->
+                                        <div class="segments d-flex align-items-center">
+                                            <div class="icon">
+                                                <img src="{{ asset('frontend/dist/images/icon/clock-2.png') }}" alt="Segment Icon" /> 
+                                            </div>
+                                            <span>{{ $ic->segments->count() }} {{ Str::plural('segment', $ic->segments->count()) }}</span> 
+                                        </div>
                                         <div class="book d-flex align-items-center">
                                             <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/book.png')}}" alt="location" />
+                                                <img src="{{ asset('frontend/dist/images/icon/book.png') }}" alt="Book Icon" />
                                             </div>
-                                            <span>{{$ic->lesson?$ic->lesson:0}} Lesson</span>
-                                        </div>
-                                        <div class="clock d-flex align-items-center">
-                                            <div class="icon">
-                                                <img src="{{asset('frontend/dist/images/icon/Clock.png')}}" alt="clock" />
-                                            </div>
-                                            <!-- <span>{{$ic->duration?$ic->duration:0}} </span> -->
+                                            <span>{{ $ic->lessons->count() }} {{ Str::plural('lesson', $ic->lessons->count()) }}</span>
                                         </div>
                                     </div>
                                 </div>

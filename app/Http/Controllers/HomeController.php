@@ -12,50 +12,94 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $course = Course::get();
+        // Retrieve all courses with segments and lessons
+        $course = Course::with(
+            'segments', 
+            'lessons',
+        )->get();
+        
+        // Retrieve events ordered by date
         $event = Event::orderBy('date', 'Desc')->get();
+
+        // Retrieve all instructors
         $instructor = Instructor::get();
+
+        // Retrieve all course categories
         $category = CourseCategory::get();
-        $popularCourses = Course::where('tag', 'popular')
+
+        // Retrieve popular courses with segments and lessons
+        $popularCourses = Course::withCount('segments','lessons') // Eager load segment count
+        ->where('tag', 'popular')
         ->where('status', 2)
         ->get();
 
-        $designCategories = CourseCategory::whereIn('category_name', ['Graphics Desgin', 'Web Design', 'Video Editing'])->pluck('id')->toArray();
-        $designCourses = Course::whereIn('course_category_id', $designCategories)->where('tag', 'popular')
-        ->where('status', 2)
-        ->get();
+        // Design category courses
+        $designCategories = CourseCategory::whereIn('category_name', ['Graphics Design', 'Web Design', 'Video Editing'])->pluck('id')->toArray();
+        $designCourses = Course::with(['segments', 'lessons'])
+            ->whereIn('course_category_id', $designCategories)
+            ->where('tag', 'popular')
+            ->where('status', 2)
+            ->get();
 
+        // Development category courses
         $developmentCategories = CourseCategory::whereIn('category_name', ['Web Development', 'Mobile Development', 'Game Development', 'Database Design & Development'])->pluck('id')->toArray();
-        $developmentCourses = Course::whereIn('course_category_id', $developmentCategories)->where('tag', 'popular')
-        ->where('status', 2)
-        ->get();
+        $developmentCourses = Course::with(['segments', 'lessons'])
+            ->whereIn('course_category_id', $developmentCategories)
+            ->where('tag', 'popular')
+            ->where('status', 2)
+            ->get();
 
+        // Data category courses
         $dataCategories = CourseCategory::whereIn('category_name', ['Data Science'])->pluck('id')->toArray();
-        $dataCourses = Course::whereIn('course_category_id', $dataCategories)->where('tag', 'popular')
-        ->where('status', 2)
-        ->get();
+        $dataCourses = Course::with(['segments', 'lessons'])
+            ->whereIn('course_category_id', $dataCategories)
+            ->where('tag', 'popular')
+            ->where('status', 2)
+            ->get();
 
+        // Sales category courses
         $salesCategories = CourseCategory::whereIn('category_name', ['Digital Marketing', 'Social Media Manager', 'Content Creation', 'Social Media Marketing', 'Copywriting', 'Sales and Marketing'])->pluck('id')->toArray();
-        $salesCourses = Course::whereIn('course_category_id', $salesCategories)->where('tag', 'popular')
-        ->where('status', 2)
-        ->get();
+        $salesCourses = Course::with(['segments', 'lessons'])
+            ->whereIn('course_category_id', $salesCategories)
+            ->where('tag', 'popular')
+            ->where('status', 2)
+            ->get();
 
+        // Business category courses
         $businessCategories = CourseCategory::whereIn('category_name', ['Digital Marketing', 'Entrepreneurship'])->pluck('id')->toArray();
-        $businessCourses = Course::whereIn('course_category_id', $businessCategories)->where('tag', 'popular')
-        ->where('status', 2)
-        ->get();
+        $businessCourses = Course::with(['segments', 'lessons'])
+            ->whereIn('course_category_id', $businessCategories)
+            ->where('tag', 'popular')
+            ->where('status', 2)
+            ->get();
 
+        // IT category courses
         $itCategories = CourseCategory::whereIn('category_name', ['Hardware', 'Network Technology', 'Software & Security', 'Operating System & Server', '2D Animation', '3D Animation'])->pluck('id')->toArray();
-        $itCourses = Course::whereIn('course_category_id', $itCategories)->where('tag', 'popular')
-        ->where('status', 2)
-        ->get();
+        $itCourses = Course::with(['segments', 'lessons'])
+            ->whereIn('course_category_id', $itCategories)
+            ->where('tag', 'popular')
+            ->where('status', 2)
+            ->get();
 
+        // Return the view with all the necessary data
         return view(
             'frontend.home',
-            compact('course', 'instructor', 'category', 'popularCourses', 'designCourses', 'developmentCourses', 'businessCourses', 'itCourses'
-            ,'salesCourses', 'dataCourses','event')
+            compact(
+                'course', 
+                'instructor', 
+                'category', 
+                'popularCourses', 
+                'designCourses', 
+                'developmentCourses', 
+                'businessCourses', 
+                'itCourses', 
+                'salesCourses', 
+                'dataCourses', 
+                'event'
+            )
         );
     }
+
 
     public function signUpForm()
     {

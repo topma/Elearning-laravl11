@@ -156,11 +156,11 @@ use Carbon\Carbon;
                         </div>
                         <div class="d-flex justify-content-between align-items-center mt-3">
                             <span class="btn btn-outline-primary">
-                                <i class="fas fa-th-large"></i> <!-- FontAwesome icon -->
-                                {{ $a->course->segments }} {{ Str::plural('segment', $a->course->segments) }}
+                                <i class="fas fa-th-large"></i>
+                                {{ $a->course->segments->count() }} {{ Str::plural('segment', $a->course->segments->count()) }}
                             </span>
                             <span class="btn btn-outline-success mx-2">
-                                <i class="fas fa-book"></i> <!-- FontAwesome icon -->
+                                <i class="fas fa-book"></i> 
                                 {{ $a->course->lessons->count() }} {{ Str::plural('lesson', $a->course->lessons->count()) }}
                             </span>
                         </div>

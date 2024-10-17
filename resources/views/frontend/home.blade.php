@@ -198,9 +198,26 @@
                                 <img src="{{ asset('frontend/dist/images/icon/book.png') }}" alt="Book Icon" />
                             </div>
                             <span>{{ $pc->lessons->count() }} {{ Str::plural('lesson', $pc->lessons->count()) }}</span>
-                        </div>
-                        
+                        </div>                        
                     </div>
+                    <!-- Check if the student is enrolled -->
+                        @if (Auth::guard('student')->check() && Auth::guard('student')->user()->isEnrolledInCourse($pc->id))
+                            <div class="contentCard-button text-center mt-3">
+                                <a href="#" class="button button-lg button--primary">Continue Course</a>
+                            </div>
+                        @else
+                            <div class="contentCard-button text-center mt-3">
+                                <a href="#" class="button button-lg button--primary">Enroll Now</a>
+                            </div>
+                        @endif
+                    <br>
+                    @php
+    $studentId = Auth::guard('student')->check() ? Auth::guard('student')->user()->id : 'Not Authenticated';
+@endphp
+
+<div>
+    <p>Current Student ID: {{ $studentId }}</p>
+</div>
                 </div>
             </div>
         </div>

@@ -21,7 +21,7 @@ class DashboardController extends Controller
         $enrollment = Enrollment::with([
             'course.segments', 
             'course.lessons',
-            'course.instructor.courses' // Add this line to fetch the instructor's courses
+            'course.instructor.courses' 
         ])
         ->where('student_id', currentUserId())
         ->paginate(10);

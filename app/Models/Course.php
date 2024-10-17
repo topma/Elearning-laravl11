@@ -48,18 +48,18 @@ class Course extends Model
         return $this->hasMany(Enrollment::class);
     }
 
-    public function lesson()
+    public function lessons()
     {
         return $this->hasMany(Lesson::class);
     }
 
-    public function segment()
+    public function segments()
     {
-        return $this->hasMany(Segments::class);
+        return $this->hasMany(Segments::class, 'course_id');
     }
 
     public function progress()
     {
-        return $this->hasMany(Progress::class, 'course_id', 'id');
+        return $this->hasMany(Progress::class, 'segments_id', 'id');
     }
 }

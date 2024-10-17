@@ -9,12 +9,9 @@ class Lesson extends Model
 {
     use HasFactory;
 
-    public function course()
-    {
-        return $this->belongsTo(Course::class);
-    }
+    
 
-    public function segment()
+    public function segments()
     {
         return $this->belongsTo(Segments::class);
     }
@@ -22,5 +19,15 @@ class Lesson extends Model
     public function material()
     {
         return $this->hasMany(Material::class);
+    }
+
+    public function progress()
+    {
+        return $this->hasMany(Progress::class); 
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class, 'course_id');
     }
 }

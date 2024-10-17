@@ -30,7 +30,10 @@
             <div class="col-lg-12">
                 <div class="row tab-content">
                     <div class="card-header">
+                        @if(auth()->user()->role_id != 1)
                         <a href="{{route('course.create')}}" class="btn btn-primary">+ Add new course <i class="baseline-golf_course"></i></a>
+                        @else
+                        @endif
                     </div>
                     <div class="col-lg-12">
                         <div class="row">
@@ -44,10 +47,13 @@
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right border py-0">
                                                 <div class="py-2">
+                                                @if(auth()->user()->role_id != 1)
                                                 <a class="dropdown-item" 
                                                 href="{{ $d->segment_count > 0 ? route('segment.show', encryptor('encrypt', $d->id)) : route('segment.createNew', ['id' => encryptor('encrypt', $d->id)]) }}">
                                                 {{ $d->segment_count > 0 ? 'View Segment' : 'Create Segment' }}
                                             </a>
+                                            @else
+                                            @endif
                                                     <a class="dropdown-item"
                                                         href="{{route('course.edit', encryptor('encrypt',$d->id))}}">Edit</a>
                                                     <a class="dropdown-item text-danger" href="javascript:void(0);"
@@ -107,10 +113,13 @@
                                                     </span>
                                                 </li>
                                             </ul>
+                                            @if(auth()->user()->role_id != 1)
                                             <a class="btn btn-outline-primary btn-rounded mt-3 px-4" 
                                                 href="{{ $d->segment_count > 0 ? route('segment.show', encryptor('encrypt', $d->id)) : route('segment.createNew', ['id' => encryptor('encrypt', $d->id)]) }}">
                                                 {{ $d->segment_count > 0 ? 'View Segment' : 'Create Segment' }}
                                             </a>
+                                            @else
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

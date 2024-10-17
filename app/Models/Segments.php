@@ -13,10 +13,16 @@ class Segments extends Model
         'title_en', 'course_id', 'duration', 'lesson','instructor_id','course_category_id'
     ];
 
+    public function course()
+    {
+        return $this->belongsTo(Course::class, 'course_id');
+    }
+
     public function lesson()
     {
-        return $this->hasMany(Lesson::class);
+        return $this->hasMany(Lesson::class, 'segments_id');
     }
+
     public function courseCategory()
     {
         return $this->belongsTo(CourseCategory::class); 
@@ -54,6 +60,7 @@ class Segments extends Model
 
     public function progress()
     {
-        return $this->hasMany(Progress::class, 'course_id', 'id');
+        return $this->hasMany(Lesson::class, 'segments_id');
     }
+    
 }

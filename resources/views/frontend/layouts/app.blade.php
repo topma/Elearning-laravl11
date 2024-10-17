@@ -42,6 +42,33 @@
             display: block;
         }
     </style>
+    <style>
+      .course-title-container {
+    background-color: #007bff; /* Bootstrap primary blue or any custom blue */
+    padding: 0px;
+    border-radius: 8px;
+    margin-bottom: 0px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds depth with a subtle shadow */
+}
+
+.course-title {
+    font-size: 1.6rem;
+    margin-bottom: 0;
+}
+
+.course-title-link {
+    color: #ffffff; /* White text color */
+    font-weight: 500;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.course-title-link:hover {
+    color: #ffeb3b; /* Bright yellow on hover for contrast */
+    transform: scale(1.05);
+}
+    </style>
     @stack('styles')
 
 </head>

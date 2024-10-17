@@ -36,13 +36,12 @@
                     </div>
                     <div class="card-body">
                         @if(fullAccess())
-                        <form action="{{route('course.updateforAdmin',encryptor('encrypt', $course->id))}}" method="post"
-                            enctype="multipart/form-data">
+                        <form action="{{route('course.updateforAdmin',encryptor('encrypt', $course->id))}}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('PATCH')
                             <input type="hidden" name="uptoken" value="{{encryptor('encrypt',$course->id)}}">
                             <div class="row">
-                                <div class="col-12">
+                            <div class="col-12">
                                     <div class="form-group">
                                         <label class="form-label">Status</label>
                                         <select class="form-control" name="status">
@@ -57,7 +56,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Course Name</label>
+                                        <label class="form-label">Title</label>
                                         <input type="text" class="form-control" name="courseTitle_en"
                                             value="{{old('courseTitle_en',$course->title_en)}}">
                                     </div>
@@ -99,7 +98,7 @@
                                             @forelse ($courseCategory as $c)
                                             <option value="{{$c->id}}" {{old('categoryId', $course->course_category_id) ==
                                                 $c->id?'selected':''}}>
-                                                {{$c->category_name}}</option>
+                                                {{$c->category_name}}</option> 
                                             @empty
                                             <option value="">No Category Found</option>
                                             @endforelse
@@ -169,20 +168,17 @@
                                         <label class="form-label">Currency Type</label>
                                         <select class="form-control" name="currencyType">
                                             <option value="=N=" @if(old('currencyType', $course->currency_type)=='=N=' ) selected
-                                                @endif>Naira
+                                                @endif>NAIRA
                                             </option>
                                             <option value="$" @if(old('currencyType', $course->currency_type)=='$' ) selected
-                                                @endif>Dollar
+                                                @endif>USD
                                             </option>
                                             <option value="£" @if(old('currencyType', $course->currency_type)=='£' )selected 
-                                                @endif>Pounds</option>
+                                                @endif>POUNDS</option>
                                                 <option value="€" @if(old('currencyType', $course->currency_type)=='€' )selected 
-                                                @endif>Euro</option>
+                                                @endif>EURO</option>
                                         </select>
                                     </div>
-                                    @if($errors->has('currencyType'))
-                                    <span class="text-danger"> {{ $errors->first('currencyType') }}</span>
-                                    @endif
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
@@ -208,7 +204,7 @@
                                     <div class="form-group">
                                         <label class="form-label">Subscription Price</label>
                                         <input type="number" class="form-control" name="subscription_price"
-                                            value="{{old('subscription_price')}}">
+                                            value="{{old('subscription_price', $course->subscription_price)}}">
                                     </div>
                                     @if($errors->has('subscription_price'))
                                     <span class="text-danger"> {{ $errors->first('subscription_price',
@@ -218,8 +214,7 @@
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Start From</label>
-                                        <input type="date" class="form-control" name="start_from"
-                                            value="{{old('start_from')}}">
+                                        <input type="date" class="form-control" name="start_from" value="{{old('start_from')}}">
                                     </div>
                                     @if($errors->has('start_from'))
                                     <span class="text-danger"> {{ $errors->first('start_from',
@@ -229,8 +224,7 @@
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Duration</label>
-                                        <input type="number" class="form-control" name="duration"
-                                            value="{{old('duration',$course->duration)}}">
+                                        <input type="number" class="form-control" name="duration" value="{{old('duration',$course->duration)}}">
                                     </div>
                                     @if($errors->has('duration'))
                                     <span class="text-danger"> {{ $errors->first('duration') }}</span>
@@ -238,12 +232,11 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Number of Lesson</label>
-                                        <input type="number" class="form-control" name="lesson"
-                                            value="{{old('lesson',$course->lesson)}}">
+                                        <label class="form-label">Number of Segment</label>
+                                        <input type="number" class="form-control" name="segment" value="{{old('segment',$course->segments)}}">
                                     </div>
-                                    @if($errors->has('lesson'))
-                                    <span class="text-danger"> {{ $errors->first('lesson') }}</span>
+                                    @if($errors->has('segment'))
+                                    <span class="text-danger"> {{ $errors->first('segment') }}</span>
                                     @endif
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
@@ -269,7 +262,7 @@
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Course Code</label>
-                                        <input type="number" class="form-control" name="course_code"
+                                        <input type="text" class="form-control" name="course_code"
                                             value="{{old('course_code', $course->course_code)}}">
                                     </div>
                                     @if($errors->has('course_code'))
@@ -317,7 +310,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
                                     <button type="submit" class="btn btn-light">Cancel</button>
                                 </div>
                             </div>
@@ -586,7 +579,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
                                     <button type="submit" class="btn btn-light">Cancel</button>
                                 </div>
                             </div>

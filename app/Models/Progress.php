@@ -18,4 +18,10 @@ class Progress extends Model
         'last_viewed_lesson_id',
         'last_viewed_at',
     ];
+
+    public function lesson()
+    {
+        return $this->belongsTo(Lesson::class, 'last_viewed_lesson_id', 'id');
+    }
+    
 }

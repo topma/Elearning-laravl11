@@ -15,6 +15,9 @@
     <!-- <link href="{{asset('frontend/summernote/summernote-lite.min.css')}}" rel="stylesheet"> -->
     <link href="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-lite.min.css" rel="stylesheet">
     @stack('styles')
+    <style>
+        
+    </style>
 </head>
 
 <body>

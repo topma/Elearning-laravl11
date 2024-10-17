@@ -13,6 +13,8 @@ use App\Models\Lesson;
 use App\Models\Segments;
 use App\Models\Material;
 use App\Models\Coupon;
+use App\Models\Enrollment;
+use App\Models\Student;
 use Exception;
 use File; 
 
@@ -120,6 +122,9 @@ class CourseController extends Controller
 
     public function frontShow($id)
     {
+        $student = Student::find(currentUserId());
+        //check if student exists
+        if(!$student)   {
         $course = Course::findOrFail(encryptor('decrypt', $id));
         $courseId = $course->id;
         $courseCategoryId = $course->course_category_id;
@@ -134,7 +139,20 @@ class CourseController extends Controller
             ->where('id', '!=', $courseId) // Exclude the current course
             ->get();
         
-        return view('frontend.courseDetails', compact('course','lesson','courseNo','coupon','relatedCourse'));
+        return view('frontend.courseDetails', compact('course','lesson',
+        'courseNo','coupon','relatedCourse'));
+        } 
+        else{
+            $course = Course::findOrFail(encryptor('decrypt', $id));
+            $courseId = $course->id;
+            $courseCategoryId = $course->course_category_id;
+            $instructorId = $course->instructor_id;
+            $enrollment = Enrollment::where('student_id', $student->id)
+            ->where('course_id', $courseId);
+            if($enrollment){
+                return redirect()->route('courseSegment', ['id' => encryptor('encrypt', $courseId)]);
+            }
+        }
     }
 
 

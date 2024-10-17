@@ -200,24 +200,10 @@
                             <span>{{ $pc->lessons->count() }} {{ Str::plural('lesson', $pc->lessons->count()) }}</span>
                         </div>                        
                     </div>
-                    <!-- Check if the student is enrolled -->
-                        @if (Auth::guard('student')->check() && Auth::guard('student')->user()->isEnrolledInCourse($pc->id))
-                            <div class="contentCard-button text-center mt-3">
-                                <a href="#" class="button button-lg button--primary">Continue Course</a>
-                            </div>
-                        @else
-                            <div class="contentCard-button text-center mt-3">
-                                <a href="#" class="button button-lg button--primary">Enroll Now</a>
-                            </div>
-                        @endif
+                    <div class="contentCard-button text-center mt-3">
+                            <a href="{{ route('courseDetails', ['id' => encryptor('encrypt', $pc->id)]) }}" class="button button-lg button--primary">View Course</a>
+                    </div>                   
                     <br>
-                    @php
-    $studentId = Auth::guard('student')->check() ? Auth::guard('student')->user()->id : 'Not Authenticated';
-@endphp
-
-<div>
-    <p>Current Student ID: {{ $studentId }}</p>
-</div>
                 </div>
             </div>
         </div>
@@ -289,6 +275,10 @@
                                             <span>{{ $dc->lessons->count() }} {{ Str::plural('lesson', $dc->lessons->count()) }}</span>
                                         </div>
                                     </div>
+                                    <div class="contentCard-button text-center mt-3">
+                                      <a href="{{ route('courseDetails', ['id' => encryptor('encrypt', $pc->id)]) }}" class="button button-lg button--primary">View Course</a>
+                                    </div> 
+                                    <br>
                                 </div>
                             </div>
                         </div>
@@ -358,6 +348,10 @@
                                             <span>{{ $dac->lessons->count() }} {{ Str::plural('lesson', $dac->lessons->count()) }}</span>
                                         </div>
                                     </div>
+                                    <div class="contentCard-button text-center mt-3">
+                            <a href="{{ route('courseDetails', ['id' => encryptor('encrypt', $pc->id)]) }}" class="button button-lg button--primary">View Course</a>
+                    </div> 
+                    <br>
                                 </div>
                             </div>
                         </div>
@@ -428,6 +422,10 @@
                                             <span>{{ $sc->lessons->count() }} {{ Str::plural('lesson', $sc->lessons->count()) }}</span>
                                         </div>
                                     </div>
+                                    <div class="contentCard-button text-center mt-3">
+                            <a href="{{ route('courseDetails', ['id' => encryptor('encrypt', $pc->id)]) }}" class="button button-lg button--primary">View Course</a>
+                    </div> 
+                    <br>
                                 </div>
                             </div>
                         </div>
@@ -499,6 +497,10 @@
                                             <span>{{ $dv->lessons->count() }} {{ Str::plural('lesson', $dv->lessons->count()) }}</span>
                                         </div>
                                     </div>
+                                    <div class="contentCard-button text-center mt-3">
+                            <a href="{{ route('courseDetails', ['id' => encryptor('encrypt', $pc->id)]) }}" class="button button-lg button--primary">View Course</a>
+                    </div> 
+                    <br>
                                 </div>
                             </div>
                         </div>
@@ -570,6 +572,10 @@
                                             <span>{{ $bc->lessons->count() }} {{ Str::plural('lesson', $bc->lessons->count()) }}</span>
                                         </div>
                                     </div>
+                                    <div class="contentCard-button text-center mt-3">
+                            <a href="{{ route('courseDetails', ['id' => encryptor('encrypt', $pc->id)]) }}" class="button button-lg button--primary">View Course</a>
+                    </div> 
+                    <br>
                                 </div>
                             </div>
                         </div>
@@ -641,6 +647,10 @@
                                             <span>{{ $ic->lessons->count() }} {{ Str::plural('lesson', $ic->lessons->count()) }}</span>
                                         </div>
                                     </div>
+                                    <div class="contentCard-button text-center mt-3">
+                            <a href="{{ route('courseDetails', ['id' => encryptor('encrypt', $pc->id)]) }}" class="button button-lg button--primary">View Course</a>
+                    </div> 
+                    <br>
                                 </div>
                             </div>
                         </div>

@@ -49,10 +49,15 @@ class DashboardController extends Controller
         $checkout = Checkout::where('student_id', currentUserId())->get();
 
         // Decrypt the course ID
-        $decryptedCourseId = encryptor('decrypt', $id);      
+        $decryptedCourseId = encryptor('decrypt', $id);  
+        
+        $segments = Segments::withCount('lesson')
+        ->where('course_id', $decryptedCourseId)
+        ->paginate(10);
 
         // Return the data to the view
-        return view('students.course-segment', compact('enrollment', 'checkout', 'course', 'student_info'));
+        return view('students.course-segment', compact('enrollment', 'checkout', 'course', 'student_info',
+    'segments'));
     }
 
 

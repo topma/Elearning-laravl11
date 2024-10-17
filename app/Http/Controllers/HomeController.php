@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\Event;
 use App\Models\Instructor;
 use App\Models\CourseCategory;
+use App\Models\Student;
 
 class HomeController extends Controller
 {
@@ -17,6 +18,15 @@ class HomeController extends Controller
             'segments', 
             'lessons',
         )->get();
+
+        $student = Student::find(currentUserId());
+        // Check enrollment status for each course
+            // $enrollmentStatus = [];
+            // if ($student) {
+            //     foreach ($courses as $course) {
+            //         $enrollmentStatus[$course->id] = $student->enrollments()->where('course_id', $course->id)->exists();
+            //     }
+            // }
         
         // Retrieve events ordered by date
         $event = Event::orderBy('date', 'Desc')->get();
@@ -95,7 +105,8 @@ class HomeController extends Controller
                 'itCourses', 
                 'salesCourses', 
                 'dataCourses', 
-                'event'
+                'event',
+                // 'enrollmentStatus'
             )
         );
     }

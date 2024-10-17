@@ -122,11 +122,11 @@ use Carbon\Carbon;
                     <div class="col-lg-4 col-md-6 col-md-6 mb-4">
                         <div class="contentCard contentCard--watch-course">
                             <div class="contentCard-top">
-                                <a href="#"><img src="{{ asset('uploads/courses/' . $segment->course?->image) }}" alt="images" class="img-fluid" /></a>
+                                <a href="#"><img src="{{ asset('uploads/courses/' . $segment->image) }}" alt="images" class="img-fluid" /></a>
                             </div>
                             <div class="contentCard-bottom">
                                 <h5>
-                                    <a href="{{ route('courseDetails', encryptor('encrypt', $segment->course?->id)) }}" class="font-title--card">{{ $segment->course?->title_en }}</a>
+                                    <a href="#" class="font-title--card">{{ $segment->title_en }}</a>
                                 </h5>
                                 <div class="contentCard-info d-flex align-items-center justify-content-between">
                                     <a href="{{ route('instructorProfile', encryptor('encrypt', $segment->course?->instructor?->id)) }}" class="contentCard-user d-flex align-items-center">
@@ -134,7 +134,7 @@ use Carbon\Carbon;
                                         <p class="font-para--md">{{ $segment->course?->instructor?->name_en }}</p>
                                     </a>
                                     <div class="contentCard-course--status d-flex align-items-center">
-                                        <span class="percentage">{{ $segment->lesson_count }} {{ $segment->lesson_count == 1 ? 'lesson' : 'lessons' }}</span>
+                                        <span class="btn btn-outline-success mx-2">{{ $segment->lesson_count }} {{ $segment->lesson_count == 1 ? 'lesson' : 'lessons' }}</span>
                                     </div>
                                 </div>
                                 <hr>

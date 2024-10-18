@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('progress', function (Blueprint $table) {
+        Schema::table('progress_alls', function (Blueprint $table) {
             //
-            $table->integer('last_viewed_lesson_id')->nullable();
+            $table->integer('segment_no');
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('progress', function (Blueprint $table) {
+        Schema::table('progress_alls', function (Blueprint $table) {
             //
         });
     }

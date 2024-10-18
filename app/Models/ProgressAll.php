@@ -17,6 +17,8 @@ class ProgressAll extends Model
         'progress_percentage',
         'completed',
         'last_viewed_at',
+        'segments_id',
+        'segment_no',
     ];
 
     public function lesson()

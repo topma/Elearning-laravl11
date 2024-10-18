@@ -121,45 +121,68 @@ use Carbon\Carbon;
             <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                 <div class="row">
                 @foreach ($segments as $segment)
-                    <div class="col-lg-4 col-md-6 col-md-6 mb-4">
-                        <div class="contentCard contentCard--watch-course">
-                            <div class="contentCard-top">
-                                <a href="#"><img src="{{ asset('uploads/courses/' . $segment->image) }}" alt="images" class="img-fluid" /></a>
-                            </div>
-                            <div class="contentCard-bottom">
-                                <h5>
-                                    <a href="#" class="font-title--card">{{ $segment->title_en }}</a>
-                                </h5>
-                                <div class="contentCard-info d-flex align-items-center justify-content-between">
-                                    <a href="{{ route('instructorProfile', encryptor('encrypt', $segment->course?->instructor?->id)) }}" class="contentCard-user d-flex align-items-center">
-                                        <img src="{{ asset('uploads/users/' . $segment->course?->instructor?->image) }}" alt="client-image" class="rounded-circle" height="34" width="34" />
-                                        <p class="font-para--md">{{ $segment->course?->instructor?->name_en }}</p>
-                                    </a>
-                                    <div class="contentCard-course--status d-flex align-items-center">
-                                        <span class="btn btn-outline-success mx-2">{{ $segment->lesson_count }} {{ $segment->lesson_count == 1 ? 'lesson' : 'lessons' }}</span>
-                                    </div>
-                                </div>
-                                <hr>
-
-                                <div class="contentCard-course--status d-flex align-items-center">
-                                
-                                </div>
-                                    <hr>
-                                
-                                <div class="contentCard-watch--progress">
-                                    <span class="percentage" style="width: {{ $percentage ?? 0 }}%;"></span>
-                                </div>
-
-                                
-                                    <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('watchCourse', encryptor('encrypt', $segment->course?->id)) }}">Continue Lesson</a>
-                               
-                                    <!-- <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('watchCourse', encryptor('encrypt', $segment->course?->id)) }}">Start Course</a> -->
-                            
-
-                            </div>
-                        </div>
+    <div class="col-lg-4 col-md-6 col-md-6 mb-4">
+        <div class="contentCard contentCard--watch-course">
+            <div class="contentCard-top">
+                <a href="#"><img src="{{ asset('uploads/courses/' . $segment->image) }}" alt="images" class="img-fluid" /></a>
+            </div>
+            <div class="contentCard-bottom">
+                <h5>
+                    <a href="#" class="font-title--card">{{ $segment->title_en }}</a>
+                </h5>
+                <div class="contentCard-info d-flex align-items-center justify-content-between">
+                    <a href="{{ route('instructorProfile', encryptor('encrypt', $segment->course?->instructor?->id)) }}" class="contentCard-user d-flex align-items-center">
+                        <img src="{{ asset('uploads/users/' . $segment->course?->instructor?->image) }}" alt="client-image" class="rounded-circle" height="34" width="34" />
+                        <p class="font-para--md">{{ $segment->course?->instructor?->name_en }}</p>
+                    </a>
+                    <div class="contentCard-course--status d-flex align-items-center">                                    
+                        <span class="btn btn-outline-success mx-2">
+                            <i class="fas fa-book"></i>
+                            {{ $segment->lesson_count }} {{ $segment->lesson_count == 1 ? 'lesson' : 'lessons' }}</span>
                     </div>
-                @endforeach
+                </div>
+                <hr>
+                <div class="text-center">
+                    <div class="contentCard-course--status d-flex align-items-center">
+                        @php
+                            // Fetch progress for this segment from segmentProgress array
+                            $progressPercentage = $segmentProgress[$segment->id] ?? 0; // This should match segment ID
+                        @endphp
+
+                        @if($progressPercentage > 0)
+                            <div class="contentCard-watch--progress">
+                                <span class="percentage" style="width: {{ $progressPercentage }}%;"></span>
+                            </div>
+                            <!-- <p>{{ $progressPercentage }}% completed</p> -->
+                        @else
+                        <div class="contentCard-watch--progress">
+                                <span class="percentage" style="width: {{ $progressPercentage }}%;"></span>
+                            </div>
+                            <!-- <p>0% completed</p> -->
+                        @endif
+
+                        @php
+                            // Check the detailed progress from the $progress collection
+                            $segmentProgressDetail = $progress->get($segment->id);
+                        @endphp
+
+                        @if($segmentProgressDetail)
+                            @if($segmentProgressDetail->completed == 0)
+                                <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('watchCourse', encryptor('encrypt', $segment->id)) }}">Continue Lesson</a>
+                            @elseif($segmentProgressDetail->completed == 1)
+                                <a class="button button-md button--primary-outline w-100 my-3" href="#">Completed</a>
+                            @endif
+                        @else
+                            <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('watchCourse', encryptor('encrypt', $segment->id)) }}">Start Lesson</a>
+                        @endif
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+    </div>
+@endforeach
+
 
 
                     <div class="col-lg-12 mt-lg-5">

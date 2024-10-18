@@ -138,75 +138,68 @@ use Carbon\Carbon;
 
                 <div class="tab-pane fade show active" id="nav-coursesall" role="tabpanel" aria-labelledby="nav-coursesall-tab">
     <div class="row">
-        @forelse ($enrollment as $a)
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="contentCard contentCard--watch-course">
-                    <div class="contentCard-top">
-                        <a href="#">
-                            <img src="{{ asset('uploads/courses/' . $a->course?->image) }}" alt="course-image" class="img-fluid" />
+    @forelse ($enrollment as $a)
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="contentCard contentCard--watch-course">
+            <div class="contentCard-top">
+                <a href="#">
+                    <img src="{{ asset('uploads/courses/' . $a->course?->image) }}" alt="course-image" class="img-fluid" />
+                </a>
+            </div>
+            <div class="contentCard-bottom">
+                <div class="course-title-container">
+                    <h5 class="course-title text-center my-4">
+                        <a href="#" class="course-title-link">
+                            {{ $a->course?->title_en ?? 'No title available' }}
                         </a>
-                    </div>
-                    <div class="contentCard-bottom">
-                        <div class="course-title-container">
-                            <h5 class="course-title text-center my-4">
-                                <a href="#" class="course-title-link">
-                                    {{ $a->course?->title_en ?? 'No title available' }}
-                                </a>
-                            </h5>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <span class="btn btn-outline-primary">
-                                <i class="fas fa-th-large"></i>
-                                {{ $a->course->segments->count() }} {{ Str::plural('segment', $a->course->segments->count()) }}
-                            </span>
-                            <span class="btn btn-outline-success mx-2">
-                                <i class="fas fa-book"></i> 
-                                {{ $a->course->lessons->count() }} {{ Str::plural('lesson', $a->course->lessons->count()) }}
-                            </span>
-                        </div>
-                        <div class="contentCard-info d-flex align-items-center justify-content-between">
-                            <a href="{{ route('instructorProfile', encryptor('encrypt', $a->course?->instructor->id)) }}" class="contentCard-user d-flex align-items-center">
-                                <img src="{{ asset('uploads/users/' . $a->course?->instructor?->image) }}" alt="instructor-image" class="rounded-circle" height="34" width="34" />
-                                <p class="font-para--md">{{ $a->course?->instructor?->name_en ?? 'Unknown Instructor' }}</p>
-                            </a>  
-                            <div class="contentCard-course--status d-flex align-items-center">
-                                <span class="percentage" style="color:black;">
-                                    {{ $a->course?->instructor?->courses->count() }} {{ Str::plural('course', $a->course?->instructor?->courses->count()) }}
-                                </span>
-                            </div>                          
-                        </div>
+                    </h5>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <span class="btn btn-outline-primary">
+                        <i class="fas fa-th-large"></i>
+                        {{ $a->course->segments->count() }} {{ Str::plural('segment', $a->course->segments->count()) }}
+                    </span>
+                    <span class="btn btn-outline-success mx-2">
+                        <i class="fas fa-book"></i> 
+                        {{ $a->course->lessons->count() }} {{ Str::plural('lesson', $a->course->lessons->count()) }}
+                    </span>
+                </div>
 
-                        {{-- Start Course Button --}}
-                        <!-- Check if progress exists for this course -->
-                        @if ($progress->has($a->course_id))
-                            <div class="contentCard-button text-center mt-3">
-                            <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('courseSegment', encryptor('encrypt', $a->course?->id)) }}">
+                {{-- Check for course progress --}}
+               
+                @php
+                    // Fetch the progress percentage, default to 0 if not found
+                    $progressPercentage = $courseProgress[$a->course_id] ?? 0;
+                @endphp
+
+                <div class="contentCard-watch--progress">
+                    <span class="percentage" style="width: {{ $progressPercentage }}%;"></span>
+                </div>
+                <!-- <p>{{ $progressPercentage }}% completed</p> -->
+                
+                {{-- Additional content for course buttons, etc. --}}
+                <div class="contentCard-button text-center mt-3">
+                    <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('courseSegment', encryptor('encrypt', $a->course?->id)) }}">
+                        @if ($progressPercentage > 0)
                             Continue Course
-                        </a>
-                            </div>
                         @else
-                            <div class="contentCard-button text-center mt-3">
-                            <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('courseSegment', encryptor('encrypt', $a->course?->id)) }}">
                             Start Course
-                        </a>
-                            </div>
-                        @endif                       
+                        @endif
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+@empty
+    <div class="col-12 py-5">
+        <div class="col-md-6 col-12 mx-auto text-center">
+            <h5 class="font-title--sm">You Haven't Enrolled in Any Course Yet...</h5>
+            <p class="my-4 font-para--lg">Your Course List is Empty!</p>
+            <a href="{{ route('searchCourse') }}" class="button button-md button--primary">Enroll Now!</a>
+        </div>
+    </div>
+@endforelse
 
-                        <div class="contentCard-watch--progress">
-                            <span class="percentage" style="width: 43%;"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @empty
-            <div class="col-12 py-5">
-                <div class="col-md-6 col-12 mx-auto text-center">
-                    <h5 class="font-title--sm">You Haven't Enrolled in Any Course Yet...</h5>
-                    <p class="my-4 font-para--lg">Your Course List is Empty!</p>
-                    <a href="{{ route('searchCourse') }}" class="button button-md button--primary">Enroll Now!</a>
-                </div>
-            </div>
-        @endforelse
 
         <div class="col-lg-12 mt-lg-5">
             <div class="pagination justify-content-center pb-0">
@@ -217,6 +210,7 @@ use Carbon\Carbon;
         </div>
     </div>
 </div>
+
 
                 {{-- Completed Courses --}}
                 <div class="tab-pane fade" id="nav-completedcourses" role="tabpanel"

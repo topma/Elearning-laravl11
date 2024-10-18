@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>{{ENV('APP_NAME')}} | @yield('title', 'Watch Course')</title>
+    <title>{{ config('app.name') }} | @yield('title', 'Watch Course')</title>
     <link rel="stylesheet" href="{{asset('frontend/src/scss/vendors/plugin/css/video-js.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/src/scss/vendors/plugin/css/star-rating-svg.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/dist/main.css')}}" />
@@ -43,6 +43,22 @@
     }
 </style>
 <style>
+    .video-container {
+    position: relative;
+    width: 100%;   /* Full width */
+    padding-bottom: 56.25%; /* Aspect ratio 16:9 */
+    height: 0;
+}
+
+.video-js {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Full height */
+}
+</style>
+<!-- <style>
     /* Optionally, you can customize the video.js skin */
     .video-js .vjs-control {
         display: none; /* Hide all controls */
@@ -52,7 +68,7 @@
     .video-js .vjs-fullscreen-control {
         display: inline-block; /* Show volume and fullscreen controls */
     }
-</style>
+</style> -->
 </head>
 
 <body style="background-color: #ebebf2;">
@@ -72,7 +88,8 @@
                             </a>
                         </div>
                         <div class="topic-info-text">
-                            <h6 class="font-title--xs"><a href="#">{{$course->title_en}}</a></h6>
+                            <h6 class="font-title--xs"><a href="#">{{$segment->title_en}}
+                            </a></h6>
                             <div class="lesson-hours">
                                 <div class="book-lesson">
                                     <i class="fas fa-book-open text-primary"></i>
@@ -112,16 +129,16 @@
                         @if($currentMaterial->type == 'video')
                         <div class="video-area">
                             @if(!empty($currentMaterial->content))
-                                <video
-                                    controls
-                                    id="myvideo"
-                                    class="video-js w-100"
-                                    poster="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}"
-                                    oncontextmenu="return false;"
-                                    data-setup='{"controls": true, "autoplay": true, "preload": "auto"}'>
-                                    <source src="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" type="video/mp4" />
-                                    Your browser does not support the video tag.
+                            <div class="video-container">
+                                <video controls id="myvideo" 
+                                    class="video-js" 
+                                    poster="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" 
+                                    data-setup='{"controls": true, "preload": "auto", "autoplay":true}'>                            
+                                    <source src="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" 
+                                        class="w-100" autostart="true"/>
                                 </video>
+                            </div>
+                                
                             @elseif(!empty($currentMaterial->content_url))
                                 @php
                                     // Extract the video ID from the YouTube URL
@@ -360,7 +377,10 @@
                                         data-material-description="{{$lesson->description}}"
                                         data-material-notes="{{$lesson->notes}}"
                                         data-material-id="{{ $material->id }}"
-                                        data-course-id="{{$course->id}}">
+                                        data-course-id="{{$course->id}}"
+                                        data-segment-id="{{$segment->id}}"
+                                        data-segment-no="{{$segment->segment_no}}">
+                                        
                                         <div class="main-wizard__wrapper">
                                             <a class="main-wizard-start">
                                                 @if ($material->type=='video')
@@ -513,7 +533,9 @@
                 notes: $(this).data('material-notes'), // Capture lesson notes
                 id: $(this).data('material-id'), // Capture material ID
                 course_id: $(this).data('course-id'), // Capture course ID
-                lesson_id: $(this).data('lesson-id') // Capture lesson ID
+                lesson_id: $(this).data('lesson-id') ,// Capture lesson ID
+                segment_id: $(this).data('segment-id') ,
+                segment_no: $(this).data('segment-no') 
             };
 
             // Check the checkbox for the clicked lesson
@@ -540,7 +562,9 @@
                     _token: "{{ csrf_token() }}",                   
                     courseid: material.course_id,
                     lessonid: material.lesson_id, // Use the captured lesson ID
-                    materialid: material.id
+                    materialid: material.id,
+                    segmentid: material.segment_id,
+                    segmentno: material.segment_no
                 },
                 success: function(response) {
                     console.log('Progress updated successfully');

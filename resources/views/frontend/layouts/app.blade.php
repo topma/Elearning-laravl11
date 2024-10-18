@@ -68,6 +68,10 @@
     color: #ffeb3b; /* Bright yellow on hover for contrast */
     transform: scale(1.05);
 }
+
+.text-center {
+    text-align: center;  /* Center the text and inline elements */
+}
     </style>
     @stack('styles')
 

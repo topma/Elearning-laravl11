@@ -149,7 +149,7 @@ class AuthController extends Controller
 
     public function signInCheck(SignInRequest $request,$back_route)
     {
-        try {
+        try { 
             $student = Student::Where('email', $request->email)->first();
             if ($student) {
                 if ($student->status == 1) {

@@ -17,6 +17,8 @@ class Progress extends Model
         'last_viewed_material_id',
         'last_viewed_lesson_id',
         'last_viewed_at',
+        'segments_id',
+        'segment_no',
     ];
 
     public function lesson()

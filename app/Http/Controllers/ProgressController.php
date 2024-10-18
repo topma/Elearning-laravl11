@@ -25,6 +25,8 @@ class ProgressController extends Controller
         $courseId = $request->input('courseid');
         $materialId = $request->input('materialid');
         $lessonId = $request->input('lessonid');
+        $segmentId = $request->input('segmentid');
+        $segmentNo = $request->input('segmentno');
 
         // Check if a record exists in progress_alls with the given criteria
         $progressAllExists = ProgressAll::where('student_id', $studentId)
@@ -40,6 +42,8 @@ class ProgressController extends Controller
                 'course_id' => $courseId,
                 'lesson_id' => $lessonId,
                 'material_id' => $materialId,
+                'segments_id' => $segmentId,
+                'segment_no' => $segmentNo,
                 'last_viewed_at' => now(), 
                 'progress_percentage' => 0,
                 'completed' => true,
@@ -49,6 +53,7 @@ class ProgressController extends Controller
         // Check if the progress record exists for the student and course
         $progress = Progress::where('student_id', $studentId)
                             ->where('course_id', $courseId)
+                            ->where('segments_id', $segmentId)
                             ->first();
 
         // If the record exists, update the last viewed material and lesson

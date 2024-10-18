@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 18, 2024 at 12:21 PM
+-- Generation Time: Oct 18, 2024 at 09:06 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -496,7 +496,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (50, '2024_10_16_220435_add_segments_id_to_progress_table', 22),
 (51, '2024_10_16_220512_add_segments_id_to_progress_alls_table', 22),
 (52, '2024_10_18_095304_add_segment_no_to_segments_table', 23),
-(53, '2024_10_18_095358_add_segment_and_completed_to_enrollments_table', 23);
+(53, '2024_10_18_095358_add_segment_and_completed_to_enrollments_table', 23),
+(54, '2024_10_18_105939_add_segment_no_to_progress_table', 24),
+(55, '2024_10_18_110005_add_segment_no_to_progress_alls_table', 24);
 
 -- --------------------------------------------------------
 
@@ -638,15 +640,23 @@ CREATE TABLE `progress` (
   `student_id` bigint(20) UNSIGNED NOT NULL,
   `course_id` bigint(20) UNSIGNED NOT NULL,
   `segments_id` int(11) NOT NULL,
+  `segment_no` int(11) NOT NULL,
   `progress_percentage` int(11) NOT NULL DEFAULT 0,
   `completed` tinyint(1) NOT NULL DEFAULT 0,
-  `last_viewed_lesson_id` int(11) NOT NULL,
+  `last_viewed_lesson_id` int(11) DEFAULT NULL,
   `last_viewed_material_id` bigint(20) UNSIGNED DEFAULT NULL,
   `last_viewed_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `progress`
+--
+
+INSERT INTO `progress` (`id`, `student_id`, `course_id`, `segments_id`, `segment_no`, `progress_percentage`, `completed`, `last_viewed_lesson_id`, `last_viewed_material_id`, `last_viewed_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 12, 3, 1, 1, 0, 0, 13, 9, '2024-10-18 23:59:53', '2024-10-18 23:59:53', '2024-10-19 02:04:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -659,6 +669,7 @@ CREATE TABLE `progress_alls` (
   `student_id` bigint(20) UNSIGNED NOT NULL,
   `course_id` bigint(20) UNSIGNED NOT NULL,
   `segments_id` int(11) NOT NULL,
+  `segment_no` int(11) NOT NULL,
   `lesson_id` bigint(20) UNSIGNED NOT NULL,
   `material_id` bigint(20) UNSIGNED NOT NULL,
   `progress_percentage` int(11) NOT NULL DEFAULT 0,
@@ -667,6 +678,18 @@ CREATE TABLE `progress_alls` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `progress_alls`
+--
+
+INSERT INTO `progress_alls` (`id`, `student_id`, `course_id`, `segments_id`, `segment_no`, `lesson_id`, `material_id`, `progress_percentage`, `completed`, `last_viewed_at`, `created_at`, `updated_at`) VALUES
+(1, 12, 3, 1, 1, 8, 31, 0, 1, '2024-10-18 23:59:53', '2024-10-18 23:59:53', '2024-10-18 23:59:53'),
+(2, 12, 3, 1, 1, 9, 32, 0, 1, '2024-10-19 01:13:13', '2024-10-19 01:13:13', '2024-10-19 01:13:13'),
+(3, 12, 3, 1, 1, 10, 6, 0, 1, '2024-10-19 01:13:15', '2024-10-19 01:13:15', '2024-10-19 01:13:15'),
+(4, 12, 3, 1, 1, 11, 8, 0, 1, '2024-10-19 01:13:16', '2024-10-19 01:13:16', '2024-10-19 01:13:16'),
+(5, 12, 3, 1, 1, 12, 7, 0, 1, '2024-10-19 01:13:19', '2024-10-19 01:13:19', '2024-10-19 01:13:19'),
+(6, 12, 3, 1, 1, 13, 9, 0, 1, '2024-10-19 02:04:07', '2024-10-19 02:04:07', '2024-10-19 02:04:07');
 
 -- --------------------------------------------------------
 
@@ -1217,7 +1240,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `news_letters`
@@ -1253,13 +1276,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `progress`
 --
 ALTER TABLE `progress`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `progress_alls`
 --
 ALTER TABLE `progress_alls`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `questions`

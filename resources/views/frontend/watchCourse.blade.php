@@ -214,10 +214,12 @@
                                 aria-labelledby="nav-lcomments-tab">
                                 <div class="lesson-comments">
                                     <div class="feedback-comment pt-0 ps-0 pe-0">
-                                        <h6 class="font-title--card">Add a Public Comment</h6>
-                                        <form action="#">
+                                        <h6 class="font-title--card">Add a Comment about this course.</h6>
+                                        <form action="{{}}">
                                             <label for="comment">Comment</label>
-                                            <textarea class="form-control" id="comment" placeholder="Add a Public Comment"></textarea>
+                                            <textarea class="form-control" id="comment" placeholder="Add a Comment"></textarea>
+                                            <input type="hidden" name="student_id" value="">
+                                            <input type="hidden" name="course_id" value="">
                                             <button type="submit" class="button button-md button--primary float-end">Post
                                                 Comment</button>
                                         </form>

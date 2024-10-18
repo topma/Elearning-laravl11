@@ -323,7 +323,17 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Title</label>
+                                        <label class="form-label">Segment No</label>
+                                        <input type="number" class="form-control" name="segmentNo"
+                                            value="{{old('segmentNo',$segment->segment_no)}}">
+                                    </div>
+                                    @if($errors->has('segmentNo'))
+                                    <span class="text-danger"> {{ $errors->first('segmentNo') }}</span>
+                                    @endif
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Segment Name</label>
                                         <input type="text" class="form-control" name="title_en"
                                             value="{{old('title_en',$segment->title_en)}}">
                                     </div>
@@ -331,7 +341,6 @@
                                     <span class="text-danger"> {{ $errors->first('title_en') }}</span>
                                     @endif
                                 </div>
-                                
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Description</label>

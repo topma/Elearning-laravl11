@@ -177,6 +177,8 @@ Route::middleware(['checkstudent'])->prefix('students')->group(function () {
     Route::post('/update-progress', [ProgressController::class, 'updateProgress'])
     ->name('update.progress');
     Route::get('/load-lesson', [LessonController::class, 'loadLesson'])->name('load.lesson');
+    Route::get('watchCourse/{id}', [watchCourse::class, 'watchCourse'])->name('watchCourse');
+    Route::get('courseSegment/{id}', [studashboard::class, 'courseSegment'])->name('courseSegment');
 });
 
 //----------instructor routes --------------------------------
@@ -192,8 +194,6 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('searchCourse', [SearchCourseController::class, 'index'])->name('searchCourse'); 
 Route::get('courses/{courseCategory}', [SearchCourseController::class, 'courseName'])->name('courseName'); 
 Route::get('courseDetails/{id}', [course::class, 'frontShow'])->name('courseDetails');
-Route::get('watchCourse/{id}', [watchCourse::class, 'watchCourse'])->name('watchCourse');
-Route::get('courseSegment/{id}', [studashboard::class, 'courseSegment'])->name('courseSegment');
 Route::get('instructorProfile/{id}', [instructor::class, 'frontShow'])->name('instructorProfile');
 Route::get('checkout', [checkout::class, 'index'])->name('checkout');
 Route::post('checkout', [checkout::class, 'store'])->name('checkout.store');

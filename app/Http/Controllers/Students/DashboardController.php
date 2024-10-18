@@ -9,14 +9,15 @@ use App\Models\Course;
 use App\Models\Segments;
 use App\Models\Checkout;
 use App\Models\Material;
+use App\Models\Progress;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $student_info = Student::find(currentUserId());
-        
+        $studentId = currentUserId();
+        $student_info = Student::find($studentId);
         // Fetch enrollment with course, lesson count, and progress
         $enrollment = Enrollment::with([
             'course.segments', 
@@ -26,10 +27,14 @@ class DashboardController extends Controller
         ->where('student_id', currentUserId())
         ->paginate(10);
 
+        // Fetch progress data for each course
+        $progress = Progress::where('student_id', $studentId)->get()->keyBy('course_id'); 
+
         $course = Course::get();
         $checkout = Checkout::where('student_id', currentUserId())->get();
 
-        return view('students.dashboard', compact('student_info', 'enrollment', 'course', 'checkout'));
+        return view('students.dashboard', compact('student_info', 'enrollment', 'course', 
+        'checkout','progress'));
     }
 
     public function courseSegment($id)

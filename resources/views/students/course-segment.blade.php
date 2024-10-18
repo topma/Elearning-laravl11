@@ -84,9 +84,11 @@ use Carbon\Carbon;
                         data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile"
                         aria-selected="true">Course Segments</button>
 
-                    <button class="nav-link" id="nav-coursesall-tab" data-bs-toggle="tab"
+                    <!-- <button class="nav-link" id="nav-coursesall-tab" data-bs-toggle="tab"
                         data-bs-target="#nav-coursesall" type="button" role="tab" aria-controls="nav-coursesall"
-                        aria-selected="false">All Courses</button>
+                        aria-selected="false">All Courses</button> -->
+
+                    <button class="nav-link "><a href="{{route('studentdashboard')}}" class="text-secondary">My Courses</a></button>
 
                     <!-- <button class="nav-link" id="nav-activecourses-tab" data-bs-toggle="tab"
                         data-bs-target="#nav-activecourses" type="button" role="tab" aria-controls="nav-activecourses"
@@ -116,7 +118,7 @@ use Carbon\Carbon;
             <div class="tab-content" id="nav-tabContent">
 
             {{-- Course Segments --}}
-            <div class="tab-pane fade show active" id="nav-coursesall" role="tabpanel" aria-labelledby="nav-coursesall-tab">
+            <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                 <div class="row">
                 @foreach ($segments as $segment)
                     <div class="col-lg-4 col-md-6 col-md-6 mb-4">
@@ -149,7 +151,7 @@ use Carbon\Carbon;
                                 </div>
 
                                 
-                                    <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('watchCourse', encryptor('encrypt', $segment->course?->id)) }}">Continue Course</a>
+                                    <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('watchCourse', encryptor('encrypt', $segment->course?->id)) }}">Continue Lesson</a>
                                
                                     <!-- <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('watchCourse', encryptor('encrypt', $segment->course?->id)) }}">Start Course</a> -->
                             

@@ -86,13 +86,13 @@ use Carbon\Carbon;
 
                     <button class="nav-link active" id="nav-coursesall-tab" data-bs-toggle="tab"
                         data-bs-target="#nav-coursesall" type="button" role="tab" aria-controls="nav-coursesall"
-                        aria-selected="false">All Courses</button>
+                        aria-selected="false">My Courses</button>
 
-                    <button class="nav-link" id="nav-activecourses-tab" data-bs-toggle="tab"
+                    <!-- <button class="nav-link" id="nav-activecourses-tab" data-bs-toggle="tab"
                         data-bs-target="#nav-activecourses" type="button" role="tab" aria-controls="nav-activecourses"
                         aria-selected="false">
                         Active Courses
-                    </button>
+                    </button> -->
 
                     <button class="nav-link" id="nav-completedcourses-tab" data-bs-toggle="tab"
                         data-bs-target="#nav-completedcourses" type="button" role="tab"
@@ -177,9 +177,24 @@ use Carbon\Carbon;
                         </div>
 
                         {{-- Start Course Button --}}
-                        <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('courseSegment', encryptor('encrypt', $a->course?->id)) }}">
+                        <!-- Check if progress exists for this course -->
+                        @if ($progress->has($a->course_id))
+                            <div class="contentCard-button text-center mt-3">
+                            <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('courseSegment', encryptor('encrypt', $a->course?->id)) }}">
+                            Continue Course
+                        </a>
+                            </div>
+                        @else
+                            <div class="contentCard-button text-center mt-3">
+                            <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('courseSegment', encryptor('encrypt', $a->course?->id)) }}">
                             Start Course
                         </a>
+                            </div>
+                        @endif                       
+
+                        <div class="contentCard-watch--progress">
+                            <span class="percentage" style="width: 43%;"></span>
+                        </div>
                     </div>
                 </div>
             </div>

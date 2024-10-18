@@ -25,6 +25,7 @@ class AddNewRequest extends FormRequest
             'title_en'=> 'required|max:255',
             'categoryId'=> 'required|max:3',
             'instructorId'=> 'required|max:3',
+            'segmentNo' => 'required|max:3',
         ];
     }
 }

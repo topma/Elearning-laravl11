@@ -58,6 +58,11 @@ class Course extends Model
         return $this->hasMany(Segments::class, 'course_id');
     }
 
+    public function segment()
+    {
+        return $this->hasMany(Segments::class);
+    }
+
     public function progress()
     {
         return $this->hasMany(Progress::class, 'segments_id', 'id');

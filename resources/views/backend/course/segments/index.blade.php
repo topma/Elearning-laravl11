@@ -85,6 +85,10 @@
                                                     <span class="mb-0">No of Lessons Uploaded :</span>
                                                     <strong>{{$d->lesson_count}}</strong>
                                                 </li>
+                                                <li class="list-group-item px-0 d-flex justify-content-between">
+                                                    <span class="mb-0">Segment No :</span>
+                                                    <strong>{{$d->segment_no}}</strong>
+                                                </li>
 
                                                 <li class="list-group-item px-0 d-flex justify-content-between">
                                                     <span class="mb-0">Status :</span>

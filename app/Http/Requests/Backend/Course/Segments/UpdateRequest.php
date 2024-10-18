@@ -23,6 +23,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'title_en' => 'required|max:255',
+            'segmentNo' => 'required|max:3',
             // 'categoryId' => 'required|max:3',
             // 'instructorId' => 'required|max:3',
         ];

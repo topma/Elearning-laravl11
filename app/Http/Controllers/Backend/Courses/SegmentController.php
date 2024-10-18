@@ -101,6 +101,7 @@ class SegmentController extends Controller
             $segment->instructor_id = $request->instructorId;
             $segment->course_id = $request->courseId;
             $segment->lesson = $request->lesson;
+            $segment->segment_no = $request->segmentNo;
             $segment->status = 2;
 
             if ($request->hasFile('image')) {
@@ -138,7 +139,10 @@ class SegmentController extends Controller
            
         }        
         else {
-            $segment = Segments::where('course_id', encryptor('decrypt', $id))->withCount('lesson')->paginate(10);
+            $segment = Segments::where('course_id', encryptor('decrypt', $id))
+            ->withCount('lesson')
+            ->orderBy('segment_no', 'asc')
+            ->paginate(10);
             $segmentNew = Segments::where('course_id', encryptor('decrypt', $id))->first();
             $courseId = $segmentNew->course_id;
             $course = Course::where('id', $courseId)->first();            
@@ -193,6 +197,7 @@ class SegmentController extends Controller
             }
             $segment->title_en = $request->title_en;
             $segment->description_en = $request->description_en;
+            $segment->segment_no = $request->segmentNo;
 
             if ($request->hasFile('image')) {
                 $imageName = rand(111, 999) . time() . '.' . $request->image->extension();

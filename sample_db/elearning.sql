@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 16, 2024 at 11:58 PM
+-- Generation Time: Oct 18, 2024 at 12:21 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -97,7 +97,7 @@ INSERT INTO `coupons` (`id`, `course_id`, `instructor_id`, `code`, `discount`, `
 
 CREATE TABLE `courses` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `segments` int(11) NOT NULL,
+  `segment` int(11) NOT NULL,
   `title_en` varchar(255) NOT NULL,
   `title_bn` varchar(255) DEFAULT NULL,
   `description_en` text DEFAULT NULL,
@@ -131,10 +131,11 @@ CREATE TABLE `courses` (
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`id`, `segments`, `title_en`, `title_bn`, `description_en`, `description_bn`, `course_category_id`, `instructor_id`, `currency_type`, `type`, `price`, `old_price`, `subscription_price`, `start_from`, `duration`, `lesson`, `prerequisites_en`, `prerequisites_bn`, `difficulty`, `course_code`, `image`, `thumbnail_image`, `thumbnail_video`, `status`, `language`, `tag`, `created_at`, `updated_at`, `deleted_at`) VALUES
+INSERT INTO `courses` (`id`, `segment`, `title_en`, `title_bn`, `description_en`, `description_bn`, `course_category_id`, `instructor_id`, `currency_type`, `type`, `price`, `old_price`, `subscription_price`, `start_from`, `duration`, `lesson`, `prerequisites_en`, `prerequisites_bn`, `difficulty`, `course_code`, `image`, `thumbnail_image`, `thumbnail_video`, `status`, `language`, `tag`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 0, 'Data Science for Beginners', NULL, 'This will introduce you to the concepts of Data Science and how it is used to solve real-world problems. You will learn Data Science with an example on UBER dataset. Data science is the process of using the data to find solutions / to predict outcomes of a problem statemen', NULL, 19, 3, '=N=', 'free', 0.00, 0.00, NULL, NULL, 10, 1, 'No tech skill required.', NULL, 'beginner', NULL, '5801727444624.png', '9551727444625.png', 'https://youtu.be/KdgQvgE3ji4', 2, 'en', 'popular', '2024-09-27 20:43:45', '2024-09-27 21:20:36', NULL),
 (2, 0, 'Data Science In 5 Minutes', NULL, 'This video will give you an idea of a life of Data Scientist. This Data Science for Beginners video will also explain the steps involved in the Data Science project, roles & salary offered to a Data Scientist. Data Science is basically dealing with unstructured and structured data.', NULL, 19, 3, '=N=', 'free', 0.00, 0.00, NULL, NULL, 10, 1, 'No tech skill required.', NULL, 'beginner', NULL, '7211727444901.png', '5771727444901.png', 'https://youtu.be/X3paOmcrTjQ', 2, 'en', 'popular', '2024-09-27 20:48:21', '2024-09-27 21:20:54', NULL),
-(3, 4, 'Freelance Bootcamp', NULL, 'SMM Freelance Bootcamp', NULL, 25, 4, '=N=', 'paid', 27500.00, 35000.00, 27500.00, '2025-01-01 08:00:00', NULL, 10, 'A good smart phone and internet.', NULL, 'beginner', 'SMM001', '7181728146583.jpg', '6311728146583.jpg', NULL, 2, 'en', 'popular', '2024-10-05 23:43:03', '2024-10-17 03:05:56', NULL);
+(3, 4, 'Freelance Bootcamp', NULL, 'SMM Freelance Bootcamp', NULL, 25, 4, '=N=', 'paid', 27500.00, 35000.00, 27500.00, '2025-01-01 08:00:00', NULL, 10, 'A good smart phone and internet.', NULL, 'beginner', 'SMM001', '7181728146583.jpg', '6311728146583.jpg', NULL, 2, 'en', 'popular', '2024-10-05 23:43:03', '2024-10-17 03:05:56', NULL),
+(4, 1, 'SMM BLUEPRINT', NULL, 'SMM BLUEPRINT', NULL, 25, 4, '=N=', 'paid', 35000.00, 40000.00, NULL, '2024-10-17 07:00:00', 50, NULL, NULL, NULL, 'beginner', 'SMMBLU001', '5951729185369.jpg', '3411729185369.jpg', NULL, 2, 'en', 'popular', '2024-10-18 00:16:09', '2024-10-18 00:34:23', NULL);
 
 -- --------------------------------------------------------
 
@@ -194,6 +195,8 @@ CREATE TABLE `enrollments` (
   `course_id` bigint(20) UNSIGNED NOT NULL,
   `instructor_id` int(11) NOT NULL,
   `enrollment_date` timestamp NOT NULL DEFAULT '2024-09-26 01:25:47',
+  `segment` int(11) DEFAULT 1,
+  `completed` int(11) DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -203,8 +206,8 @@ CREATE TABLE `enrollments` (
 -- Dumping data for table `enrollments`
 --
 
-INSERT INTO `enrollments` (`id`, `student_id`, `course_id`, `instructor_id`, `enrollment_date`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 12, 3, 4, '2024-10-12 07:00:00', '2024-10-13 02:14:01', '2024-10-13 02:14:01', NULL);
+INSERT INTO `enrollments` (`id`, `student_id`, `course_id`, `instructor_id`, `enrollment_date`, `segment`, `completed`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 12, 3, 4, '2024-10-12 07:00:00', 1, 0, '2024-10-13 02:14:01', '2024-10-13 02:14:01', NULL);
 
 -- --------------------------------------------------------
 
@@ -300,9 +303,6 @@ CREATE TABLE `lessons` (
 --
 
 INSERT INTO `lessons` (`id`, `serial_no`, `title`, `course_id`, `segments_id`, `description`, `notes`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'What is data science?', 1, 0, 'What is data science?', 'You will know about what data science entails.', '2024-09-27 20:59:27', '2024-09-27 21:02:58', NULL),
-(2, 1, 'Data Science as a tool.', 2, 0, 'Data Science as a tool.', 'Data Science as a tool.', '2024-10-05 20:04:51', '2024-10-05 20:04:51', NULL),
-(7, 2, 'What data science stands for', 2, 0, 'What data science stands for', 'What data science stands for', '2024-10-05 20:20:51', '2024-10-05 20:20:51', NULL),
 (8, 1, 'Onboarding brief', 3, 1, 'Onboarding brief', 'Onboarding brief', '2024-10-06 00:05:20', '2024-10-13 18:24:23', NULL),
 (9, 2, 'An overview of social media management 1', 3, 1, 'An overview of social media management 1', 'An overview of social media management 1', '2024-10-06 00:05:48', '2024-10-13 18:28:08', NULL),
 (10, 3, 'An overview of social media management 2', 3, 1, 'An overview of social media management 2', 'An overview of social media management 2', '2024-10-06 00:06:05', '2024-10-13 18:28:21', NULL),
@@ -376,9 +376,6 @@ CREATE TABLE `materials` (
 --
 
 INSERT INTO `materials` (`id`, `lesson_id`, `title`, `type`, `content`, `content_url`, `content_data`, `file_duration`, `file_size`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'What is data science', 'video', '6251727445861.mp4', NULL, NULL, '', '', '2024-09-27 21:04:21', '2024-09-27 21:04:21', NULL),
-(2, 2, 'Data Science as a tool.', 'text', '', NULL, NULL, '', '', '2024-10-05 21:01:01', '2024-10-05 23:15:41', NULL),
-(3, 7, 'What data science stands for', 'text', '', NULL, NULL, '', '', '2024-10-05 22:32:58', '2024-10-05 22:32:58', NULL),
 (6, 10, 'An overview of social media management 2', 'video', '9261728901352.mp4', NULL, NULL, '9:19', '15201652', '2024-10-13 18:59:52', '2024-10-14 17:22:32', NULL),
 (7, 12, 'Social media management skills', 'video', '8361728901507.mp4', NULL, NULL, '42:06', '19068659', '2024-10-13 19:02:11', '2024-10-14 17:25:13', NULL);
 INSERT INTO `materials` (`id`, `lesson_id`, `title`, `type`, `content`, `content_url`, `content_data`, `file_duration`, `file_size`, `created_at`, `updated_at`, `deleted_at`) VALUES
@@ -495,7 +492,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (46, '2024_10_16_180642_add_segments_to_courses_table', 18),
 (47, '2024_10_16_181320_create_segments_table', 19),
 (48, '2024_10_16_181900_add_course_id_to_segments_table', 20),
-(49, '2024_10_16_190829_add_status_to_segments_table', 21);
+(49, '2024_10_16_190829_add_status_to_segments_table', 21),
+(50, '2024_10_16_220435_add_segments_id_to_progress_table', 22),
+(51, '2024_10_16_220512_add_segments_id_to_progress_alls_table', 22),
+(52, '2024_10_18_095304_add_segment_no_to_segments_table', 23),
+(53, '2024_10_18_095358_add_segment_and_completed_to_enrollments_table', 23);
 
 -- --------------------------------------------------------
 
@@ -636,6 +637,7 @@ CREATE TABLE `progress` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `student_id` bigint(20) UNSIGNED NOT NULL,
   `course_id` bigint(20) UNSIGNED NOT NULL,
+  `segments_id` int(11) NOT NULL,
   `progress_percentage` int(11) NOT NULL DEFAULT 0,
   `completed` tinyint(1) NOT NULL DEFAULT 0,
   `last_viewed_lesson_id` int(11) NOT NULL,
@@ -645,13 +647,6 @@ CREATE TABLE `progress` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `progress`
---
-
-INSERT INTO `progress` (`id`, `student_id`, `course_id`, `progress_percentage`, `completed`, `last_viewed_lesson_id`, `last_viewed_material_id`, `last_viewed_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 12, 3, 0, 0, 10, 6, '2024-10-14 18:01:22', '2024-10-14 18:01:22', '2024-10-15 04:06:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -663,6 +658,7 @@ CREATE TABLE `progress_alls` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `student_id` bigint(20) UNSIGNED NOT NULL,
   `course_id` bigint(20) UNSIGNED NOT NULL,
+  `segments_id` int(11) NOT NULL,
   `lesson_id` bigint(20) UNSIGNED NOT NULL,
   `material_id` bigint(20) UNSIGNED NOT NULL,
   `progress_percentage` int(11) NOT NULL DEFAULT 0,
@@ -671,15 +667,6 @@ CREATE TABLE `progress_alls` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `progress_alls`
---
-
-INSERT INTO `progress_alls` (`id`, `student_id`, `course_id`, `lesson_id`, `material_id`, `progress_percentage`, `completed`, `last_viewed_at`, `created_at`, `updated_at`) VALUES
-(1, 12, 3, 8, 31, 0, 1, '2024-10-15 04:06:07', '2024-10-15 04:06:07', '2024-10-15 04:06:07'),
-(2, 12, 3, 9, 32, 0, 1, '2024-10-15 04:06:10', '2024-10-15 04:06:10', '2024-10-15 04:06:10'),
-(3, 12, 3, 10, 6, 0, 1, '2024-10-15 04:06:30', '2024-10-15 04:06:30', '2024-10-15 04:06:30');
 
 -- --------------------------------------------------------
 
@@ -768,6 +755,7 @@ INSERT INTO `roles` (`id`, `name`, `identity`, `created_at`, `updated_at`) VALUE
 
 CREATE TABLE `segments` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `segment_no` int(11) NOT NULL,
   `course_id` int(11) NOT NULL,
   `course_category_id` bigint(20) UNSIGNED NOT NULL,
   `title_en` varchar(255) NOT NULL,
@@ -786,11 +774,11 @@ CREATE TABLE `segments` (
 -- Dumping data for table `segments`
 --
 
-INSERT INTO `segments` (`id`, `course_id`, `course_category_id`, `title_en`, `description_en`, `instructor_id`, `duration`, `lesson`, `image`, `thumbnail_image`, `status`, `created_at`, `updated_at`) VALUES
-(1, 3, 25, 'Social Media Management', 'Social Media Management', 4, NULL, 24, '1141729110315.jpg', '7401729110183.jpg', 2, '2024-10-17 02:40:25', '2024-10-17 03:25:15'),
-(3, 3, 25, 'Virtual Assistance', 'Virtual Assistance', 4, NULL, 10, '9921729110537.jpg', '6031729110537.jpg', 2, '2024-10-17 03:28:57', '2024-10-17 03:28:57'),
-(4, 3, 25, 'Customer Support', 'Customer Support', 4, NULL, 10, '5381729111145.jpg', '1521729111145.jpg', 2, '2024-10-17 03:39:05', '2024-10-17 03:39:05'),
-(5, 3, 25, 'Lead Generation', 'Lead Generation', 4, NULL, 10, '1411729111256.jpg', '9081729111256.jpg', 2, '2024-10-17 03:40:56', '2024-10-17 03:40:56');
+INSERT INTO `segments` (`id`, `segment_no`, `course_id`, `course_category_id`, `title_en`, `description_en`, `instructor_id`, `duration`, `lesson`, `image`, `thumbnail_image`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 3, 25, 'Social Media Management', 'Social Media Management', 4, NULL, 24, '1141729110315.jpg', '7401729110183.jpg', 2, '2024-10-17 02:40:25', '2024-10-18 17:19:23'),
+(3, 2, 3, 25, 'Virtual Assistance', 'Virtual Assistance', 4, NULL, 10, '9921729110537.jpg', '6031729110537.jpg', 2, '2024-10-17 03:28:57', '2024-10-18 17:19:38'),
+(4, 4, 3, 25, 'Customer Support', 'Customer Support', 4, NULL, 10, '5381729111145.jpg', '1521729111145.jpg', 2, '2024-10-17 03:39:05', '2024-10-18 17:20:00'),
+(5, 3, 3, 25, 'Lead Generation', 'Lead Generation', 4, NULL, 10, '1411729111256.jpg', '9081729111256.jpg', 2, '2024-10-17 03:40:56', '2024-10-18 17:20:17');
 
 -- --------------------------------------------------------
 
@@ -1175,7 +1163,7 @@ ALTER TABLE `coupons`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `course_categories`
@@ -1229,7 +1217,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `news_letters`
@@ -1265,13 +1253,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `progress`
 --
 ALTER TABLE `progress`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `progress_alls`
 --
 ALTER TABLE `progress_alls`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `questions`

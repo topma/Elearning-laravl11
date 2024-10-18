@@ -73,6 +73,31 @@
     text-align: center;  /* Center the text and inline elements */
 }
     </style>
+    <style>
+      .contentCard-watch--progress {
+    height: 30px; /* Match the height of the outer container */
+    transition: width 0.4s ease; /* Smooth transition for progress changes */
+}
+
+.contentCard-watch--progress-wrapper {
+    margin-top: 10px; /* Add some spacing */
+}
+
+.percentage {
+    display: block;
+    height: 100%; /* Match height of the container */
+    border-radius: 5px; /* Round edges for the progress bar */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.font-weight-bold {
+    font-weight: bold; /* Make percentage text bold */
+}
+
+.text-center {
+    text-align: center; /* Center align text */
+}
+    </style>
     @stack('styles')
 
 </head>

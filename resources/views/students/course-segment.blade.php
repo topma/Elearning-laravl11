@@ -141,7 +141,7 @@ use Carbon\Carbon;
                             {{ $segment->lesson_count }} {{ $segment->lesson_count == 1 ? 'lesson' : 'lessons' }}</span>
                     </div>
                 </div>
-                <hr>
+                
                 <div class="text-center">
                     <div class="contentCard-course--status d-flex align-items-center">
                         @php
@@ -149,17 +149,14 @@ use Carbon\Carbon;
                             $progressPercentage = $segmentProgress[$segment->id] ?? 0; // This should match segment ID
                         @endphp
 
-                        @if($progressPercentage > 0)
-                            <div class="contentCard-watch--progress">
-                                <span class="percentage" style="width: {{ $progressPercentage }}%;"></span>
+                        <div class="contentCard-watch--progress-wrapper text-center">
+                            <div class="contentCard-watch--progress" style="background-color: #d4edda; border-radius: 5px; overflow: hidden; height: 10px;"> <!-- Light green background -->
+                                <span class="percentage" style="width: {{ $progressPercentage }}%; background-color: #28a745; height: 100%; display: block;"></span> <!-- Deep green for completion -->
                             </div>
-                            <!-- <p>{{ $progressPercentage }}% completed</p> -->
-                        @else
-                        <div class="contentCard-watch--progress">
-                                <span class="percentage" style="width: {{ $progressPercentage }}%;"></span>
-                            </div>
-                            <!-- <p>0% completed</p> -->
-                        @endif
+                            <!-- <p class="mt-2 font-weight-bold" style="color: {{ $progressPercentage > 0 ? '#28a745' : '#dc3545' }};">
+                                {{ $progressPercentage }}% {{ $progressPercentage > 0 ? 'completed' : 'not started yet' }}
+                            </p> -->
+                        </div>
 
                         @php
                             // Check the detailed progress from the $progress collection
@@ -177,7 +174,7 @@ use Carbon\Carbon;
                         @endif
                     </div>
                 </div>
-                <hr>
+                <br>
             </div>
         </div>
     </div>

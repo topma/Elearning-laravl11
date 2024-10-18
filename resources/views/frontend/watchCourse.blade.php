@@ -31,11 +31,7 @@
         padding: 10px; /* Optional: Padding for better spacing */
         background-color: #f9f9f9; /* Optional: Background color */
     }
-
-    .video-area {
-        max-height: 600px; /* Set your desired height for the video area */
-        overflow: hidden; /* Prevent overflow of video area */
-    }
+    
 </style>
 <style>
     video::-webkit-media-controls-panel {
@@ -43,11 +39,24 @@
     }
 </style>
 <style>
-    .video-container {
+   .video-area {
+    height: 700px; /* Set your desired fixed height */
+    overflow: hidden; /* Prevent overflow of video area */
+}
+
+.video-container {
     position: relative;
-    width: 100%;   /* Full width */
-    padding-bottom: 56.25%; /* Aspect ratio 16:9 */
-    height: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Set height to 100% to fill parent */
+}
+
+.video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    object-fit: contain; /* Ensure the video fits inside the area without cropping */
 }
 
 .video-js {
@@ -124,58 +133,35 @@
             {{-- Video Area --}}
             <div class="col-lg-8">
                 <div class="course-description-start">
-                    <div id="lesson-container" style="position: relative;">
+                    <div id="lesson-container" style="position: relative;"> 
                         {{-- Existing content rendering logic --}}
                         @if($currentMaterial->type == 'video')
-                        <div class="video-area">
-                            @if(!empty($currentMaterial->content))
-                            <div class="video-container">
-                                <video controls id="myvideo" 
-                                    class="video-js" 
-                                    poster="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" 
-                                    data-setup='{"controls": true, "preload": "auto", "autoplay":true}'>                            
-                                    <source src="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" 
-                                        class="w-100" autostart="true"/>
-                                </video>
+                            <div class="video-area">                            
+                                <div class="video-container">
+                                    @if(!empty($currentMaterial->content))
+                                        <video controls id="myvideo"                                      	
+                                            poster="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" 
+                                            data-setup='{"controls": true, "preload": "auto", "autoplay":true}'>                            
+                                            <source src="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" 
+                                                class="w-100" autostart="true"/>
+                                        </video>
+                                    @elseif($currentMaterial->type == 'text')
+                                        <div class="lesson-text">
+                                            {!! $currentMaterial->content_data !!} <!-- Assuming content_data holds the text -->
+                                        </div>
+                                    @elseif($currentMaterial->type == 'document')
+                                        <div class="document-content">
+                                            {!! $currentMaterial->content_data !!}
+                                        </div>
+                                    @else
+                                        <p>No valid content available for this lesson.</p>
+                                    @endif
+                                </div>
                             </div>
-                                
-                            @elseif(!empty($currentMaterial->content_url))
-                                @php
-                                    // Extract the video ID from the YouTube URL
-                                    $url = $currentMaterial->content_url;
-                                    preg_match('/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|[^\/\n\s]+\/\S*\/|watch\?v=|watch\?.+&v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $url, $matches);
-                                    $videoId = $matches[1] ?? null;
-                                @endphp
-                                @if($videoId)
-                                    <iframe width="100%" height="400"
-                                            src="https://www.youtube.com/embed/{{ $videoId }}?controls=1&modestbranding=1&rel=0"
-                                            title="Freelance Bootcamp Onboarding Brief"
-                                            frameborder="0"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                            allowfullscreen>
-                                    </iframe>
-                                @endif
-                            @endif
-                        </div>
-                        @elseif($currentMaterial->type == 'text')
-                            <div class="lesson-text">
-                                {!! $currentMaterial->content_data !!} <!-- Assuming content_data holds the text -->
-                            </div>
-                        @elseif($currentMaterial->type == 'document')
-                            <div class="document-content">
-                                {!! $currentMaterial->content_data !!}
-                            </div>
-                        @else
-                            <p>No valid content available for this lesson.</p>
                         @endif
-
                         <!-- Transparent overlay to block interaction -->
                         <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255, 255, 255, 0);"></div>
                     </div>
-                <!-- </div>
-            </div> -->
-
-
                     <div class="course-description-start-content">
                         <h5 class="font-title--sm material-title">{{$currentLesson->title}}</h5>
                         <nav class="course-description-start-content-tab">
@@ -477,9 +463,11 @@
             // If it's a video, set the video source and create the video element
             const videoHTML = `
                 <div class="video-area">
-                    <video controls id="myvideo" class="video-js w-100" poster="${contentLink}">
-                        <source src="${contentLink}" class="w-100" autostart="true"/>
-                    </video>
+                    <div class="video-container">
+                        <video controls id="myvideo" class="video-js w-100" poster="${contentLink}">
+                            <source src="${contentLink}" class="w-100" autostart="true"/>
+                        </video>
+                    </div>
                 </div>
             `;
             $('#lesson-container').append(videoHTML);

@@ -172,10 +172,14 @@ use Carbon\Carbon;
                     $progressPercentage = $courseProgress[$a->course_id] ?? 0;
                 @endphp
 
-                <div class="contentCard-watch--progress">
-                    <span class="percentage" style="width: {{ $progressPercentage }}%;"></span>
-                </div>
-                <!-- <p>{{ $progressPercentage }}% completed</p> -->
+                <div class="contentCard-watch--progress-wrapper text-center">
+                            <div class="contentCard-watch--progress" style="background-color: #d4edda; border-radius: 5px; overflow: hidden; height: 10px;"> <!-- Light green background -->
+                                <span class="percentage" style="width: {{ $progressPercentage }}%; background-color: #28a745; height: 100%; display: block;"></span> <!-- Deep green for completion -->
+                            </div>
+                            <!-- <p class="mt-2 font-weight-bold" style="color: {{ $progressPercentage > 0 ? '#28a745' : '#dc3545' }};">
+                                {{ $progressPercentage }}% {{ $progressPercentage > 0 ? 'completed' : 'not started yet' }}
+                            </p> -->
+                        </div>               
                 
                 {{-- Additional content for course buttons, etc. --}}
                 <div class="contentCard-button text-center mt-3">

@@ -83,7 +83,7 @@ class DashboardController extends Controller
             ->orderBy('segment_no', 'asc')
             ->paginate(10);
 
-            $progress = Progress::where('student_id', $studentId)
+        $progress = Progress::where('student_id', $studentId)
             ->where('course_id', $decryptedCourseId)
             ->get() 
             ->keyBy('segments_id');

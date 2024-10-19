@@ -78,6 +78,24 @@
         display: inline-block; /* Show volume and fullscreen controls */
     }
 </style> -->
+
+<style>
+.videolist-area-bar {
+    background-color: #e0e0e0; /* Light grey background */
+    border-radius: 5px;
+    height: 4px;
+    width: 100%; /* Full width */
+    margin: 10px 0;
+    overflow: hidden; /* Hide overflow for rounded corners */
+}
+
+.videolist-area-bar--progress {
+    background-color: green; /* Progress bar color */
+    height: 100%;
+    display: block;
+    transition: width 0.3s ease; /* Smooth transition */
+}
+</style>
 </head>
 
 <body style="background-color: #ebebf2;">
@@ -215,7 +233,7 @@
                                 <div class="lesson-comments">
                                     <div class="feedback-comment pt-0 ps-0 pe-0">
                                         <h6 class="font-title--card">Add a Comment about this course.</h6>
-                                        <form action="{{}}">
+                                        <form action="">
                                             <label for="comment">Comment</label>
                                             <textarea class="form-control" id="comment" placeholder="Add a Comment"></textarea>
                                             <input type="hidden" name="student_id" value="">
@@ -344,9 +362,15 @@
                     <div class="videolist-area-heading">
                         <h6>Course Contents</h6>
                     </div>
+                   
                     <div class="videolist-area-bar">
-                        <span class="videolist-area-bar--progress"></span>
+                        <span class="videolist-area-bar--progress" 
+                            style="width: {{ $segmentProgress[$segment->id] ?? 0 }}%; background-color: green; display: block;">
+                        </span>
                     </div>
+                    <!-- <div>
+                        <p>Progress: {{ $segmentProgress[$segment->id] ?? 0 }}%</p>
+                    </div> -->
                     <div class="videolist-area-bar__wrapper">
                         @foreach($lessons as $lesson)
                             <div class="videolist-area-wizard" 

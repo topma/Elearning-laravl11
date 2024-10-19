@@ -33,7 +33,7 @@ class Course extends Model
         return $this->hasMany(Quiz::class);
     }
 
-    public function review()
+    public function reviews()
     {
         return $this->hasMany(Review::class);
     }

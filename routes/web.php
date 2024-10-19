@@ -176,9 +176,11 @@ Route::middleware(['checkstudent'])->prefix('students')->group(function () {
     ->name('payment.success-transaction');
     Route::post('/update-progress', [ProgressController::class, 'updateProgress'])
     ->name('update.progress');
-    Route::get('/load-lesson', [LessonController::class, 'loadLesson'])->name('load.lesson');
+    Route::get('/load-lesson', [lesson::class, 'loadLesson'])->name('load.lesson');
     Route::get('watchCourse/{id}', [watchCourse::class, 'watchCourse'])->name('watchCourse');
     Route::get('courseSegment/{id}', [studashboard::class, 'courseSegment'])->name('courseSegment');
+    Route::post('/review/store', [review::class, 'saveReviews'])->name('review.save');
+    Route::get('/course-review/{courseId}', [review::class, 'getReviews'])->name('course-review');
 });
 
 //----------instructor routes --------------------------------

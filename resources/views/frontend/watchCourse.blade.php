@@ -228,49 +228,49 @@
                                 <!-- Course Notes Ends Here -->
                             </div>
                             <!-- Lesson Comments Starts Here -->
-                            <div class="tab-pane fade" id="nav-lcomments" role="tabpanel"
+                        <div class="tab-pane fade" id="nav-lcomments" role="tabpanel"
                                 aria-labelledby="nav-lcomments-tab">
-                                <div class="lesson-comments">
-                                    <div class="feedback-comment pt-0 ps-0 pe-0">
-                                        <h6 class="font-title--card">Add a Comment about this course.</h6>
-                                        <form action="">
-                                            <label for="comment">Comment</label>
-                                            <textarea class="form-control" id="comment" placeholder="Add a Comment"></textarea>
-                                            <input type="hidden" name="student_id" value="">
-                                            <input type="hidden" name="course_id" value="">
-                                            <button type="submit" class="button button-md button--primary float-end">Post
-                                                Comment</button>
-                                        </form>
+                            <div class="lesson-comments">
+                                <div class="feedback-comment pt-0 ps-0 pe-0">
+                                    <h6 class="font-title--card">Add a Comment about this course.</h6>
+                                    <form id="comment-form">
+                                        @csrf
+                                        <label for="comment">Comment</label>
+                                        <textarea class="form-control" id="comment" name="comment" placeholder="Add a Comment" required></textarea>
+                                        <input type="hidden" name="student_id" id="student_id" value="{{ $studentId }}">
+                                        <input type="hidden" name="course_id" id="course_id" value="{{ $courseId }}">
+                                        <button type="submit" class="button button-md button--primary float-end">Post Comment</button>
+                                    </form>
+                                </div>
+
+                                <!-- Display Comments Section -->
+                                <div class="students-feedback pt-0 ps-0 pe-0 pb-0 mb-0">
+                                    <div class="students-feedback-heading">
+                                        <h5 class="font-title--card">Comments <span id="comment-count">({{ $course->reviews->count() }})</span></h5>
                                     </div>
-                                    <div class="students-feedback pt-0 ps-0 pe-0 pb-0 mb-0">
-                                        <div class="students-feedback-heading">
-                                            <h5 class="font-title--card">Comments <span>(57,685)</span></h5>
-                                        </div>                                        
-                                        <div class="students-feedback-item">
-                                            <div class="feedback-rating">
-                                                <div class="feedback-rating-start">
-                                                    <div class="image">
-                                                        <img src="{{asset('frontend/dist/images/ellipse/2.png')}}" alt="Image" />
-                                                    </div>
-                                                    <div class="text">
-                                                        <h6><a href="#">Watcraz Eggsy</a></h6>
-                                                        <p>1 day ago</p>
+                                    <div id="comments-container">
+                                        <!-- Comments will be loaded here dynamically -->
+                                        @foreach($course->reviews as $review)
+                                            <div class="students-feedback-item">
+                                                <div class="feedback-rating">
+                                                    <div class="feedback-rating-start">
+                                                        <div class="image">
+                                                            <img src="{{ $review->student->image ? asset('uploads/students/' . $review->student->image) : asset('frontend/dist/images/ellipse/2.png') }}" alt="Image"  />
+                                                        </div>
+                                                        <div class="text">
+                                                            <h6><a href="#">{{ $review->student->name }}</a></h6>
+                                                            <p>{{ $review->created_at->diffForHumans() }}</p>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <p>{{ $review->comment }}</p>
                                             </div>
-                                            <p>
-                                                Aenean vulputate nisi ligula. Quisque in tempus sapien. Quisque
-                                                vestibulum
-                                                massa eget consequat scelerisque. Phasellus varius risus nec maximus
-                                                auctor.
-                                            </p>
-                                        </div>
-                                        
-                                        <!-- <button class="button button-md button--primary-outline">Load More</button> -->
+                                        @endforeach
                                     </div>
                                 </div>
                                 <!-- Lesson Comments Ends Here -->
                             </div>
+</div>
                             <!-- Course Overview Starts Here -->
                             <div class="tab-pane fade" id="nav-loverview" role="tabpanel"
                                 aria-labelledby="nav-loverview-tab">
@@ -475,6 +475,7 @@
     <script src="https://vjs.zencdn.net/7.18.1/video.min.js"></script>
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
 
     <script>
     function show_content(material) {
@@ -603,7 +604,88 @@
         }
     });
 </script>
+<script>
+    $(document).ready(function () {
+        // Submit comment via AJAX
+        $('#comment-form').submit(function (event) {
+            event.preventDefault(); // Prevent default form submission
 
+            let formData = {
+                comment: $('#comment').val(),
+                student_id: $('#student_id').val(),
+                course_id: $('#course_id').val(),
+                _token: $('input[name="_token"]').val()
+            };
+
+            $.ajax({
+                url: "{{ route('review.save') }}",  // Your route to save the comment
+                method: 'POST',
+                data: formData,
+                success: function (response) {
+                    if (response.success) {
+                        // Clear the comment textarea
+                        $('#comment').val('');
+
+                        // Reload the comments section
+                        loadComments();
+                    } else {
+                        alert('Error: ' + response.message); // Handle error message
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error submitting the comment: ', error);
+                    alert('Error submitting the comment. Please try again.');
+                }
+            });
+        });
+
+        // Function to load comments dynamically
+        function loadComments() {
+            let courseId = $('#course_id').val(); // Get the course ID from the form
+
+            $.ajax({
+                url: "/students/course-review/" + courseId,  // Adjust the route to fetch reviews
+                method: 'GET',
+                success: function (response) {
+                    if (response.success) {
+                        // Populate the comments container with the fetched comments
+                        $('#comments-container').html(response.html);
+
+                        // Update the comment count
+                        $('#comment-count').text(`(${response.count})`);
+                    } else {
+                        alert('Error loading comments.');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error loading comments: ', error);
+                    alert('Error loading comments. Please try again.');
+                }
+            });
+        }
+
+        // Initially load comments when the page is ready
+        loadComments();
+    });
+</script>
+
+{{-- TOASTER --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
+    <script>
+        @if(Session::has('success'))  
+        				toastr.success("{{ Session::get('success') }}");  
+        		@endif  
+        		@if(Session::has('info'))  
+        				toastr.info("{{ Session::get('info') }}");  
+        		@endif  
+        		@if(Session::has('warning'))  
+        				toastr.warning("{{ Session::get('warning') }}");  
+        		@endif  
+        		@if(Session::has('error'))  
+        				toastr.error("{{ Session::get('error') }}");  
+        		@endif  
+    </script>
 
 
 </body>

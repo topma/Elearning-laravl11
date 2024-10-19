@@ -139,7 +139,8 @@ class WatchCourseController extends Controller
             'courseNo', 
             'lastViewedMaterial', 
             'lastViewedAt', 
-            'progressRecords','currentLesson','currentMaterial','progress','segment','segmentProgress'
+            'progressRecords','currentLesson','currentMaterial','progress','segment',
+            'segmentProgress','studentId','courseId'
         ));
     }
 

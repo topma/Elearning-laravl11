@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('student_id')->index();
             $table->unsignedBigInteger('course_id')->index();
-            $table->integer('rating');
+            $table->integer('rating')->nullable();
             $table->text('comment')->nullable();
             $table->timestamps(); 
             $table->softDeletes();

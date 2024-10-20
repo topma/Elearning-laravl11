@@ -157,12 +157,12 @@
                             <div class="video-area">                            
                                 <div class="video-container">
                                     @if(!empty($currentMaterial->content))
-                                        <video controls id="myvideo"                                      	
-                                            poster="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" 
-                                            data-setup='{"controls": true, "preload": "auto", "autoplay":true}'>                            
-                                            <source src="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" 
-                                                class="w-100" autostart="true"/>
-                                        </video>
+                                    <video controls id="myvideo" 
+                                    class="video-js w-100" 
+                                    poster="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}"
+                                    data-setup='{"controls": true, "preload": "auto", "autoplay":true}'>
+                                    <source src="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" class="w-100" autostart="true"/>
+                                    </video>                                        
                                     @elseif($currentMaterial->type == 'text')
                                         <div class="lesson-text">
                                             {!! $currentMaterial->content_data !!} <!-- Assuming content_data holds the text -->

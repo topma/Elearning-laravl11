@@ -150,7 +150,7 @@ use Carbon\Carbon;
                         @endphp
 
                         <div class="contentCard-watch--progress-wrapper text-center">
-                            <div class="contentCard-watch--progress" style="background-color: #d4edda; border-radius: 5px; overflow: hidden; height: 10px;"> <!-- Light green background -->
+                            <div class="contentCard-watch--progress" style="background-color: #d4edda; border-radius: 5px; overflow: hidden; height: 5px;"> <!-- Light green background -->
                                 <span class="percentage" style="width: {{ $progressPercentage }}%; background-color: #28a745; height: 100%; display: block;"></span> <!-- Deep green for completion -->
                             </div>
                             <!-- <p class="mt-2 font-weight-bold" style="color: {{ $progressPercentage > 0 ? '#28a745' : '#dc3545' }};">

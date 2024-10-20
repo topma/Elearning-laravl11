@@ -94,6 +94,22 @@
     transition: width 0.3s ease; /* Smooth transition */
 }
 </style>
+<style>
+    .star-rating {
+    font-size: 2rem;
+    color: #ccc; /* Default color for stars */
+}
+
+.star {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.star:hover,
+.star.selected {
+    color: gold; /* Change color when hovered or selected */
+}
+</style>
 </head>
 
 <body style="background-color: #ebebf2;">
@@ -433,31 +449,45 @@
     <!-- Course Description Ends Here -->
 
     <!-- Rating Modal -->
-    <div class="modal fade modal--rating" id="ratingModal" tabindex="-1" aria-labelledby="ratingModal"
+    
+        <div class="modal fade" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" 
         aria-hidden="true" data-backdrop="false">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
+                <!-- Modal Header -->
                 <div class="modal-header">
-                    <h5 class="modal-title">Leave A Rating</h5>
+                    <h5 class="modal-title" id="ratingModalLabel">Leave A Rating</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body text-center pt-0 pb-0">
-                    <div class="modal-body-rating">
-                        <p>4.5 <span>(Good/Amazing)</span></p>
-                        <div class="my-rating rating-icons rating-icons-modal"></div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <div class="text-center mb-3">
+                        <!-- Star Rating -->
+                        <div class="star-rating">
+                            <i class="star fa fa-star" data-value="1"></i>
+                            <i class="star fa fa-star" data-value="2"></i>
+                            <i class="star fa fa-star" data-value="3"></i>
+                            <i class="star fa fa-star" data-value="4"></i>
+                            <i class="star fa fa-star" data-value="5"></i>
+                        </div>
+                        <p class="mt-2">Rating: <span id="selected-rating">0</span> / 5</p>
                     </div>
-                </div>
-                <div class="modal-footer border-0">
-                    <form action="#" class="w-100">
-                        <label for="messages">Message</label>
-                        <textarea id="messages" placeholder="How is your to feeling taking these course?"
-                            class="w-100"></textarea>
-                        <button type="submit" class="button button-md button--primary w-100">Submit</button>
+                    <!-- Rating Form -->
+                    <form id="rating-form">
+                        <input type="hidden" id="rating" name="rating" value="0"> <!-- Hidden field for rating -->
+                        <input type="hidden" id="course_id" name="course_id" value="{{ $courseId }}">
+                        <input type="hidden" id="student_id" name="student_id" value="{{ $studentId }}">
+                        <!-- <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea id="message" name="message" class="form-control" rows="3" placeholder="How do you feel about this course?"></textarea>
+                        </div> -->
+                        <button type="submit" class="btn btn-primary w-100">Submit Rating</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
 
 
 
@@ -603,6 +633,7 @@
         }
     });
 </script>
+<!-- User Comments -->
 <script>
     $(document).ready(function () {
         // Submit comment via AJAX
@@ -666,6 +697,59 @@
         // Initially load comments when the page is ready
         loadComments();
     });
+</script>
+<!-- User Rating  -->
+<script>
+    $(document).ready(function () {
+    // Handle star click
+    $('.star').click(function () {
+        let ratingValue = $(this).data('value');
+        
+        // Update the hidden input field
+        $('#rating').val(ratingValue);
+
+        // Update the displayed rating
+        $('#selected-rating').text(ratingValue);
+
+        // Highlight the selected stars and reset the others
+        $('.star').each(function () {
+            if ($(this).data('value') <= ratingValue) {
+                $(this).addClass('selected');
+            } else {
+                $(this).removeClass('selected');
+            }
+        });
+    });
+
+    // Submit rating form via AJAX
+    $('#rating-form').submit(function (event) {
+        event.preventDefault();
+
+        let formData = {
+            rating: $('#rating').val(),
+            course_id: $('#course_id').val(),
+            student_id: $('#student_id').val(),
+            _token: $('input[name="_token"]').val()
+        };
+
+        $.ajax({
+            url: "{{ route('course.rating.store') }}",  // Your route to store the rating
+            method: 'POST',
+            data: formData,
+            success: function (response) {
+                // Close the modal
+                $('#ratingModal').modal('hide');
+                
+                // Optionally show a success message
+                alert('Rating submitted successfully!');
+            },
+            error: function (response) {
+                alert('Error submitting rating.');
+            }
+        });
+    });
+});
+
 </script>
 
 {{-- TOASTER --}}

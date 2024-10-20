@@ -37,26 +37,25 @@ class ReviewController extends Controller
     }
     public function saveReviews(Request $request)
     {
-        Log::info('Review Store Request:', [
-            'request_data' => $request->all(),
-            'user_ip' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-            'timestamp' => now(),
-        ]);
+        // Log::info('Review Store Request:', [
+        //     'request_data' => $request->all(),
+        //     'user_ip' => $request->ip(),
+        //     'user_agent' => $request->userAgent(),
+        //     'timestamp' => now(),
+        // ]);
 
          // Validate the input
         $request->validate([
             'comment' => 'required|string|max:1000',
             'student_id' => 'required|integer|exists:users,id',
             'course_id' => 'required|integer|exists:courses,id',
-        ]);
+        ]);      
 
         // Save the review
-        Review::create([
-            'student_id' => $request->student_id,
-            'course_id' => $request->course_id,
-            'comment' => $request->comment,
-        ]);
+        $review = Review::updateOrCreate(
+            ['course_id' => $request->course_id, 'student_id' => $request->student_id],
+            ['comment' => $request->comment]
+        );
 
         // Return a JSON response for AJAX
         return response()->json([
@@ -91,6 +90,25 @@ class ReviewController extends Controller
         ]);
     }
 
+    public function storeRating(Request $request)
+    {
+        // Validate input
+        $request->validate([
+            'rating' => 'required|numeric|min:1|max:5',           
+            'course_id' => 'required|exists:courses,id',
+            'student_id' => 'required|exists:users,id',
+        ]);
+
+        // Store the review in the database
+        $review = Review::updateOrCreate(
+            ['course_id' => $request->course_id, 'student_id' => $request->student_id],
+            ['rating' => $request->rating]
+        );
+
+        return response()->json(['success' => true, 
+        'message' => 'Rating submitted successfully!'
+        ]);
+    }
 
     /**
      * Display the specified resource.

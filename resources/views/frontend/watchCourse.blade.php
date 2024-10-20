@@ -124,7 +124,7 @@
                     </a>
                     <div class="topic-info">
                         <div class="topic-info-arrow">
-                            <a href="{{URL::previous()}}">
+                            <a href="{{ route('courseSegment', encryptor('encrypt', $courseId)) }}">
                                 <i class="fas fa-chevron-left"></i>
                             </a>
                         </div>
@@ -699,58 +699,64 @@
     });
 </script>
 <!-- User Rating  -->
+<!-- User Rating  -->
 <script>
     $(document).ready(function () {
-    // Handle star click
-    $('.star').click(function () {
-        let ratingValue = $(this).data('value');
-        
-        // Update the hidden input field
-        $('#rating').val(ratingValue);
+        // Handle star click
+        $('.star').click(function () {
+            let ratingValue = $(this).data('value');
+            
+            // Update the hidden input field
+            $('#rating').val(ratingValue);
 
-        // Update the displayed rating
-        $('#selected-rating').text(ratingValue);
+            // Update the displayed rating
+            $('#selected-rating').text(ratingValue);
 
-        // Highlight the selected stars and reset the others
-        $('.star').each(function () {
-            if ($(this).data('value') <= ratingValue) {
-                $(this).addClass('selected');
-            } else {
-                $(this).removeClass('selected');
-            }
+            // Highlight the selected stars and reset the others
+            $('.star').each(function () {
+                if ($(this).data('value') <= ratingValue) {
+                    $(this).addClass('selected');
+                } else {
+                    $(this).removeClass('selected');
+                }
+            });
+        });
+
+        // Submit rating form via AJAX
+        $('#rating-form').submit(function (event) {
+            event.preventDefault();
+
+            let formData = {
+                rating: $('#rating').val(),
+                course_id: $('#course_id').val(),
+                student_id: $('#student_id').val(),
+                _token: $('input[name="_token"]').val()
+            };
+
+            $.ajax({
+                url: "{{ route('course.rating.store') }}",  // Your route to store the rating
+                method: 'POST',
+                data: formData,
+                success: function (response) {
+                    // Close the modal
+                    $('#ratingModal').modal('hide');
+                    
+                    // Show a success message
+                    alert('Rating submitted successfully!');
+                    
+                    // Reload the page after a short delay (e.g., 1 second)
+                    setTimeout(function() {
+                        window.location.reload();  // Reload the page
+                    }, 1000);  // 1 second delay
+                },
+                error: function (response) {
+                    alert('Error submitting rating.');
+                }
+            });
         });
     });
-
-    // Submit rating form via AJAX
-    $('#rating-form').submit(function (event) {
-        event.preventDefault();
-
-        let formData = {
-            rating: $('#rating').val(),
-            course_id: $('#course_id').val(),
-            student_id: $('#student_id').val(),
-            _token: $('input[name="_token"]').val()
-        };
-
-        $.ajax({
-            url: "{{ route('course.rating.store') }}",  // Your route to store the rating
-            method: 'POST',
-            data: formData,
-            success: function (response) {
-                // Close the modal
-                $('#ratingModal').modal('hide');
-                
-                // Optionally show a success message
-                alert('Rating submitted successfully!');
-            },
-            error: function (response) {
-                alert('Error submitting rating.');
-            }
-        });
-    });
-});
-
 </script>
+
 
 {{-- TOASTER --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>

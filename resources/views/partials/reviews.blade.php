@@ -9,7 +9,7 @@
                         <img src="{{ $review->student->image ? asset('uploads/students/' . $review->student->image) : asset('frontend/dist/images/ellipse/2.png') }}" alt="Image" />
                     </div>
                     <div class="text">
-                        <h6><a href="#">{{ $review->student->name }}</a></h6>
+                        <h6><a href="#">{{ $review->student->name_en }}</a></h6>
                         <p>{{ $review->created_at->diffForHumans() }}</p>
                     </div>
                 </div>

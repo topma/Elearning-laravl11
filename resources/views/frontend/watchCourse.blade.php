@@ -41,7 +41,7 @@
 <style>
    .video-area {
     height: 700px; /* Set your desired fixed height */
-    overflow: hidden; /* Prevent overflow of video area */
+   
 }
 
 .video-container {
@@ -67,17 +67,15 @@
     height: 100%; /* Full height */
 }
 </style>
-<!-- <style>
+<style>
     /* Optionally, you can customize the video.js skin */
-    .video-js .vjs-control {
-        display: none; /* Hide all controls */
-    }
+    
 
     .video-js .vjs-volume-panel,
     .video-js .vjs-fullscreen-control {
         display: inline-block; /* Show volume and fullscreen controls */
     }
-</style> -->
+</style>
 
 <style>
 .videolist-area-bar {
@@ -258,7 +256,7 @@
                                                             <img src="{{ $review->student->image ? asset('uploads/students/' . $review->student->image) : asset('frontend/dist/images/ellipse/2.png') }}" alt="Image"  />
                                                         </div>
                                                         <div class="text">
-                                                            <h6><a href="#">{{ $review->student->name }}</a></h6>
+                                                            <h6><a href="#">{{ $review->student->name_en }}</a></h6>
                                                             <p>{{ $review->created_at->diffForHumans() }}</p>
                                                         </div>
                                                     </div>
@@ -491,7 +489,8 @@
             const videoHTML = `
                 <div class="video-area">
                     <div class="video-container">
-                        <video controls id="myvideo" class="video-js w-100" poster="${contentLink}">
+                        <video controls id="myvideo" class="video-js w-100" poster="${contentLink}"
+                        data-setup='{"controls": true, "preload": "auto", "autoplay":true}'>
                             <source src="${contentLink}" class="w-100" autostart="true"/>
                         </video>
                     </div>

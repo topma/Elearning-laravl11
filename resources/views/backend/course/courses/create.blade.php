@@ -179,6 +179,18 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
+                                        <label class="form-label">Enable Start Date - (Course will not start until the start date.)</label>
+                                        <select class="form-control" name="dateEnabled">
+                                            <option value="1" @if(old('dateEnabled')=='1' ) selected
+                                                @endif>Yes</option>                                            
+                                            <option value="0" @if(old('dateEnabled')=='0' ) selected
+                                                @endif>No
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
                                         <label class="form-label">Start From</label>
                                         <input type="date" class="form-control" name="start_from"
                                             value="{{old('start_from')}}">
@@ -189,7 +201,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Duration(Minutes)</label>
+                                        <label class="form-label">Duration(Weeks)</label>
                                         <input type="number" class="form-control" name="duration"
                                             value="{{old('duration')}}">
                                     </div>

@@ -12,6 +12,7 @@ use App\Models\Material;
 use App\Models\Progress;
 use App\Models\ProgressAll;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -70,6 +71,20 @@ class DashboardController extends Controller
 
         // Fetch all courses
         $course = Course::all();
+        // Fetch current course selected
+        $courseExist = Course::find(encryptor('decrypt' , $id)); 
+        $courseDateEnabled = $courseExist->date_enabled;
+
+        //---Check if date has been enabled for the course----
+        if ($courseDateEnabled == 1) {
+            //---Check if current date is equal to or after the start date---
+            $startDate = Carbon::parse($courseExist->start_from);
+            $currentDate = Carbon::now(); // Get the current date and time
+
+            if ($currentDate->lt($startDate)) { // Compare if current date is before the start date
+                return redirect()->back()->with('error', 'You cannot start the course until ' . $startDate->format('F j, Y H:i A'));
+            }
+        }
 
         // Fetch checkout data for the current student
         $checkout = Checkout::where('student_id', currentUserId())->get();

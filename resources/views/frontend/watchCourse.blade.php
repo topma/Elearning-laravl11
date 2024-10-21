@@ -12,12 +12,7 @@
     <link rel="icon" type="image/png" href="{{asset('frontend/dist/images/favicon/favicon.png')}}" />
     <link rel="stylesheet" href="{{asset('frontend/fontawesome-free-5.15.4-web/css/all.min.css')}}">
     <link href="https://vjs.zencdn.net/7.18.1/video-js.css" rel="stylesheet" />
-    <style>
-        .vjs-poster {
-            width: 100%;
-            background-size: cover;
-        }
-    </style>
+    
 <style>
     .highlight {
         background-color: #e0f7fa; /* Light blue background for highlighting */
@@ -34,47 +29,58 @@
     
 </style>
 <style>
-    video::-webkit-media-controls-panel {
-        display: none !important; /* Hide the control panel */
-    }
-</style>
-<style>
-   .video-area {
-    height: 700px; /* Set your desired fixed height */
-   
+    /* General video area styles */
+.video-area {
+    height: 700px; /* Set desired height for video container */
 }
 
+/* Container to handle the video layout */
 .video-container {
     position: relative;
     width: 100%; /* Full width */
-    height: 100%; /* Set height to 100% to fill parent */
+    height: 100%; /* Full height to fill parent */
 }
 
+/* Ensure the video fills the container properly */
 .video-container video {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
-    object-fit: contain; /* Ensure the video fits inside the area without cropping */
+    object-fit: contain; /* Keep aspect ratio without cropping */
 }
 
+/* Customize video.js skin */
 .video-js {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%; /* Full height */
+    height: 100%;
 }
-</style>
-<style>
-    /* Optionally, you can customize the video.js skin */
-    
 
-    .video-js .vjs-volume-panel,
-    .video-js .vjs-fullscreen-control {
-        display: inline-block; /* Show volume and fullscreen controls */
-    }
+/* Ensure fullscreen and volume controls are visible */
+.video-js .vjs-volume-panel,
+.video-js .vjs-fullscreen-control {
+    display: inline-block;
+}
+
+/* Optionally hide default browser controls panel (if needed) */
+video::-webkit-media-controls-panel {
+    display: none !important; /* Hide the default control panel */
+}
+
+/* Prevent selection and copying */
+body {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 </style>
 
 <style>
@@ -175,7 +181,7 @@
                                     class="video-js w-100" 
                                     poster="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}"
                                     data-setup='{"controls": true, "preload": "auto", "autoplay":true}'>
-                                    <source src="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" class="w-100" autostart="true"/>
+                                    <source src="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" class="video-js w-100" autostart="true"/>
                                     </video>                                        
                                     @elseif($currentMaterial->type == 'text')
                                         <div class="lesson-text">
@@ -516,13 +522,15 @@
         // Check if the content is video or text
         if (contentType === 'video') {
             // If it's a video, set the video source and create the video element
-            const videoHTML = `
+            const videoHTML = `            
                 <div class="video-area">
                     <div class="video-container">
-                        <video controls id="myvideo" class="video-js w-100" poster="${contentLink}"
-                        data-setup='{"controls": true, "preload": "auto", "autoplay":true}'>
-                            <source src="${contentLink}" class="w-100" autostart="true"/>
-                        </video>
+                        <video controls id="myvideo" 
+                                    class="video-js w-100" 
+                                    poster="${contentLink}"
+                                    data-setup='{"controls": true, "preload": "auto", "autoplay":true}'>
+                                    <source src="${contentLink}" class="w-100" autostart="true"/>
+                        </video>  
                     </div>
                 </div>
             `;

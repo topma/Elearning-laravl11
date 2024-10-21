@@ -85,6 +85,7 @@ class AuthController extends Controller
         try {
             // Create and save instructor data
             $email_token = Str::random(40);
+            $instructorUrl = Str::random(40);
             
             $instructor = new Instructor;
             $instructor->name_en = $request->name;
@@ -96,6 +97,7 @@ class AuthController extends Controller
             $instructor->status = 1;
             $instructor->remember_token = $email_token;
             $instructor->language = 'en';
+            $instructor->instructor_url = $instructorUrl;
             
             if ($instructor->save()) {
                 // Set session with the instructor details

@@ -111,7 +111,7 @@
 
 @endsection
 
-@push('scripts')
+@push('scripts') 
 <!-- pickdate -->
 <script src="{{asset('vendor/pickadate/picker.js')}}"></script>
 <script src="{{asset('vendor/pickadate/picker.time.js')}}"></script>

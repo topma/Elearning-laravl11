@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 18, 2024 at 09:06 PM
+-- Generation Time: Oct 21, 2024 at 04:32 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -110,6 +110,7 @@ CREATE TABLE `courses` (
   `old_price` decimal(10,2) DEFAULT NULL,
   `subscription_price` decimal(10,2) DEFAULT NULL,
   `start_from` timestamp NULL DEFAULT NULL,
+  `date_enabled` int(11) DEFAULT 0,
   `duration` int(11) DEFAULT NULL,
   `lesson` int(11) DEFAULT NULL,
   `prerequisites_en` text DEFAULT NULL,
@@ -122,6 +123,7 @@ CREATE TABLE `courses` (
   `status` int(11) NOT NULL DEFAULT 0 COMMENT '0 pending, 1 inactive, 2 active',
   `language` varchar(255) NOT NULL DEFAULT 'en',
   `tag` enum('popular','featured','upcoming') DEFAULT NULL,
+  `course_url` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -131,11 +133,11 @@ CREATE TABLE `courses` (
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`id`, `segment`, `title_en`, `title_bn`, `description_en`, `description_bn`, `course_category_id`, `instructor_id`, `currency_type`, `type`, `price`, `old_price`, `subscription_price`, `start_from`, `duration`, `lesson`, `prerequisites_en`, `prerequisites_bn`, `difficulty`, `course_code`, `image`, `thumbnail_image`, `thumbnail_video`, `status`, `language`, `tag`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 0, 'Data Science for Beginners', NULL, 'This will introduce you to the concepts of Data Science and how it is used to solve real-world problems. You will learn Data Science with an example on UBER dataset. Data science is the process of using the data to find solutions / to predict outcomes of a problem statemen', NULL, 19, 3, '=N=', 'free', 0.00, 0.00, NULL, NULL, 10, 1, 'No tech skill required.', NULL, 'beginner', NULL, '5801727444624.png', '9551727444625.png', 'https://youtu.be/KdgQvgE3ji4', 2, 'en', 'popular', '2024-09-27 20:43:45', '2024-09-27 21:20:36', NULL),
-(2, 0, 'Data Science In 5 Minutes', NULL, 'This video will give you an idea of a life of Data Scientist. This Data Science for Beginners video will also explain the steps involved in the Data Science project, roles & salary offered to a Data Scientist. Data Science is basically dealing with unstructured and structured data.', NULL, 19, 3, '=N=', 'free', 0.00, 0.00, NULL, NULL, 10, 1, 'No tech skill required.', NULL, 'beginner', NULL, '7211727444901.png', '5771727444901.png', 'https://youtu.be/X3paOmcrTjQ', 2, 'en', 'popular', '2024-09-27 20:48:21', '2024-09-27 21:20:54', NULL),
-(3, 4, 'Freelance Bootcamp', NULL, 'SMM Freelance Bootcamp', NULL, 25, 4, '=N=', 'paid', 27500.00, 35000.00, 27500.00, '2025-01-01 08:00:00', NULL, 10, 'A good smart phone and internet.', NULL, 'beginner', 'SMM001', '7181728146583.jpg', '6311728146583.jpg', NULL, 2, 'en', 'popular', '2024-10-05 23:43:03', '2024-10-17 03:05:56', NULL),
-(4, 1, 'SMM BLUEPRINT', NULL, 'SMM BLUEPRINT', NULL, 25, 4, '=N=', 'paid', 35000.00, 40000.00, NULL, '2024-10-17 07:00:00', 50, NULL, NULL, NULL, 'beginner', 'SMMBLU001', '5951729185369.jpg', '3411729185369.jpg', NULL, 2, 'en', 'popular', '2024-10-18 00:16:09', '2024-10-18 00:34:23', NULL);
+INSERT INTO `courses` (`id`, `segment`, `title_en`, `title_bn`, `description_en`, `description_bn`, `course_category_id`, `instructor_id`, `currency_type`, `type`, `price`, `old_price`, `subscription_price`, `start_from`, `date_enabled`, `duration`, `lesson`, `prerequisites_en`, `prerequisites_bn`, `difficulty`, `course_code`, `image`, `thumbnail_image`, `thumbnail_video`, `status`, `language`, `tag`, `course_url`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 0, 'Data Science for Beginners', NULL, 'This will introduce you to the concepts of Data Science and how it is used to solve real-world problems. You will learn Data Science with an example on UBER dataset. Data science is the process of using the data to find solutions / to predict outcomes of a problem statemen', NULL, 19, 3, '=N=', 'free', 0.00, 0.00, NULL, NULL, 0, 10, 1, 'No tech skill required.', NULL, 'beginner', NULL, '5801727444624.png', '9551727444625.png', 'https://youtu.be/KdgQvgE3ji4', 2, 'en', 'popular', '', '2024-09-27 20:43:45', '2024-09-27 21:20:36', NULL),
+(2, 0, 'Data Science In 5 Minutes', NULL, 'This video will give you an idea of a life of Data Scientist. This Data Science for Beginners video will also explain the steps involved in the Data Science project, roles & salary offered to a Data Scientist. Data Science is basically dealing with unstructured and structured data.', NULL, 19, 3, '=N=', 'free', 0.00, 0.00, NULL, NULL, 0, 10, 1, 'No tech skill required.', NULL, 'beginner', NULL, '7211727444901.png', '5771727444901.png', 'https://youtu.be/X3paOmcrTjQ', 2, 'en', 'popular', '', '2024-09-27 20:48:21', '2024-09-27 21:20:54', NULL),
+(3, 4, 'Freelance Bootcamp', NULL, 'SMM Freelance Bootcamp', NULL, 25, 4, '=N=', 'paid', 27500.00, 35000.00, 27500.00, '2024-10-21 07:00:00', 1, 8, 10, 'A good smart phone and internet.', NULL, 'beginner', 'SMM001', '7181728146583.jpg', '6311728146583.jpg', NULL, 2, 'en', 'popular', 'tz9wpE0czK0PqPS20J9Ghnu2gWOH6lmCCiQrWHCb', '2024-10-05 23:43:03', '2024-10-21 21:30:42', NULL),
+(4, 1, 'SMM BLUEPRINT', NULL, 'SMM BLUEPRINT', NULL, 25, 4, '=N=', 'paid', 35000.00, 40000.00, NULL, '2024-10-17 07:00:00', 0, 6, NULL, NULL, NULL, 'beginner', 'SMMBLU001', '5951729185369.jpg', '3411729185369.jpg', NULL, 2, 'en', 'popular', 'yoxyrW0Uakw32Y0bT60a6SvoWIv5MqAyGkB2PyHh', '2024-10-18 00:16:09', '2024-10-21 21:31:04', NULL);
 
 -- --------------------------------------------------------
 
@@ -264,6 +266,7 @@ CREATE TABLE `instructors` (
   `social_instagram` varchar(255) DEFAULT NULL,
   `social_linkedin` varchar(255) DEFAULT NULL,
   `social_youtube` varchar(255) DEFAULT NULL,
+  `instructor_url` varchar(255) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -274,10 +277,10 @@ CREATE TABLE `instructors` (
 -- Dumping data for table `instructors`
 --
 
-INSERT INTO `instructors` (`id`, `name_en`, `name_bn`, `contact_en`, `contact_bn`, `email`, `role_id`, `bio`, `title`, `designation`, `image`, `status`, `password`, `language`, `access_block`, `social_facebook`, `social_twitter`, `social_instagram`, `social_linkedin`, `social_youtube`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(3, 'Adeyinka Temiloluwa', NULL, '08053608799', NULL, 'emmanexitconsult@gmail.com', 3, NULL, 'Mrs', 'Financial Analyst', 'Instructor_Adeyinka Temiloluwa_197.jpg', 1, '$2y$12$oRlxxgjJXDhVFgDjAY21j.LBVn60MgaQUy4P0ysqnCZEWqjp0D91O', 'en', NULL, 'https://www.facebook.com/temi-akinyooye', NULL, 'https://www.instgram.com/temi-akinyooye', NULL, NULL, 'FJGu91BMdWdNlASbolOq3o4caqnR6Ro9Esnxptv9', '2024-09-27 18:36:41', '2024-10-05 18:23:29', NULL),
-(4, 'Miracle Peter', NULL, '08104196102', NULL, 'miracle.kingsbranding@gmail.com', 3, NULL, 'Miss', 'Digital Marketer', 'Instructor_Miracle Peter_629.jpg', 1, '$2y$12$lspaNJuHiBRWZjFWadhbquinvI9AfKJcuzMCYfVFDW6ozFnnsF42m', 'en', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-09-29 03:06:36', '2024-09-29 03:06:36', NULL),
-(5, 'Olayimika Omotayo', NULL, '08053708699', NULL, 'olaoluwayimika72@yahoo.com', 3, NULL, 'Mrs', 'Executive Assistant', 'Instructor_Olayimika Omotayo_791.jpg', 1, '$2y$12$KivcsAkNgW05fba/oIrb9eCsasvKVXrfejZZlEB27zjbpja3JoIma', 'en', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-09-29 03:14:02', '2024-09-29 03:14:02', NULL);
+INSERT INTO `instructors` (`id`, `name_en`, `name_bn`, `contact_en`, `contact_bn`, `email`, `role_id`, `bio`, `title`, `designation`, `image`, `status`, `password`, `language`, `access_block`, `social_facebook`, `social_twitter`, `social_instagram`, `social_linkedin`, `social_youtube`, `instructor_url`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(3, 'Adeyinka Temiloluwa', NULL, '08053608799', NULL, 'emmanexitconsult@gmail.com', 3, '<p><span style=\"font-size: 14.992px;\">I am a professional responsible for analyzing financial data and providing insights to help businesses make informed investment and strategic decisions. I assess economic performance, forecast future financial trends, and offer recommendations based on their analysis. I often work with financial models, examining variables such as revenues, expenses, and market trends, to determine the financial health of companies or projects.</span></p><p><span style=\"font-size: 14.992px;\">Key skills include proficiency in financial software, data analysis, understanding of accounting principles, and strong communication abilities and often work in investment firms, banks, insurance companies, or corporate finance departments. I typically holds a degree in finance, economics, or a related field and may possess certifications like CFA (Chartered Financial Analyst).</span></p>', 'Mrs', 'Financial Analyst', 'Instructor_Adeyinka Temiloluwa_197.jpg', 1, '$2y$12$oRlxxgjJXDhVFgDjAY21j.LBVn60MgaQUy4P0ysqnCZEWqjp0D91O', 'en', NULL, 'https://www.facebook.com/temi-akinyooye', NULL, 'https://www.instgram.com/temi-akinyooye', NULL, NULL, 'OVLbufn7RLj0NxlvY0ftcTanFCN6zFJhKiCW2DPA', 'FJGu91BMdWdNlASbolOq3o4caqnR6Ro9Esnxptv9', '2024-09-27 18:36:41', '2024-10-21 21:17:48', NULL),
+(4, 'Miracle Peter', NULL, '08104196102', NULL, 'miracle.kingsbranding@gmail.com', 3, '<p>As a Digital Marketer, I specialize in creating impactful online campaigns that boost brand visibility and drive engagement. With expertise in social media, SEO, email marketing, and paid ads, I tailor strategies to connect with target audiences and generate leads. I’m passionate about using data-driven insights to optimize campaigns and help businesses grow in the digital landscape. Skilled in content creation and digital tools, I continuously adapt to new trends and technologies to stay ahead in the ever-evolving world of digital marketing.<br></p>', 'Miss', 'Digital Marketer', 'Instructor_Miracle Peter_629.jpg', 1, '$2y$12$lspaNJuHiBRWZjFWadhbquinvI9AfKJcuzMCYfVFDW6ozFnnsF42m', 'en', NULL, NULL, NULL, NULL, NULL, NULL, '85zlG17M2I4WAM9b4YtGqnckzTtOpKNZcXzcBoNL', NULL, '2024-09-29 03:06:36', '2024-10-21 21:26:39', NULL),
+(5, 'Olayimika Omotayo', NULL, '08053708699', NULL, 'olaoluwayimika72@yahoo.com', 3, '<p>As an Executive Assistant, I provide high-level administrative support to executives, ensuring smooth day-to-day operations. With a strong focus on organization and attention to detail, I manage calendars, coordinate meetings, handle communications, and oversee special projects. I excel at multitasking and problem-solving, allowing executives to focus on strategic priorities. My role involves confidential tasks, managing travel arrangements, and preparing reports, all while maintaining professionalism and efficiency. Passionate about streamlining processes, I thrive in fast-paced environments and am committed to helping leadership achieve their goals effectively.<br></p>', 'Mrs', 'Executive Assistant', 'Instructor_Olayimika Omotayo_791.jpg', 1, '$2y$12$KivcsAkNgW05fba/oIrb9eCsasvKVXrfejZZlEB27zjbpja3JoIma', 'en', NULL, NULL, NULL, NULL, NULL, NULL, 'DL9bwHBPP5yRb5vopodNYvWZS9dONGCowDLT832M', NULL, '2024-09-29 03:14:02', '2024-10-21 21:27:09', NULL);
 
 -- --------------------------------------------------------
 
@@ -498,7 +501,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (52, '2024_10_18_095304_add_segment_no_to_segments_table', 23),
 (53, '2024_10_18_095358_add_segment_and_completed_to_enrollments_table', 23),
 (54, '2024_10_18_105939_add_segment_no_to_progress_table', 24),
-(55, '2024_10_18_110005_add_segment_no_to_progress_alls_table', 24);
+(55, '2024_10_18_110005_add_segment_no_to_progress_alls_table', 24),
+(56, '2024_10_20_173150_add_student_id_to_quizzes_table', 25),
+(57, '2024_10_21_123956_add_date_enabled_to_courses_table', 26),
+(58, '2024_10_21_134717_add_instructor_url_to_instructors_table', 27),
+(59, '2024_10_21_134906_add_course_url_to_courses_table', 27);
 
 -- --------------------------------------------------------
 
@@ -656,7 +663,7 @@ CREATE TABLE `progress` (
 --
 
 INSERT INTO `progress` (`id`, `student_id`, `course_id`, `segments_id`, `segment_no`, `progress_percentage`, `completed`, `last_viewed_lesson_id`, `last_viewed_material_id`, `last_viewed_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 12, 3, 1, 1, 0, 0, 13, 9, '2024-10-18 23:59:53', '2024-10-18 23:59:53', '2024-10-19 02:04:07', NULL);
+(1, 12, 3, 1, 1, 0, 0, 12, 7, '2024-10-18 23:59:53', '2024-10-18 23:59:53', '2024-10-21 02:08:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -689,7 +696,13 @@ INSERT INTO `progress_alls` (`id`, `student_id`, `course_id`, `segments_id`, `se
 (3, 12, 3, 1, 1, 10, 6, 0, 1, '2024-10-19 01:13:15', '2024-10-19 01:13:15', '2024-10-19 01:13:15'),
 (4, 12, 3, 1, 1, 11, 8, 0, 1, '2024-10-19 01:13:16', '2024-10-19 01:13:16', '2024-10-19 01:13:16'),
 (5, 12, 3, 1, 1, 12, 7, 0, 1, '2024-10-19 01:13:19', '2024-10-19 01:13:19', '2024-10-19 01:13:19'),
-(6, 12, 3, 1, 1, 13, 9, 0, 1, '2024-10-19 02:04:07', '2024-10-19 02:04:07', '2024-10-19 02:04:07');
+(6, 12, 3, 1, 1, 13, 9, 0, 1, '2024-10-19 02:04:07', '2024-10-19 02:04:07', '2024-10-19 02:04:07'),
+(7, 12, 3, 1, 1, 14, 10, 0, 1, '2024-10-19 20:52:03', '2024-10-19 20:52:03', '2024-10-19 20:52:03'),
+(8, 12, 3, 1, 1, 15, 11, 0, 1, '2024-10-19 20:52:22', '2024-10-19 20:52:22', '2024-10-19 20:52:22'),
+(9, 12, 3, 1, 1, 16, 13, 0, 1, '2024-10-19 20:52:26', '2024-10-19 20:52:26', '2024-10-19 20:52:26'),
+(10, 12, 3, 1, 1, 17, 14, 0, 1, '2024-10-19 22:18:46', '2024-10-19 22:18:46', '2024-10-19 22:18:46'),
+(11, 12, 3, 1, 1, 20, 17, 0, 1, '2024-10-20 18:12:53', '2024-10-20 18:12:53', '2024-10-20 18:12:53'),
+(12, 12, 3, 1, 1, 18, 12, 0, 1, '2024-10-21 00:58:23', '2024-10-21 00:58:23', '2024-10-21 00:58:23');
 
 -- --------------------------------------------------------
 
@@ -719,15 +732,11 @@ CREATE TABLE `quizzes` (
   `title` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `student_id` int(11) NOT NULL,
+  `segment_id` int(11) NOT NULL,
+  `quiz_status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `quizzes`
---
-
-INSERT INTO `quizzes` (`id`, `course_id`, `title`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 3, 'Quiz', '2024-10-13 04:09:44', '2024-10-13 04:09:44', NULL);
 
 -- --------------------------------------------------------
 
@@ -739,12 +748,19 @@ CREATE TABLE `reviews` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `student_id` bigint(20) UNSIGNED NOT NULL,
   `course_id` bigint(20) UNSIGNED NOT NULL,
-  `rating` int(11) NOT NULL,
+  `rating` int(11) DEFAULT NULL,
   `comment` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `student_id`, `course_id`, `rating`, `comment`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 12, 3, 4, 'It has been an amazing time learning', '2024-10-20 19:13:28', '2024-10-21 00:26:37', NULL);
 
 -- --------------------------------------------------------
 
@@ -1240,7 +1256,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `news_letters`
@@ -1282,7 +1298,7 @@ ALTER TABLE `progress`
 -- AUTO_INCREMENT for table `progress_alls`
 --
 ALTER TABLE `progress_alls`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `questions`
@@ -1300,7 +1316,7 @@ ALTER TABLE `quizzes`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `roles`

@@ -136,7 +136,7 @@
                                     <div class="form-group">
                                         <label class="form-label">Bio</label>
                                         <textarea class="form-control"
-                                            name="bio">{{old('bio',$instructor->bio)}}</textarea>
+                                            name="bio" id="myEditor">{{old('bio',$instructor->bio)}}</textarea>                                        
                                     </div>
                                     @if($errors->has('bio'))
                                     <span class="text-danger"> {{ $errors->first('bio') }}</span>

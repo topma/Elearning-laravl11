@@ -213,6 +213,22 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
+                                        <label class="form-label">Start Date Enabled - (Course will not start until the start date.)</label>
+                                        <select class="form-control" name="dateEnabled">
+                                            <option value="1" @if(old('dateEnabled', $course->
+                                                date_enabled)=='1' ) selected @endif>Yes
+                                            </option>
+                                            <option value="0" @if(old('dateEnabled', $course->
+                                                date_enabled)=='0' ) selected @endif>No
+                                            </option>
+                                        </select>
+                                    </div>
+                                    @if($errors->has('dateEnabled'))
+                                    <span class="text-danger"> {{ $errors->first('dateEnabled') }}</span>
+                                    @endif
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
                                         <label class="form-label">Start From</label>
                                         <input type="date" class="form-control" name="start_from" value="{{old('start_from')}}">
                                     </div>
@@ -223,7 +239,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Duration</label>
+                                        <label class="form-label">Duration(Weeks)</label>
                                         <input type="number" class="form-control" name="duration" value="{{old('duration',$course->duration)}}">
                                     </div>
                                     @if($errors->has('duration'))
@@ -233,7 +249,7 @@
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Number of Segment</label>
-                                        <input type="number" class="form-control" name="segment" value="{{old('segment',$course->segments)}}">
+                                        <input type="number" class="form-control" name="segment" value="{{old('segment',$course->segment)}}">
                                     </div>
                                     @if($errors->has('segment'))
                                     <span class="text-danger"> {{ $errors->first('segment') }}</span>
@@ -482,6 +498,22 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
+                                        <label class="form-label">Start Date Enabled - (Course will not start until the start date.)</label>
+                                        <select class="form-control" name="dateEnabled">
+                                            <option value="1" @if(old('dateEnabled', $course->
+                                                date_enabled)=='1' ) selected @endif>Yes
+                                            </option>
+                                            <option value="0" @if(old('dateEnabled', $course->
+                                                date_enabled)=='0' ) selected @endif>No
+                                            </option>
+                                        </select>
+                                    </div>
+                                    @if($errors->has('dateEnabled'))
+                                    <span class="text-danger"> {{ $errors->first('dateEnabled') }}</span>
+                                    @endif
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
                                         <label class="form-label">Start From</label>
                                         <input type="date" class="form-control" name="start_from" value="{{old('start_from')}}">
                                     </div>
@@ -492,7 +524,7 @@
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
-                                        <label class="form-label">Duration</label>
+                                        <label class="form-label">Duration(Weeks)</label>
                                         <input type="number" class="form-control" name="duration" value="{{old('duration',$course->duration)}}">
                                     </div>
                                     @if($errors->has('duration'))
@@ -502,7 +534,7 @@
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Number of Segment</label>
-                                        <input type="number" class="form-control" name="segment" value="{{old('segment',$course->segments)}}">
+                                        <input type="number" class="form-control" name="segment" value="{{old('segment',$course->segment)}}">
                                     </div>
                                     @if($errors->has('segment'))
                                     <span class="text-danger"> {{ $errors->first('segment') }}</span>

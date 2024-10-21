@@ -98,7 +98,14 @@
                                                     <span class="mb-0">No of Segments Uploaded :</span>
                                                     <strong>{{$d->segment_count}}</strong>
                                                 </li>
-
+                                                @if($d->date_enabled == 1)
+                                                <li class="list-group-item px-0 d-flex justify-content-between">
+                                                    <span class="mb-0">Start Date :</span>                                                    
+                                                    <strong>{{ \Carbon\Carbon::parse($d->start_from)->format('F j, Y') }}</strong>
+                                                    
+                                                </li>
+                                                @else
+                                                @endif
                                                 <li class="list-group-item px-0 d-flex justify-content-between">
                                                     <span class="mb-0">Status :</span>
                                                     <span class="badge 

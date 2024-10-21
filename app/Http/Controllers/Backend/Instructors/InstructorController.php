@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Exception;
 use File;
 use DB;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
 class InstructorController extends Controller
@@ -69,6 +70,8 @@ class InstructorController extends Controller
             $instructor->title = $request->title;
             $instructor->status = $request->status;
             $instructor->password = Hash::make($request->password);
+            $instructorUrl = Str::random(40);
+            $instructor->instructor_url = $instructorUrl;
             $instructor->language = 'en';
             $instructor->access_block = $request->access_block;
             if ($request->hasFile('image')) {
@@ -132,8 +135,13 @@ class InstructorController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
+        DB::beginTransaction();
+
         try {
+            // Fetch the instructor using the decrypted ID
             $instructor = Instructor::findOrFail(encryptor('decrypt', $id));
+    
+            // Update instructor fields
             $instructor->name_en = $request->fullName_en;
             $instructor->name_bn = $request->fullName_bn;
             $instructor->contact_en = $request->contactNumber_en;
@@ -149,16 +157,29 @@ class InstructorController extends Controller
             $instructor->social_youtube = $request->social_youtube;
             $instructor->title = $request->title;
             $instructor->status = $request->status;
-            $instructor->password = Hash::make($request->password);
             $instructor->language = 'en';
             $instructor->access_block = $request->access_block;
+    
+            // Check and hash password only if provided
+            if (!empty($request->password)) {
+                $instructor->password = Hash::make($request->password);
+            }
+    
+            // Generate instructor URL if not present
+            if (empty($instructor->instructor_url)) {
+                $instructor->instructor_url = Str::random(40);
+            }
+    
+            // Handle image upload
             if ($request->hasFile('image')) {
-                $imageName = (Role::find($request->roleId)->name) . '_' .  $request->fullName_en . '_' . rand(999, 111) .  '.' . $request->image->extension();
+                $imageName = Role::find($request->roleId)->name . '_' . $request->fullName_en . '_' . rand(999, 111) . '.' . $request->image->extension();
                 $request->image->move(public_path('uploads/users'), $imageName);
                 $instructor->image = $imageName;
             }
-
+    
+            // Save instructor
             if ($instructor->save()) {
+                // Update related user information
                 $user = User::where('instructor_id', $instructor->id)->first();
                 $user->instructor_id = $instructor->id;
                 $user->name_en = $request->fullName_en;
@@ -166,19 +187,34 @@ class InstructorController extends Controller
                 $user->contact_en = $request->contactNumber_en;
                 $user->role_id = $request->roleId;
                 $user->status = $request->status;
-                $user->password = Hash::make($request->password);
-                if (isset($imageName)) {
-                    $user->image = $imageName; // Save the image name in the users table
+    
+                // Hash password only if provided
+                if (!empty($request->password)) {
+                    $user->password = Hash::make($request->password);
                 }
+    
+                // If image was uploaded, save it in the user model as well
+                if (isset($imageName)) {
+                    $user->image = $imageName;
+                }
+    
+                // Save user
                 if ($user->save()) {
-                    DB::commit();
+                    DB::commit(); // Commit the transaction
+    
+                    // Success notice
                     $this->notice::success('Successfully saved');
                     return redirect()->route('instructor.index');
                 }
             }
+    
+            // If saving fails
+            DB::rollBack(); // Rollback on failure
             return redirect()->back()->withInput()->with('error', 'Please try again');
+    
         } catch (Exception $e) {
-            Log::error('Update error: ' . $e->getMessage());   
+            DB::rollBack(); // Rollback on error
+            Log::error('Update error: ' . $e->getMessage());
             return redirect()->back()->withInput()->with('error', 'Please try again');
         }
     }

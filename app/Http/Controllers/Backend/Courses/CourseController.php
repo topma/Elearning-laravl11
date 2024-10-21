@@ -15,6 +15,7 @@ use App\Models\Material;
 use App\Models\Coupon;
 use App\Models\Enrollment;
 use App\Models\Student;
+use Illuminate\Support\Str;
 use Exception;
 use File; 
 
@@ -89,6 +90,9 @@ class CourseController extends Controller
             $course->prerequisites_bn = $request->prerequisites_bn;
             $course->thumbnail_video = $request->thumbnail_video;
             $course->tag = $request->tag; 
+            $course->date_enabled = $request->dateEnabled;
+            $courseUrl = Str::random(40);
+            $course->course_url = $courseUrl;
             $course->language = 'en';
 
             if ($request->hasFile('image')) {
@@ -162,8 +166,9 @@ class CourseController extends Controller
      */
     public function edit($id)
     {
+        $instructorId = auth()->user()->instructor_id;
         $courseCategory = CourseCategory::get();
-        $instructor = Instructor::get();
+        $instructor = Instructor::where('id', $instructorId)->get();
         $course = Course::findOrFail(encryptor('decrypt', $id));
         return view('backend.course.courses.edit', compact('courseCategory', 'instructor', 'course'));
     }
@@ -197,7 +202,13 @@ class CourseController extends Controller
             $course->prerequisites_bn = $request->prerequisites_bn;
             $course->thumbnail_video = $request->thumbnail_video;
             $course->tag = $request->tag;
+            $course->date_enabled = $request->dateEnabled;
             $course->language = 'en';
+
+            // Generate course URL if not present
+            if (empty($course->course_url)) {
+                $course->course_url = Str::random(40);
+            }
 
             if ($request->hasFile('image')) {
                 $imageName = rand(111, 999) . time() . '.' . $request->image->extension();

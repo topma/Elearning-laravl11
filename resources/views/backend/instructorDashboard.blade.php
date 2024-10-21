@@ -81,7 +81,7 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="col-xl-3 col-xxl-3 col-sm-6">
+            <div class="col-xl-3 col-xxl-3 col-sm-6">
                 <div class="widget-stat card bg-danger overflow-hidden">
                     <div class="card-header pb-3">
                         <h3 class="card-title text-white">Fees Collection</h3>
@@ -91,7 +91,7 @@
                         <span class="peity-line-2" data-width="100%">7,6,8,7,3,8,3,3,6,5,9,2,8</span>
                     </div>
                 </div>
-            </div> -->
+            </div>
             <!-- <div class="col-xl-6 col-xxl-6 col-sm-6">
                 <div class="card">
                     <div class="card-header">
@@ -359,49 +359,49 @@
                     <div class="card-body">
                         <div class="table-responsive">
                         <table class="table table-sm mb-0 table-striped">
-    <thead>
-        <tr>
-            <th class="px-5 py-3">Student Name</th>
-            <th class="py-3">Course</th>
-            <th class="py-3">Total Segments</th>
-            <th class="py-3">Current Segment</th>
-            <th class="py-3">Status</th>
-            <th class="py-3">Date Of Enrollment</th>                                        
-        </tr>
-    </thead>
-    <tbody id="customers">
-        @foreach($enrollments as $enrollment)
-        <tr class="btn-reveal-trigger">
-            <td class="p-3">
-                <a href="javascript:void(0);">
-                    <div class="media d-flex align-items-center">
-                        <div class="avatar avatar-xl mr-2">
-                            <img class="rounded-circle img-fluid" src="{{asset('uploads/students/' . $enrollment->student->image)}}" width="30" alt="">
-                        </div>
-                        <div class="media-body">
-                            <h5 class="mb-0 fs--1">{{ $enrollment->student->name_en }}</h5>
-                        </div>
-                    </div>
-                </a>
-            </td>
-            <td class="py-2">{{ $enrollment->course->title_en }}</td>
-            <!-- Display Total Segments -->
-            <td class="py-2">{{ $enrollment->course->segments_count ?? 0 }}</td>
-            <!-- Display Current Segment -->
-            <td class="py-2">{{ $enrollment->segment }}</td>
-            <!-- Status Check -->
-            <td>
-                @if($enrollment->completed == 1)
-                    <span class="badge badge-rounded badge-success">Completed</span>
-                @else
-                    <span class="badge badge-rounded badge-warning">Not Completed</span>
-                @endif
-            </td>
-            <td class="py-2">{{ $enrollment->created_at->format('d/m/Y') }}</td>                                        
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+                            <thead>
+                                <tr>
+                                    <th class="px-5 py-3">Student Name</th>
+                                    <th class="py-3">Course</th>
+                                    <th class="py-3">Total Segments</th>
+                                    <th class="py-3">Current Segment</th>
+                                    <th class="py-3">Status</th>
+                                    <th class="py-3">Date Of Enrollment</th>                                        
+                                </tr>
+                            </thead>
+                            <tbody id="customers">
+                                @foreach($enrollments as $enrollment)
+                                <tr class="btn-reveal-trigger">
+                                    <td class="p-3">
+                                        <a href="javascript:void(0);">
+                                            <div class="media d-flex align-items-center">
+                                                <div class="avatar avatar-xl mr-2">
+                                                    <img class="rounded-circle img-fluid" src="{{asset('uploads/students/' . $enrollment->student->image)}}" width="30" alt="">
+                                                </div>
+                                                <div class="media-body">
+                                                    <h5 class="mb-0 fs--1">{{ $enrollment->student->name_en }}</h5>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td class="py-2">{{ $enrollment->course->title_en }}</td>
+                                    <!-- Display Total Segments -->
+                                    <td class="py-2">{{ $enrollment->course->segments_count ?? 0 }}</td>
+                                    <!-- Display Current Segment -->
+                                    <td class="py-2">{{ $enrollment->segment }}</td>
+                                    <!-- Status Check -->
+                                    <td>
+                                        @if($enrollment->completed == 1)
+                                            <span class="badge badge-rounded badge-success">Completed</span>
+                                        @else
+                                            <span class="badge badge-rounded badge-warning">Not Completed</span>
+                                        @endif
+                                    </td>
+                                    <td class="py-2">{{ $enrollment->created_at->format('d/m/Y') }}</td>                                        
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                         </div>
                     </div>
                 </div>

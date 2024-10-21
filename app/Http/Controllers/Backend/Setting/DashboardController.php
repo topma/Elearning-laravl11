@@ -22,12 +22,15 @@ class DashboardController extends Controller
         $enrollments = Enrollment::with(['student', 'course' => function($query) {
             $query->withCount('segments');
         }])->where('instructor_id', $user_id)->get();
+        $allEnrollments = Enrollment::with(['student', 'course' => function($query) {
+            $query->withCount('segments');
+        }])->get();
         $allEnrollment = Enrollment::all();
         $instructor = Instructor::where('id', $user_id)->first();
         
         
         if (fullAccess())
-            return view('backend.adminDashboard', compact('student','course','allEnrollment','allCourse')); 
+            return view('backend.adminDashboard', compact('student','course','allEnrollment','allCourse','allEnrollments')); 
         else
         if ($user->role = 'Instructor')
             return view('backend.instructorDashboard', compact('student','course','enrollments','course','instructor')); 

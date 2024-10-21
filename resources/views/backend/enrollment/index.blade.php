@@ -3,7 +3,7 @@
 
 @push('styles')
 <!-- Datatable -->
-<link href="{{asset('public/vendor/datatables/css/jquery.dataTables.min.css')}}" rel="stylesheet">
+<link href="{{asset('vendor/datatables/css/jquery.dataTables.min.css')}}" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -22,7 +22,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
                     <li class="breadcrumb-item active"><a href="{{route('enrollment.index')}}">Enrollments</a></li>
-                    <li class="breadcrumb-item active"><a href="{{route('enrollment.index')}}">All Enrollment</a></li>
+                    <li class="breadcrumb-item active"><a href="#">All Enrollment</a></li>
                 </ol>
             </div>
         </div>
@@ -54,16 +54,16 @@
                                             @forelse ($enrollment as $e)
                                             <tr>
                                                 <td><img class="rounded-circle" width="35" height="35"
-                                                        src="{{asset('public/uploads/students/'.$e->student?->image)}}"
+                                                        src="{{asset('uploads/students/'.$e->student?->image)}}"
                                                         alt="">
                                                 </td>
                                                 <td><strong>{{$e->student?->name_en}}</strong></td>
                                                 <td><strong>{{$e->course?->title_en}}</strong></td>
                                                 <td><img class="img fluid" width="100"
-                                                        src="{{asset('public/uploads/courses/'.$e->course?->image)}}"
+                                                        src="{{asset('uploads/courses/'.$e->course?->image)}}"
                                                         alt="">
                                                 </td>
-                                                <td><strong>{{$e->course?->price==null?'Free':'৳'.$e->course?->price}}</strong></td>
+                                                <td><strong>{{$e->course?->price==null?'Free':$e->course?->currency_type.$e->course?->price}}</strong></td>
                                                 <td><strong>{{$e->enrollment_date}}</strong></td>
                                                 <td>
                                                     <a href="{{route('enrollment.edit', encryptor('encrypt',$e->id))}}"
@@ -102,7 +102,7 @@
 
 @push('scripts')
 <!-- Datatable -->
-<script src="{{asset('public/vendor/datatables/js/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('public/js/plugins-init/datatables.init.js')}}"></script>
+<script src="{{asset('vendor/datatables/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('js/plugins-init/datatables.init.js')}}"></script>
 
 @endpush

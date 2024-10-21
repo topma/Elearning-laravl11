@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-6 col-xxl-6 col-sm-6">
+            <!-- <div class="col-xl-6 col-xxl-6 col-sm-6">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Income/Expense Report</h3>
@@ -82,8 +82,8 @@
                         <canvas id="areaChart_1"></canvas>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl-8 col-xxl-8 col-lg-8 col-md-12 col-sm-12">
+            </div> -->
+            <!-- <div class="col-xl-8 col-xxl-8 col-lg-8 col-md-12 col-sm-12">
                 <div class="card">
                     <div class="card-header">
                         <h5 class="card-title">Assign Task</h5>
@@ -321,210 +321,58 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">New Student List </h4>
+                        <h4 class="card-title">Enrolled Student List </h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-sm mb-0 table-striped">
-                                <thead>
-                                    <tr>
-                                        <th class="px-5 py-3">Name</th>
-                                        <th class="py-3">Assigned Professor</th>
-                                        <th class="py-3">Branch</th>
-                                        <th class="py-3">Status</th>
-                                        <th class="py-3">Date Of Admit</th>
-                                        <th class="py-3">Edit</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="customers">
-                                    <tr class="btn-reveal-trigger">
-                                        <td class="p-3">
-                                            <a href="javascript:void(0);">
-                                                <div class="media d-flex align-items-center">
-                                                    <div class="avatar avatar-xl mr-2">
-                                                        <img class="rounded-circle img-fluid"
-                                                            src="{{asset('images/avatar/5.png')}}" width="30"
-                                                            alt="">
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h5 class="mb-0 fs--1">Ricky Antony</h5>
-                                                    </div>
+                        <table class="table table-sm mb-0 table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="px-5 py-3">Student Name</th>
+                                    <th class="py-3">Course</th>
+                                    <th class="py-3">Total Segments</th>
+                                    <th class="py-3">Current Segment</th>
+                                    <th class="py-3">Status</th>
+                                    <th class="py-3">Date Of Enrollment</th>                                        
+                                </tr>
+                            </thead>
+                            <tbody id="customers">
+                                @foreach($allEnrollments as $enrollment)
+                                <tr class="btn-reveal-trigger">
+                                    <td class="p-3">
+                                        <a href="javascript:void(0);">
+                                            <div class="media d-flex align-items-center">
+                                                <div class="avatar avatar-xl mr-2">
+                                                    <img class="rounded-circle img-fluid" src="{{asset('uploads/students/' . $enrollment->student->image)}}" width="30" alt="">
                                                 </div>
-                                            </a>
-                                        </td>
-                                        <td class="py-2">Herman Beck</td>
-                                        <td class="py-2">Mechanical</td>
-                                        <td><span class="badge badge-rounded badge-primary">DONE</span></td>
-                                        <td class="py-2">30/03/2018</td>
-                                        <td>
-                                            <a href="edit-student.html" class="btn btn-sm btn-primary"><i
-                                                    class="la la-pencil"></i></a>
-                                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i
-                                                    class="la la-trash-o"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr class="btn-reveal-trigger">
-                                        <td class="p-3">
-                                            <a href="javascript:void(0);">
-                                                <div class="media d-flex align-items-center">
-                                                    <div class="avatar avatar-xl mr-2">
-                                                        <img class="rounded-circle img-fluid"
-                                                            src="{{asset('images/avatar/1.png')}}" alt=""
-                                                            width="30">
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h5 class="mb-0 fs--1">Emma Watson</h5>
-                                                    </div>
+                                                <div class="media-body">
+                                                    <h5 class="mb-0 fs--1">{{ $enrollment->student->name_en }}</h5>
                                                 </div>
-                                            </a>
-                                        </td>
-                                        <td class="py-2">Emma Watson</td>
-                                        <td class="py-2">Computer</td>
-                                        <td><span class="badge badge-rounded badge-warning">Panding</span></td>
-                                        <td class="py-2">11/07/2017</td>
-                                        <td>
-                                            <a href="edit-student.html" class="btn btn-sm btn-primary"><i
-                                                    class="la la-pencil"></i></a>
-                                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i
-                                                    class="la la-trash-o"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr class="btn-reveal-trigger">
-                                        <td class="p-3">
-                                            <a href="javascript:void(0);">
-                                                <div class="media d-flex align-items-center">
-                                                    <div class="avatar avatar-xl mr-2">
-                                                        <img class="rounded-circle img-fluid"
-                                                            src="{{asset('images/avatar/5.png')}}" width="30"
-                                                            alt="">
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h5 class="mb-0 fs--1">Rowen Atkinson</h5>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </td>
-                                        <td class="py-2">Mary Adams</td>
-                                        <td class="py-2">Mechanical</td>
-                                        <td><span class="badge badge-rounded badge-primary">DONE</span></td>
-                                        <td class="py-2">05/04/2016</td>
-                                        <td>
-                                            <a href="edit-student.html" class="btn btn-sm btn-primary"><i
-                                                    class="la la-pencil"></i></a>
-                                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i
-                                                    class="la la-trash-o"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr class="btn-reveal-trigger">
-                                        <td class="p-3">
-                                            <a href="javascript:void(0);">
-                                                <div class="media d-flex align-items-center">
-                                                    <div class="avatar avatar-xl mr-2">
-                                                        <img class="rounded-circle img-fluid"
-                                                            src="{{asset('images/avatar/1.png')}}" alt=""
-                                                            width="30">
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h5 class="mb-0 fs--1">Antony Hopkins</h5>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </td>
-                                        <td class="py-2">Caleb Richards </td>
-                                        <td class="py-2">Computer </td>
-                                        <td><span class="badge badge-rounded badge-danger">Suspended</span></td>
-                                        <td class="py-2">05/04/2018</td>
-                                        <td>
-                                            <a href="edit-student.html" class="btn btn-sm btn-primary"><i
-                                                    class="la la-pencil"></i></a>
-                                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i
-                                                    class="la la-trash-o"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr class="btn-reveal-trigger">
-                                        <td class="p-3">
-                                            <a href="javascript:void(0);">
-                                                <div class="media d-flex align-items-center">
-                                                    <div class="avatar avatar-xl mr-2">
-                                                        <img class="rounded-circle img-fluid"
-                                                            src="{{asset('images/avatar/1.png')}}" alt=""
-                                                            width="30">
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h5 class="mb-0 fs--1">Jennifer Schramm</h5>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </td>
-                                        <td class="py-2">June Lane</td>
-                                        <td class="py-2">Fees Collection</td>
-                                        <td><span class="badge badge-rounded badge-warning">Panding</span></td>
-                                        <td class="py-2">17/03/2016</td>
-                                        <td>
-                                            <a href="edit-student.html" class="btn btn-sm btn-primary"><i
-                                                    class="la la-pencil"></i></a>
-                                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i
-                                                    class="la la-trash-o"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr class="btn-reveal-trigger">
-                                        <td class="p-3">
-                                            <a href="javascript:void(0);">
-                                                <div class="media d-flex align-items-center">
-                                                    <div class="avatar avatar-xl mr-2">
-                                                        <img class="rounded-circle img-fluid"
-                                                            src="{{asset('images/avatar/5.png')}}" width="30"
-                                                            alt="">
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h5 class="mb-0 fs--1">Raymond Mims</h5>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </td>
-                                        <td class="py-2">Herman Beck</td>
-                                        <td class="py-2">Computer</td>
-                                        <td><span class="badge badge-rounded badge-danger">Suspended</span></td>
-                                        <td class="py-2">12/07/2014</td>
-                                        <td>
-                                            <a href="edit-student.html" class="btn btn-sm btn-primary"><i
-                                                    class="la la-pencil"></i></a>
-                                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i
-                                                    class="la la-trash-o"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr class="btn-reveal-trigger">
-                                        <td class="p-3">
-                                            <a href="javascript:void(0);">
-                                                <div class="media d-flex align-items-center">
-                                                    <div class="avatar avatar-xl mr-2">
-                                                        <img class="rounded-circle img-fluid"
-                                                            src="{{asset('images/avatar/1.png')}}" alt=""
-                                                            width="30">
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <h5 class="mb-0 fs--1">Michael Jenkins</h5>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </td>
-                                        <td class="py-2">Jennifer Schramm</td>
-                                        <td class="py-2">Mechanical</td>
-                                        <td><span class="badge badge-rounded badge-warning">Panding</span></td>
-                                        <td class="py-2">15/06/2014</td>
-                                        <td>
-                                            <a href="edit-student.html" class="btn btn-sm btn-primary"><i
-                                                    class="la la-pencil"></i></a>
-                                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"><i
-                                                    class="la la-trash-o"></i></a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td class="py-2">{{ $enrollment->course->title_en }}</td>
+                                    <!-- Display Total Segments -->
+                                    <td class="py-2">{{ $enrollment->course->segments_count ?? 0 }}</td>
+                                    <!-- Display Current Segment -->
+                                    <td class="py-2">{{ $enrollment->segment }}</td>
+                                    <!-- Status Check -->
+                                    <td>
+                                        @if($enrollment->completed == 1)
+                                            <span class="badge badge-rounded badge-success">Completed</span>
+                                        @else
+                                            <span class="badge badge-rounded badge-warning">Not Completed</span>
+                                        @endif
+                                    </td>
+                                    <td class="py-2">{{ $enrollment->created_at->format('d/m/Y') }}</td>                                        
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                         </div>
                     </div>
                 </div>

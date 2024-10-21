@@ -126,7 +126,7 @@ body {
             <div class="coursedescription-header">
                 <div class="coursedescription-header-start">
                     <a class="logo-image" href="{{route('home')}}">
-                        <img src="{{asset('frontend/dist/images/logo/logo.png')}}" alt="Logo" />
+                        <img src="{{asset('frontend/dist/images/logo/new_logo.png')}}" alt="Logo" />
                     </a>
                     <div class="topic-info">
                         <div class="topic-info-arrow">
@@ -365,7 +365,7 @@ body {
                                             <!-- <p class="lead-p">{{$course?->instructor?->title}} -->
                                             </p>
                                             <p class="course-instructor-description">
-                                                {{$course?->instructor?->bio}}
+                                                {!! $course?->instructor?->bio !!}
                                             </p>
                                         </div>
                                     </div>

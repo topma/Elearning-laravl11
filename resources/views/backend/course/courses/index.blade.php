@@ -106,6 +106,21 @@
                                                 </li>
                                                 @else
                                                 @endif
+                                                <li class="list-group-item px-0 d-flex justify-content-between">                                                   
+    <table style="table-layout: fixed; width: 100%;">
+        <tr>                                                            
+            <td class="long-url">
+                <strong>
+                    <a href="https://kingsdigihub.org/courses/{{ $d->course_url }}" 
+                       target="_blank" 
+                       style="text-decoration: none; color: inherit;">
+                       https://kingsdigihub.org/courses/{{ $d->course_url }}
+                    </a>
+                </strong>
+            </td>
+        </tr>
+    </table>                                                     
+</li>
                                                 <li class="list-group-item px-0 d-flex justify-content-between">
                                                     <span class="mb-0">Status :</span>
                                                     <span class="badge 

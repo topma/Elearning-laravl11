@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Student;
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Models\Instructor;
 
 class DashboardController extends Controller
 {
@@ -20,13 +21,14 @@ class DashboardController extends Controller
         $allCourse = Course::all();       
         $enrollment = Enrollment::where('instructor_id', $user_id)->get();
         $allEnrollment = Enrollment::all();
+        $instructor = Instructor::where('id', $user_id)->first();
         
         
         if (fullAccess())
             return view('backend.adminDashboard', compact('student','course','allEnrollment','allCourse')); 
         else
         if ($user->role = 'Instructor')
-            return view('backend.instructorDashboard', compact('student','course','enrollment','course')); 
+            return view('backend.instructorDashboard', compact('student','course','enrollment','course','instructor')); 
         else
             return view('backend.dashboard', compact('student','course','enrollment','course'));
 

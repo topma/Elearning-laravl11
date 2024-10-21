@@ -10,8 +10,34 @@
 @section('content')
 
 <div class="content-body">
+<div class="row page-titles mx-0">           
     <!-- row -->
     <div class="container-fluid">
+        <div class="row page-titles mx-0">
+            <div class="col-sm-6 p-md-0">
+                <div class="welcome-text">
+                    <h4>Personal Link : <table style="table-layout: fixed; width: 100%;">
+        <tr>                                                            
+            <td class="long-url">
+                <strong>
+                    <a href="https://kingsdigihub.org/instructor/{{ $instructor->instructor_url }}" 
+                       target="_blank" 
+                       style="text-decoration: none; color: inherit;">
+                       https://kingsdigihub.org/instructor/{{ $instructor->instructor_url }}
+                    </a>
+                </strong>
+            </td>
+        </tr>
+    </table></h4>
+                </div>
+            </div>
+            <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
+                    <li class="breadcrumb-item active"><a href="">Dashboard</a></li>
+                </ol>
+            </div>
+        </div>
         <div class="row">
             <div class="col-xl-3 col-xxl-3 col-sm-6">
                 <div class="widget-stat card bg-primary overflow-hidden">

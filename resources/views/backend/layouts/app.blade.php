@@ -16,7 +16,23 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-lite.min.css" rel="stylesheet">
     @stack('styles')
     <style>
-        
+       /* Ensure long URLs wrap properly */
+.long-url {
+    word-break: break-all; /* Allows the URL to break within words if necessary */
+    overflow-wrap: break-word; /* Ensures the URL breaks in small containers */
+    white-space: normal; /* Allows the text to wrap normally */
+    width: 100%; /* Ensure the URL takes up available space */
+}
+
+/* Alternative: Truncate the URL with ellipsis if it overflows */
+.ellipsis-url {
+    display: block;
+    max-width: 100%;        /* Ensure it fits the container */
+    white-space: nowrap;    /* Prevent wrapping */
+    overflow: hidden;       /* Hide the overflow */
+    text-overflow: ellipsis; /* Show ellipsis if text overflows */
+    word-break: break-word; /* Prevents breaking in the middle of URLs */
+}
     </style>
 </head>
 

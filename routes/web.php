@@ -33,6 +33,7 @@ use App\Http\Controllers\CustomForgotPasswordController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProgressController;
+use App\Http\Controllers\UrlController;
 
 /* students */
 use App\Http\Controllers\Students\AuthController as sauth;
@@ -195,7 +196,7 @@ Route::post('/instructor/register/{back_route}', [sauth::class, 'instructorSignU
 // Route::get('home', [HomeController::class, 'index'])->name('home');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('searchCourse', [SearchCourseController::class, 'index'])->name('searchCourse'); 
-Route::get('courses/{courseCategory}', [SearchCourseController::class, 'courseName'])->name('courseName'); 
+Route::get('course-category/{courseCategory}', [SearchCourseController::class, 'courseName'])->name('courseName'); 
 Route::get('courseDetails/{id}', [course::class, 'frontShow'])->name('courseDetails');
 Route::get('instructorProfile/{id}', [instructor::class, 'frontShow'])->name('instructorProfile');
 Route::get('checkout', [checkout::class, 'index'])->name('checkout');
@@ -210,7 +211,11 @@ Route::delete('remove-from-cart', [CartController::class, 'remove'])->name('remo
 
 // Coupon
 Route::post('coupon_check', [CartController::class, 'coupon_check'])->name('coupon_check');
-
+//---Course and Course Creators Url----
+Route::get('/instructor/{instructor_url}', [UrlController::class, 'instructorUrl'])
+    ->name('instructor-url');
+    Route::get('/courses/{course_url}', [UrlController::class, 'courseUrl'])
+    ->name('course-url');
 /* ssl payment */
 Route::post('/payment/ssl/notify', [sslcz::class, 'notify'])->name('payment.ssl.notify');
 Route::post('/payment/ssl/cancel', [sslcz::class, 'cancel'])->name('payment.ssl.cancel');

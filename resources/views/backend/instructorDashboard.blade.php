@@ -13,24 +13,27 @@
 <div class="row page-titles mx-0">           
     <!-- row -->
     <div class="container-fluid">
+        @if(!empty($instructor->instructor_url))
         <div class="row page-titles mx-0">
             <div class="col-sm-6 p-md-0">
                 <div class="welcome-text">
-                    <h4>Personal Link : <table style="table-layout: fixed; width: 100%;">
-        <tr>                                                            
-            <td class="long-url">
-                <strong>
-                    <a href="https://kingsdigihub.org/instructor/{{ $instructor->instructor_url }}" 
-                       target="_blank" 
-                       style="text-decoration: none; color: inherit;">
-                       https://kingsdigihub.org/instructor/{{ $instructor->instructor_url }}
-                    </a>
-                </strong>
-            </td>
-        </tr>
-    </table></h4>
-                </div>
+                    <h4>Personal Link :</h4> 
+                    <h5><table style="table-layout: fixed; width: 100%;">
+                    <tr>                                                            
+                        <td class="long-url">
+                            <strong>
+                                <a href="https://kingsdigihub.org/instructor-profile/{{ $instructor->instructor_url }}" 
+                                target="_blank" 
+                                style="text-decoration: none; color: inherit;">
+                                https://kingsdigihub.org/instructor-profile/{{ $instructor->instructor_url }}
+                                </a>
+                            </strong>
+                        </td>
+                    </tr>
+                </table></h5>
             </div>
+        </div>
+        @else  @endif
             <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>

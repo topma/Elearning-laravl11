@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Backend\Instructors;
 use App\Http\Controllers\Controller;
 use App\Models\Instructor;
 use App\Models\User;
+use App\Models\Course;
+use App\Models\Enrollment;
 use App\Http\Requests\Backend\Instructors\AddNewRequest;
 use App\Http\Requests\Backend\Instructors\UpdateRequest;
 use App\Models\Role;
+use App\Models\Lesson;
 use Illuminate\Support\Facades\Hash;
 use Exception;
 use File;
@@ -117,7 +120,20 @@ class InstructorController extends Controller
     {
         $instructor = Instructor::findOrFail(encryptor('decrypt', $id));
         // dd($course); 
-        return view('frontend.instructorProfile', compact('instructor'));
+        // Get the number of courses the instructor has
+        $courseCount = $instructor->courses()->count();
+
+        // Get the total number of students enrolled in all the instructor's courses
+        $enrollmentCount = Enrollment::whereIn('course_id', $instructor->courses()->pluck('id'))->count();
+
+        //-----Get the instructor's courses ----- 
+        $instructorCourse = Course::where('instructor_id', encryptor('decrypt', $id)) 
+        ->where('status', 2) 
+        ->withCount('lessons') 
+        ->paginate(10); 
+
+        return view('frontend.instructorProfile', compact('instructor', 'courseCount', 'enrollmentCount'
+        ,'instructorCourse'));
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\Student;
 use App\Models\Lesson;
 use App\Models\Coupon;
+use App\Models\Enrollment;
 use Illuminate\Http\Request;
 
 class UrlController extends Controller
@@ -13,9 +14,25 @@ class UrlController extends Controller
     //
 
     public function instructorUrl($instructor_url)
-    {       
+    {
+        // Find the instructor by URL or fail
+        $instructor = Instructor::where('instructor_url', $instructor_url)->firstOrFail();
         
+        // Get the number of courses the instructor has
+        $courseCount = $instructor->courses()->count();
+
+        // Get the total number of students enrolled in all the instructor's courses
+        $enrollmentCount = Enrollment::whereIn('course_id', $instructor->courses()->pluck('id'))->count();
+
+        // Get the instructor's courses with lesson count
+        $instructorCourse = Course::where('instructor_id', $instructor->id)
+            ->where('status', 2)
+            ->withCount('lessons')
+            ->paginate(10);
+
+        return view('frontend.instructorProfile', compact('instructor', 'courseCount', 'enrollmentCount', 'instructorCourse'));
     }
+
    
 
     public function courseUrl($course_url)

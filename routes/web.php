@@ -212,7 +212,7 @@ Route::delete('remove-from-cart', [CartController::class, 'remove'])->name('remo
 // Coupon
 Route::post('coupon_check', [CartController::class, 'coupon_check'])->name('coupon_check');
 //---Course and Course Creators Url----
-Route::get('/instructor/{instructor_url}', [UrlController::class, 'instructorUrl'])
+Route::get('/instructors/{instructor_url}', [UrlController::class, 'instructorUrl'])
     ->name('instructor-url');
     Route::get('/courses/{course_url}', [UrlController::class, 'courseUrl'])
     ->name('course-url');

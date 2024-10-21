@@ -106,6 +106,7 @@
                                                 </li>
                                                 @else
                                                 @endif
+                                                @if(!empty($d->course_url))
                                                 <li class="list-group-item px-0 d-flex justify-content-between">                                                   
     <table style="table-layout: fixed; width: 100%;">
         <tr>                                                            
@@ -121,6 +122,7 @@
         </tr>
     </table>                                                     
 </li>
+@else  @endif
                                                 <li class="list-group-item px-0 d-flex justify-content-between">
                                                     <span class="mb-0">Status :</span>
                                                     <span class="badge 

@@ -1171,12 +1171,15 @@
                                     <a href="{{route('instructorProfile', encryptor('encrypt', $i->id))}}"
                                         tabindex="0">{{$i->name_en}}</a>
                                 </h6>
-                                <p>{{$i->designation}}</p>
-                            </div>
+                                <p>{{$i->designation}}</p>                                
+                            </div>   <br>
+                            <div align="center">
+                                <a href="{{route('instructorProfile', encryptor('encrypt', $i->id))}}" class="button button-lg button--primary">View Profile</a>
+                            </div>                         
                         </div>
                         @empty
-                        @endforelse
-                    </div>
+                        @endforelse                        
+                    </div>                    
                 </div>
             </div>
         </div>

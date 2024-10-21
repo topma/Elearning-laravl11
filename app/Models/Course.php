@@ -48,6 +48,11 @@ class Course extends Model
         return $this->hasMany(Enrollment::class);
     }
 
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class, 'course_id');
+    }
+
     public function lessons()
     {
         return $this->hasMany(Lesson::class, 'course_id');
@@ -55,7 +60,7 @@ class Course extends Model
 
     public function segments()
     {
-        return $this->hasMany(Segments::class, 'course_id');
+        return $this->hasMany(Segments::class, 'course_id', 'id');
     }
 
     public function segment()

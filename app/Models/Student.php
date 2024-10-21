@@ -58,9 +58,8 @@ class Student extends Model implements CanResetPassword
         return $this->hasMany(Enrollment::class);
     }
 
-    // public function isEnrolledInCourse($courseId)
-    // {
-    //     \Log::info('Checking enrollment for Student ID: ' . $this->id . ', Course ID: ' . $courseId);
-    //     return $this->enrollments()->where('course_id', $courseId)->exists();
-    // }
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class, 'student_id');
+    }
 }

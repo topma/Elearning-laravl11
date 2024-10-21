@@ -19,7 +19,9 @@ class DashboardController extends Controller
         $student = Student::all();
         $course = Course::where('instructor_id', $user_id)->get();
         $allCourse = Course::all();       
-        $enrollment = Enrollment::where('instructor_id', $user_id)->get();
+        $enrollments = Enrollment::with(['student', 'course' => function($query) {
+            $query->withCount('segments');
+        }])->where('instructor_id', $user_id)->get();
         $allEnrollment = Enrollment::all();
         $instructor = Instructor::where('id', $user_id)->first();
         
@@ -28,12 +30,8 @@ class DashboardController extends Controller
             return view('backend.adminDashboard', compact('student','course','allEnrollment','allCourse')); 
         else
         if ($user->role = 'Instructor')
-            return view('backend.instructorDashboard', compact('student','course','enrollment','course','instructor')); 
+            return view('backend.instructorDashboard', compact('student','course','enrollments','course','instructor')); 
         else
-            return view('backend.dashboard', compact('student','course','enrollment','course'));
-
-        //   $user = User::get();
-        //   if($user->role = 'instructor') 
-        //     return view('backend.instructorDashboard');
+            return view('backend.dashboard', compact('student','course','enrollments','course'));        
     }
 }

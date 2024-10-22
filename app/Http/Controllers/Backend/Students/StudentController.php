@@ -19,8 +19,12 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $data = Student::paginate();
+        $user = auth()->user();
+        if($user){
+            $data = Student::paginate();
         return view('backend.student.index', compact('data'));
+        }       
+        return redirect()->route('logOut');
     }
 
     /**

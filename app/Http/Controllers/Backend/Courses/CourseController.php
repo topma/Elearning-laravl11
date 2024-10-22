@@ -18,6 +18,7 @@ use App\Models\Student;
 use Illuminate\Support\Str;
 use Exception;
 use File; 
+use Illuminate\Support\Facades\Log;
 
 class CourseController extends Controller
 { 
@@ -276,6 +277,33 @@ class CourseController extends Controller
         } catch (Exception $e) {
             // dd($e);
             return redirect()->back()->withInput()->with('error', 'Please try again');
+        }
+    }
+
+    public function getSegments($courseId)
+    {
+        try {
+            // Log the incoming request
+            Log::info('Fetching segments for course', ['course_id' => $courseId]);
+
+            // Fetch segments
+            $segments = Segments::where('course_id', $courseId)->get(['id', 'title_en']);
+
+            // Log the retrieved segments
+            // if ($segments->isEmpty()) {
+            //     Log::info('No segments found for course', ['course_id' => $courseId]);
+            // } else {
+            //     Log::info('Segments found', ['course_id' => $courseId, 'segments' => $segments]);
+            // }
+            \Log::info('Returning segments as JSON', ['segments' => $segments]);
+
+            return response()->json($segments);
+        } catch (\Exception $e) {
+            // Log the exception
+            Log::error('Error fetching segments for course', ['course_id' => $courseId, 'error' => $e->getMessage()]);
+            
+            // Return a JSON error response
+            return response()->json(['error' => 'Failed to retrieve segments'], 500);
         }
     }
 

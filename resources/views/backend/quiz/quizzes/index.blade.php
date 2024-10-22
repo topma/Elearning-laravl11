@@ -54,15 +54,20 @@
                                                 <th>{{__('#')}}</th>
                                                 <th>{{__('Quiz Title')}}</th>
                                                 <th>{{__('Course')}}</th>
+                                                <th>{{__('Segment')}}</th>
+                                                <th></th>
                                                 <th>{{__('Action')}}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ($quiz as $q)
+                                            @forelse ($quiz as $key => $q)
                                             <tr>
-                                                <td>{{$q->id}}</td>
+                                                <td>{{$key + 1}}</td>
                                                 <td>{{$q->title}}</td>
                                                 <td>{{$q->course?->title_en}}</td> 
+                                                <td>{{ $q->segment->title_en ?? 'No Segment' }}</td>                                               
+                                                <td><a href="{{route('quiz.edit', encryptor('encrypt',$q->segment->id))}}" 
+                                                class="btn btn-info" title="Add Questions">+ Add Questions</a></td>
                                                 <td>
                                                     <a href="{{route('quiz.edit', encryptor('encrypt',$q->id))}}"
                                                         class="btn btn-sm btn-primary" title="Edit"><i

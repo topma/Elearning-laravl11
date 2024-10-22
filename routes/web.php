@@ -115,7 +115,7 @@ Route::middleware(['checkauth'])->prefix('admin')->group(function () {
     Route::get('userProfile', [auth::class, 'show'])->name('userProfile');
 });
 
-Route::prefix('admin')->group(function () {
+Route::middleware(['checkauth'])->prefix('admin')->group(function () {
     Route::resource('user', user::class); 
     Route::resource('role', role::class);
     Route::resource('student', student::class);
@@ -142,7 +142,8 @@ Route::prefix('admin')->group(function () {
     Route::resource('coupon', coupon::class);
     Route::resource('enrollment', enrollment::class);
     Route::get('permission/{role}', [permission::class, 'index'])->name('permission.list');
-    Route::post('permission/{role}', [permission::class, 'save'])->name('permission.save');       
+    Route::post('permission/{role}', [permission::class, 'save'])->name('permission.save'); 
+    Route::get('/get-segments/{courseId}', [course::class, 'getSegments']);      
 });
 
 Route::get('/register', [HomeController::class, 'signUpForm'])->name('signup');

@@ -6,6 +6,7 @@ use App\Models\Quiz;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Course;
+use App\Models\Segments;
 use Exception;
 
 class QuizController extends Controller
@@ -15,7 +16,19 @@ class QuizController extends Controller
      */
     public function index()
     {
-        $quiz = Quiz::paginate(10);
+        $userRoleId = auth()->user()->role_id;
+        
+        if ($userRoleId == 1) {
+            // Admin can view all quizzes with their segments
+            $quiz = Quiz::with('segment')->paginate(10);
+        } elseif ($userRoleId == 3) {
+            // Instructor can view only their quizzes with their segments
+            $instructorId = auth()->user()->instructor_id;
+            $quiz = Quiz::where('instructor_id', $instructorId)
+                ->with('segment')
+                ->paginate(10);
+        }
+        
         return view('backend.quiz.quizzes.index', compact('quiz'));
     }
 
@@ -24,7 +37,8 @@ class QuizController extends Controller
      */
     public function create()
     {
-        $course = Course::get();
+        $instructorId = auth()->user()->instructor_id;
+        $course = Course::where('instructor_id', $instructorId)->get();
         return view('backend.quiz.quizzes.create', compact('course'));
     }
 
@@ -37,6 +51,9 @@ class QuizController extends Controller
             $quiz = new Quiz;
             $quiz->title = $request->quizTitle;
             $quiz->course_id = $request->courseId;
+            $quiz->segment_id = $request->segmentId;
+            $quiz->instructor_id = auth()->user()->instructor_id;
+
 
             if ($quiz->save()) {
                 $this->notice::success('Data Saved');

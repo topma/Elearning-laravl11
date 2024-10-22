@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::table('quizzes', function (Blueprint $table) {
             //
-            $table->integer('student_id');
+            $table->integer('student_id')->nullable();
             $table->integer('segment_id');
-            $table->integer('quiz_status');
+            $table->integer('instructor_id');
+            $table->integer('quiz_status')->nullable();
         });
     }
 

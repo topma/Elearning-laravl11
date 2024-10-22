@@ -82,9 +82,12 @@ class QuizController extends Controller
      */
     public function edit($id)
     {
-        $course = Course::get();
+        $instructorId = auth()->user()->instructor_id;
+        $course = Course::where('instructor_id', $instructorId)->get();
         $quiz = Quiz::findOrFail(encryptor('decrypt', $id));
-        return view('backend.quiz.quizzes.edit', compact('course', 'quiz'));
+        $segmentName = Segments::where('id', $quiz->segment_id)->first();
+
+        return view('backend.quiz.quizzes.edit', compact('course', 'quiz','segmentName'));
     }
 
     /**

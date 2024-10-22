@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 21, 2024 at 04:32 PM
+-- Generation Time: Oct 23, 2024 at 01:18 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -663,7 +663,7 @@ CREATE TABLE `progress` (
 --
 
 INSERT INTO `progress` (`id`, `student_id`, `course_id`, `segments_id`, `segment_no`, `progress_percentage`, `completed`, `last_viewed_lesson_id`, `last_viewed_material_id`, `last_viewed_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 12, 3, 1, 1, 0, 0, 12, 7, '2024-10-18 23:59:53', '2024-10-18 23:59:53', '2024-10-21 02:08:29', NULL);
+(1, 12, 3, 1, 1, 0, 0, 17, 14, '2024-10-18 23:59:53', '2024-10-18 23:59:53', '2024-10-22 05:46:08', NULL);
 
 -- --------------------------------------------------------
 
@@ -729,14 +729,22 @@ CREATE TABLE `questions` (
 CREATE TABLE `quizzes` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `course_id` bigint(20) UNSIGNED NOT NULL,
+  `segment_id` int(11) NOT NULL,
+  `instructor_id` int(10) NOT NULL,
+  `student_id` int(11) DEFAULT NULL,
   `title` varchar(255) NOT NULL,
+  `quiz_status` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  `student_id` int(11) NOT NULL,
-  `segment_id` int(11) NOT NULL,
-  `quiz_status` int(11) NOT NULL
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `quizzes`
+--
+
+INSERT INTO `quizzes` (`id`, `course_id`, `segment_id`, `instructor_id`, `student_id`, `title`, `quiz_status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(3, 3, 1, 4, NULL, 'Quiz 1', NULL, '2024-10-23 06:07:32', '2024-10-23 06:07:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -859,7 +867,7 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `name_en`, `name_bn`, `contact_en`, `contact_bn`, `email`, `email_verified_status`, `email_verified_at`, `date_of_birth`, `gender`, `image`, `bio`, `profession`, `nationality`, `address`, `city`, `state`, `postcode`, `country`, `status`, `password`, `language`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(12, 'Maxwell Akinyooye', NULL, '07032689329', NULL, 'phemanuel@yahoo.com', 1, '2024-09-27 18:33:33', NULL, NULL, '6731727565536.jpg', 'I am a driven individual, ready to take on challenges.', 'Web Developer', 'Nigeria', NULL, NULL, NULL, NULL, NULL, 1, '$2y$12$.ZHvR8Gldm1HEFYKPt1TdeVWZTnPXX9ffOXF5jYvj70GQqd0GKQCi', 'en', 'Roy3mfNDYQjGdDTMllja6qg56kbUYdJtuTcSfpx9', '2024-09-27 18:32:50', '2024-10-13 01:34:49', NULL);
+(12, 'Maxwell Akinyooye', NULL, '07032689329', NULL, 'phemanuel@yahoo.com', 1, '2024-09-27 18:33:33', NULL, 'male', '6731727565536.jpg', 'I am a driven individual, ready to take on challenges.', 'Web Developer', 'Nigeria', NULL, NULL, NULL, NULL, NULL, 1, '$2y$12$gel5j2isS0bALQ/PNl2rq.toIKfqVLEzMOzElWjMOGrvPWxF5TM5i', 'en', 'Roy3mfNDYQjGdDTMllja6qg56kbUYdJtuTcSfpx9', '2024-09-27 18:32:50', '2024-10-22 06:04:53', NULL);
 
 -- --------------------------------------------------------
 
@@ -1310,7 +1318,7 @@ ALTER TABLE `questions`
 -- AUTO_INCREMENT for table `quizzes`
 --
 ALTER TABLE `quizzes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `reviews`

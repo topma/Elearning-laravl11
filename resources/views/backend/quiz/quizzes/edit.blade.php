@@ -40,17 +40,7 @@
                             @csrf
                             @method('PATCH')
                             <input type="hidden" name="uptoken" value="{{encryptor('encrypt',$quiz->id)}}">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Title</label>
-                                        <input type="text" class="form-control" name="quizTitle"
-                                            value="{{old('quizTitle',$quiz->title)}}">
-                                    </div>
-                                    @if($errors->has('quizTitle'))
-                                    <span class="text-danger"> {{ $errors->first('quizTitle') }}</span>
-                                    @endif
-                                </div>
+                            <div class="row">                                
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Course</label>
@@ -66,6 +56,28 @@
                                     </div>
                                     @if($errors->has('courseId'))
                                     <span class="text-danger"> {{ $errors->first('courseId') }}</span>
+                                    @endif
+                                </div>
+                                <!-- Segments Dropdown -->
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Segment</label>
+                                        <select class="form-control" name="segmentId" id="segmentId">
+                                            <option value="{{$segmentName->title_en}}" selected>{{$segmentName->title_en}}</option>
+                                        </select>
+                                    </div>
+                                    @if($errors->has('segmentId'))
+                                    <span class="text-danger"> {{ $errors->first('segmentId') }}</span>
+                                    @endif
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Title</label>
+                                        <input type="text" class="form-control" name="quizTitle"
+                                            value="{{old('quizTitle',$quiz->title)}}">
+                                    </div>
+                                    @if($errors->has('quizTitle'))
+                                    <span class="text-danger"> {{ $errors->first('quizTitle') }}</span>
                                     @endif
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -92,4 +104,47 @@
 
 <!-- Pickdate -->
 <script src="{{asset('js/plugins-init/pickadate-init.js')}}"></script>
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#courseId').change(function() {
+        var courseId = $(this).val();
+        
+        if (courseId) {
+            $.ajax({
+                url: '/admin/get-segments/' + courseId,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    console.log('Segments received:', data); // Check the data received
+                    
+                    // Clear the segment dropdown
+                    $('#segmentId').empty();
+                    $('#segmentId').append('<option value="">Select a Segment</option>'); // Default option
+                    
+                    if (Array.isArray(data) && data.length > 0) {
+                        // Loop through the segments and add them to the dropdown
+                        $.each(data, function(key, segment) {
+                            console.log('Appending segment:', segment.title_en); // Log each segment                            
+                            $('#segmentId').append('<option value="' + segment.id + '">' + segment.title_en + '</option>');
+                        });
+                    } else {
+                        console.log('No segments found for the selected course.');
+                        $('#segmentId').append('<option value="">No Segment Available</option>');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log('AJAX error:', error); // Log any error that occurs during the AJAX call
+                }
+            });
+        } else {
+            // If no course is selected, clear the segment dropdown
+            $('#segmentId').empty();
+            $('#segmentId').append('<option value="">Select a Segment</option>');
+        }
+    });
+});
+
+</script>
 @endpush

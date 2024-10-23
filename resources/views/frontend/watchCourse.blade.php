@@ -34,8 +34,18 @@
     height: 700px; /* Set desired height for video container */
 }
 
+.text-area {
+    height: 500px; /* Set desired height for video container */
+}
+
 /* Container to handle the video layout */
 .video-container {
+    position: relative;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height to fill parent */
+}
+
+.text-container {
     position: relative;
     width: 100%; /* Full width */
     height: 100%; /* Full height to fill parent */
@@ -171,35 +181,60 @@ body {
             {{-- Video Area --}}
             <div class="col-lg-8">
                 <div class="course-description-start">
-                    <div id="lesson-container" style="position: relative;"> 
-                        {{-- Existing content rendering logic --}}
-                        @if($currentMaterial->type == 'video')
-                            <div class="video-area">                            
-                                <div class="video-container">
-                                    @if(!empty($currentMaterial->content))
+                <div id="lesson-container" style="position: relative;"> 
+                    @if($currentMaterial->type == 'video')
+                        <div class="video-area">                            
+                            <div class="video-container">
+                                @if(!empty($currentMaterial->content))
                                     <video controls id="myvideo" 
-                                    class="video-js w-100" 
-                                    poster="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}"
-                                    data-setup='{"controls": true, "preload": "auto", "autoplay":true}'>
-                                    <source src="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" class="video-js w-100" autostart="true"/>
+                                        class="video-js w-100" 
+                                        poster="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}"
+                                        data-setup='{"controls": true, "preload": "auto", "autoplay":true}'>
+                                        <source src="{{ asset('uploads/courses/contents/' . $currentMaterial->content) }}" class="video-js w-100" autostart="true"/>
                                     </video>                                        
-                                    @elseif($currentMaterial->type == 'text')
-                                        <div class="lesson-text">
-                                            {!! $currentMaterial->content_data !!} <!-- Assuming content_data holds the text -->
-                                        </div>
-                                    @elseif($currentMaterial->type == 'document')
-                                        <div class="document-content">
-                                            {!! $currentMaterial->content_data !!}
-                                        </div>
-                                    @else
-                                        <p>No valid content available for this lesson.</p>
-                                    @endif
+                                @else
+                                    <p>No valid content available for this lesson.</p>
+                                @endif
+                            </div>
+                        </div>
+                    @elseif($currentMaterial->type == 'text')
+                        <div class="lesson-text">
+                            {!! $currentMaterial->content_data !!}
+                        </div>
+                    @elseif($currentMaterial->type == 'document')
+                        <div class="document-content">
+                            {!! $currentMaterial->content_data !!}
+                        </div>
+                    @else
+                        <p>No valid content available for this lesson.</p>
+                    @endif                    
+
+                </div>
+                <!-- Quiz Section (Initially hidden) -->
+                    <div id="quiz-container" style="display: none; border: 2px solid #ccc; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 100%; background-color: #fff;">
+                        <div class="text-area">
+                            <div class="text-container">
+                                <!-- Question content with number -->
+                                <div id="question-content" style="font-size: 28px; font-weight: bold; margin-bottom: 20px;"></div>
+                                <br>
+                                <!-- Options with A, B, C, D labels -->
+                                <div id="options" style="font-size: 24px;">
+                                    <label><input type="radio" name="answer" value="a"> A. <span id="option-a"></span></label><br>
+                                    <label><input type="radio" name="answer" value="b"> B. <span id="option-b"></span></label><br>
+                                    <label><input type="radio" name="answer" value="c"> C. <span id="option-c"></span></label><br>
+                                    <label><input type="radio" name="answer" value="d"> D. <span id="option-d"></span></label>
+                                </div>
+                                <br>
+                                <!-- Quiz navigation buttons -->
+                                <div class="quiz-navigation" style="margin-top: 20px; text-align: center;">
+                                    <button id="prev-question" disabled style="font-size: 16px; padding: 10px 15px; background-color: #f5a623; border: none; color: white; cursor: pointer;">Previous</button>
+                                    <button id="next-question" style="font-size: 16px; padding: 10px 15px; background-color: #4a90e2; border: none; color: white; cursor: pointer;">Next</button>
+                                    <button id="finish-quiz" style="display:none; font-size: 16px; padding: 10px 15px; background-color: #7ed321; border: none; color: white; cursor: pointer;">Finish</button>
                                 </div>
                             </div>
-                        @endif
-                        <!-- Transparent overlay to block interaction -->
-                        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255, 255, 255, 0);"></div>
+                        </div>
                     </div>
+
                     <div class="course-description-start-content">
                         <h5 class="font-title--sm material-title">{{$currentLesson->title}}</h5>
                         <nav class="course-description-start-content-tab">
@@ -400,7 +435,7 @@ body {
                                     <h6 class="">{{$loop->iteration}}. {{$lesson->title}}</h6>
                                 </div>
                                 @foreach ($lesson->material as $material)
-                                    <div class="main-wizard"
+                                    <div class="main-wizard lesson-wizard"
                                         data-lesson-id="{{ $lesson->id }}"
                                         data-material-title="{{$loop->parent->iteration}}.{{$loop->iteration}} {{$material->title}}"
                                         data-material-type="{{$material->type}}"
@@ -414,8 +449,8 @@ body {
                                         data-segment-no="{{$segment->segment_no}}">
                                         
                                         <div class="main-wizard__wrapper">
-                                            <a class="main-wizard-start">
-                                                @if ($material->type=='video')
+                                            <a class="main-wizard-start lesson-start">
+                                                @if ($material->type == 'video')
                                                     <div class="main-wizard-icon">
                                                         <i class="far fa-play-circle fa-lg"></i>
                                                     </div>
@@ -429,7 +464,7 @@ body {
                                                 </div>
                                             </a>
                                             <div class="main-wizard-end d-flex align-items-center">
-                                                @if ($material->type=='video')
+                                                @if ($material->type == 'video')
                                                     <strong><span style="color:green;">{{$material->file_duration}}</span></strong>
                                                 @else
                                                     <span></span>
@@ -439,13 +474,25 @@ body {
                                                         style="border-radius: 0px; margin-left: 5px;"
                                                         @if(in_array($material->id, $progressRecords)) checked @endif />
                                                 </div>
-                                            </div>
-                                        </div>
+                                            </div>                                            
+                                        </div>                                    
                                     </div>
                                 @endforeach
+                            </div>                            
+                        @endforeach  
+
+                        <div class="videolist-area-wizard"> 
+                            <div class="wizard-heading">
+                                <h6 class="">Quiz</h6>
+                            </div> 
+                            <div class="main-wizard quiz-wizard" data-quiz-id="{{ $quiz->id }}">
+                                <div class="main-wizard__wrapper"> 
+                                    <button class="button button--primary start-quiz-btn" data-quiz-id="{{$quiz->id}}">Start Quiz</button>
+                                </div>  
                             </div>
-                        @endforeach
+                        </div>
                     </div>
+
                 </div>
             </div>
 
@@ -510,7 +557,7 @@ body {
     <!-- Include jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     
-
+    <!-- Lesson -->
     <script>
     function show_content(material) {
         const contentType = material.type; // Get the type of content
@@ -556,10 +603,12 @@ body {
                 </div>
             `;
             $('#lesson-container').append(documentHTML);
-        } else {
-            // Handle other types of content if necessary
-            alert('No valid content available for this lesson.');
-        }
+        } 
+        // else {
+        //     // Handle other types of content if necessary
+        //     console.log('No valid content available for this lesson.');
+        //     alert('No valid content available for this lesson.');
+        // }
     }
 
     $(document).ready(function() {
@@ -629,18 +678,119 @@ body {
     });
 </script>
 
+<!-- Quiz -->
 <script>
-    // Disable right-click and keyboard shortcuts
-    document.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-    });
+let questions = [];
+let currentQuestionIndex = 0;
+let selectedAnswers = {};
 
-    document.addEventListener('keydown', function(e) {
-        if (e.ctrlKey && (e.key === 'c' || e.key === 's')) {
-            e.preventDefault();
+// Function to load a question based on the current index
+function loadQuestion(index) {
+    const question = questions[index];
+    if (!question) return;
+
+    // Display the total number of questions
+    $('#total-questions').text(`Total Questions: ${questions.length}`);
+    
+    // Display the current question in the desired format with a line break
+    $('#question-content').html(`Question ${index + 1} of ${questions.length}: <br>${question.content}`);
+    $('#option-a').text(question.option_a);
+    $('#option-b').text(question.option_b);
+    $('#option-c').text(question.option_c);
+    $('#option-d').text(question.option_d);
+
+    // Reset previously selected answer
+    $('input[name="answer"]').prop('checked', false);
+    if (selectedAnswers[question.id]) {
+        $(`input[name="answer"][value="${selectedAnswers[question.id]}"]`).prop('checked', true);
+    }
+
+    // Update navigation button states
+    $('#prev-question').prop('disabled', index === 0);
+    $('#next-question').toggle(index < questions.length - 1);
+    $('#finish-quiz').toggle(index === questions.length - 1);
+}
+
+// Save the selected answer for the current question
+function saveAnswer() {
+    const selectedAnswer = $('input[name="answer"]:checked').val();
+    if (selectedAnswer) {
+        selectedAnswers[questions[currentQuestionIndex].id] = selectedAnswer;
+    }
+}
+
+// Calculate and return the quiz score as a percentage
+function calculateScore() {
+    let correctAnswers = 0;
+    questions.forEach((question) => {
+        if (selectedAnswers[question.id] === question.correct_answer) {
+            correctAnswers++;
         }
     });
+    return (correctAnswers / questions.length) * 100;
+}
+
+// Fetch quiz questions when the quiz is clicked
+function fetchQuizQuestions(quizId) {
+    $.ajax({
+        url: `/students/quiz/${quizId}/questions`,
+        method: 'GET',
+        success: function(data) {
+            questions = data;
+            if (questions.length > 0) {
+                $('#quiz-container').show(); // Show the quiz container
+                loadQuestion(0); // Load the first question
+                
+                // Scroll to top of quiz container
+                $('html, body').animate({
+                    scrollTop: $('#quiz-container').offset().top
+                }, 'fast');
+            } else {
+                $('#quiz-container').html('<p>No questions available for this quiz.</p>');
+            }
+        },
+        error: function() {
+            $('#quiz-container').html('<p>Failed to load questions. Please try again later.</p>');
+        }
+    });
+}
+
+$(document).ready(function() {
+    // Event listener to start quiz when the button is clicked
+    $('.start-quiz-btn').click(function() {
+        const quizId = $(this).data('quiz-id');
+        
+        // Fetch quiz questions and display them
+        fetchQuizQuestions(quizId);
+        
+        // Scroll to top when quiz starts
+        $('html, body').animate({
+            scrollTop: $('#quiz-container').offset().top
+        }, 'fast');
+    });
+
+    // Handle question navigation
+    $('#next-question').click(() => {
+        saveAnswer();
+        currentQuestionIndex++;
+        loadQuestion(currentQuestionIndex);
+    });
+
+    $('#prev-question').click(() => {
+        saveAnswer();
+        currentQuestionIndex--;
+        loadQuestion(currentQuestionIndex);
+    });
+
+    // Finish the quiz and display results
+    $('#finish-quiz').click(() => {
+        saveAnswer();
+        const scorePercentage = calculateScore();
+        $('#quiz-container').html(`<p>Quiz Finished! Your score: ${scorePercentage}%</p>`);
+    });
+});
 </script>
+
 <!-- User Comments -->
 <script>
     $(document).ready(function () {
@@ -707,7 +857,6 @@ body {
     });
 </script>
 <!-- User Rating  -->
-<!-- User Rating  -->
 <script>
     $(document).ready(function () {
         // Handle star click
@@ -764,6 +913,20 @@ body {
         });
     });
 </script>
+
+<script>
+    // Disable right-click and keyboard shortcuts
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && (e.key === 'c' || e.key === 's')) {
+            e.preventDefault();
+        }
+    });
+</script>
+
 
 
 {{-- TOASTER --}}

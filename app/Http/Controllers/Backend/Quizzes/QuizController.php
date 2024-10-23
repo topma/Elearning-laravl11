@@ -48,13 +48,24 @@ class QuizController extends Controller
     public function store(Request $request)
     {
         try {
+            // Check if a quiz already exists for the selected course and segment by the instructor
+            $existingQuiz = Quiz::where('course_id', $request->courseId)
+                ->where('segment_id', $request->segmentId)
+                ->where('instructor_id', auth()->user()->instructor_id)
+                ->first();
+
+            // If a quiz already exists, return with an error message
+            if ($existingQuiz) {
+                return redirect()->back()->withInput()->with('error', 'A quiz already exists for the selected course and segment.');
+            }
+
+            // If no existing quiz, proceed to create a new one
             $quiz = new Quiz;
             $quiz->title = $request->quizTitle;
             $quiz->course_id = $request->courseId;
             $quiz->segment_id = $request->segmentId;
             $quiz->instructor_id = auth()->user()->instructor_id;
             $quiz->pass_mark = $request->passMark;
-
 
             if ($quiz->save()) {
                 $this->notice::success('Data Saved');
@@ -64,12 +75,12 @@ class QuizController extends Controller
                 return redirect()->back()->withInput();
             }
         } catch (Exception $e) {
-            dd($e);
+            // Handle the exception and display the error
+            dd($e); // You can replace this with a proper logging mechanism
             $this->notice::error('Please try again');
             return redirect()->back()->withInput();
         }
     }
-
     /**
      * Display the specified resource.
      */

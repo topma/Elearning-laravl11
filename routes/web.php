@@ -34,6 +34,7 @@ use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\UrlController;
+use App\Http\Controllers\QuizController;
 
 /* students */
 use App\Http\Controllers\Students\AuthController as sauth;
@@ -185,6 +186,7 @@ Route::middleware(['checkstudent'])->prefix('students')->group(function () {
     Route::post('/review/store', [review::class, 'saveReviews'])->name('review.save');
     Route::get('/course-review/{courseId}', [review::class, 'getReviews'])->name('course-review');
     Route::post('/course-rating', [review::class, 'storeRating'])->name('course.rating.store');
+    Route::get('/quiz/{quizId}/questions', [QuizController::class, 'getQuestions']);
 });
 
 //----------instructor routes --------------------------------

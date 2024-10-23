@@ -10,6 +10,7 @@ use App\Models\Progress;
 use App\Models\ProgressAll;
 use App\Models\Segments;
 use App\Models\Enrollment;
+use App\Models\Quiz;
 
 class WatchCourseController extends Controller
 {
@@ -94,7 +95,7 @@ class WatchCourseController extends Controller
             ]);           
 
             $currentLesson = Lesson::where('segments_id', $segment->id)->first();
-            $currentMaterial = Material::where('lesson_id', $lessonsFirst->id)->first(); 
+            $currentMaterial = Material::where('lesson_id', $lessonsFirst->id)->first();          
             
         }
 
@@ -131,6 +132,11 @@ class WatchCourseController extends Controller
             $segmentProgress[$segment->id] = round($percentage, 2);
         //    dd($totalLessons,$completedLessons,$segmentProgress);
         }
+
+        //---get quiz for segment of a particular course if available
+        $quiz= Quiz::where('course_id', $courseId)
+        ->where('segment_id', $segment->id)
+        ->first();
             
         // Continue with the course view, passing all necessary variables
         return view('frontend.watchCourse', compact(
@@ -140,7 +146,7 @@ class WatchCourseController extends Controller
             'lastViewedMaterial', 
             'lastViewedAt', 
             'progressRecords','currentLesson','currentMaterial','progress','segment',
-            'segmentProgress','studentId','courseId'
+            'segmentProgress','studentId','courseId','quiz'
         ));
     }
 

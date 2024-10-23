@@ -23,6 +23,7 @@ class EnrollmentController extends Controller
     public function create()
     {
         //
+        return redirect()->back()->with('success', 'This feature is not available. Please try again later.');
     }
 
     /**

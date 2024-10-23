@@ -12,7 +12,7 @@
     <link rel="icon" type="image/png" href="{{asset('frontend/dist/images/favicon/favicon.png')}}" />
     <link rel="stylesheet" href="{{asset('frontend/fontawesome-free-5.15.4-web/css/all.min.css')}}">
     <link href="https://vjs.zencdn.net/7.18.1/video-js.css" rel="stylesheet" />
-    
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
     .highlight {
         background-color: #e0f7fa; /* Light blue background for highlighting */
@@ -481,18 +481,26 @@ body {
                             </div>                            
                         @endforeach  
 
+                        @if(!empty($quiz))
                         <div class="videolist-area-wizard"> 
                             <div class="wizard-heading">
                                 <h6 class="">Quiz</h6>
                             </div> 
                             <div class="main-wizard quiz-wizard" data-quiz-id="{{ $quiz->id }}">
                                 <div class="main-wizard__wrapper"> 
-                                    <button class="button button--primary start-quiz-btn" data-quiz-id="{{$quiz->id}}">Start Quiz</button>
+                                    <button class="button button--primary start-quiz-btn" 
+                                    data-quiz-id="{{$quiz->id}}"
+                                    data-quiz-pass-mark="{{$quiz->pass_mark}}"
+                                    data-student-id="{{$studentId}}"
+                                    data-course-id="{{$course->id}}"
+                                    data-segment-id="{{$segment->id}}"
+                                    data-segment-no="{{$segment->segment_no}}">
+                                    Start Quiz</button>
                                 </div>  
                             </div>
                         </div>
                     </div>
-
+                    @endif
                 </div>
             </div>
 
@@ -684,6 +692,28 @@ let questions = [];
 let currentQuestionIndex = 0;
 let selectedAnswers = {};
 
+// Function to save question and selected answer to the database
+function saveQuestionResponse(questionId, studentId, answer = '') {
+    $.ajax({
+        url: `/students/quiz/save-answer`, // Adjust the URL based on your routing structure
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Pass CSRF token
+        },
+        data: {
+            student_id: studentId,
+            question_id: questionId,
+            answer: answer
+        },
+        success: function(response) {
+            console.log('Answer saved successfully.');
+        },
+        error: function() {
+            console.log('Failed to save the answer.');
+        }
+    });
+}
+
 // Function to load a question based on the current index
 function loadQuestion(index) {
     const question = questions[index];
@@ -709,13 +739,22 @@ function loadQuestion(index) {
     $('#prev-question').prop('disabled', index === 0);
     $('#next-question').toggle(index < questions.length - 1);
     $('#finish-quiz').toggle(index === questions.length - 1);
+
+    // Auto-save the question when loaded (even if no answer is selected yet)
+    const studentId = $('.start-quiz-btn').data('student-id');
+    saveQuestionResponse(question.id, studentId, selectedAnswers[question.id] || '');
 }
 
 // Save the selected answer for the current question
 function saveAnswer() {
     const selectedAnswer = $('input[name="answer"]:checked').val();
     if (selectedAnswer) {
-        selectedAnswers[questions[currentQuestionIndex].id] = selectedAnswer;
+        const currentQuestionId = questions[currentQuestionIndex].id;
+        selectedAnswers[currentQuestionId] = selectedAnswer;
+
+        // Auto-save the answer immediately when selected
+        const studentId = $('.start-quiz-btn').data('student-id');
+        saveQuestionResponse(currentQuestionId, studentId, selectedAnswer);
     }
 }
 
@@ -769,26 +808,32 @@ $(document).ready(function() {
         }, 'fast');
     });
 
-    // Handle question navigation
+    // Handle question navigation (Next and Previous buttons)
     $('#next-question').click(() => {
-        saveAnswer();
+        saveAnswer(); // Save answer before moving to the next question
         currentQuestionIndex++;
-        loadQuestion(currentQuestionIndex);
+        loadQuestion(currentQuestionIndex); // Load the next question
     });
 
     $('#prev-question').click(() => {
-        saveAnswer();
+        saveAnswer(); // Save answer before moving to the previous question
         currentQuestionIndex--;
-        loadQuestion(currentQuestionIndex);
+        loadQuestion(currentQuestionIndex); // Load the previous question
     });
 
     // Finish the quiz and display results
     $('#finish-quiz').click(() => {
-        saveAnswer();
+        saveAnswer(); // Save the last answer before finishing
         const scorePercentage = calculateScore();
         $('#quiz-container').html(`<p>Quiz Finished! Your score: ${scorePercentage}%</p>`);
     });
+
+    // Auto-save answer when an option is selected
+    $('input[name="answer"]').change(function() {
+        saveAnswer(); // Save answer immediately on selection
+    });
 });
+
 </script>
 
 <!-- User Comments -->

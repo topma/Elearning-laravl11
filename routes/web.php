@@ -187,6 +187,7 @@ Route::middleware(['checkstudent'])->prefix('students')->group(function () {
     Route::get('/course-review/{courseId}', [review::class, 'getReviews'])->name('course-review');
     Route::post('/course-rating', [review::class, 'storeRating'])->name('course.rating.store');
     Route::get('/quiz/{quizId}/questions', [QuizController::class, 'getQuestions']);
+    Route::post('/quiz/save-answer', [QuizController::class, 'saveAnswer']);
 });
 
 //----------instructor routes --------------------------------

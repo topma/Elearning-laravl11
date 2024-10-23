@@ -92,6 +92,7 @@ class WatchCourseController extends Controller
                 'last_viewed_at' => now(), 
                 'segments_id' => $segment->id,
                 'segment_no' => $segmentNo,
+                'quiz_attempts' => 0,
             ]);           
 
             $currentLesson = Lesson::where('segments_id', $segment->id)->first();

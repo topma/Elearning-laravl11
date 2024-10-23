@@ -6,6 +6,7 @@ use App\Models\Progress;
 use App\Models\ProgressAll;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ProgressController extends Controller
 {
@@ -19,7 +20,7 @@ class ProgressController extends Controller
 
     public function updateProgress(Request $request)
     {
-        \Log::info('Request Data: ', $request->all());
+       // \Log::info('Request Data: ', $request->all());
         
         $studentId = currentUserId(); // Replace with your method to get the current user ID
         $courseId = $request->input('courseid');

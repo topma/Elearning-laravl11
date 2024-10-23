@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 23, 2024 at 01:07 PM
+-- Generation Time: Oct 23, 2024 at 10:50 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -507,7 +507,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (58, '2024_10_21_134717_add_instructor_url_to_instructors_table', 27),
 (59, '2024_10_21_134906_add_course_url_to_courses_table', 27),
 (60, '2024_10_23_090951_add_course_id_to_questions_table', 28),
-(61, '2024_10_23_092038_add_pass_mark_to_quizzes_table', 29);
+(61, '2024_10_23_092038_add_pass_mark_to_quizzes_table', 29),
+(62, '2024_10_23_181449_add_quiz_attempt_to_progress_table', 30);
 
 -- --------------------------------------------------------
 
@@ -655,6 +656,7 @@ CREATE TABLE `progress` (
   `last_viewed_lesson_id` int(11) DEFAULT NULL,
   `last_viewed_material_id` bigint(20) UNSIGNED DEFAULT NULL,
   `last_viewed_at` timestamp NULL DEFAULT NULL,
+  `quiz_attempt` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -664,8 +666,8 @@ CREATE TABLE `progress` (
 -- Dumping data for table `progress`
 --
 
-INSERT INTO `progress` (`id`, `student_id`, `course_id`, `segments_id`, `segment_no`, `progress_percentage`, `completed`, `last_viewed_lesson_id`, `last_viewed_material_id`, `last_viewed_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 12, 3, 1, 1, 0, 0, 17, 14, '2024-10-18 23:59:53', '2024-10-18 23:59:53', '2024-10-22 05:46:08', NULL);
+INSERT INTO `progress` (`id`, `student_id`, `course_id`, `segments_id`, `segment_no`, `progress_percentage`, `completed`, `last_viewed_lesson_id`, `last_viewed_material_id`, `last_viewed_at`, `quiz_attempt`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 12, 3, 1, 1, 0, 0, 22, 19, '2024-10-18 23:59:53', NULL, '2024-10-18 23:59:53', '2024-10-24 01:24:19', NULL);
 
 -- --------------------------------------------------------
 
@@ -704,7 +706,11 @@ INSERT INTO `progress_alls` (`id`, `student_id`, `course_id`, `segments_id`, `se
 (9, 12, 3, 1, 1, 16, 13, 0, 1, '2024-10-19 20:52:26', '2024-10-19 20:52:26', '2024-10-19 20:52:26'),
 (10, 12, 3, 1, 1, 17, 14, 0, 1, '2024-10-19 22:18:46', '2024-10-19 22:18:46', '2024-10-19 22:18:46'),
 (11, 12, 3, 1, 1, 20, 17, 0, 1, '2024-10-20 18:12:53', '2024-10-20 18:12:53', '2024-10-20 18:12:53'),
-(12, 12, 3, 1, 1, 18, 12, 0, 1, '2024-10-21 00:58:23', '2024-10-21 00:58:23', '2024-10-21 00:58:23');
+(12, 12, 3, 1, 1, 18, 12, 0, 1, '2024-10-21 00:58:23', '2024-10-21 00:58:23', '2024-10-21 00:58:23'),
+(13, 12, 3, 1, 1, 30, 27, 0, 1, '2024-10-23 19:58:52', '2024-10-23 19:58:52', '2024-10-23 19:58:52'),
+(14, 12, 3, 1, 1, 26, 23, 0, 1, '2024-10-23 22:59:31', '2024-10-23 22:59:31', '2024-10-23 22:59:31'),
+(15, 12, 3, 1, 1, 21, 18, 0, 1, '2024-10-24 01:23:59', '2024-10-24 01:23:59', '2024-10-24 01:23:59'),
+(16, 12, 3, 1, 1, 22, 19, 0, 1, '2024-10-24 01:24:19', '2024-10-24 01:24:19', '2024-10-24 01:24:19');
 
 -- --------------------------------------------------------
 
@@ -886,7 +892,7 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `name_en`, `name_bn`, `contact_en`, `contact_bn`, `email`, `email_verified_status`, `email_verified_at`, `date_of_birth`, `gender`, `image`, `bio`, `profession`, `nationality`, `address`, `city`, `state`, `postcode`, `country`, `status`, `password`, `language`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(12, 'Maxwell Akinyooye', NULL, '07032689329', NULL, 'phemanuel@yahoo.com', 1, '2024-09-27 18:33:33', NULL, 'male', '6731727565536.jpg', 'I am a driven individual, ready to take on challenges.', 'Web Developer', 'Nigeria', NULL, NULL, NULL, NULL, NULL, 1, '$2y$12$2UMxg6CNDKtTbMdsMqmmKOXVYHKuIBSoR8NolHXxBiGP/WZZJohyW', 'en', 'Roy3mfNDYQjGdDTMllja6qg56kbUYdJtuTcSfpx9', '2024-09-27 18:32:50', '2024-10-23 18:01:24', NULL);
+(12, 'Maxwell Akinyooye', NULL, '07032689329', NULL, 'phemanuel@yahoo.com', 1, '2024-09-27 18:33:33', NULL, 'male', '6731727565536.jpg', 'I am a driven individual, ready to take on challenges.', 'Web Developer', 'Nigeria', NULL, NULL, NULL, NULL, NULL, 1, '$2y$12$5DaPILO9PASOzB2phTtETe5olNtmZg//GYHZagD2EOBm4YuN0d6p.', 'en', 'Roy3mfNDYQjGdDTMllja6qg56kbUYdJtuTcSfpx9', '2024-09-27 18:32:50', '2024-10-23 18:15:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -942,7 +948,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name_en`, `name_bn`, `email`, `contact_en`, `email_verified_status`, `email_verified_at`, `contact_bn`, `role_id`, `password`, `language`, `image`, `full_access`, `status`, `remember_token`, `instructor_id`, `student_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'Femi Akinyooye', NULL, 'admin@gmail.com', '23409073829919', NULL, NULL, NULL, 1, '$2y$12$PlnhqSDfcI.fCeE3uhW3BOdH8iSZ5ylB1Rg.Hs9iesfSRgtVfGPPO', 'en', 'femi_akinyooye.jpg', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL),
-(9, 'Maxwell Akinyooye', NULL, 'phemanuel@yahoo.com', '08000000000000', 1, '2024-09-27 18:33:33', NULL, 4, '$2y$12$TIQOQsJhwbGEFoJnu8yqGO.fp4lfLEMrS/afdg3q9JO79fFT8Bgmq', 'en', 'blank.jpg', 0, 1, 'Roy3mfNDYQjGdDTMllja6qg56kbUYdJtuTcSfpx9', NULL, 12, '2024-09-27 18:32:50', '2024-09-27 18:33:33', NULL),
+(9, 'Maxwell Akinyooye', NULL, 'phemanuel@yahoo.com', '07032689329', 1, '2024-09-27 18:33:33', NULL, 4, '$2y$12$3SSWI2dT8VYugHwFB3UFPuwQ.nPnxlbzRYumJES56BFozM2XTHW.a', 'en', 'blank.jpg', 0, 1, 'Roy3mfNDYQjGdDTMllja6qg56kbUYdJtuTcSfpx9', NULL, 12, '2024-09-27 18:32:50', '2024-10-23 18:15:56', NULL),
 (10, 'Adeyinka Temiloluwa', NULL, 'emmanexitconsult@gmail.com', '08053608799', NULL, NULL, NULL, 3, '$2y$12$2XNRWEPv4lqZxtFMqFZqiuupjCyqs48hoZXdmcEfNykUQwsGhhIZi', 'en', 'Instructor_Adeyinka Temiloluwa_197.jpg', 0, 1, 'edlGrH8QxK40cUmRmGODHAL6pvV4sMXf2JqSTMheXTQycInI1qGHHjmL1xpQ', 3, NULL, '2024-09-27 18:36:42', '2024-10-05 18:23:30', NULL),
 (11, 'Miracle Peter', NULL, 'miracle.kingsbranding@gmail.com', '08104196102', NULL, NULL, NULL, 3, '$2y$12$gIlxVlMUdK8pESufXEnRzufiNJOkRcJZqtFkRwZ7EanQpIh.6DsiW', 'en', 'Instructor_Miracle Peter_629.jpg', 0, 1, NULL, 4, NULL, '2024-09-29 03:06:36', '2024-09-29 03:06:36', NULL),
 (12, 'Olayimika Omotayo', NULL, 'olaoluwayimika72@yahoo.com', '08053708699', NULL, NULL, NULL, 3, '$2y$12$cCZiRvsZH1X/il831Cq5XOoat/hdAERPxG0CK/AReRKXcVmT.WW6m', 'en', 'Instructor_Olayimika Omotayo_791.jpg', 0, 1, NULL, 5, NULL, '2024-09-29 03:14:03', '2024-09-29 03:14:03', NULL);
@@ -1283,7 +1289,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `news_letters`
@@ -1325,7 +1331,7 @@ ALTER TABLE `progress`
 -- AUTO_INCREMENT for table `progress_alls`
 --
 ALTER TABLE `progress_alls`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `questions`

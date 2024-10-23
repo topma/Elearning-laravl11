@@ -95,13 +95,10 @@ class StudentController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
-        try {
-
+        try {           
             $student = Student::findOrFail(encryptor('decrypt', $id));
             $student->name_en = $request->fullName_en;
-            // $student->name_bn = $request->fullName_bn;
             $student->contact_en = $request->contactNumber_en;
-            // $student->contact_bn = $request->contactNumber_bn;
             $student->email = $request->emailAddress;
             //$student->role_id = $request->roleId;
             $student->date_of_birth = $request->birthDate;
@@ -109,7 +106,11 @@ class StudentController extends Controller
             $student->status = $request->status;
             $student->password = Hash::make($request->password);
             $student->language = 'en';
-            //$student->access_block = $request->accessBlock;
+            $user = User::where('student_id' , $student->id);
+            $user->password = Hash::make($request->password);
+            $user->name_en = $request->fullName_en;
+            $user->contact_en = $request->contactNumber_en;
+            $user->email = $request->emailAddress;
 
             if ($request->hasFile('image')) {
                 $imageName = rand(111, 999) . time() . '.' . $request->image->extension();

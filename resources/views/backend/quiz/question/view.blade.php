@@ -15,12 +15,13 @@
         <div class="row page-titles mx-0">
             <div class="col-sm-6 p-md-0">
                 <div class="welcome-text">
-                    <h4>Question List</h4>
+                    <h4>Question List - {{$quiz->title}}</h4>
                 </div>
             </div>
             <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>                    
+                    <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li> 
+                    <li class="breadcrumb-item"><a href="{{route('quiz.index')}}">Quiz</a></li>                   
                     <li class="breadcrumb-item active"><a href="#">All Question</a>
                     </li>
                 </ol>
@@ -50,7 +51,7 @@
                                     <table id="example3" class="display" style="min-width: 845px">
                                         <thead>
                                             <tr>
-                                                <th>{{__('Quiz')}}</th>
+                                                <th>#</th>
                                                 <th>{{__('Type')}}</th>
                                                 <th>{{__('Question')}}</th>
                                                 <th>{{__('Option A')}}</th>
@@ -62,9 +63,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ($question as $q)
+                                            @forelse ($question as $key => $q)
                                             <tr>
-                                                <td>{{$q->quiz?->title}}</td>
+                                                <td>{{$key + 1}}</td>
                                                 <td>
                                                     {{ $q->type == 'multiple_choice' ? __('Multiple Choice') : ($q->type
                                                     == 'true_false' ?

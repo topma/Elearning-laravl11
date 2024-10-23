@@ -55,7 +55,7 @@
                                                 <th>{{__('Quiz Title')}}</th>
                                                 <th>{{__('Course')}}</th>
                                                 <th>{{__('Segment')}}</th>
-                                                <th>{{__('No of Qst')}}</th>
+                                                <th>{{__('No of Qst Added')}}</th>
                                                 <th>{{__('Pass Mark')}}</th>
                                                 <th></th>
                                                 <th>{{__('Action')}}</th>
@@ -68,11 +68,17 @@
                                                 <td>{{$q->title}}</td>
                                                 <td>{{$q->course?->title_en}}</td> 
                                                 <td>{{ $q->segment->title_en ?? 'No Segment' }}</td>    
-                                                <td></td>   
+                                                <td>{{ $q->questions->count() }}</td>   
                                                 <td>{{ $q->pass_mark}}%</td>                                        
                                                 <td>
-                                                    <a href="{{route('question.createNew', ['id' => encryptor('encrypt', $q->id)])}}" 
-                                                class="btn btn-info" title="Add Questions">+ Add Questions</a></td>
+                                                    @if($q->questions->count() > 0)
+                                                    <a href="{{route('question.show', encryptor('encrypt', $q->id))}}" 
+                                                class="btn btn-info" title="View Questions">View Questions</a>
+                                                @else
+                                                <a href="{{route('question.createNew', ['id' => encryptor('encrypt', $q->id)])}}" 
+                                                class="btn btn-primary" title="Add Questions">+ Add Questions</a>
+                                                @endif
+                                            </td>
                                                 <td>
                                                     <a href="{{route('quiz.edit', encryptor('encrypt',$q->id))}}"
                                                         class="btn btn-sm btn-primary" title="Edit"><i

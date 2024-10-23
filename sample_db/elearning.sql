@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 23, 2024 at 01:18 AM
+-- Generation Time: Oct 23, 2024 at 01:07 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -505,7 +505,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (56, '2024_10_20_173150_add_student_id_to_quizzes_table', 25),
 (57, '2024_10_21_123956_add_date_enabled_to_courses_table', 26),
 (58, '2024_10_21_134717_add_instructor_url_to_instructors_table', 27),
-(59, '2024_10_21_134906_add_course_url_to_courses_table', 27);
+(59, '2024_10_21_134906_add_course_url_to_courses_table', 27),
+(60, '2024_10_23_090951_add_course_id_to_questions_table', 28),
+(61, '2024_10_23_092038_add_pass_mark_to_quizzes_table', 29);
 
 -- --------------------------------------------------------
 
@@ -713,12 +715,30 @@ INSERT INTO `progress_alls` (`id`, `student_id`, `course_id`, `segments_id`, `se
 CREATE TABLE `questions` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `quiz_id` bigint(20) UNSIGNED NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `segment_id` int(11) NOT NULL,
   `content` text NOT NULL,
   `type` enum('multiple_choice','true_false','short_answer') NOT NULL,
+  `option_a` varchar(255) NOT NULL,
+  `option_b` varchar(255) NOT NULL,
+  `option_c` varchar(255) NOT NULL,
+  `option_d` varchar(255) NOT NULL,
+  `correct_answer` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `questions`
+--
+
+INSERT INTO `questions` (`id`, `quiz_id`, `course_id`, `segment_id`, `content`, `type`, `option_a`, `option_b`, `option_c`, `option_d`, `correct_answer`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(2, 3, 3, 1, 'What is the primary goal of social media management?', 'multiple_choice', 'To increase website traffic', 'To manage financial reports and Posts', 'To create engaging and consistent content on social platforms', 'To track expenses for clients', 'c', '2024-10-23 17:02:39', '2024-10-23 17:18:08', NULL),
+(3, 3, 3, 1, 'Which is the first step in optimizing a social media profile?', 'multiple_choice', 'Setting up a profile picture', 'Filling out the bio and relevant information', 'Posting random content', 'Sending friend requests to everyone', 'b', '2024-10-23 17:19:13', '2024-10-23 17:19:13', NULL),
+(4, 3, 3, 1, 'Which skill is most important for effective social media management?', 'multiple_choice', 'Copywriting', 'Physical networking', 'Data entry', 'Software programming', 'a', '2024-10-23 17:20:10', '2024-10-23 17:20:10', NULL),
+(5, 3, 3, 1, 'Which of the following can help make content go viral?', 'multiple_choice', 'Ignoring trends', 'Using emotionally resonant storytelling', 'Posting at random times', 'Avoiding hashtags', 'b', '2024-10-23 17:21:26', '2024-10-23 17:21:26', NULL),
+(6, 3, 3, 1, 'What is a content calendar used for in social media management?', 'multiple_choice', 'Tracking expenses', 'Organizing the posting schedule and content themes', 'Managing databases', 'Calculating ROI', 'b', '2024-10-23 17:22:06', '2024-10-23 17:22:06', NULL);
 
 -- --------------------------------------------------------
 
@@ -731,9 +751,8 @@ CREATE TABLE `quizzes` (
   `course_id` bigint(20) UNSIGNED NOT NULL,
   `segment_id` int(11) NOT NULL,
   `instructor_id` int(10) NOT NULL,
-  `student_id` int(11) DEFAULT NULL,
   `title` varchar(255) NOT NULL,
-  `quiz_status` int(11) DEFAULT NULL,
+  `pass_mark` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -743,8 +762,8 @@ CREATE TABLE `quizzes` (
 -- Dumping data for table `quizzes`
 --
 
-INSERT INTO `quizzes` (`id`, `course_id`, `segment_id`, `instructor_id`, `student_id`, `title`, `quiz_status`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(3, 3, 1, 4, NULL, 'Quiz 1', NULL, '2024-10-23 06:07:32', '2024-10-23 06:07:32', NULL);
+INSERT INTO `quizzes` (`id`, `course_id`, `segment_id`, `instructor_id`, `title`, `pass_mark`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(3, 3, 1, 4, 'Quiz 1', 80, '2024-10-23 06:07:32', '2024-10-23 16:25:05', NULL);
 
 -- --------------------------------------------------------
 
@@ -867,7 +886,7 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `name_en`, `name_bn`, `contact_en`, `contact_bn`, `email`, `email_verified_status`, `email_verified_at`, `date_of_birth`, `gender`, `image`, `bio`, `profession`, `nationality`, `address`, `city`, `state`, `postcode`, `country`, `status`, `password`, `language`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(12, 'Maxwell Akinyooye', NULL, '07032689329', NULL, 'phemanuel@yahoo.com', 1, '2024-09-27 18:33:33', NULL, 'male', '6731727565536.jpg', 'I am a driven individual, ready to take on challenges.', 'Web Developer', 'Nigeria', NULL, NULL, NULL, NULL, NULL, 1, '$2y$12$gel5j2isS0bALQ/PNl2rq.toIKfqVLEzMOzElWjMOGrvPWxF5TM5i', 'en', 'Roy3mfNDYQjGdDTMllja6qg56kbUYdJtuTcSfpx9', '2024-09-27 18:32:50', '2024-10-22 06:04:53', NULL);
+(12, 'Maxwell Akinyooye', NULL, '07032689329', NULL, 'phemanuel@yahoo.com', 1, '2024-09-27 18:33:33', NULL, 'male', '6731727565536.jpg', 'I am a driven individual, ready to take on challenges.', 'Web Developer', 'Nigeria', NULL, NULL, NULL, NULL, NULL, 1, '$2y$12$2UMxg6CNDKtTbMdsMqmmKOXVYHKuIBSoR8NolHXxBiGP/WZZJohyW', 'en', 'Roy3mfNDYQjGdDTMllja6qg56kbUYdJtuTcSfpx9', '2024-09-27 18:32:50', '2024-10-23 18:01:24', NULL);
 
 -- --------------------------------------------------------
 
@@ -1264,7 +1283,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `news_letters`
@@ -1312,7 +1331,7 @@ ALTER TABLE `progress_alls`
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `quizzes`

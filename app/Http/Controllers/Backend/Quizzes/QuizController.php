@@ -19,13 +19,13 @@ class QuizController extends Controller
         $userRoleId = auth()->user()->role_id;
         
         if ($userRoleId == 1) {
-            // Admin can view all quizzes with their segments
-            $quiz = Quiz::with('segment')->paginate(10);
+            // Admin can view all quizzes with their segments and question count
+            $quiz = Quiz::with('segment', 'questions')->paginate(10);
         } elseif ($userRoleId == 3) {
-            // Instructor can view only their quizzes with their segments
+            // Instructor can view only their quizzes with their segments and question count
             $instructorId = auth()->user()->instructor_id;
             $quiz = Quiz::where('instructor_id', $instructorId)
-                ->with('segment')
+                ->with('segment', 'questions')
                 ->paginate(10);
         }
         

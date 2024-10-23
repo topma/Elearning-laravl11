@@ -16,13 +16,13 @@
         <div class="row page-titles mx-0">
             <div class="col-sm-6 p-md-0">
                 <div class="welcome-text">
-                    <h4>Edit Question</h4>
+                    <h4>Edit Question - {{$quiz->title}}</h4>
                 </div>
             </div>
             <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active"><a href="{{route('question.index')}}">Questions</a></li>
+                    <li class="breadcrumb-item active"><a href="{{route('question.show', encryptor('encrypt',$quiz->id))}}">Questions</a></li>
                     <li class="breadcrumb-item active"><a href="javascript:void(0);">Edit Question</a></li>
                 </ol>
             </div>
@@ -44,14 +44,10 @@
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Quiz</label>
-                                        <select class="form-control" name="quizId">
-                                            @forelse ($quiz as $q)
-                                            <option value="{{$q->id}}" {{old('quizId', $question->quiz_id) ==
-                                                $q->id?'selected':''}}>
-                                                {{$q->title}}</option>
-                                            @empty
-                                            <option value="">No Quiz Found</option>
-                                            @endforelse
+                                        <select class="form-control" name="quizId">                                            
+                                            <option value="{{$quiz->id}}" {{old('quizId', $question->quiz_id) ==
+                                                $quiz->id?'selected':''}}>
+                                                {{$quiz->title}}</option>                                            
                                         </select>
                                     </div>
                                     @if($errors->has('quizId'))
@@ -135,8 +131,8 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                    <button type="submit" class="btn btn-light">Cencel</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    <button type="submit" class="btn btn-light">Cancel</button>
                                 </div>
                             </div>
                         </form>

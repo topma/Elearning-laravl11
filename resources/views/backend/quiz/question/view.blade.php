@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Quiz List')
+@section('title', 'Question List')
 
 @push('styles')
 <!-- Datatable -->
@@ -15,14 +15,13 @@
         <div class="row page-titles mx-0">
             <div class="col-sm-6 p-md-0">
                 <div class="welcome-text">
-                    <h4>Quiz List</h4>
+                    <h4>Question List</h4>
                 </div>
             </div>
             <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active"><a href="{{route('quiz.index')}}">Quizzes</a></li>
-                    <li class="breadcrumb-item active"><a href="{{route('quiz.index')}}">All Quiz</a>
+                    <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>                    
+                    <li class="breadcrumb-item active"><a href="#">All Question</a>
                     </li>
                 </ol>
             </div>
@@ -43,45 +42,51 @@
                     <div id="list-view" class="tab-pane fade active show col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">All Quiz List </h4>
-                                <a href="{{route('quiz.create')}}" class="btn btn-primary">+ Add new</a>
+                                <h4 class="card-title">All Questions List </h4>
+                                <a href="{{route('question.createNew', ['id' => encryptor('encrypt', $quiz->id)])}}" class="btn btn-primary">+ Add new</a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table id="example3" class="display" style="min-width: 845px">
                                         <thead>
                                             <tr>
-                                                <th>{{__('#')}}</th>
-                                                <th>{{__('Quiz Title')}}</th>
-                                                <th>{{__('Course')}}</th>
-                                                <th>{{__('Segment')}}</th>
-                                                <th>{{__('No of Qst')}}</th>
-                                                <th>{{__('Pass Mark')}}</th>
-                                                <th></th>
+                                                <th>{{__('Quiz')}}</th>
+                                                <th>{{__('Type')}}</th>
+                                                <th>{{__('Question')}}</th>
+                                                <th>{{__('Option A')}}</th>
+                                                <th>{{__('Option B')}}</th>
+                                                <th>{{__('Option C')}}</th>
+                                                <th>{{__('Option D')}}</th>
+                                                <th>{{__('Correct Answer')}}</th>
                                                 <th>{{__('Action')}}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ($quiz as $key => $q)
+                                            @forelse ($question as $q)
                                             <tr>
-                                                <td>{{$key + 1}}</td>
-                                                <td>{{$q->title}}</td>
-                                                <td>{{$q->course?->title_en}}</td> 
-                                                <td>{{ $q->segment->title_en ?? 'No Segment' }}</td>    
-                                                <td></td>   
-                                                <td>{{ $q->pass_mark}}%</td>                                        
+                                                <td>{{$q->quiz?->title}}</td>
                                                 <td>
-                                                    <a href="{{route('question.createNew', ['id' => encryptor('encrypt', $q->id)])}}" 
-                                                class="btn btn-info" title="Add Questions">+ Add Questions</a></td>
+                                                    {{ $q->type == 'multiple_choice' ? __('Multiple Choice') : ($q->type
+                                                    == 'true_false' ?
+                                                    __('True False') : __('Short Answer')) }}
+                                                </td>
+                                                <td>{{$q->content}}</td>
+                                                <td>{{$q->option_a}}</td>
+                                                <td>{{$q->option_b}}</td>
+                                                <td>{{$q->option_c}}</td>
+                                                <td>{{$q->option_d}}</td>
+                                                <td>{{$q->correct_answer == 'a' ? 'Option-A' : ($q->correct_answer ==
+                                                    'b' ? 'Option-B' : ($q->correct_answer == 'c' ? 'Option-C' :
+                                                    'Option-D'))}}</td>
                                                 <td>
-                                                    <a href="{{route('quiz.edit', encryptor('encrypt',$q->id))}}"
+                                                    <a href="{{route('question.edit', encryptor('encrypt',$q->id))}}"
                                                         class="btn btn-sm btn-primary" title="Edit"><i
                                                             class="la la-pencil"></i></a>
                                                     <a href="javascript:void(0);" class="btn btn-sm btn-danger"
                                                         title="Delete" onclick="$('#form{{$q->id}}').submit()"><i
                                                             class="la la-trash-o"></i></a>
                                                     <form id="form{{$q->id}}"
-                                                        action="{{route('quiz.destroy', encryptor('encrypt',$q->id))}}"
+                                                        action="{{route('question.destroy', encryptor('encrypt',$q->id))}}"
                                                         method="post">
                                                         @csrf
                                                         @method('DELETE')
@@ -90,7 +95,7 @@
                                             </tr>
                                             @empty
                                             <tr>
-                                                <th colspan="4" class="text-center">No Quiz Found</th>
+                                                <th colspan="5" class="text-center">No Question Found</th>
                                             </tr>
                                             @endforelse
                                         </tbody>

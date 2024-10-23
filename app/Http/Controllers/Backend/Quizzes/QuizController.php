@@ -53,6 +53,7 @@ class QuizController extends Controller
             $quiz->course_id = $request->courseId;
             $quiz->segment_id = $request->segmentId;
             $quiz->instructor_id = auth()->user()->instructor_id;
+            $quiz->pass_mark = $request->passMark;
 
 
             if ($quiz->save()) {
@@ -99,6 +100,9 @@ class QuizController extends Controller
             $quiz = Quiz::findOrFail(encryptor('decrypt', $id));
             $quiz->title = $request->quizTitle;
             $quiz->course_id = $request->courseId;
+            $quiz->segment_id = $request->segmentId;
+            $quiz->instructor_id = auth()->user()->instructor_id;
+            $quiz->pass_mark = $request->passMark;
 
             if ($quiz->save()) {
                 $this->notice::success('Data Saved');

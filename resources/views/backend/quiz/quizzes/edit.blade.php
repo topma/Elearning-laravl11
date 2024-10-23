@@ -63,7 +63,7 @@
                                     <div class="form-group">
                                         <label class="form-label">Segment</label>
                                         <select class="form-control" name="segmentId" id="segmentId">
-                                            <option value="{{$segmentName->title_en}}" selected>{{$segmentName->title_en}}</option>
+                                            <option value="{{$segmentName->id}}" selected>{{$segmentName->title_en}}</option>
                                         </select>
                                     </div>
                                     @if($errors->has('segmentId'))
@@ -78,6 +78,23 @@
                                     </div>
                                     @if($errors->has('quizTitle'))
                                     <span class="text-danger"> {{ $errors->first('quizTitle') }}</span>
+                                    @endif
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Pass Mark(%)</label>
+                                        <select name="passMark" id="passMark" class="form-control">
+                                            <option value="{{$quiz->pass_mark}}">{{$quiz->pass_mark}}</option>
+                                            <option value="50">50</option>
+                                            <option value="60">60</option>
+                                            <option value="70">70</option>
+                                            <option value="80">80</option>
+                                            <option value="90">90</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                    </div>
+                                    @if($errors->has('passMark'))
+                                    <span class="text-danger"> {{ $errors->first('passMark') }}</span>
                                     @endif
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">

@@ -11,10 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('quizzes', function (Blueprint $table) {
-            //            
+        Schema::table('questions', function (Blueprint $table) {
+            //
+            $table->integer('course_id');
             $table->integer('segment_id');
-            $table->integer('instructor_id');
+            $table->string('option_a');
+            $table->string('option_b');
+            $table->string('option_c');
+            $table->string('option_d');
+            $table->string('correct_answer');
         });
     }
 
@@ -23,7 +28,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('quizzes', function (Blueprint $table) {
+        Schema::table('questions', function (Blueprint $table) {
             //
         });
     }

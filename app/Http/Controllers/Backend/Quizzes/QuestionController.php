@@ -13,7 +13,7 @@ class QuestionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() 
     {
         $question = Question::paginate(10);
         return view('backend.quiz.question.index', compact('question'));
@@ -23,8 +23,19 @@ class QuestionController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {
+    {        
         $quiz = Quiz::get();
+        return view('backend.quiz.question.create', compact('quiz'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function createQuestion($id)
+    {
+        $decryptedId = encryptor('decrypt', $id);
+
+        $quiz = Quiz::where('id', $decryptedId)->first();
         return view('backend.quiz.question.create', compact('quiz'));
     }
 
@@ -43,10 +54,12 @@ class QuestionController extends Controller
             $question->option_c = $request->optionC;
             $question->option_d = $request->optionD;
             $question->correct_answer = $request->correctAnswer;
+            $question->course_id = $request->courseId;
+            $question->segment_id = $request->segmentId;
 
             if ($question->save()) {
                 $this->notice::success('Data Saved');
-                return redirect()->route('question.index');
+                return redirect()->route('question.show', encryptor('encrypt', $request->quizId));
             } else {
                 $this->notice::error('Please try again');
                 return redirect()->back()->withInput();
@@ -61,9 +74,16 @@ class QuestionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Question $question)
+    public function show($id)
     {
         //
+        $decryptedId = encryptor('decrypt', $id);
+
+        $quiz = Quiz::findOrFail($decryptedId);
+
+        $question = Question::where('quiz_id', $quiz->id)->paginate(10);
+
+        return view('backend.quiz.question.view', compact('question','quiz'));
     }
 
     /**
@@ -71,8 +91,10 @@ class QuestionController extends Controller
      */
     public function edit($id)
     {
-        $quiz = Quiz::get();
-        $question = Question::findOrFail(encryptor('decrypt',$id));
+        $decryptedId = encryptor('decrypt', $id);
+       
+        $question = Question::findOrFail($decryptedId);
+        $quiz = Quiz::where('id', $question->quiz_id)->first();
         return view('backend.quiz.question.edit', compact('quiz', 'question'));
     }
 
@@ -91,10 +113,11 @@ class QuestionController extends Controller
             $question->option_c = $request->optionC;
             $question->option_d = $request->optionD;
             $question->correct_answer = $request->correctAnswer;
+            
 
             if ($question->save()) {
                 $this->notice::success('Data Saved');
-                return redirect()->route('question.index');
+                return redirect()->route('question.show', encryptor('encrypt', $request->quizId));
             } else {
                 $this->notice::error('Please try again');
                 return redirect()->back()->withInput();

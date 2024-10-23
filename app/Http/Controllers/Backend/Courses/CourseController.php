@@ -284,7 +284,7 @@ class CourseController extends Controller
     {
         try {
             // Log the incoming request
-            Log::info('Fetching segments for course', ['course_id' => $courseId]);
+            //Log::info('Fetching segments for course', ['course_id' => $courseId]);
 
             // Fetch segments
             $segments = Segments::where('course_id', $courseId)->get(['id', 'title_en']);
@@ -295,7 +295,7 @@ class CourseController extends Controller
             // } else {
             //     Log::info('Segments found', ['course_id' => $courseId, 'segments' => $segments]);
             // }
-            \Log::info('Returning segments as JSON', ['segments' => $segments]);
+            //\Log::info('Returning segments as JSON', ['segments' => $segments]);
 
             return response()->json($segments);
         } catch (\Exception $e) {

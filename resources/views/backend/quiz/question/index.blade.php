@@ -33,9 +33,9 @@
                 <ul class="nav nav-pills mb-3">
                     <li class="nav-item"><a href="#list-view" data-toggle="tab"
                             class="nav-link btn-primary mr-1 show active">List View</a></li>
-                    <li class="nav-item"><a href="javascript:void(0);" data-toggle="tab"
+                    <!-- <li class="nav-item"><a href="javascript:void(0);" data-toggle="tab"
                             class="nav-link btn-primary">Grid
-                            View</a></li>
+                            View</a></li> -->
                 </ul>
             </div>
             <div class="col-lg-12">

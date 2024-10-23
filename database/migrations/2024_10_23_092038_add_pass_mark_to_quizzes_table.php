@@ -12,9 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('quizzes', function (Blueprint $table) {
-            //            
-            $table->integer('segment_id');
-            $table->integer('instructor_id');
+            //
+            $table->integer('pass_mark');
         });
     }
 

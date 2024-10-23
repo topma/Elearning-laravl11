@@ -134,6 +134,7 @@ Route::middleware(['checkauth'])->prefix('admin')->group(function () {
     Route::resource('event', event::class);
     Route::resource('quiz', quiz::class);
     Route::resource('question', question::class);
+    Route::get('question/add/{id}', [question::class, 'createQuestion'])->name('question.createNew');
     Route::resource('option', option::class);
     Route::resource('answer', answer::class);
     Route::resource('review', review::class); 

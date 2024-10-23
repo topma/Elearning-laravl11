@@ -399,12 +399,12 @@
                 <li><a href="{{route('course.index')}}"><i class="las la-book-open"></i>My Courses</a></li>
                 <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="las la-tasks"></i>
-                            <span class="nav-text">Quizzes</span>
+                            <span class="nav-text">Quiz</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="{{route('quiz.index')}}"><i class="las la-icons"></i>All Quizzes</a></li>
-                            <li><a href="{{route('question.index')}}"><i
-                                        class="las la-question-circle"></i>Questions</a></li>
+                            <li><a href="{{route('quiz.index')}}"><i class="las la-icons"></i>All Quiz</a></li>
+                            <!-- <li><a href="{{route('question.index')}}"><i
+                                        class="las la-question-circle"></i>Questions</a></li> -->
                         </ul>
                     </li>
                 <!-- <li><a href="{{route('lesson.index')}}"><i class="las la-chalkboard"></i>Course Lessons</a></li> -->
@@ -435,7 +435,7 @@
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright © Powered by <a href="https://kingsconsult.com.ng" target="_blank">Kings Digital Literacy Hub</a> 2023 - <?php echo date('Y') ?></p>
+                <p>Copyright © Powered by <a href="{{route('about')}}" target="_blank">Kings Digital Literacy Hub</a> 2023 - <?php echo date('Y') ?></p>
             </div>
         </div>
         <!--**********************************

@@ -16,14 +16,14 @@
         <div class="row page-titles mx-0">
             <div class="col-sm-6 p-md-0">
                 <div class="welcome-text">
-                    <h4>Add Question</h4>
+                    <h4>Add Question - {{$quiz->title}}</h4>
                 </div>
             </div>
             <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active"><a href="{{route('question.index')}}">Questions</a></li>
-                    <li class="breadcrumb-item active"><a href="{{route('question.create')}}">Add Question</a>
+                    <li class="breadcrumb-item active"><a href="{{route('question.show', encryptor('encrypt',$quiz->id))}}">Questions</a></li>
+                    <li class="breadcrumb-item active"><a href="#">Add Question</a>
                     </li>
                 </ol>
             </div>
@@ -43,12 +43,10 @@
                                     <div class="form-group">
                                         <label class="form-label">Quiz</label>
                                         <select class="form-control" name="quizId">
-                                            @forelse ($quiz as $q)
-                                            <option value="{{$q->id}}" {{old('quizId')==$q->id?'selected':''}}>
-                                                {{$q->title}}</option>
-                                            @empty
-                                            <option value="">No Quiz Found</option>
-                                            @endforelse
+                                            
+                                            <option value="{{$quiz->id}}" {{old('quizId')==$quiz->id?'selected':''}}>
+                                                {{$quiz->title}}</option>
+                                            
                                         </select>
                                     </div>
                                     @if($errors->has('quizId'))
@@ -62,11 +60,11 @@
                                             <option value="multiple_choice" @if(old('questionType')=='multiple_choice' ) selected @endif>
                                                 Multiple Choice
                                             </option>
-                                            <option value="true_false" @if(old('questionType')=='true_false' ) selected
+                                            <!-- <option value="true_false" @if(old('questionType')=='true_false' ) selected
                                                 @endif>True False
                                             </option>
                                             <option value="short_answer" @if(old('questionType')=='short_answer' ) selected @endif>Short Answer
-                                            </option>
+                                            </option> -->
                                         </select>
                                     </div>
                                 </div>
@@ -128,8 +126,10 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <input type="hidden" name="courseId" value="{{$quiz->course_id}}">
+                                    <input type="hidden" name="segmentId" value="{{$quiz->segment_id}}">
                                     <button type="submit" class="btn btn-primary">Submit</button>
-                                    <button type="submit" class="btn btn-light">Cencel</button>
+                                    <button type="submit" class="btn btn-light">Cancel</button>
                                 </div>
                             </div>
                         </form>

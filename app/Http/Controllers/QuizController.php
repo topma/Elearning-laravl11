@@ -61,4 +61,58 @@ class QuizController extends Controller
             return response()->json(['error' => 'Failed to save the answer'], 500);
         }
     }
+
+    public function updateProgress(Request $request)
+    {
+        $validated = $request->validate([
+            'student_id' => 'required|integer',
+            'course_id' => 'required|integer',
+            'segment_id' => 'required|integer',
+            'score' => 'required|numeric',
+            'quiz_pass_mark' => 'required|numeric',
+            'max_attempts' => 'required|integer'
+        ]);
+
+        $studentId = $validated['student_id'];
+        $courseId = $validated['course_id'];
+        $segmentId = $validated['segment_id'];
+        $score = $validated['score'];
+        $quizPassMark = $validated['quiz_pass_mark'];
+        $maxAttempts = $validated['max_attempts'];
+
+        // Retrieve the current progress record
+        $progress = Progress::where('student_id', $studentId)
+            ->where('course_id', $courseId)
+            ->where('segment_id', $segmentId)
+            ->first();
+
+        if ($progress) {
+            if ($score >= $quizPassMark) {
+                // Update to completed
+                $progress->completed = 1;
+                $progress->quiz_attempt = 1; // Set attempts to 1
+            } else {
+                // Increment the quiz_attempt
+                $progress->quiz_attempt += 1;
+
+                // Check if the user has reached the maximum attempts
+                if ($progress->quiz_attempt >= $maxAttempts) {
+                    // Logic to handle the 24-hour wait can be added here
+                    return response()->json(['message' => 'You have reached the maximum number of attempts. Please try again later.'], 403);
+                }
+            }
+            $progress->save();
+        } else {
+            // Create a new record if no progress exists
+            Progress::create([
+                'student_id' => $studentId,
+                'course_id' => $courseId,
+                'segment_id' => $segmentId,
+                'completed' => $score >= $quizPassMark ? 1 : 0,
+                'quiz_attempt' => $score >= $quizPassMark ? 1 : 1 // Attempt count
+            ]);
+        }
+
+        return response()->json(['message' => 'Progress updated successfully.']);
+    }
 }

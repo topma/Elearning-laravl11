@@ -188,6 +188,7 @@ Route::middleware(['checkstudent'])->prefix('students')->group(function () {
     Route::post('/course-rating', [review::class, 'storeRating'])->name('course.rating.store');
     Route::get('/quiz/{quizId}/questions', [QuizController::class, 'getQuestions']);
     Route::post('/quiz/save-answer', [QuizController::class, 'saveAnswer']);
+    Route::post('/quiz/update-progress', [QuizController::class, 'updateProgress']);
 });
 
 //----------instructor routes --------------------------------

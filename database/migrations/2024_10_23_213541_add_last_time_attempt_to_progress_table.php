@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('progress', function (Blueprint $table) {
             //
             $table->timestamp('last_attempt_time')->nullable();
+            $table->integer('score')->nullable();
         });
     }
 

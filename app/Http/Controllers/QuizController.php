@@ -6,6 +6,8 @@ use App\Models\Segments;
 use App\Models\Answer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
+use DB;
 
 class QuizController extends Controller
 {
@@ -62,57 +64,80 @@ class QuizController extends Controller
         }
     }
 
-    public function updateProgress(Request $request)
+    public function startQuiz(Request $request)
     {
-        $validated = $request->validate([
-            'student_id' => 'required|integer',
-            'course_id' => 'required|integer',
-            'segment_id' => 'required|integer',
-            'score' => 'required|numeric',
-            'quiz_pass_mark' => 'required|numeric',
-            'max_attempts' => 'required|integer'
-        ]);
+        $courseId = $request->courseId; // Get course ID from quiz context
+        $segmentId = $request->segmentId;// Get segment ID (lesson/module) from context
 
-        $studentId = $validated['student_id'];
-        $courseId = $validated['course_id'];
-        $segmentId = $validated['segment_id'];
-        $score = $validated['score'];
-        $quizPassMark = $validated['quiz_pass_mark'];
-        $maxAttempts = $validated['max_attempts'];
-
-        // Retrieve the current progress record
-        $progress = Progress::where('student_id', $studentId)
+        // Check student's progress for this course and segment
+        $progress = DB::table('progress')
+            ->where('student_id', $studentId)
             ->where('course_id', $courseId)
             ->where('segment_id', $segmentId)
             ->first();
 
+        $maxAttempts = 3;
+        $cooldownHours = 24;
+        
         if ($progress) {
-            if ($score >= $quizPassMark) {
-                // Update to completed
-                $progress->completed = 1;
-                $progress->quiz_attempt = 1; // Set attempts to 1
-            } else {
-                // Increment the quiz_attempt
-                $progress->quiz_attempt += 1;
+            $lastAttemptTime = Carbon::parse($progress->last_attempt_time);
+            $hoursSinceLastAttempt = $lastAttemptTime->diffInHours(Carbon::now());
 
-                // Check if the user has reached the maximum attempts
-                if ($progress->quiz_attempt >= $maxAttempts) {
-                    // Logic to handle the 24-hour wait can be added here
-                    return response()->json(['message' => 'You have reached the maximum number of attempts. Please try again later.'], 403);
-                }
+            if ($progress->attempt_count >= $maxAttempts) {
+                return response()->json([
+                    'message' => 'Maximum number of attempts reached. You cannot retake the quiz.',
+                ], 403);
             }
-            $progress->save();
-        } else {
-            // Create a new record if no progress exists
-            Progress::create([
+
+            if ($hoursSinceLastAttempt < $cooldownHours) {
+                $remainingHours = $cooldownHours - $hoursSinceLastAttempt;
+                return response()->json([
+                    'message' => "You can retake the quiz in $remainingHours hours.",
+                ], 403);
+            }
+        }
+
+        // Fetch quiz questions and return them for the frontend
+        $questions = Quiz::find($quizId)->questions;
+        return response()->json($questions);
+    }
+
+    public function finishQuiz(Request $request)
+    {
+        $studentId = $request->student_id;
+        $courseId = $request->courseId; // Get course ID from quiz context
+        $segmentId = $request->segmentId; // Get segment ID (lesson/module) from context
+
+        // Fetch or create progress for this student, course, and segment
+        $progress = DB::table('progress')
+            ->where('student_id', $studentId)
+            ->where('course_id', $courseId)
+            ->where('segment_id', $segmentId)
+            ->first();
+
+        if (!$progress) {
+            // Create new progress entry
+            DB::table('progress')->insert([
                 'student_id' => $studentId,
                 'course_id' => $courseId,
                 'segment_id' => $segmentId,
-                'completed' => $score >= $quizPassMark ? 1 : 0,
-                'quiz_attempt' => $score >= $quizPassMark ? 1 : 1 // Attempt count
+                'attempt_count' => 1,
+                'last_attempt_time' => now(),
             ]);
+        } else {
+            // Update progress for additional attempts
+            DB::table('progress')
+                ->where('student_id', $studentId)
+                ->where('course_id', $courseId)
+                ->where('segment_id', $segmentId)
+                ->update([
+                    'attempt_count' => $progress->attempt_count + 1,
+                    'last_attempt_time' => now(),
+                ]);
         }
 
-        return response()->json(['message' => 'Progress updated successfully.']);
+        // Optionally calculate score and return
+        $score = $this->calculateScore($request->selectedAnswers);
+        return response()->json(['score' => $score]);
     }
 }

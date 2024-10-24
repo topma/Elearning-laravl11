@@ -594,7 +594,7 @@ body {
             $('#lesson-container').append(videoHTML);
             $('#myvideo').get(0).play(); // Play the video
             $('#quiz-container').hide(); 
-            $('#tab-container').show();// Hide quiz container
+            $('#tab-container').show();// show lesson tab container
             scrollToTop(); // Scroll to top of lesson
         } else if (contentType === 'text') {
             // If it's text, display it within a styled frame
@@ -607,6 +607,7 @@ body {
             `;
             $('#lesson-container').append(textHTML);
             $('#quiz-container').hide(); // Hide quiz container
+            $('#tab-container').show();// show lesson tab container
             scrollToTop(); // Scroll to top of lesson
         } else if (contentType === 'document') {
             // If it's a document, display it
@@ -619,6 +620,7 @@ body {
             `;
             $('#lesson-container').append(documentHTML);
             $('#quiz-container').hide(); // Hide quiz container
+            $('#tab-container').show();// show lesson tab container
             scrollToTop(); // Scroll to top of lesson
         } else {
             // Handle other types of content if necessary
@@ -782,6 +784,29 @@ function calculateScore() {
     return (correctAnswers / questions.length) * 100;
 }
 
+// Display user results (correct and incorrect answers)
+function displayResults() {
+    let resultHTML = '<div style="border: 2px solid #ccc; padding: 20px; border-radius: 10px; background-color: #fff;">';
+    resultHTML += '<h2>Quiz Results</h2><ul>';
+
+    questions.forEach((question, index) => {
+        const userAnswer = selectedAnswers[question.id] || 'No answer';
+        const isCorrect = userAnswer === question.correct_answer;
+        const resultClass = isCorrect ? 'correct-answer' : 'wrong-answer';
+        const correctAnswerText = isCorrect ? 'Correct!' : `Wrong! Correct answer: ${question.correct_answer.toUpperCase()}`;
+
+        resultHTML += `
+            <li style="margin-bottom: 10px;">
+                <strong>Question ${index + 1}:</strong> ${question.content}<br>
+                <span class="${resultClass}">Your answer: ${userAnswer.toUpperCase()}</span><br>
+                <span>${correctAnswerText}</span>
+            </li>`;
+    });
+
+    resultHTML += '</ul></div>';
+    return resultHTML;
+}
+
 // Fetch quiz questions when the quiz is clicked
 function fetchQuizQuestions(quizId) {
     $.ajax({
@@ -839,7 +864,16 @@ $(document).ready(function() {
     $('#finish-quiz').click(() => {
         saveAnswer(); // Save the last answer before finishing
         const scorePercentage = calculateScore();
-        $('#quiz-container').html(`<p>Quiz Finished! Your score: ${scorePercentage}%</p>`);
+        const resultHTML = displayResults(); // Display correct and incorrect answers
+
+        // Display the results with score and styled container
+        $('#quiz-container').html(`
+            <div style="text-align: center; padding: 30px; border-radius: 10px; background-color: #f5f5f5; max-width: 600px; margin: 0 auto;">
+                <h3>Quiz Finished!</h3>
+                <p>Your score: <strong>${scorePercentage}%</strong></p>
+                ${resultHTML}                
+            </div>
+        `);
     });
 
     // Auto-save answer when an option is selected
@@ -848,7 +882,6 @@ $(document).ready(function() {
     });
 });
 </script>
-
 
 
 <!-- User Comments -->

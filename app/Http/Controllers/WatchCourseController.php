@@ -11,6 +11,7 @@ use App\Models\ProgressAll;
 use App\Models\Segments;
 use App\Models\Enrollment;
 use App\Models\Quiz;
+use App\Models\Question;
 
 class WatchCourseController extends Controller
 {
@@ -138,7 +139,8 @@ class WatchCourseController extends Controller
         $quiz= Quiz::where('course_id', $courseId)
         ->where('segment_id', $segment->id)
         ->first();
-            
+        
+        $questions = Question::where('quiz_id', $quiz->id)->get();
         // Continue with the course view, passing all necessary variables
         return view('frontend.watchCourse', compact(
             'course', 
@@ -147,7 +149,7 @@ class WatchCourseController extends Controller
             'lastViewedMaterial', 
             'lastViewedAt', 
             'progressRecords','currentLesson','currentMaterial','progress','segment',
-            'segmentProgress','studentId','courseId','quiz'
+            'segmentProgress','studentId','courseId','quiz','questions'
         ));
     }
 

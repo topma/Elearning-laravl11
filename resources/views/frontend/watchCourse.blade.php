@@ -234,30 +234,31 @@ body {
                             </div>
                         </div>
                     </div>
-
-                    <div class="course-description-start-content">
-                        <h5 class="font-title--sm material-title">{{$currentLesson->title}}</h5>
-                        <nav class="course-description-start-content-tab">
-                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                <button class="nav-link active" id="nav-ldescrip-tab" data-bs-toggle="tab"
-                                    data-bs-target="#nav-ldescrip" type="button" role="tab" aria-controls="nav-ldescrip"
-                                    aria-selected="true">
-                                    Lesson Description
-                                </button>
-                                <button class="nav-link" id="nav-lnotes-tab" data-bs-toggle="tab"
-                                    data-bs-target="#nav-lnotes" type="button" role="tab" aria-controls="nav-lnotes"
-                                    aria-selected="false">Lesson Notes</button>
-                                <button class="nav-link" id="nav-lcomments-tab" data-bs-toggle="tab"
-                                    data-bs-target="#nav-lcomments" type="button" role="tab"
-                                    aria-controls="nav-lcomments" aria-selected="false">Comments</button>
-                                <button class="nav-link" id="nav-loverview-tab" data-bs-toggle="tab"
-                                    data-bs-target="#nav-loverview" type="button" role="tab"
-                                    aria-controls="nav-loverview" aria-selected="false">Course Overview</button>
-                                <button class="nav-link" id="nav-linstruc-tab" data-bs-toggle="tab"
-                                    data-bs-target="#nav-linstruc" type="button" role="tab" aria-controls="nav-linstruc"
-                                    aria-selected="false">Instructor</button>
-                            </div>
-                        </nav>
+                    <div id="tab-container">
+                    <div class="course-description-start-content">                       
+                            <h5 class="font-title--sm material-title">{{$currentLesson->title}}</h5>
+                            <nav class="course-description-start-content-tab">
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <button class="nav-link active" id="nav-ldescrip-tab" data-bs-toggle="tab"
+                                        data-bs-target="#nav-ldescrip" type="button" role="tab" aria-controls="nav-ldescrip"
+                                        aria-selected="true">
+                                        Lesson Description
+                                    </button>
+                                    <button class="nav-link" id="nav-lnotes-tab" data-bs-toggle="tab"
+                                        data-bs-target="#nav-lnotes" type="button" role="tab" aria-controls="nav-lnotes"
+                                        aria-selected="false">Lesson Notes</button>
+                                    <button class="nav-link" id="nav-lcomments-tab" data-bs-toggle="tab"
+                                        data-bs-target="#nav-lcomments" type="button" role="tab"
+                                        aria-controls="nav-lcomments" aria-selected="false">Comments</button>
+                                    <button class="nav-link" id="nav-loverview-tab" data-bs-toggle="tab"
+                                        data-bs-target="#nav-loverview" type="button" role="tab"
+                                        aria-controls="nav-loverview" aria-selected="false">Course Overview</button>
+                                    <button class="nav-link" id="nav-linstruc-tab" data-bs-toggle="tab"
+                                        data-bs-target="#nav-linstruc" type="button" role="tab" aria-controls="nav-linstruc"
+                                        aria-selected="false">Instructor</button>
+                                </div>
+                            </nav>                        
+                        
                         <div class="tab-content course-description-start-content-tabitem" id="nav-tabContent">
                             <!-- Lesson Description Starts Here -->
                             <div class="tab-pane fade show active" id="nav-ldescrip" role="tabpanel"
@@ -325,7 +326,7 @@ body {
                                 </div>
                                 <!-- Lesson Comments Ends Here -->
                             </div>
-</div>
+                        </div>
                             <!-- Course Overview Starts Here -->
                             <div class="tab-pane fade" id="nav-loverview" role="tabpanel"
                                 aria-labelledby="nav-loverview-tab">
@@ -407,7 +408,8 @@ body {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>  
+                    </div>                 
                 </div>
             </div>
 
@@ -481,7 +483,7 @@ body {
                             </div>                            
                         @endforeach  
 
-                        @if(!empty($quiz))
+                        @if($questions->count() > 0)
                         <div class="videolist-area-wizard"> 
                             <div class="wizard-heading">
                                 <h6 class="">Quiz</h6>
@@ -591,6 +593,9 @@ body {
             `;
             $('#lesson-container').append(videoHTML);
             $('#myvideo').get(0).play(); // Play the video
+            $('#quiz-container').hide(); 
+            $('#tab-container').show();// Hide quiz container
+            scrollToTop(); // Scroll to top of lesson
         } else if (contentType === 'text') {
             // If it's text, display it within a styled frame
             const textHTML = `
@@ -601,6 +606,8 @@ body {
                 </div>
             `;
             $('#lesson-container').append(textHTML);
+            $('#quiz-container').hide(); // Hide quiz container
+            scrollToTop(); // Scroll to top of lesson
         } else if (contentType === 'document') {
             // If it's a document, display it
             const documentHTML = `
@@ -611,12 +618,20 @@ body {
                 </div>
             `;
             $('#lesson-container').append(documentHTML);
-        } 
-        // else {
-        //     // Handle other types of content if necessary
-        //     console.log('No valid content available for this lesson.');
-        //     alert('No valid content available for this lesson.');
-        // }
+            $('#quiz-container').hide(); // Hide quiz container
+            scrollToTop(); // Scroll to top of lesson
+        } else {
+            // Handle other types of content if necessary
+            console.log('No valid content available for this lesson.');
+            // alert('No valid content available for this lesson.');
+        }
+
+        // Scroll to the top of the lesson container
+        function scrollToTop() {
+            $('html, body').animate({
+                scrollTop: $('#lesson-container').offset().top
+            }, 'fast'); // 'fast' for a quick scroll
+        }
     }
 
     $(document).ready(function() {
@@ -679,7 +694,7 @@ body {
                     console.log('Progress updated successfully');
                 },
                 error: function(error) {
-                    console.log('Error updating progress:', error);
+                    // console.log('Error updating progress:', error);
                 }
             });
         });
@@ -697,13 +712,11 @@ function saveQuestionResponse(questionId, studentId, answer = '') {
     $.ajax({
         url: `/students/quiz/save-answer`, // Adjust the URL based on your routing structure
         method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Pass CSRF token
-        },
         data: {
+            _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token for security
             student_id: studentId,
             question_id: questionId,
-            answer: answer
+            answer: answer // Default to empty string if no answer selected
         },
         success: function(response) {
             console.log('Answer saved successfully.');
@@ -777,7 +790,8 @@ function fetchQuizQuestions(quizId) {
         success: function(data) {
             questions = data;
             if (questions.length > 0) {
-                $('#quiz-container').show(); // Show the quiz container
+                $('#quiz-container').show();
+                $('#tab-container').hide(); // hide the lesson tab container
                 loadQuestion(0); // Load the first question
                 
                 // Scroll to top of quiz container
@@ -833,8 +847,9 @@ $(document).ready(function() {
         saveAnswer(); // Save answer immediately on selection
     });
 });
-
 </script>
+
+
 
 <!-- User Comments -->
 <script>

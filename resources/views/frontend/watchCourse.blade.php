@@ -484,25 +484,62 @@ body {
                         @endforeach  
 
                         @if($questions->count() > 0)
-                        <div class="videolist-area-wizard"> 
-                            <div class="wizard-heading">
-                                <h6 class="">Quiz</h6>
-                            </div> 
-                            <div class="main-wizard quiz-wizard" data-quiz-id="{{ $quiz->id }}">
-                                <div class="main-wizard__wrapper"> 
-                                    <button class="button button--primary start-quiz-btn" 
-                                    data-quiz-id="{{$quiz->id}}"
-                                    data-quiz-pass-mark="{{$quiz->pass_mark}}"
-                                    data-student-id="{{$studentId}}"
-                                    data-course-id="{{$course->id}}"
-                                    data-segment-id="{{$segment->id}}"
-                                    data-segment-no="{{$segment->segment_no}}">
-                                    Start Quiz</button>
-                                </div>  
-                            </div>
-                        </div>
-                    </div>
-                    @endif
+                            @if($progress->completed != 1 && $progress->quiz_attempt == 0)                            
+                                <div class="videolist-area-wizard"> 
+                                    <div class="wizard-heading">
+                                        <h6 class="">Quiz</h6>
+                                    </div> 
+                                    <div class="main-wizard quiz-wizard" data-quiz-id="{{ $quiz->id }}">
+                                        <div class="main-wizard__wrapper"> 
+                                            <button class="button button--primary start-quiz-btn" 
+                                            data-quiz-id="{{$quiz->id}}"
+                                            data-quiz-pass-mark="{{$quiz->pass_mark}}"
+                                            data-student-id="{{$studentId}}"
+                                            data-course-id="{{$course->id}}"
+                                            data-segment-id="{{$segment->id}}"
+                                            data-segment-no="{{$segment->segment_no}}">
+                                            Start Quiz</button>
+                                        </div>  
+                                    </div>
+                                </div> 
+                            @elseif($progress->completed != 1 && $progress->quiz_attempt >= 1)
+                            <div class="videolist-area-wizard"> 
+                                    <div class="wizard-heading">
+                                        <h6 class="">Quiz</h6>
+                                    </div> 
+                                    <div class="main-wizard quiz-wizard" data-quiz-id="{{ $quiz->id }}">
+                                        <div class="main-wizard__wrapper"> 
+                                            <button class="button button--primary start-quiz-btn" 
+                                            data-quiz-id="{{$quiz->id}}"
+                                            data-quiz-pass-mark="{{$quiz->pass_mark}}"
+                                            data-student-id="{{$studentId}}"
+                                            data-course-id="{{$course->id}}"
+                                            data-segment-id="{{$segment->id}}"
+                                            data-segment-no="{{$segment->segment_no}}">
+                                            Re-take Quiz</button>
+                                        </div>  
+                                    </div>
+                                </div>
+                            @else
+                            <div class="videolist-area-wizard"> 
+                                    <div class="wizard-heading">
+                                        <h6 class="">Quiz</h6>
+                                    </div> 
+                                    <div class="main-wizard quiz-wizard" data-quiz-id="{{ $quiz->id }}">
+                                        <div class="main-wizard__wrapper"> 
+                                            <button class="button button--primary start-quiz-btn" 
+                                            data-quiz-id="{{$quiz->id}}"
+                                            data-quiz-pass-mark="{{$quiz->pass_mark}}"
+                                            data-student-id="{{$studentId}}"
+                                            data-course-id="{{$course->id}}"
+                                            data-segment-id="{{$segment->id}}"
+                                            data-segment-no="{{$segment->segment_no}}">
+                                            Re-take Quiz</button>
+                                        </div>  
+                                    </div>
+                                </div>
+                            @endif                   
+                        @endif
                 </div>
             </div>
 
@@ -708,19 +745,20 @@ body {
 let questions = [];
 let currentQuestionIndex = 0;
 let selectedAnswers = {};
+let quizAttempt = 1; // Initial attempt count
 
-// Function to save question and selected answer to the database
+// Function to save or update the question response in the database
 function saveQuestionResponse(questionId, studentId, answer = '') {
     $.ajax({
-        url: `/students/quiz/save-answer`, // Adjust the URL based on your routing structure
+        url: `/students/quiz/save-answer`,
         method: 'POST',
         data: {
-            _token: $('meta[name="csrf-token"]').attr('content'), // CSRF token for security
+            _token: $('meta[name="csrf-token"]').attr('content'),
             student_id: studentId,
             question_id: questionId,
-            answer: answer // Default to empty string if no answer selected
+            answer: answer
         },
-        success: function(response) {
+        success: function() {
             console.log('Answer saved successfully.');
         },
         error: function() {
@@ -729,33 +767,27 @@ function saveQuestionResponse(questionId, studentId, answer = '') {
     });
 }
 
-// Function to load a question based on the current index
+// Load a question based on the current index
 function loadQuestion(index) {
     const question = questions[index];
     if (!question) return;
 
-    // Display the total number of questions
     $('#total-questions').text(`Total Questions: ${questions.length}`);
-    
-    // Display the current question in the desired format with a line break
     $('#question-content').html(`Question ${index + 1} of ${questions.length}: <br>${question.content}`);
     $('#option-a').text(question.option_a);
     $('#option-b').text(question.option_b);
     $('#option-c').text(question.option_c);
     $('#option-d').text(question.option_d);
 
-    // Reset previously selected answer
     $('input[name="answer"]').prop('checked', false);
     if (selectedAnswers[question.id]) {
         $(`input[name="answer"][value="${selectedAnswers[question.id]}"]`).prop('checked', true);
     }
 
-    // Update navigation button states
     $('#prev-question').prop('disabled', index === 0);
     $('#next-question').toggle(index < questions.length - 1);
     $('#finish-quiz').toggle(index === questions.length - 1);
 
-    // Auto-save the question when loaded (even if no answer is selected yet)
     const studentId = $('.start-quiz-btn').data('student-id');
     saveQuestionResponse(question.id, studentId, selectedAnswers[question.id] || '');
 }
@@ -767,7 +799,6 @@ function saveAnswer() {
         const currentQuestionId = questions[currentQuestionIndex].id;
         selectedAnswers[currentQuestionId] = selectedAnswer;
 
-        // Auto-save the answer immediately when selected
         const studentId = $('.start-quiz-btn').data('student-id');
         saveQuestionResponse(currentQuestionId, studentId, selectedAnswer);
     }
@@ -816,10 +847,8 @@ function fetchQuizQuestions(quizId) {
             questions = data;
             if (questions.length > 0) {
                 $('#quiz-container').show();
-                $('#tab-container').hide(); // hide the lesson tab container
-                loadQuestion(0); // Load the first question
-                
-                // Scroll to top of quiz container
+                $('#tab-container').hide();
+                loadQuestion(0);
                 $('html, body').animate({
                     scrollTop: $('#quiz-container').offset().top
                 }, 'fast');
@@ -834,55 +863,87 @@ function fetchQuizQuestions(quizId) {
 }
 
 $(document).ready(function() {
-    // Event listener to start quiz when the button is clicked
+    // Start quiz on button click
     $('.start-quiz-btn').click(function() {
         const quizId = $(this).data('quiz-id');
-        
-        // Fetch quiz questions and display them
+        const quizPassMark = $(this).data('quiz-pass-mark');
+        const studentId = $(this).data('student-id');
+
         fetchQuizQuestions(quizId);
-        
-        // Scroll to top when quiz starts
         $('html, body').animate({
             scrollTop: $('#quiz-container').offset().top
         }, 'fast');
     });
 
-    // Handle question navigation (Next and Previous buttons)
+    // Question navigation
     $('#next-question').click(() => {
-        saveAnswer(); // Save answer before moving to the next question
+        saveAnswer();
         currentQuestionIndex++;
-        loadQuestion(currentQuestionIndex); // Load the next question
+        loadQuestion(currentQuestionIndex);
     });
 
     $('#prev-question').click(() => {
-        saveAnswer(); // Save answer before moving to the previous question
+        saveAnswer();
         currentQuestionIndex--;
-        loadQuestion(currentQuestionIndex); // Load the previous question
+        loadQuestion(currentQuestionIndex);
     });
-
-    // Finish the quiz and display results
+    
+    // Finish quiz
     $('#finish-quiz').click(() => {
-        saveAnswer(); // Save the last answer before finishing
+        saveAnswer();
         const scorePercentage = calculateScore();
-        const resultHTML = displayResults(); // Display correct and incorrect answers
+        const quizPassMark = $('.start-quiz-btn').data('quiz-pass-mark');
+        const quizId = $('.start-quiz-btn').data('quiz-id');
+        const studentId = $('.start-quiz-btn').data('student-id');
+        const segmentId = $('.start-quiz-btn').data('segment-id');
+        const courseId = $('.start-quiz-btn').data('course-id');
+        const resultHTML = displayResults();
 
-        // Display the results with score and styled container
+        // Save final quiz attempt results
+        $.ajax({
+            url: `/students/quiz/${quizId}/finish`,
+            method: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                student_id: studentId,
+                quiz_id: quizId,
+                course_id: courseId,
+                segment_id: segmentId,
+                score: scorePercentage,
+                quiz_attempt: quizAttempt,
+                pass_mark: quizPassMark,
+                completed: scorePercentage >= quizPassMark ? 1 : 0,
+                last_attempt_time: new Date().toISOString(),
+            },
+            success: function() {
+                console.log('Quiz attempt saved.');
+            },
+            error: function(xhr, status, error) {
+                console.error('Failed to save quiz attempt:', xhr.responseText || error);
+            }
+        });
+
+        // Display results to the user
         $('#quiz-container').html(`
             <div style="text-align: center; padding: 30px; border-radius: 10px; background-color: #f5f5f5; max-width: 600px; margin: 0 auto;">
                 <h3>Quiz Finished!</h3>
                 <p>Your score: <strong>${scorePercentage}%</strong></p>
-                ${resultHTML}                
+                ${resultHTML}
+                <button id="exit-quiz" class="button button--primary start-quiz-btn" style="margin-top: 20px;">Exit</button>
             </div>
         `);
+
+        $('#exit-quiz').click(() => {
+            location.reload();
+        });
     });
 
-    // Auto-save answer when an option is selected
-    $('input[name="answer"]').change(function() {
-        saveAnswer(); // Save answer immediately on selection
+        // Auto-save answer on selection
+        $('input[name="answer"]').change(function() {
+            saveAnswer();
+        });
     });
-});
 </script>
-
 
 <!-- User Comments -->
 <script>

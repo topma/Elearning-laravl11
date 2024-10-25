@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 23, 2024 at 10:50 PM
+-- Generation Time: Oct 25, 2024 at 10:05 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -36,6 +36,22 @@ CREATE TABLE `answers` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `answers`
+--
+
+INSERT INTO `answers` (`id`, `student_id`, `question_id`, `answer`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 12, 2, 'c', '2024-10-26 01:21:26', '2024-10-26 03:03:31', NULL),
+(2, 12, 3, 'd', '2024-10-26 01:29:40', '2024-10-26 03:03:35', NULL),
+(3, 12, 4, 'd', '2024-10-26 01:29:43', '2024-10-26 03:03:38', NULL),
+(4, 12, 5, 'b', '2024-10-26 01:29:45', '2024-10-26 03:03:41', NULL),
+(5, 12, 6, 'b', '2024-10-26 01:29:47', '2024-10-26 03:03:43', NULL),
+(6, 12, 7, 'b', '2024-10-26 01:29:50', '2024-10-26 03:03:45', NULL),
+(7, 12, 8, 'd', '2024-10-26 01:29:52', '2024-10-26 03:03:47', NULL),
+(8, 12, 9, 'c', '2024-10-26 01:29:55', '2024-10-26 03:03:49', NULL),
+(9, 12, 10, 'd', '2024-10-26 01:29:57', '2024-10-26 03:03:51', NULL),
+(10, 12, 11, 'd', '2024-10-26 01:30:00', '2024-10-26 03:03:54', NULL);
 
 -- --------------------------------------------------------
 
@@ -508,7 +524,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (59, '2024_10_21_134906_add_course_url_to_courses_table', 27),
 (60, '2024_10_23_090951_add_course_id_to_questions_table', 28),
 (61, '2024_10_23_092038_add_pass_mark_to_quizzes_table', 29),
-(62, '2024_10_23_181449_add_quiz_attempt_to_progress_table', 30);
+(62, '2024_10_23_181449_add_quiz_attempt_to_progress_table', 30),
+(63, '2024_10_23_213541_add_last_time_attempt_to_progress_table', 31);
 
 -- --------------------------------------------------------
 
@@ -657,6 +674,8 @@ CREATE TABLE `progress` (
   `last_viewed_material_id` bigint(20) UNSIGNED DEFAULT NULL,
   `last_viewed_at` timestamp NULL DEFAULT NULL,
   `quiz_attempt` int(11) DEFAULT NULL,
+  `last_attempt_time` timestamp NULL DEFAULT NULL,
+  `score` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -666,8 +685,8 @@ CREATE TABLE `progress` (
 -- Dumping data for table `progress`
 --
 
-INSERT INTO `progress` (`id`, `student_id`, `course_id`, `segments_id`, `segment_no`, `progress_percentage`, `completed`, `last_viewed_lesson_id`, `last_viewed_material_id`, `last_viewed_at`, `quiz_attempt`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 12, 3, 1, 1, 0, 0, 22, 19, '2024-10-18 23:59:53', NULL, '2024-10-18 23:59:53', '2024-10-24 01:24:19', NULL);
+INSERT INTO `progress` (`id`, `student_id`, `course_id`, `segments_id`, `segment_no`, `progress_percentage`, `completed`, `last_viewed_lesson_id`, `last_viewed_material_id`, `last_viewed_at`, `quiz_attempt`, `last_attempt_time`, `score`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 12, 3, 1, 1, 100, 0, 28, 25, '2024-10-18 23:59:53', 3, '2024-10-26 03:03:56', 40, '2024-10-18 23:59:53', '2024-10-26 03:03:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -710,7 +729,9 @@ INSERT INTO `progress_alls` (`id`, `student_id`, `course_id`, `segments_id`, `se
 (13, 12, 3, 1, 1, 30, 27, 0, 1, '2024-10-23 19:58:52', '2024-10-23 19:58:52', '2024-10-23 19:58:52'),
 (14, 12, 3, 1, 1, 26, 23, 0, 1, '2024-10-23 22:59:31', '2024-10-23 22:59:31', '2024-10-23 22:59:31'),
 (15, 12, 3, 1, 1, 21, 18, 0, 1, '2024-10-24 01:23:59', '2024-10-24 01:23:59', '2024-10-24 01:23:59'),
-(16, 12, 3, 1, 1, 22, 19, 0, 1, '2024-10-24 01:24:19', '2024-10-24 01:24:19', '2024-10-24 01:24:19');
+(16, 12, 3, 1, 1, 22, 19, 0, 1, '2024-10-24 01:24:19', '2024-10-24 01:24:19', '2024-10-24 01:24:19'),
+(17, 12, 3, 1, 1, 27, 24, 0, 1, '2024-10-26 01:21:32', '2024-10-26 01:21:32', '2024-10-26 01:21:32'),
+(18, 12, 3, 1, 1, 28, 25, 0, 1, '2024-10-26 02:06:19', '2024-10-26 02:06:19', '2024-10-26 02:06:19');
 
 -- --------------------------------------------------------
 
@@ -744,7 +765,12 @@ INSERT INTO `questions` (`id`, `quiz_id`, `course_id`, `segment_id`, `content`, 
 (3, 3, 3, 1, 'Which is the first step in optimizing a social media profile?', 'multiple_choice', 'Setting up a profile picture', 'Filling out the bio and relevant information', 'Posting random content', 'Sending friend requests to everyone', 'b', '2024-10-23 17:19:13', '2024-10-23 17:19:13', NULL),
 (4, 3, 3, 1, 'Which skill is most important for effective social media management?', 'multiple_choice', 'Copywriting', 'Physical networking', 'Data entry', 'Software programming', 'a', '2024-10-23 17:20:10', '2024-10-23 17:20:10', NULL),
 (5, 3, 3, 1, 'Which of the following can help make content go viral?', 'multiple_choice', 'Ignoring trends', 'Using emotionally resonant storytelling', 'Posting at random times', 'Avoiding hashtags', 'b', '2024-10-23 17:21:26', '2024-10-23 17:21:26', NULL),
-(6, 3, 3, 1, 'What is a content calendar used for in social media management?', 'multiple_choice', 'Tracking expenses', 'Organizing the posting schedule and content themes', 'Managing databases', 'Calculating ROI', 'b', '2024-10-23 17:22:06', '2024-10-23 17:22:06', NULL);
+(6, 3, 3, 1, 'What is a content calendar used for in social media management?', 'multiple_choice', 'Tracking expenses', 'Organizing the posting schedule and content themes', 'Managing databases', 'Calculating ROI', 'b', '2024-10-23 17:22:06', '2024-10-23 17:22:06', NULL),
+(7, 3, 3, 1, 'Why is identifying the target audience important for social media content strategy?', 'multiple_choice', 'To lower advertising costs', 'To ensure content resonates with the intended audience', 'To increase brand\'s website visitors only', 'To manage multiple accounts easily', 'b', '2024-10-26 01:23:22', '2024-10-26 01:23:22', NULL),
+(8, 3, 3, 1, 'Which tool is commonly used for social media management?', 'multiple_choice', 'Meta Business Suite', 'Excel', 'Microsoft Word', 'Google Docs', 'a', '2024-10-26 01:24:07', '2024-10-26 01:24:07', NULL),
+(9, 3, 3, 1, 'Which platform allows businesses to manage advertising campaigns on both Facebook and Instagram?', 'multiple_choice', 'YouTube Ads', 'Meta Business Suite', 'LinkedIn Ads Manager', 'Google Ads', 'b', '2024-10-26 01:24:50', '2024-10-26 01:24:50', NULL),
+(10, 3, 3, 1, 'What is an important metric to calculate when measuring social media ROI?', 'multiple_choice', 'Total followers gained', 'Click-through rate (CTR)', 'Hours spent on research', 'Number of emails sent', 'b', '2024-10-26 01:25:41', '2024-10-26 01:25:41', NULL),
+(11, 3, 3, 1, 'Which platform is focused on task management and project collaboration?', 'multiple_choice', 'Slack', 'ClickUp', 'Facebook Ads Manager', 'Twitter', 'b', '2024-10-26 01:26:58', '2024-10-26 01:26:58', NULL);
 
 -- --------------------------------------------------------
 
@@ -1217,7 +1243,7 @@ ALTER TABLE `watchlists`
 -- AUTO_INCREMENT for table `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `checkouts`
@@ -1289,7 +1315,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `news_letters`
@@ -1331,13 +1357,13 @@ ALTER TABLE `progress`
 -- AUTO_INCREMENT for table `progress_alls`
 --
 ALTER TABLE `progress_alls`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `quizzes`

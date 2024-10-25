@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('progress', function (Blueprint $table) {
             //
-            $table->integer('quiz_attempt')->nullable();
+            $table->integer('quiz_attempt')->nullable()->default('0');
         });
     }
 

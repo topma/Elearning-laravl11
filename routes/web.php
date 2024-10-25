@@ -187,8 +187,7 @@ Route::middleware(['checkstudent'])->prefix('students')->group(function () {
     Route::get('/course-review/{courseId}', [review::class, 'getReviews'])->name('course-review');
     Route::post('/course-rating', [review::class, 'storeRating'])->name('course.rating.store');
     Route::get('/quiz/{quizId}/questions', [QuizController::class, 'getQuestions']);
-    Route::get('/quiz/{quizId}/start', [QuizController::class, 'startQuiz']);
-    Route::get('/quiz/{quizId}/finish', [QuizController::class, 'finishQuiz']);
+    Route::post('/quiz/{quizId}/finish', [QuizController::class, 'finishQuiz']);
     Route::post('/quiz/save-answer', [QuizController::class, 'saveAnswer']);
     Route::post('/quiz/update-progress', [QuizController::class, 'updateProgress']);
 

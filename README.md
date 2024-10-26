@@ -41,10 +41,10 @@ To get started with the project, follow these steps:
 5. Seed the  database `php artisan db:seed` .
 6. Start the development server with `php artisan serve`.
 
-## Contributing
+<!-- ## Contributing
 
 Contributions are welcome! Please follow the contribution guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](LICENSE). -->

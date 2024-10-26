@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::table('materials', function (Blueprint $table) {
             //
-            $table->string('file_duration');
-            $table->string('file_size');
+            $table->string('file_duration')->nullable();
+            $table->string('file_size')->nullable();
         });
     }
 

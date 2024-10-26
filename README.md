@@ -20,6 +20,7 @@ The Online Learning Management System is an eLearning platform built using Larav
 - **Shopping Cart and Checkout:** Users can add courses to their cart and complete the checkout process for paid courses.
 - **Course Enrollment:** Students can enroll in courses they are interested in and access course materials.
 - **Content Viewing:** Enrolled students can view course contents, including videos, documents, and etc.
+- **Quiz:** Enrolled students can take quiz after each course segments to test their knowledge about the course.
 - **Search Filters:** Users can search for courses based on various filters such as category, and etc.
 
 ## Technology Stack

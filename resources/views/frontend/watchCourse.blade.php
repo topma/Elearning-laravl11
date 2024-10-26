@@ -845,9 +845,9 @@ function fetchQuizQuestions(quizId) {
         method: 'GET',
         success: function(data) {
             questions = data;
+            $('#quiz-container').show(); // Ensure it’s shown on success
+            $('#tab-container').hide();
             if (questions.length > 0) {
-                $('#quiz-container').show();
-                $('#tab-container').hide();
                 loadQuestion(0);
                 $('html, body').animate({
                     scrollTop: $('#quiz-container').offset().top
@@ -856,11 +856,34 @@ function fetchQuizQuestions(quizId) {
                 $('#quiz-container').html('<p>No questions available for this quiz.</p>');
             }
         },
-        error: function() {
-            $('#quiz-container').html('<p>Failed to load questions. Please try again later.</p>');
+        error: function(xhr) {
+            if (xhr.status === 403) {
+                const errorMessage = xhr.responseJSON.error || 'You must wait 2 hours to retake this quiz.';
+                $('#quiz-container').html(`
+                    <div style="text-align: center; padding: 20px; background-color: #f8d7da; color: #721c24; border-radius: 10px; border: 1px solid #f5c6cb;">
+                        <strong>Notice:</strong> ${errorMessage}
+                        <br><br>
+                        <button id="exit-button" style="margin-top: 10px; padding: 8px 16px; background-color: #721c24; color: #fff; border: none; border-radius: 5px; cursor: pointer;">
+                            Exit
+                        </button>
+                    </div>
+                `);
+                $('#quiz-container').show();
+                $('#tab-container').hide();
+
+                // Add click event to the Exit button to redirect to the home route
+                $('#exit-button').on('click', function() {
+                    window.location.href = `{{ route('home') }}`;
+                });
+            } else {
+                $('#quiz-container').html('<p>Failed to load questions. Please try again later.</p>');
+                $('#quiz-container').show();
+                $('#tab-container').hide();
+            }
         }
     });
 }
+
 
 $(document).ready(function() {
     // Start quiz on button click
@@ -927,7 +950,7 @@ $(document).ready(function() {
         $('#quiz-container').html(`
             <div style="text-align: center; padding: 30px; border-radius: 10px; background-color: #f5f5f5; max-width: 600px; margin: 0 auto;">
                 <h3>Quiz Finished!</h3>
-                <p>Your score: <strong>${scorePercentage}%</strong></p>
+                <p>Your score: <strong>${scorePercentage}%</strong> - PassMark: <strong>${quizPassMark}%</strong></p>
                 ${resultHTML}
                 <button id="exit-quiz" class="button button--primary start-quiz-btn" style="margin-top: 20px;">Exit</button>
             </div>

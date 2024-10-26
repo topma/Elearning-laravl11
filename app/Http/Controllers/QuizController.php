@@ -28,13 +28,13 @@ class QuizController extends Controller
 
         $currentTime = now();
         $attemptLimit = 3;
-        $attemptCooldown = 24; // cooldown in hours
+        $attemptCooldown = 2; // cooldown in hours
 
         // Check if attempts are at max and time cooldown has not passed
         if ($progress->quiz_attempt >= $attemptLimit) {
             $lastAttemptTime = Carbon::parse($progress->last_attempt_time);
             if ($lastAttemptTime->diffInHours($currentTime) < $attemptCooldown) {
-                return response()->json(['error' => 'You must wait 24 hours to retake this quiz.'], 403);
+                return response()->json(['error' => 'You must wait 2 hours to retake this quiz.'], 403);
             } else {
                 // Reset attempt count after cooldown period
                 $progress->quiz_attempt = 0;
@@ -43,7 +43,7 @@ class QuizController extends Controller
 
         // Increment quiz attempt if this is the first attempt in a new period
         if ($progress->quiz_attempt == 0) {
-            $progress->quiz_attempt += 1;
+            $progress->quiz_attempt = 0;
             $progress->last_attempt_time = $currentTime;
             $progress->score = 0;
             $progress->save();

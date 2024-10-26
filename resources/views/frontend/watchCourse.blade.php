@@ -194,13 +194,13 @@ body {
                     </div>
                 </div>
                 <div class="coursedescription-header-end">  
-                @if($segmentProgress[$segment->id] == 100)
+                @if($progress->completed == 1)
                 <a href="#" class="button button--green">Next Segment</a>         
                     <!-- <a href="#" class="rating-link" data-bs-toggle="modal" data-bs-target="#ratingModal">Leave a Rating</a> -->
                     <a href="#" class="button button--dark" data-bs-toggle="modal" data-bs-target="#ratingModal">Leave a
                         Rating</a>
                     <a href="{{route('studentdashboard')}}" class="button button--primary">My Dashboard</a>
-                @elseif($segmentProgress[$segment->id] < 100)
+                @else
                 <a href="#" class="button button--dark" data-bs-toggle="modal" data-bs-target="#ratingModal">Leave a
                         Rating</a>
                     <a href="{{route('studentdashboard')}}" class="button button--primary">My Dashboard</a>
@@ -789,7 +789,6 @@ function show_content(material) {
         });
     });
 </script>
-
 <!-- Quiz -->
 <script>
 let questions = [];
@@ -980,61 +979,73 @@ $(document).ready(function() {
     });
     
     // Finish quiz
-    $('#finish-quiz').click(() => {
-        saveAnswer();
-        const scorePercentage = calculateScore();
-        const quizPassMark = $('.start-quiz-btn').data('quiz-pass-mark');
-        const quizId = $('.start-quiz-btn').data('quiz-id');
-        const studentId = $('.start-quiz-btn').data('student-id');
-        const segmentId = $('.start-quiz-btn').data('segment-id');
-        const courseId = $('.start-quiz-btn').data('course-id');
-        const resultHTML = displayResults();
+        $('#finish-quiz').click(() => {
+            saveAnswer();
+            const scorePercentage = calculateScore();
+            const quizPassMark = $('.start-quiz-btn').data('quiz-pass-mark');
+            const quizId = $('.start-quiz-btn').data('quiz-id');
+            const studentId = $('.start-quiz-btn').data('student-id');
+            const segmentId = $('.start-quiz-btn').data('segment-id');
+            const courseId = $('.start-quiz-btn').data('course-id');
+            const resultHTML = displayResults();
 
-        // Save final quiz attempt results
-        $.ajax({
-            url: `/students/quiz/${quizId}/finish`,
-            method: 'POST',
-            data: {
-                _token: $('meta[name="csrf-token"]').attr('content'),
-                student_id: studentId,
-                quiz_id: quizId,
-                course_id: courseId,
-                segment_id: segmentId,
-                score: scorePercentage,
-                quiz_attempt: quizAttempt,
-                pass_mark: quizPassMark,
-                completed: scorePercentage >= quizPassMark ? 1 : 0,
-                last_attempt_time: new Date().toISOString(),
-            },
-            success: function() {
-                console.log('Quiz attempt saved.');
-            },
-            error: function(xhr, status, error) {
-                console.error('Failed to save quiz attempt:', xhr.responseText || error);
+            // Save final quiz attempt results
+            $.ajax({
+                url: `/students/quiz/${quizId}/finish`,
+                method: 'POST',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    student_id: studentId,
+                    quiz_id: quizId,
+                    course_id: courseId,
+                    segment_id: segmentId,
+                    score: scorePercentage,
+                    quiz_attempt: quizAttempt,
+                    pass_mark: quizPassMark,
+                    completed: scorePercentage >= quizPassMark ? 1 : 0,
+                    last_attempt_time: new Date().toISOString(),
+                },
+                success: function() {
+                    console.log('Quiz attempt saved.');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Failed to save quiz attempt:', xhr.responseText || error);
+                }
+            });
+
+            // Determine the result message based on the score
+            let resultMessage;
+            if (scorePercentage < quizPassMark) {
+                resultMessage = 'Sorry, you did not pass.';
+            } else {
+                resultMessage = 'Congratulations, you passed the quiz! You can move to the next segment.';
             }
-        });
 
-        // Display results to the user
-        $('#quiz-container').html(`
-            <div style="text-align: center; padding: 30px; border-radius: 10px; background-color: #f5f5f5; max-width: 600px; margin: 0 auto;">
-                <h3>Quiz Finished!</h3>
-                <p>Your score: <strong>${scorePercentage}%</strong> - PassMark: <strong>${quizPassMark}%</strong></p>
-                ${resultHTML}
-                <button id="exit-quiz" class="button button--primary start-quiz-btn" style="margin-top: 20px;">Exit</button>
-            </div>
-        `);
+            // Display results to the user
+            $('#quiz-container').html(`
+                <div style="text-align: center; padding: 30px; border-radius: 10px; background-color: #f5f5f5; max-width: 600px; margin: 0 auto;">
+                    <h3>Quiz Finished!</h3>
+                    <p>Your score: <strong>${scorePercentage.toFixed(2)}%</strong> - PassMark: <strong>${quizPassMark}%</strong></p>
+                    <p><strong>${resultMessage}</strong></p>
+                    <div>${resultHTML}</div>
+                    <button id="exit-quiz" class="button button--primary start-quiz-btn" style="margin-top: 20px;">Exit</button>
+                </div>
+            `);
 
-        $('#exit-quiz').click(() => {
-            location.reload();
+            // Reload the page when the Exit button is clicked
+            $('#exit-quiz').click(() => {
+                location.reload();
+            });
         });
-    });
 
         // Auto-save answer on selection
         $('input[name="answer"]').change(function() {
             saveAnswer();
         });
+
     });
 </script>
+
 
 <!-- User Comments -->
 <script>

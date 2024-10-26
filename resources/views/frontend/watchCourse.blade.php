@@ -31,24 +31,25 @@
 <style>
     /* General video area styles */
 .video-area {
-    height: 700px; /* Set desired height for video container */
+    height: 705px; /* Set desired height for video container */
 }
 
 .text-area {
-    height: 500px; /* Set desired height for video container */
+    height: 605px; /* Set desired height for video container */
 }
 
 /* Container to handle the video layout */
 .video-container {
-    position: relative;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height to fill parent */
+    width: 100%; /* Ensure full-width */    
+    margin: auto; /* Center the video player */
+    z-index: 1; /* Set a lower z-index to prevent overlap */
+    position: relative; /* Position relative to control stacking */
 }
-
 .text-container {
-    position: relative;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height to fill parent */
+    width: 100%; /* Ensure full-width */    
+    margin: auto; /* Center the video player */
+    z-index: 1; /* Set a lower z-index to prevent overlap */
+    position: relative; /* Position relative to control stacking */
 }
 
 /* Ensure the video fills the container properly */
@@ -95,20 +96,29 @@ body {
 
 <style>
 .videolist-area-bar {
-    background-color: #e0e0e0; /* Light grey background */
-    border-radius: 5px;
-    height: 4px;
-    width: 100%; /* Full width */
-    margin: 10px 0;
-    overflow: hidden; /* Hide overflow for rounded corners */
+    background-color: #e0e0e0; /* Light grey for the background */
+    border-radius: 5px; /* Rounded corners for the background */
+    height: 5px; /* Height of the progress bar */
+    position: relative; /* For positioning the icon */
 }
 
 .videolist-area-bar--progress {
     background-color: green; /* Progress bar color */
-    height: 100%;
     display: block;
-    transition: width 0.3s ease; /* Smooth transition */
+    height: 100%; /* Full height of the container */
+    border-radius: 5px; /* Rounded corners for the progress bar */
 }
+
+.videolist-area-bar p {
+    display: flex; /* Align icon and text */
+    align-items: center; /* Center icon vertically with text */
+}
+
+.videolist-area-bar i {
+    margin-right: 8px; /* Space between icon and text */
+    color: green; /* Icon color */
+}
+
 </style>
 <style>
     .star-rating {
@@ -124,6 +134,19 @@ body {
 .star:hover,
 .star.selected {
     color: gold; /* Change color when hovered or selected */
+}
+</style>
+<style>
+    .button--green {
+    background-color: #28a745;
+    color: #fff;
+    padding: 13px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+.button--green:hover {
+    background-color: #218838; /* Darker shade for hover effect */
+    color: #fff;
 }
 </style>
 </head>
@@ -152,22 +175,36 @@ body {
                                     <i class="fas fa-book-open text-primary"></i>
                                     <span>{{$lessons->count()}} Lesson</span>
                                 </div>
-                                <!-- <div class="totoal-hours">
-                                    <i class="far fa-clock text-danger"></i>
-                                    <span>{{$course->duration?$course->duration:0}} Hours</span>
-                                </div> -->
+                                <div class="totoal-hours">
+                                @if($segmentProgress[$segment->id] == 100)
+                                    <i class="fas fa-check-circle text-success"></i> 
+                                    <span>{{ $segmentProgress[$segment->id] ?? 0 }}%</span>
+                                @elseif($segmentProgress[$segment->id] < 100)
+                                    <i class="fas fa-spinner text-warning"></i> 
+                                    <span>{{ $segmentProgress[$segment->id] ?? 0 }}%</span>
+                                @elseif($segmentProgress[$segment->id] == 0 )
+                                    <i class="far fa-clock text-danger"></i> 
+                                    <span>{{ $segmentProgress[$segment->id] ?? 0 }}%</span>
+                                @endif
+                                    <!-- <i class="far fa-clock text-danger"></i>
+                                    <span>{{ $segmentProgress[$segment->id] ?? 0 }}%</span> -->
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="coursedescription-header-end">                
+                <div class="coursedescription-header-end">  
+                @if($segmentProgress[$segment->id] == 100)
+                <a href="#" class="button button--green">Next Segment</a>         
                     <!-- <a href="#" class="rating-link" data-bs-toggle="modal" data-bs-target="#ratingModal">Leave a Rating</a> -->
                     <a href="#" class="button button--dark" data-bs-toggle="modal" data-bs-target="#ratingModal">Leave a
                         Rating</a>
                     <a href="{{route('studentdashboard')}}" class="button button--primary">My Dashboard</a>
-
-                    <!-- <a href="#" class="btn btn-primary regular-fill-btn">Next Lession</a> -->
-                    <!-- <button class="button button--primary">Next Lesson</button> -->
+                @elseif($segmentProgress[$segment->id] < 100)
+                <a href="#" class="button button--dark" data-bs-toggle="modal" data-bs-target="#ratingModal">Leave a
+                        Rating</a>
+                    <a href="{{route('studentdashboard')}}" class="button button--primary">My Dashboard</a>
+                @endif
                 </div>
             </div>
         </div>
@@ -198,13 +235,17 @@ body {
                             </div>
                         </div>
                     @elseif($currentMaterial->type == 'text')
-                        <div class="lesson-text">
+                    <div class="text-area">
+                        <div class="text-frame">
                             {!! $currentMaterial->content_data !!}
                         </div>
+                    </div>
                     @elseif($currentMaterial->type == 'document')
-                        <div class="document-content">
+                    <div class="text-area">
+                        <div class="text-frame">
                             {!! $currentMaterial->content_data !!}
                         </div>
+                    </div>
                     @else
                         <p>No valid content available for this lesson.</p>
                     @endif                    
@@ -235,180 +276,180 @@ body {
                         </div>
                     </div>
                     <div id="tab-container">
-                    <div class="course-description-start-content">                       
-                            <h5 class="font-title--sm material-title">{{$currentLesson->title}}</h5>
-                            <nav class="course-description-start-content-tab">
-                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                    <button class="nav-link active" id="nav-ldescrip-tab" data-bs-toggle="tab"
-                                        data-bs-target="#nav-ldescrip" type="button" role="tab" aria-controls="nav-ldescrip"
-                                        aria-selected="true">
-                                        Lesson Description
-                                    </button>
-                                    <button class="nav-link" id="nav-lnotes-tab" data-bs-toggle="tab"
-                                        data-bs-target="#nav-lnotes" type="button" role="tab" aria-controls="nav-lnotes"
-                                        aria-selected="false">Lesson Notes</button>
-                                    <button class="nav-link" id="nav-lcomments-tab" data-bs-toggle="tab"
-                                        data-bs-target="#nav-lcomments" type="button" role="tab"
-                                        aria-controls="nav-lcomments" aria-selected="false">Comments</button>
-                                    <button class="nav-link" id="nav-loverview-tab" data-bs-toggle="tab"
-                                        data-bs-target="#nav-loverview" type="button" role="tab"
-                                        aria-controls="nav-loverview" aria-selected="false">Course Overview</button>
-                                    <button class="nav-link" id="nav-linstruc-tab" data-bs-toggle="tab"
-                                        data-bs-target="#nav-linstruc" type="button" role="tab" aria-controls="nav-linstruc"
-                                        aria-selected="false">Instructor</button>
+                        <div class="course-description-start-content">                       
+                                <h5 class="font-title--sm material-title">{{$currentLesson->title}}</h5>
+                                <nav class="course-description-start-content-tab">
+                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                        <button class="nav-link active" id="nav-ldescrip-tab" data-bs-toggle="tab"
+                                            data-bs-target="#nav-ldescrip" type="button" role="tab" aria-controls="nav-ldescrip"
+                                            aria-selected="true">
+                                            Lesson Description
+                                        </button>
+                                        <button class="nav-link" id="nav-lnotes-tab" data-bs-toggle="tab"
+                                            data-bs-target="#nav-lnotes" type="button" role="tab" aria-controls="nav-lnotes"
+                                            aria-selected="false">Lesson Notes</button>
+                                        <button class="nav-link" id="nav-lcomments-tab" data-bs-toggle="tab"
+                                            data-bs-target="#nav-lcomments" type="button" role="tab"
+                                            aria-controls="nav-lcomments" aria-selected="false">Comments</button>
+                                        <button class="nav-link" id="nav-loverview-tab" data-bs-toggle="tab"
+                                            data-bs-target="#nav-loverview" type="button" role="tab"
+                                            aria-controls="nav-loverview" aria-selected="false">Course Overview</button>
+                                        <button class="nav-link" id="nav-linstruc-tab" data-bs-toggle="tab"
+                                            data-bs-target="#nav-linstruc" type="button" role="tab" aria-controls="nav-linstruc"
+                                            aria-selected="false">Instructor</button>
+                                    </div>
+                                </nav>                        
+                            
+                            <div class="tab-content course-description-start-content-tabitem" id="nav-tabContent">
+                                <!-- Lesson Description Starts Here -->
+                                <div class="tab-pane fade show active" id="nav-ldescrip" role="tabpanel"
+                                    aria-labelledby="nav-ldescrip-tab">
+                                    <div class="lesson-description">
+                                        <p>
+                                        {{$currentLesson->description}}
+                                        </p>
+                                    </div>
+                                    <!-- Lesson Description Ends Here -->
                                 </div>
-                            </nav>                        
-                        
-                        <div class="tab-content course-description-start-content-tabitem" id="nav-tabContent">
-                            <!-- Lesson Description Starts Here -->
-                            <div class="tab-pane fade show active" id="nav-ldescrip" role="tabpanel"
-                                aria-labelledby="nav-ldescrip-tab">
-                                <div class="lesson-description">
-                                    <p>
-                                    {{$currentLesson->description}}
-                                    </p>
+                                <!-- Course Notes Starts Here -->
+                                <div class="tab-pane fade" id="nav-lnotes" role="tabpanel" aria-labelledby="nav-lnotes-tab">
+                                    <div class="course-notes-area">
+                                        <div class="course-notes">
+                                            <div class="course-notes-item">
+                                                <p>
+                                                {{$currentLesson->notes}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Course Notes Ends Here -->
                                 </div>
-                                <!-- Lesson Description Ends Here -->
+                                <!-- Lesson Comments Starts Here -->
+                            <div class="tab-pane fade" id="nav-lcomments" role="tabpanel"
+                                    aria-labelledby="nav-lcomments-tab">
+                                <div class="lesson-comments">
+                                    <div class="feedback-comment pt-0 ps-0 pe-0">
+                                        <h6 class="font-title--card">Add a Comment about this course.</h6>
+                                        <form id="comment-form">
+                                            @csrf
+                                            <label for="comment">Comment</label>
+                                            <textarea class="form-control" id="comment" name="comment" placeholder="Add a Comment" required></textarea>
+                                            <input type="hidden" name="student_id" id="student_id" value="{{ $studentId }}">
+                                            <input type="hidden" name="course_id" id="course_id" value="{{ $courseId }}">
+                                            <button type="submit" class="button button-md button--primary float-end">Post Comment</button>
+                                        </form>
+                                    </div>
+
+                                    <!-- Display Comments Section -->
+                                    <div class="students-feedback pt-0 ps-0 pe-0 pb-0 mb-0">
+                                        <div class="students-feedback-heading">
+                                            <h5 class="font-title--card">Comments <span id="comment-count">({{ $course->reviews->count() }})</span></h5>
+                                        </div>
+                                        <div id="comments-container">
+                                            <!-- Comments will be loaded here dynamically -->
+                                            @foreach($course->reviews as $review)
+                                                <div class="students-feedback-item">
+                                                    <div class="feedback-rating">
+                                                        <div class="feedback-rating-start">
+                                                            <div class="image">
+                                                                <img src="{{ $review->student->image ? asset('uploads/students/' . $review->student->image) : asset('frontend/dist/images/ellipse/2.png') }}" alt="Image"  />
+                                                            </div>
+                                                            <div class="text">
+                                                                <h6><a href="#">{{ $review->student->name_en }}</a></h6>
+                                                                <p>{{ $review->created_at->diffForHumans() }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p>{{ $review->comment }}</p>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <!-- Lesson Comments Ends Here -->
+                                </div>
                             </div>
-                            <!-- Course Notes Starts Here -->
-                            <div class="tab-pane fade" id="nav-lnotes" role="tabpanel" aria-labelledby="nav-lnotes-tab">
-                                <div class="course-notes-area">
-                                    <div class="course-notes">
-                                        <div class="course-notes-item">
-                                            <p>
-                                            {{$currentLesson->notes}}
+                                <!-- Course Overview Starts Here -->
+                                <div class="tab-pane fade" id="nav-loverview" role="tabpanel"
+                                    aria-labelledby="nav-loverview-tab">
+                                    <div class="row course-overview-main">
+                                        <div class="course-overview-main-item">
+                                            <h6 class="font-title--card">Description</h6>
+                                            <p class="mb-3 font-para--lg">
+                                            {{$course->description_en}}
+                                            </p>
+                                        </div>
+                                        <div class="course-overview-main-item">
+                                            <h6 class="font-title--card">Requirments</h6>
+                                            <p class="mb-2 font-para--lg">
+                                            {{$course->prerequisites_en}}
                                             </p>
                                         </div>
                                     </div>
+                                    <!-- Course Overview Ends Here -->
                                 </div>
-                                <!-- Course Notes Ends Here -->
-                            </div>
-                            <!-- Lesson Comments Starts Here -->
-                        <div class="tab-pane fade" id="nav-lcomments" role="tabpanel"
-                                aria-labelledby="nav-lcomments-tab">
-                            <div class="lesson-comments">
-                                <div class="feedback-comment pt-0 ps-0 pe-0">
-                                    <h6 class="font-title--card">Add a Comment about this course.</h6>
-                                    <form id="comment-form">
-                                        @csrf
-                                        <label for="comment">Comment</label>
-                                        <textarea class="form-control" id="comment" name="comment" placeholder="Add a Comment" required></textarea>
-                                        <input type="hidden" name="student_id" id="student_id" value="{{ $studentId }}">
-                                        <input type="hidden" name="course_id" id="course_id" value="{{ $courseId }}">
-                                        <button type="submit" class="button button-md button--primary float-end">Post Comment</button>
-                                    </form>
-                                </div>
+                                <!-- course details instructor  -->
+                                <div class="tab-pane fade" id="nav-linstruc" role="tabpanel"
+                                    aria-labelledby="nav-linstruc-tab">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="course-instructor mw-100">
+                                                <div class="course-instructor-info">
+                                                    <div class="instructor-image">
+                                                        <img src="{{asset('uploads/users/'.$course?->instructor?->image)}}"
+                                                            alt="Instructor" width="160" height="120" />
+                                                    </div>
+                                                    <div class="instructor-text">
+                                                        <h6 class="font-title--xs">
+                                                            <a href="{{route('instructorProfile', encryptor('encrypt', $course->instructor->id))}}">
+                                                                {{$course?->instructor?->name_en}}</a></h6>
+                                                        <p>{{$course?->instructor?->designation}}</p>
+                                                        <div class="d-flex align-items-center instructor-text-bottom">
+                                                            <div class="d-flex align-items-center ratings-icon">
+                                                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                                        d="M9.94438 2.34287L11.7457 5.96656C11.8359 6.14934 12.0102 6.2769 12.2124 6.30645L16.2452 6.88901C16.4085 6.91079 16.5555 6.99635 16.6559 7.12701C16.8441 7.37201 16.8153 7.71891 16.5898 7.92969L13.6668 10.7561C13.5183 10.8961 13.4522 11.1015 13.4911 11.3014L14.1911 15.2898C14.2401 15.6204 14.0145 15.93 13.684 15.9836C13.5471 16.0046 13.4071 15.9829 13.2826 15.9214L9.69082 14.0384C9.51037 13.9404 9.29415 13.9404 9.1137 14.0384L5.49546 15.9315C5.1929 16.0855 4.82267 15.9712 4.65778 15.6748C4.59478 15.5551 4.57301 15.419 4.59478 15.286L5.29479 11.2975C5.32979 11.0984 5.26368 10.8938 5.11901 10.753L2.18055 7.92735C1.94099 7.68935 1.93943 7.30201 2.17821 7.06246C2.17899 7.06168 2.17977 7.06012 2.18055 7.05935C2.27932 6.9699 2.40066 6.91001 2.5321 6.88668L6.56569 6.30412C6.76713 6.27223 6.94058 6.14623 7.03236 5.96345L8.83215 2.34287C8.90448 2.19587 9.03281 2.08309 9.18837 2.03176C9.3447 1.97965 9.51582 1.99209 9.66282 2.06598C9.78337 2.12587 9.88215 2.22309 9.94438 2.34287Z"
+                                                                        stroke="#FF7A1A" stroke-width="2"
+                                                                        stroke-linecap="round" stroke-linejoin="round">
+                                                                    </path>
+                                                                </svg>
+                                                                <p>4.9 Star Rating</p>
+                                                            </div>
+                                                            <div class="d-flex align-items-center ratings-icon">
+                                                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <path
+                                                                        d="M1.5 2.25H6C6.79565 2.25 7.55871 2.56607 8.12132 3.12868C8.68393 3.69129 9 4.45435 9 5.25V15.75C9 15.1533 8.76295 14.581 8.34099 14.159C7.91903 13.7371 7.34674 13.5 6.75 13.5H1.5V2.25Z"
+                                                                        stroke="#00AF91" stroke-width="1.8"
+                                                                        stroke-linecap="round" stroke-linejoin="round">
+                                                                    </path>
+                                                                    <path
+                                                                        d="M16.5 2.25H12C11.2044 2.25 10.4413 2.56607 9.87868 3.12868C9.31607 3.69129 9 4.45435 9 5.25V15.75C9 15.1533 9.23705 14.581 9.65901 14.159C10.081 13.7371 10.6533 13.5 11.25 13.5H16.5V2.25Z"
+                                                                        stroke="#00AF91" stroke-width="1.8"
+                                                                        stroke-linecap="round" stroke-linejoin="round">
+                                                                    </path>
+                                                                </svg>
 
-                                <!-- Display Comments Section -->
-                                <div class="students-feedback pt-0 ps-0 pe-0 pb-0 mb-0">
-                                    <div class="students-feedback-heading">
-                                        <h5 class="font-title--card">Comments <span id="comment-count">({{ $course->reviews->count() }})</span></h5>
-                                    </div>
-                                    <div id="comments-container">
-                                        <!-- Comments will be loaded here dynamically -->
-                                        @foreach($course->reviews as $review)
-                                            <div class="students-feedback-item">
-                                                <div class="feedback-rating">
-                                                    <div class="feedback-rating-start">
-                                                        <div class="image">
-                                                            <img src="{{ $review->student->image ? asset('uploads/students/' . $review->student->image) : asset('frontend/dist/images/ellipse/2.png') }}" alt="Image"  />
-                                                        </div>
-                                                        <div class="text">
-                                                            <h6><a href="#">{{ $review->student->name_en }}</a></h6>
-                                                            <p>{{ $review->created_at->diffForHumans() }}</p>
+                                                                @if($courseNo->count() > 1)
+                                                                <p class="font-para--md">{{$courseNo->count()}} Courses</p>
+                                                                @elseif($courseNo->count() == 1)
+                                                                <p class="font-para--md">{{$courseNo->count()}} Course</p>
+                                                                @endif
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <p>{{ $review->comment }}</p>
+                                                <!-- <p class="lead-p">{{$course?->instructor?->title}} -->
+                                                </p>
+                                                <p class="course-instructor-description">
+                                                    {!! $course?->instructor?->bio !!}
+                                                </p>
                                             </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <!-- Lesson Comments Ends Here -->
-                            </div>
-                        </div>
-                            <!-- Course Overview Starts Here -->
-                            <div class="tab-pane fade" id="nav-loverview" role="tabpanel"
-                                aria-labelledby="nav-loverview-tab">
-                                <div class="row course-overview-main">
-                                    <div class="course-overview-main-item">
-                                        <h6 class="font-title--card">Description</h6>
-                                        <p class="mb-3 font-para--lg">
-                                           {{$course->description_en}}
-                                        </p>
-                                    </div>
-                                    <div class="course-overview-main-item">
-                                        <h6 class="font-title--card">Requirments</h6>
-                                        <p class="mb-2 font-para--lg">
-                                           {{$course->prerequisites_en}}
-                                        </p>
-                                    </div>
-                                </div>
-                                <!-- Course Overview Ends Here -->
-                            </div>
-                            <!-- course details instructor  -->
-                            <div class="tab-pane fade" id="nav-linstruc" role="tabpanel"
-                                aria-labelledby="nav-linstruc-tab">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="course-instructor mw-100">
-                                            <div class="course-instructor-info">
-                                                <div class="instructor-image">
-                                                    <img src="{{asset('uploads/users/'.$course?->instructor?->image)}}"
-                                                        alt="Instructor" width="160" height="120" />
-                                                </div>
-                                                <div class="instructor-text">
-                                                    <h6 class="font-title--xs">
-                                                        <a href="{{route('instructorProfile', encryptor('encrypt', $course->instructor->id))}}">
-                                                            {{$course?->instructor?->name_en}}</a></h6>
-                                                    <p>{{$course?->instructor?->designation}}</p>
-                                                    <div class="d-flex align-items-center instructor-text-bottom">
-                                                        <div class="d-flex align-items-center ratings-icon">
-                                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                                                xmlns="http://www.w3.org/2000/svg">
-                                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                                    d="M9.94438 2.34287L11.7457 5.96656C11.8359 6.14934 12.0102 6.2769 12.2124 6.30645L16.2452 6.88901C16.4085 6.91079 16.5555 6.99635 16.6559 7.12701C16.8441 7.37201 16.8153 7.71891 16.5898 7.92969L13.6668 10.7561C13.5183 10.8961 13.4522 11.1015 13.4911 11.3014L14.1911 15.2898C14.2401 15.6204 14.0145 15.93 13.684 15.9836C13.5471 16.0046 13.4071 15.9829 13.2826 15.9214L9.69082 14.0384C9.51037 13.9404 9.29415 13.9404 9.1137 14.0384L5.49546 15.9315C5.1929 16.0855 4.82267 15.9712 4.65778 15.6748C4.59478 15.5551 4.57301 15.419 4.59478 15.286L5.29479 11.2975C5.32979 11.0984 5.26368 10.8938 5.11901 10.753L2.18055 7.92735C1.94099 7.68935 1.93943 7.30201 2.17821 7.06246C2.17899 7.06168 2.17977 7.06012 2.18055 7.05935C2.27932 6.9699 2.40066 6.91001 2.5321 6.88668L6.56569 6.30412C6.76713 6.27223 6.94058 6.14623 7.03236 5.96345L8.83215 2.34287C8.90448 2.19587 9.03281 2.08309 9.18837 2.03176C9.3447 1.97965 9.51582 1.99209 9.66282 2.06598C9.78337 2.12587 9.88215 2.22309 9.94438 2.34287Z"
-                                                                    stroke="#FF7A1A" stroke-width="2"
-                                                                    stroke-linecap="round" stroke-linejoin="round">
-                                                                </path>
-                                                            </svg>
-                                                            <p>4.9 Star Rating</p>
-                                                        </div>
-                                                        <div class="d-flex align-items-center ratings-icon">
-                                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
-                                                                xmlns="http://www.w3.org/2000/svg">
-                                                                <path
-                                                                    d="M1.5 2.25H6C6.79565 2.25 7.55871 2.56607 8.12132 3.12868C8.68393 3.69129 9 4.45435 9 5.25V15.75C9 15.1533 8.76295 14.581 8.34099 14.159C7.91903 13.7371 7.34674 13.5 6.75 13.5H1.5V2.25Z"
-                                                                    stroke="#00AF91" stroke-width="1.8"
-                                                                    stroke-linecap="round" stroke-linejoin="round">
-                                                                </path>
-                                                                <path
-                                                                    d="M16.5 2.25H12C11.2044 2.25 10.4413 2.56607 9.87868 3.12868C9.31607 3.69129 9 4.45435 9 5.25V15.75C9 15.1533 9.23705 14.581 9.65901 14.159C10.081 13.7371 10.6533 13.5 11.25 13.5H16.5V2.25Z"
-                                                                    stroke="#00AF91" stroke-width="1.8"
-                                                                    stroke-linecap="round" stroke-linejoin="round">
-                                                                </path>
-                                                            </svg>
-
-                                                            @if($courseNo->count() > 1)
-                                                            <p class="font-para--md">{{$courseNo->count()}} Courses</p>
-                                                            @elseif($courseNo->count() == 1)
-                                                            <p class="font-para--md">{{$courseNo->count()}} Course</p>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- <p class="lead-p">{{$course?->instructor?->title}} -->
-                                            </p>
-                                            <p class="course-instructor-description">
-                                                {!! $course?->instructor?->bio !!}
-                                            </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>  
+                        </div>  
                     </div>                 
                 </div>
             </div>
@@ -419,10 +460,13 @@ body {
                     <div class="videolist-area-heading">
                         <h6>Course Contents</h6>
                     </div>
-                   
+                    <p>
+                        <i class="fas fa-tasks"></i> Progress
+                    </p>
                     <div class="videolist-area-bar">
                         <span class="videolist-area-bar--progress" 
-                            style="width: {{ $segmentProgress[$segment->id] ?? 0 }}%; background-color: green; display: block;">
+                            style="width: {{ $segmentProgress[$segment->id] ?? 0 }}%;" 
+                            data-progress="{{ $segmentProgress[$segment->id] ?? 0 }}">
                         </span>
                     </div>
                     <!-- <div>
@@ -499,6 +543,7 @@ body {
                                             data-segment-id="{{$segment->id}}"
                                             data-segment-no="{{$segment->segment_no}}">
                                             Start Quiz</button>
+                                            <p>{{ $progress->quiz_attempt }} {{ $progress->quiz_attempt > 1 ? 'attempts' : 'attempt' }}</p>
                                         </div>  
                                     </div>
                                 </div> 
@@ -517,8 +562,16 @@ body {
                                             data-segment-id="{{$segment->id}}"
                                             data-segment-no="{{$segment->segment_no}}">
                                             Re-take Quiz</button>
+                                            <p>{{ $progress->quiz_attempt }} {{ $progress->quiz_attempt > 1 ? 'attempts' : 'attempt' }}</p>
                                         </div>  
                                     </div>
+                                </div>
+                            @elseif($progress->completed == 1 )
+                                <div class="videolist-area-wizard"> 
+                                        <div class="wizard-heading">
+                                            <h6 class="">Quiz</h6>
+                                        </div> 
+                                       <strong><p>Segment Completed</p></strong> 
                                 </div>
                             @else
                             <div class="videolist-area-wizard"> 
@@ -535,6 +588,7 @@ body {
                                             data-segment-id="{{$segment->id}}"
                                             data-segment-no="{{$segment->segment_no}}">
                                             Re-take Quiz</button>
+                                            <p>{{ $progress->quiz_attempt }} {{ $progress->quiz_attempt > 1 ? 'attempts' : 'attempt' }}</p>
                                         </div>  
                                     </div>
                                 </div>
@@ -606,73 +660,69 @@ body {
     
     <!-- Lesson -->
     <script>
-    function show_content(material) {
-        const contentType = material.type; // Get the type of content
-        const contentLink = "{{ asset('uploads/courses/contents') }}/" + material.content; // Construct the link
+function show_content(material) {
+    const contentType = material.type;
+    const contentLink = "{{ asset('uploads/courses/contents') }}/" + material.content;
 
-        // Hide the lesson container initially
-        $('#lesson-container').empty(); // Clear existing content
+    // Clear any existing content in the lesson container
+    $('#lesson-container').empty();
 
-        // Check if the content is video or text
-        if (contentType === 'video') {
-            // If it's a video, set the video source and create the video element
-            const videoHTML = `            
-                <div class="video-area">
-                    <div class="video-container">
-                        <video controls id="myvideo" 
-                                    class="video-js w-100" 
-                                    poster="${contentLink}"
-                                    data-setup='{"controls": true, "preload": "auto", "autoplay":true}'>
-                                    <source src="${contentLink}" class="w-100" autostart="true"/>
-                        </video>  
-                    </div>
+    // Determine content type and render accordingly
+    if (contentType === 'video') {
+        // Render video content
+        const videoHTML = `
+            <div class="video-area">
+                <div class="video-container">
+                    <video controls id="myvideo" 
+                           class="video-js w-100" 
+                           poster="${contentLink}"
+                           data-setup='{"controls": true, "preload": "auto", "autoplay":true}'>
+                        <source src="${contentLink}" type="video/mp4" />
+                    </video>  
                 </div>
-            `;
-            $('#lesson-container').append(videoHTML);
-            $('#myvideo').get(0).play(); // Play the video
-            $('#quiz-container').hide(); 
-            $('#tab-container').show();// show lesson tab container
-            scrollToTop(); // Scroll to top of lesson
-        } else if (contentType === 'text') {
-            // If it's text, display it within a styled frame
-            const textHTML = `
-                <div class="text-area">
-                    <div class="text-frame">
-                        <p>${material.content_data ? material.content_data : 'No content available.'}</p>
-                    </div>
+            </div>
+        `;
+        $('#lesson-container').append(videoHTML);
+        $('#myvideo').get(0).play(); // Auto-play video
+    } else if (contentType === 'text') {
+        // Render text content
+        const textHTML = `
+            <div class="text-area">
+                <div class="text-frame">
+                    <p>${material.content_data ? material.content_data : 'No content available.'}</p>
                 </div>
-            `;
-            $('#lesson-container').append(textHTML);
-            $('#quiz-container').hide(); // Hide quiz container
-            $('#tab-container').show();// show lesson tab container
-            scrollToTop(); // Scroll to top of lesson
-        } else if (contentType === 'document') {
-            // If it's a document, display it
-            const documentHTML = `
-                <div class="document-content">
-                    <div class="document-frame">
-                        ${material.content_data ? material.content_data : 'No content available.'}
-                    </div>
+            </div>
+        `;
+        $('#lesson-container').append(textHTML);
+    } else if (contentType === 'document') {
+        // Render document content (corrected to display document content)
+        const documentHTML = `
+            <div class="document-content">
+                <div class="document-frame">
+                    ${material.content_data ? material.content_data : 'No content available.'}
                 </div>
-            `;
-            $('#lesson-container').append(documentHTML);
-            $('#quiz-container').hide(); // Hide quiz container
-            $('#tab-container').show();// show lesson tab container
-            scrollToTop(); // Scroll to top of lesson
-        } else {
-            // Handle other types of content if necessary
-            console.log('No valid content available for this lesson.');
-            // alert('No valid content available for this lesson.');
-        }
-
-        // Scroll to the top of the lesson container
-        function scrollToTop() {
-            $('html, body').animate({
-                scrollTop: $('#lesson-container').offset().top
-            }, 'fast'); // 'fast' for a quick scroll
-        }
+            </div>
+        `;
+        $('#lesson-container').append(documentHTML);
+    } else {
+        console.log('No valid content available for this lesson.');
     }
 
+    // Display the lesson container and hide others
+    $('#lesson-container').show();
+    $('#tab-container').show();
+    $('#quiz-container').hide();
+
+    // Scroll to the top of the lesson container
+    scrollToTop();
+
+    // Scroll function for smooth experience
+    function scrollToTop() {
+        $('html, body').animate({
+            scrollTop: $('#lesson-container').offset().top
+        }, 'fast');
+    }
+}
     $(document).ready(function() {
         // Set the initial checked state for checkboxes based on progress records
         var progressRecords = @json($progressRecords); // Pass this from the server-side
@@ -858,33 +908,51 @@ function fetchQuizQuestions(quizId) {
         },
         error: function(xhr) {
             if (xhr.status === 403) {
-                const errorMessage = xhr.responseJSON.error || 'You must wait 2 hours to retake this quiz.';
+                let errorMessage = xhr.responseJSON.error;
+                let displayMessage = '';
+                let buttonLabel = '';
+                let buttonAction;
+
+                if (errorMessage.includes("complete all lessons")) {
+                    displayMessage = `<strong>Notice:</strong> ${errorMessage}`;
+                    buttonLabel = "Continue";
+                    buttonAction = function() {
+                        location.reload();
+                    };
+                } else if (errorMessage.includes("wait 2 hours")) {
+                    displayMessage = `<strong>Notice:</strong> ${errorMessage}`;
+                    buttonLabel = "Exit";
+                    buttonAction = function() {
+                        window.location.href = `{{ route('home') }}`;
+                    };
+                } else {
+                    displayMessage = `<strong>Notice:</strong> Unable to access quiz at the moment.`;
+                    buttonLabel = "Exit";
+                    buttonAction = function() {
+                        window.location.href = `{{ route('home') }}`;
+                    };
+                }
+
                 $('#quiz-container').html(`
                     <div style="text-align: center; padding: 20px; background-color: #f8d7da; color: #721c24; border-radius: 10px; border: 1px solid #f5c6cb;">
-                        <strong>Notice:</strong> ${errorMessage}
+                        ${displayMessage}
                         <br><br>
-                        <button id="exit-button" style="margin-top: 10px; padding: 8px 16px; background-color: #721c24; color: #fff; border: none; border-radius: 5px; cursor: pointer;">
-                            Exit
+                        <button id="dynamic-button" style="margin-top: 10px; padding: 8px 16px; background-color: #721c24; color: #fff; border: none; border-radius: 5px; cursor: pointer;">
+                            ${buttonLabel}
                         </button>
                     </div>
                 `);
                 $('#quiz-container').show();
                 $('#tab-container').hide();
 
-                // Add click event to the Exit button to redirect to the home route
-                $('#exit-button').on('click', function() {
-                    window.location.href = `{{ route('home') }}`;
-                });
+                $('#dynamic-button').on('click', buttonAction);
             } else {
                 $('#quiz-container').html('<p>Failed to load questions. Please try again later.</p>');
-                $('#quiz-container').show();
                 $('#tab-container').hide();
             }
         }
     });
 }
-
-
 $(document).ready(function() {
     // Start quiz on button click
     $('.start-quiz-btn').click(function() {

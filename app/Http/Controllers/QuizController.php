@@ -6,6 +6,8 @@ use App\Models\Segments;
 use App\Models\Answer;
 use App\Models\Progress;
 use App\Models\Quiz;
+use App\Models\Lesson;
+use App\Models\ProgressAll;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
@@ -17,40 +19,59 @@ class QuizController extends Controller
 
     public function getQuestions($quizId)
     {
-        $studentId= currentUserId();
-        $quiz = Quiz::where('id',$quizId)->first();
+        $studentId = currentUserId();
+        $quiz = Quiz::where('id', $quizId)->first();
         $courseId = $quiz->course_id;
-        $segmentId= $quiz->segment_id;
-        $progress = Progress::where('student_id', $studentId)
-                        ->where('course_id', $courseId)
-                        ->where('segments_id', $segmentId)
-                        ->first();
-
+        $segmentId = $quiz->segment_id;
         $currentTime = now();
+
+        // Get total lessons for the specific course and segment
+        $totalLessons = Lesson::where('course_id', $courseId)
+                        ->where('segments_id', $segmentId)
+                        ->count();
+
+        // Get the count of lessons attempted by the student
+        $attemptedLessons = ProgressAll::where('student_id', $studentId)
+                                ->where('course_id', $courseId)
+                                ->where('segments_id', $segmentId)
+                                ->count();
+
+        // Check if the student has completed all lessons in the segment
+        if ($attemptedLessons < $totalLessons) {
+            return response()->json(['error' => 'Please complete all lessons in this segment before attempting the quiz.'], 403);
+        }
+
+        // Retrieve student's progress record
+        $progress = Progress::where('student_id', $studentId)
+                            ->where('course_id', $courseId)
+                            ->where('segments_id', $segmentId)
+                            ->first();
+
+        // Define quiz attempt limits
         $attemptLimit = 3;
         $attemptCooldown = 2; // cooldown in hours
 
-        // Check if attempts are at max and time cooldown has not passed
+        // Check if the student has reached the maximum number of attempts
         if ($progress->quiz_attempt >= $attemptLimit) {
             $lastAttemptTime = Carbon::parse($progress->last_attempt_time);
             if ($lastAttemptTime->diffInHours($currentTime) < $attemptCooldown) {
                 return response()->json(['error' => 'You must wait 2 hours to retake this quiz.'], 403);
             } else {
-                // Reset attempt count after cooldown period
                 $progress->quiz_attempt = 0;
             }
         }
 
-        // Increment quiz attempt if this is the first attempt in a new period
+        // Set up for a new attempt period
         if ($progress->quiz_attempt == 0) {
-            $progress->quiz_attempt = 0;
+            $progress->quiz_attempt = 1; // Increment for the current attempt
             $progress->last_attempt_time = $currentTime;
             $progress->score = 0;
             $progress->save();
         }
 
+        // Retrieve quiz questions if all checks are passed
         $questions = Question::where('quiz_id', $quizId)
-        ->get(['id', 'content', 'option_a', 'option_b', 'option_c', 'option_d', 'correct_answer']);
+            ->get(['id', 'content', 'option_a', 'option_b', 'option_c', 'option_d', 'correct_answer']);
 
         return response()->json($questions);
     }

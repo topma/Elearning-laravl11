@@ -141,7 +141,20 @@ use Carbon\Carbon;
                             {{ $segment->lesson_count }} {{ $segment->lesson_count == 1 ? 'lesson' : 'lessons' }}</span>
                     </div>
                 </div>
-                
+                @php
+                            // Fetch progress for this segment from segmentProgress array
+                            $progressPercentage = $segmentProgress[$segment->id] ?? 0; // This should match segment ID
+                        @endphp
+                @if($progressPercentage == 100)
+                                    <i class="fas fa-check-circle text-success"></i> 
+                                    <span>Completed</span>
+                                @elseif($progressPercentage < 100 && $progressPercentage != 0)
+                                    <i class="fas fa-spinner text-warning"></i> 
+                                    <span>In progress</span>
+                                @elseif($progressPercentage == 0 )
+                                    <i class="far fa-clock text-danger"></i> 
+                                    <span>Not attempted</span>
+                                @endif
                 <div class="text-center">
                     <div class="contentCard-course--status d-flex align-items-center">
                         @php
@@ -167,7 +180,7 @@ use Carbon\Carbon;
                             @if($segmentProgressDetail->completed == 0)
                                 <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('watchCourse', encryptor('encrypt', $segment->id)) }}">Continue Lesson</a>
                             @elseif($segmentProgressDetail->completed == 1)
-                                <a class="button button-md button--primary-outline w-100 my-3" href="#">Completed</a>
+                                <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('watchCourse', encryptor('encrypt', $segment->id)) }}">View Lesson</a>
                             @endif
                         @else
                             <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('watchCourse', encryptor('encrypt', $segment->id)) }}">Start Lesson</a>

@@ -179,7 +179,7 @@ body {
                                 @if($segmentProgress[$segment->id] == 100)
                                     <i class="fas fa-check-circle text-success"></i> 
                                     <span>{{ $segmentProgress[$segment->id] ?? 0 }}%</span>
-                                @elseif($segmentProgress[$segment->id] < 100)
+                                @elseif($segmentProgress[$segment->id] < 100 && $segmentProgress[$segment->id] != 0)
                                     <i class="fas fa-spinner text-warning"></i> 
                                     <span>{{ $segmentProgress[$segment->id] ?? 0 }}%</span>
                                 @elseif($segmentProgress[$segment->id] == 0 )
@@ -213,11 +213,12 @@ body {
 
     <!-- Course Description Starts Here -->
     <div class="container-fluid">
-        <div class="row course-description">
-
+        <div class="row course-description">              
             {{-- Video Area --}}
             <div class="col-lg-8">
                 <div class="course-description-start">
+                <h5 class="font-title--sm material-title"> {{$currentLesson->title}}</h5> 
+                <hr> 
                 <div id="lesson-container" style="position: relative;"> 
                     @if($currentMaterial->type == 'video')
                         <div class="video-area">                            
@@ -276,8 +277,7 @@ body {
                         </div>
                     </div>
                     <div id="tab-container">
-                        <div class="course-description-start-content">                       
-                                <h5 class="font-title--sm material-title">{{$currentLesson->title}}</h5>
+                        <div class="course-description-start-content"> 
                                 <nav class="course-description-start-content-tab">
                                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                         <button class="nav-link active" id="nav-ldescrip-tab" data-bs-toggle="tab"
@@ -669,8 +669,9 @@ function show_content(material) {
 
     // Determine content type and render accordingly
     if (contentType === 'video') {
+        $('.material-title').html(material.title); 
         // Render video content
-        const videoHTML = `
+        const videoHTML = `      
             <div class="video-area">
                 <div class="video-container">
                     <video controls id="myvideo" 
@@ -685,6 +686,7 @@ function show_content(material) {
         $('#lesson-container').append(videoHTML);
         $('#myvideo').get(0).play(); // Auto-play video
     } else if (contentType === 'text') {
+        $('.material-title').html(material.title); 
         // Render text content
         const textHTML = `
             <div class="text-area">
@@ -695,6 +697,7 @@ function show_content(material) {
         `;
         $('#lesson-container').append(textHTML);
     } else if (contentType === 'document') {
+        $('.material-title').html(material.title); 
         // Render document content (corrected to display document content)
         const documentHTML = `
             <div class="document-content">
@@ -758,7 +761,7 @@ function show_content(material) {
             $(this).addClass('highlight'); // Add highlight class to the clicked lesson
 
             // Update material title
-            $('.material-title').html(material.title);
+            // $('.material-title').html(material.title);
 
             // Update lesson description and notes
             $('#nav-ldescrip .lesson-description p').html(material.description); // Update description
@@ -1025,7 +1028,7 @@ $(document).ready(function() {
             $('#quiz-container').html(`
                 <div style="text-align: center; padding: 30px; border-radius: 10px; background-color: #f5f5f5; max-width: 600px; margin: 0 auto;">
                     <h3>Quiz Finished!</h3>
-                    <p>Your score: <strong>${scorePercentage.toFixed(2)}%</strong> - PassMark: <strong>${quizPassMark}%</strong></p>
+                    <p>Your score: <strong>${scorePercentage}%</strong> - PassMark: <strong>${quizPassMark}%</strong></p>
                     <p><strong>${resultMessage}</strong></p>
                     <div>${resultHTML}</div>
                     <button id="exit-quiz" class="button button--primary start-quiz-btn" style="margin-top: 20px;">Exit</button>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Quizzes; 
 
 use App\Models\Question;
+use App\Models\Segments;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Quiz;
@@ -36,7 +37,8 @@ class QuestionController extends Controller
         $decryptedId = encryptor('decrypt', $id);
 
         $quiz = Quiz::where('id', $decryptedId)->first();
-        return view('backend.quiz.question.create', compact('quiz'));
+        $segment = Segments::find($quiz->segment_id); 
+        return view('backend.quiz.question.create', compact('quiz','segment'));
     }
 
     /**
@@ -76,15 +78,21 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-        //
         $decryptedId = encryptor('decrypt', $id);
 
+        // Find the quiz by its ID
         $quiz = Quiz::findOrFail($decryptedId);
 
+        // Get the segment title using the segment_id from the quiz
+        $segment = Segments::find($quiz->segment_id); 
+
+        // Retrieve questions associated with the quiz
         $question = Question::where('quiz_id', $quiz->id)->paginate(10);
 
-        return view('backend.quiz.question.view', compact('question','quiz'));
+        // Pass the segment title to the view
+        return view('backend.quiz.question.view', compact('question', 'quiz', 'segment'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -95,7 +103,8 @@ class QuestionController extends Controller
        
         $question = Question::findOrFail($decryptedId);
         $quiz = Quiz::where('id', $question->quiz_id)->first();
-        return view('backend.quiz.question.edit', compact('quiz', 'question'));
+        $segment = Segments::find($quiz->segment_id); 
+        return view('backend.quiz.question.edit', compact('quiz', 'question','segment'));
     }
 
     /**

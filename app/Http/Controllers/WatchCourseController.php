@@ -48,6 +48,15 @@ class WatchCourseController extends Controller
         if ($segmentNo > $stdSegmentNo ) {
             return redirect()->back()->with('error', 'You have not completed segment ' . $previousSegment);
         }
+
+        //---get quiz for segment of a particular course if available
+        $quiz= Quiz::where('course_id', $courseId)
+        ->where('segment_id', $segment->id)
+        ->first();
+
+        if(!$quiz){
+            return redirect()->back()->with('error', 'Quiz not found for the next segment');
+        }
         // Check if progress record exists for the student and course
         $progress = Progress::where('student_id', $studentId)
             ->where('course_id', $courseId)
@@ -94,7 +103,13 @@ class WatchCourseController extends Controller
                 'segments_id' => $segment->id,
                 'segment_no' => $segmentNo,
                 'quiz_attempt' => 0,
+                'score' => 0,
             ]);           
+
+            $progress = Progress::where('student_id', $studentId)
+            ->where('course_id', $courseId)
+            ->where('segments_id', $segment->id)
+            ->first();
 
             $currentLesson = Lesson::where('segments_id', $segment->id)->first();
             $currentMaterial = Material::where('lesson_id', $lessonsFirst->id)->first();          
@@ -134,11 +149,6 @@ class WatchCourseController extends Controller
             $segmentProgress[$segment->id] = round($percentage, 2);
         //    dd($totalLessons,$completedLessons,$segmentProgress);
         }
-
-        //---get quiz for segment of a particular course if available
-        $quiz= Quiz::where('course_id', $courseId)
-        ->where('segment_id', $segment->id)
-        ->first();
         
         $questions = Question::where('quiz_id', $quiz->id)->get();
         // Continue with the course view, passing all necessary variables
@@ -151,6 +161,40 @@ class WatchCourseController extends Controller
             'progressRecords','currentLesson','currentMaterial','progress','segment',
             'segmentProgress','studentId','courseId','quiz','questions'
         ));
+    }
+
+    public function watchCourseNext($id)
+    {
+        $decryptedId = encryptor('decrypt', $id);
+        $studentId = currentUserId();
+
+        // Get the current segment the student is in
+        $stdSegment = Enrollment::where('student_id', $studentId)
+            ->where('course_id', $decryptedId)
+            ->first();
+
+        // Count the total number of segments in the course
+        $totalCourseSegment = Segments::where('course_id', $decryptedId)->count();
+        // Get the next segment number
+        $nextSegment = $stdSegment->segment;
+
+        // Get the id for the next segment
+        $nextSegmentData = Segments::where('course_id', $decryptedId)
+            ->where('segment_no', $nextSegment)
+            ->first();
+
+        // Check if the next segment exists
+        if (!$nextSegmentData) {
+            return redirect()->back()->with('error', 'Next segment not found.');
+        }
+        // Check if the student is already in the last segment of the course
+        if ($stdSegment->segment >= $totalCourseSegment) {
+            return redirect()->route('watchCourse', encryptor('encrypt', $nextSegmentData->id))
+            ->with('error', 'You are already in the last segment of the course');
+        }        
+
+        // Redirect to the next segment
+        return redirect()->route('watchCourse', encryptor('encrypt', $nextSegmentData->id));
     }
 
 

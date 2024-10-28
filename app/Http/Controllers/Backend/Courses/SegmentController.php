@@ -196,7 +196,8 @@ class SegmentController extends Controller
         $courseCategory = CourseCategory::get();
         $instructor = Instructor::get();
         $segment = Segments::findOrFail(encryptor('decrypt', $id));
-        return view('backend.course.segments.edit', compact('courseCategory', 'instructor', 'segment'));
+        $course = Course::where('id', $segment->course_id)->first();
+        return view('backend.course.segments.edit', compact('courseCategory', 'instructor', 'segment','course'));
     }
 
     /** 

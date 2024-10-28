@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 26, 2024 at 10:16 PM
+-- Generation Time: Oct 28, 2024 at 11:46 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -42,16 +42,16 @@ CREATE TABLE `answers` (
 --
 
 INSERT INTO `answers` (`id`, `student_id`, `question_id`, `answer`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 12, 2, 'c', '2024-10-26 01:21:26', '2024-10-27 03:15:22', NULL),
-(2, 12, 3, 'b', '2024-10-26 01:29:40', '2024-10-27 03:15:25', NULL),
-(3, 12, 4, 'd', '2024-10-26 01:29:43', '2024-10-27 03:15:28', NULL),
-(4, 12, 5, 'd', '2024-10-26 01:29:45', '2024-10-27 03:15:30', NULL),
-(5, 12, 6, 'b', '2024-10-26 01:29:47', '2024-10-27 03:15:33', NULL),
-(6, 12, 7, 'b', '2024-10-26 01:29:50', '2024-10-27 03:15:35', NULL),
-(7, 12, 8, 'a', '2024-10-26 01:29:52', '2024-10-27 03:15:38', NULL),
-(8, 12, 9, 'b', '2024-10-26 01:29:55', '2024-10-27 03:15:40', NULL),
-(9, 12, 10, 'b', '2024-10-26 01:29:57', '2024-10-27 03:15:42', NULL),
-(10, 12, 11, 'b', '2024-10-26 01:30:00', '2024-10-27 03:15:45', NULL);
+(1, 12, 2, 'c', '2024-10-26 01:21:26', '2024-10-28 16:29:22', NULL),
+(2, 12, 3, 'b', '2024-10-26 01:29:40', '2024-10-28 16:29:37', NULL),
+(3, 12, 4, 'a', '2024-10-26 01:29:43', '2024-10-28 16:29:41', NULL),
+(4, 12, 5, 'b', '2024-10-26 01:29:45', '2024-10-28 16:29:43', NULL),
+(5, 12, 6, 'b', '2024-10-26 01:29:47', '2024-10-28 16:29:46', NULL),
+(6, 12, 7, 'b', '2024-10-26 01:29:50', '2024-10-28 16:29:48', NULL),
+(7, 12, 8, 'a', '2024-10-26 01:29:52', '2024-10-28 16:29:51', NULL),
+(8, 12, 9, 'b', '2024-10-26 01:29:55', '2024-10-28 16:29:53', NULL),
+(9, 12, 10, 'b', '2024-10-26 01:29:57', '2024-10-28 16:29:56', NULL),
+(10, 12, 11, 'b', '2024-10-26 01:30:00', '2024-10-28 16:29:59', NULL);
 
 -- --------------------------------------------------------
 
@@ -225,7 +225,7 @@ CREATE TABLE `enrollments` (
 --
 
 INSERT INTO `enrollments` (`id`, `student_id`, `course_id`, `instructor_id`, `enrollment_date`, `segment`, `completed`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 12, 3, 4, '2024-10-12 07:00:00', 1, 0, '2024-10-13 02:14:01', '2024-10-13 02:14:01', NULL);
+(1, 12, 3, 4, '2024-10-12 07:00:00', 2, 0, '2024-10-13 02:14:01', '2024-10-13 02:14:01', NULL);
 
 -- --------------------------------------------------------
 
@@ -714,7 +714,7 @@ CREATE TABLE `progress` (
 --
 
 INSERT INTO `progress` (`id`, `student_id`, `course_id`, `segments_id`, `segment_no`, `progress_percentage`, `completed`, `last_viewed_lesson_id`, `last_viewed_material_id`, `last_viewed_at`, `quiz_attempt`, `last_attempt_time`, `score`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 12, 3, 1, 1, 100, 1, 31, 28, '2024-10-18 23:59:53', 3, '2024-10-27 03:15:46', 80, '2024-10-18 23:59:53', '2024-10-27 03:15:46', NULL);
+(1, 12, 3, 1, 1, 100, 1, 11, 8, '2024-10-18 23:59:53', 3, '2024-10-28 16:30:00', 100, '2024-10-18 23:59:53', '2024-10-28 16:30:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -804,7 +804,17 @@ INSERT INTO `questions` (`id`, `quiz_id`, `course_id`, `segment_id`, `content`, 
 (8, 3, 3, 1, 'Which tool is commonly used for social media management?', 'multiple_choice', 'Meta Business Suite', 'Excel', 'Microsoft Word', 'Google Docs', 'a', '2024-10-26 01:24:07', '2024-10-26 01:24:07', NULL),
 (9, 3, 3, 1, 'Which platform allows businesses to manage advertising campaigns on both Facebook and Instagram?', 'multiple_choice', 'YouTube Ads', 'Meta Business Suite', 'LinkedIn Ads Manager', 'Google Ads', 'b', '2024-10-26 01:24:50', '2024-10-26 01:24:50', NULL),
 (10, 3, 3, 1, 'What is an important metric to calculate when measuring social media ROI?', 'multiple_choice', 'Total followers gained', 'Click-through rate (CTR)', 'Hours spent on research', 'Number of emails sent', 'b', '2024-10-26 01:25:41', '2024-10-26 01:25:41', NULL),
-(11, 3, 3, 1, 'Which platform is focused on task management and project collaboration?', 'multiple_choice', 'Slack', 'ClickUp', 'Facebook Ads Manager', 'Twitter', 'b', '2024-10-26 01:26:58', '2024-10-26 01:26:58', NULL);
+(11, 3, 3, 1, 'Which platform is focused on task management and project collaboration?', 'multiple_choice', 'Slack', 'ClickUp', 'Facebook Ads Manager', 'Twitter', 'b', '2024-10-26 01:26:58', '2024-10-26 01:26:58', NULL),
+(12, 4, 3, 3, 'What is the primary role of a virtual assistant?', 'multiple_choice', 'Managing a company’s financial accounts', 'Providing remote administrative and support services', 'Supervising team members in a physical office', 'Managing inventory and stock', 'b', '2024-10-28 17:31:16', '2024-10-28 17:31:16', NULL),
+(13, 4, 3, 3, 'Which of the following is an important aspect of effective communication as a virtual assistant?', 'multiple_choice', 'Avoiding client emails', 'Always accepting calls regardless of time', 'Using clear and professional language', 'Keeping personal boundaries unclear', 'c', '2024-10-28 17:32:13', '2024-10-28 17:32:13', NULL),
+(14, 4, 3, 3, 'Which of the following tools is commonly used for project management in virtual assistance?', 'multiple_choice', 'Asana', 'Facebook', 'Instagram', 'Spotify', 'a', '2024-10-28 17:33:00', '2024-10-28 17:33:00', NULL),
+(15, 4, 3, 3, 'What is the key purpose of maintaining organized virtual workspaces?', 'multiple_choice', 'To store unnecessary files', 'To avoid backing up files', 'To ensure easy access and management of documents', 'To create chaos and confusion', 'c', '2024-10-28 17:34:08', '2024-10-28 17:34:08', NULL),
+(16, 4, 3, 3, 'When conducting online research, which step is important to ensure accuracy?', 'multiple_choice', 'Relying on only one source', 'Validating and verifying sources', 'Copying the first result you find', 'Avoiding credible sources', 'b', '2024-10-28 17:41:32', '2024-10-28 17:41:32', NULL),
+(17, 4, 3, 3, 'What is the primary responsibility of a social media virtual assistant?', 'multiple_choice', 'Managing website development', 'Creating engaging and shareable social media content', 'Handling payroll and finances', 'Designing the company\'s logo', 'c', '2024-10-28 17:42:21', '2024-10-28 17:42:21', NULL),
+(18, 4, 3, 3, 'Which of the following is NOT a commonly used cloud storage solution?', 'multiple_choice', 'Google Drive', 'Dropbox', 'Amazon S3', 'Microsoft Paint', 'd', '2024-10-28 17:43:09', '2024-10-28 17:43:09', NULL),
+(19, 4, 3, 3, 'What should a virtual assistant focus on when managing emails for clients?', 'multiple_choice', 'Deleting all emails', 'Ignoring calendar notifications', 'Prioritizing important emails and responding promptly', 'Forwarding all emails to spam', 'c', '2024-10-28 17:44:16', '2024-10-28 17:44:16', NULL),
+(20, 4, 3, 3, 'Which of the following is a financial task a virtual assistant may perform for a client?', 'multiple_choice', 'Filing taxes on behalf of the client', 'Managing social media accounts', 'Tracking expenses and income', 'Designing websites', 'c', '2024-10-28 17:45:07', '2024-10-28 17:45:07', NULL),
+(21, 4, 3, 3, 'What is an important strategy for finding and securing virtual assistant clients?', 'multiple_choice', 'Relying solely on word of mouth', 'Ignoring your online presence', 'Marketing and branding yourself effectively', 'Setting high rates with no room for negotiation', 'c', '2024-10-28 17:46:02', '2024-10-28 17:46:02', NULL);
 
 -- --------------------------------------------------------
 
@@ -829,7 +839,8 @@ CREATE TABLE `quizzes` (
 --
 
 INSERT INTO `quizzes` (`id`, `course_id`, `segment_id`, `instructor_id`, `title`, `pass_mark`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(3, 3, 1, 4, 'Quiz 1', 80, '2024-10-23 06:07:32', '2024-10-23 16:25:05', NULL);
+(3, 3, 1, 4, 'Quiz 1', 80, '2024-10-23 06:07:32', '2024-10-23 16:25:05', NULL),
+(4, 3, 3, 4, 'Quiz 2', 70, '2024-10-28 17:30:05', '2024-10-28 17:30:05', NULL);
 
 -- --------------------------------------------------------
 
@@ -908,9 +919,7 @@ CREATE TABLE `segments` (
 
 INSERT INTO `segments` (`id`, `segment_no`, `course_id`, `course_category_id`, `title_en`, `description_en`, `instructor_id`, `duration`, `lesson`, `image`, `thumbnail_image`, `status`, `created_at`, `updated_at`) VALUES
 (1, 1, 3, 25, 'Social Media Management', 'Social Media Management', 4, NULL, 24, '1141729110315.jpg', '7401729110183.jpg', 2, '2024-10-17 02:40:25', '2024-10-18 17:19:23'),
-(3, 2, 3, 25, 'Virtual Assistance', 'Virtual Assistance', 4, NULL, 10, '9921729110537.jpg', '6031729110537.jpg', 2, '2024-10-17 03:28:57', '2024-10-18 17:19:38'),
-(4, 4, 3, 25, 'Customer Support', 'Customer Support', 4, NULL, 10, '5381729111145.jpg', '1521729111145.jpg', 2, '2024-10-17 03:39:05', '2024-10-18 17:20:00'),
-(5, 3, 3, 25, 'Lead Generation', 'Lead Generation', 4, NULL, 10, '1411729111256.jpg', '9081729111256.jpg', 2, '2024-10-17 03:40:56', '2024-10-18 17:20:17');
+(3, 2, 3, 25, 'Virtual Assistance', 'Virtual Assistance', 4, NULL, 10, '9921729110537.jpg', '6031729110537.jpg', 2, '2024-10-17 03:28:57', '2024-10-18 17:19:38');
 
 -- --------------------------------------------------------
 
@@ -1385,25 +1394,25 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `progress`
 --
 ALTER TABLE `progress`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `progress_alls`
 --
 ALTER TABLE `progress_alls`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `quizzes`
 --
 ALTER TABLE `quizzes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `reviews`

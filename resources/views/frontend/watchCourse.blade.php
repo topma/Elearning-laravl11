@@ -195,7 +195,7 @@ body {
                 </div>
                 <div class="coursedescription-header-end">  
                 @if($progress->completed == 1)
-                    <a href="#" class="button button--green">
+                    <a href="{{route('watchCourseNext', encryptor('encrypt', $courseId))}}" class="button button--green">
                         <i class="fas fa-arrow-right"></i> Next Segment
                     </a>
                 @endif
@@ -589,7 +589,10 @@ body {
                                             data-segment-id="{{$segment->id}}"
                                             data-segment-no="{{$segment->segment_no}}">
                                             Re-take Quiz</button>
-                                            <p>{{ $progress->quiz_attempt }} {{ $progress->quiz_attempt > 1 ? 'attempts' : 'attempt' }}</p>
+                                            <p>
+                                                {{ $progress->quiz_attempt == 0 ? $progress->quiz_attempt : 0 }} 
+                                                {{ $progress->quiz_attempt > 1 ? 'attempts' : 'attempt' }}
+                                            </p>
                                         </div>  
                                     </div>
                                 </div>

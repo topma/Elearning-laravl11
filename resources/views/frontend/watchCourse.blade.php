@@ -195,16 +195,16 @@ body {
                 </div>
                 <div class="coursedescription-header-end">  
                 @if($progress->completed == 1)
-                <a href="#" class="button button--green">Next Segment</a>         
-                    <!-- <a href="#" class="rating-link" data-bs-toggle="modal" data-bs-target="#ratingModal">Leave a Rating</a> -->
-                    <a href="#" class="button button--dark" data-bs-toggle="modal" data-bs-target="#ratingModal">Leave a
-                        Rating</a>
-                    <a href="{{route('studentdashboard')}}" class="button button--primary">My Dashboard</a>
-                @else
-                <a href="#" class="button button--dark" data-bs-toggle="modal" data-bs-target="#ratingModal">Leave a
-                        Rating</a>
-                    <a href="{{route('studentdashboard')}}" class="button button--primary">My Dashboard</a>
+                    <a href="#" class="button button--green">
+                        <i class="fas fa-arrow-right"></i> Next Segment
+                    </a>
                 @endif
+                <a href="#" class="button button--dark" data-bs-toggle="modal" data-bs-target="#ratingModal">
+                    <i class="fas fa-star"></i> Leave a Rating
+                </a>
+                <a href="{{ route('studentdashboard') }}" class="button button--primary">
+                    <i class="fas fa-user"></i> My Dashboard
+                </a>              
                 </div>
             </div>
         </div>
@@ -216,9 +216,9 @@ body {
         <div class="row course-description">              
             {{-- Video Area --}}
             <div class="col-lg-8">
-                <div class="course-description-start">
-                <h5 class="font-title--sm material-title"> {{$currentLesson->title}}</h5> 
-                <hr> 
+                <div class="course-description-start">                    
+                    <h5 class="font-title--sm material-title"> {{$currentLesson->title}}</h5>                     
+                    <hr> 
                 <div id="lesson-container" style="position: relative;"> 
                     @if($currentMaterial->type == 'video')
                         <div class="video-area">                            
@@ -252,6 +252,7 @@ body {
                     @endif                    
 
                 </div>
+                
                 <!-- Quiz Section (Initially hidden) -->
                     <div id="quiz-container" style="display: none; border: 2px solid #ccc; padding: 20px; border-radius: 10px; margin: 20px auto; max-width: 100%; background-color: #fff;">
                         <div class="text-area">
@@ -610,7 +611,7 @@ body {
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ratingModalLabel">Leave A Rating</h5>
+                    <h5 class="modal-title" id="ratingModalLabel">How would you rate this course ?</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <!-- Modal Body -->

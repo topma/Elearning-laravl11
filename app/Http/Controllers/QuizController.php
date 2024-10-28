@@ -124,6 +124,12 @@ class QuizController extends Controller
         if ($score >= $passMark) {
             $quizRecord->completed = 1;
             $quizRecord->progress_percentage = 100;
+
+            // Update the enrollment table to increment the segment attribute
+            \DB::table('enrollments')
+                ->where('student_id', $studentId)
+                ->where('course_id', $courseId)
+                ->increment('segment', 1);
         } else {
             // If score is less than pass mark, check attempts
             if ($quizRecord->quiz_attempt >= 3) {

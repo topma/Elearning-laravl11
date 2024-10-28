@@ -94,6 +94,16 @@ class SegmentController extends Controller
     public function store(AddNewRequest $request)
     {
         try {
+            // Check if the segment number already exists for the specified course
+            $existingSegment = Segments::where('course_id', $request->courseId)
+                ->where('segment_no', $request->segmentNo)
+                ->first();
+
+            if ($existingSegment) {
+                // Redirect back with an error if a segment already exists with the same number
+                return redirect()->back()->withInput()->with('error', 'A segment already has this number for this course.');
+            }
+
             $segment = new Segments;
             $segment->title_en = $request->title_en;
             $segment->description_en = $request->description_en;
@@ -104,6 +114,7 @@ class SegmentController extends Controller
             $segment->segment_no = $request->segmentNo;
             $segment->status = 2;
 
+            // Handle image upload
             if ($request->hasFile('image')) {
                 $imageName = rand(111, 999) . time() . '.' . $request->image->extension();
                 $request->image->move(public_path('uploads/courses'), $imageName);
@@ -114,15 +125,19 @@ class SegmentController extends Controller
                 $request->thumbnail_image->move(public_path('uploads/courses/thumbnails'), $thumbnailImageName);
                 $segment->thumbnail_image = $thumbnailImageName;
             }
-            if ($segment->save())
+
+            // Save the segment
+            if ($segment->save()) {
                 return redirect()->route('segment.show', encryptor('encrypt', $request->courseId))->with('success', 'Data Saved');
-            else
+            } else {
                 return redirect()->back()->withInput()->with('error', 'Please try again');
+            }
+
         } catch (Exception $e) {
-            dd($e);
             return redirect()->back()->withInput()->with('error', 'Please try again');
         }
     }
+
 
     /**
      * Display the specified resource.

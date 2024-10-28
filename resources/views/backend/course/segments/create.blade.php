@@ -40,14 +40,20 @@
                             @csrf
                             <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="form-label">Segment No</label>
-                                        <input type="number" class="form-control" name="segmentNo"
-                                            value="{{old('segmentNo')}}">
-                                    </div>
-                                    @if($errors->has('segmentNo'))
-                                    <span class="text-danger"> {{ $errors->first('segmentNo') }}</span>
-                                    @endif
+                            <div class="form-group">
+                                <label class="form-label">Segment No</label>
+                                <select class="form-control" name="segmentNo">
+                                    <option value="">Select Segment</option>
+                                    @for ($i = 1; $i <= 10; $i++)
+                                        <option value="{{ $i }}" {{ old('segmentNo') == $i ? 'selected' : '' }}>
+                                            {{ $i }}
+                                        </option>
+                                    @endfor
+                                </select>
+                            </div>
+                            @if($errors->has('segmentNo'))
+                                <span class="text-danger">{{ $errors->first('segmentNo') }}</span>
+                            @endif
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">

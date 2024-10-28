@@ -70,7 +70,7 @@ use Carbon\Carbon;
                                 </svg>
                             </div>
                             <div class="completed-courses-text">
-                                <h5 class="font-title--xs">0</h5>
+                                <h5 class="font-title--xs">{{$completedCourses}} </h5>
                                 <p class="fs-6 mt-1">Completed Courses</p>
                             </div>
                         </div>
@@ -86,19 +86,19 @@ use Carbon\Carbon;
 
                     <button class="nav-link active" id="nav-coursesall-tab" data-bs-toggle="tab"
                         data-bs-target="#nav-coursesall" type="button" role="tab" aria-controls="nav-coursesall"
-                        aria-selected="false">My Courses</button>
-
-                    <!-- <button class="nav-link" id="nav-activecourses-tab" data-bs-toggle="tab"
-                        data-bs-target="#nav-activecourses" type="button" role="tab" aria-controls="nav-activecourses"
-                        aria-selected="false">
-                        Active Courses
-                    </button> -->
+                        aria-selected="false">My Courses</button>                    
 
                     <button class="nav-link" id="nav-completedcourses-tab" data-bs-toggle="tab"
                         data-bs-target="#nav-completedcourses" type="button" role="tab"
                         aria-controls="nav-completedcourses" aria-selected="false">
                         Completed Courses
                     </button>
+
+                    <!-- <button class="nav-link" id="nav-activecourses-tab" data-bs-toggle="tab"
+                        data-bs-target="#nav-activecourses" type="button" role="tab" aria-controls="nav-activecourses"
+                        aria-selected="false">
+                        Course Certificates
+                    </button> -->
 
                     <button class="nav-link" id="nav-purchase-tab" data-bs-toggle="tab" data-bs-target="#nav-purchase"
                         type="button" role="tab" aria-controls="nav-purchase" aria-selected="false">Purchase
@@ -220,48 +220,64 @@ use Carbon\Carbon;
                 <div class="tab-pane fade" id="nav-completedcourses" role="tabpanel"
                     aria-labelledby="nav-completedcourses-tab">
                     <div class="row">
-                        @forelse ($enrollment as $a)
-                        <div class="col-lg-4 col-md-6 col-md-6 mb-4">
-                            <div class="contentCard contentCard--watch-course">
-                                <div class="contentCard-top">
-                                    <a href="#"><img src="{{asset('uploads/courses/'.$a->course?->image)}}"
-                                            alt="images" class="img-fluid" /></a>
-                                </div>
-                                <div class="contentCard-bottom">
-                                    <h5>
-                                        <a href="{{route('courseDetails', encryptor('encrypt', $a->course?->id))}}"
-                                            class="font-title--card">{{$a->course?->title_en}}</a>
-                                    </h5>
-                                    <div class="contentCard-info d-flex align-items-center justify-content-between">
-                                        <a href="{{route('instructorProfile', encryptor('encrypt', $a->course?->instructor->id))}}"
-                                            class="contentCard-user d-flex align-items-center">
-                                            <img src="{{asset('uploads/users/'.$a->course?->instructor?->image)}}"
-                                                alt="client-image" class="rounded-circle" height="34" width="34" />
-                                            <p class="font-para--md">{{$a->course?->instructor?->name_en}}</p>
+                        @forelse ($allCompletedCourses as $a)                        
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="contentCard contentCard--watch-course">
+                                    <div class="contentCard-top">
+                                        <a href="#">
+                                            <img src="{{ asset('uploads/courses/' . $a->course?->image) }}" alt="course-image" class="img-fluid" />
                                         </a>
-                                        <div class="contentCard-course--status d-flex align-items-center">
-                                            <!-- <span class="percentage">5%</span> -->
-                                            <!-- <p>Finish</p> -->
-                                        </div>
                                     </div>
-                                    <a class="button button-md button--primary-outline w-100 my-3"
-                                        href="{{route('watchCourse', encryptor('encrypt', $a->course?->id))}}">Start
-                                        Course</a>
-                                    <div class="contentCard-watch--progress">
-                                        <span class="percentage" style="width: 43%;"></span>
+                                    <div class="contentCard-bottom">
+                                        <div class="course-title-container">
+                                            <h5 class="course-title text-center my-4">
+                                                <a href="#" class="course-title-link">
+                                                    {{ $a->course?->title_en ?? 'No title available' }}
+                                                </a>
+                                            </h5>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <span class="btn btn-outline-primary">
+                                                <i class="fas fa-th-large"></i>
+                                                {{ $a->course->segments->count() }} {{ Str::plural('segment', $a->course->segments->count()) }}
+                                            </span>
+                                            <span class="btn btn-outline-success mx-2">
+                                                <i class="fas fa-book"></i> 
+                                                {{ $a->course->lessons->count() }} {{ Str::plural('lesson', $a->course->lessons->count()) }}
+                                            </span>
+                                        </div>
+
+                                        {{-- Check for course progress --}}
+                                    
+                                        @php
+                                            // Fetch the progress percentage, default to 0 if not found
+                                            $progressPercentage = $courseProgress[$a->course_id] ?? 0;
+                                        @endphp
+
+                                        <div class="contentCard-watch--progress-wrapper text-center">
+                                                    <div class="contentCard-watch--progress" style="background-color: #d4edda; border-radius: 5px; overflow: hidden; height: 5px;"> <!-- Light green background -->
+                                                        <span class="percentage" style="width: {{ $progressPercentage }}%; background-color: #28a745; height: 100%; display: block;"></span> <!-- Deep green for completion -->
+                                                    </div>
+                                                    <!-- <p class="mt-2 font-weight-bold" style="color: {{ $progressPercentage > 0 ? '#28a745' : '#dc3545' }};">
+                                                        {{ $progressPercentage }}% {{ $progressPercentage > 0 ? 'completed' : 'not started yet' }}
+                                                    </p> -->
+                                                </div>               
+                                        
+                                        {{-- Additional content for course buttons, etc. --}}
+                                        <div class="contentCard-button text-center mt-3">
+                                            <a class="button button-md button--primary-outline w-100 my-3" href="">
+                                                Get Certificate
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         @empty
                         <div class="col-12 py-5">
                             <div class="col-md-6 col-12 mx-auto text-center">
                                 <h5 class="font-title--sm">You Haven't Completed Any Course Yet...</h5>
-                                <p class="my-4 font-para--lg">
-                                    Your Course List is Empty!
-                                </p>
-                                <a href="{{route('searchCourse')}}" class="button button-md button--primary">Enroll
-                                    Now!</a>
+                                
+                                <a href="{{route('studentdashboard')}}" class="button button-md button--primary">Continue</a>
                             </div>
                         </div>
                         @endforelse

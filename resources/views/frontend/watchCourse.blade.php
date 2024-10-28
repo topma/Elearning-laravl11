@@ -148,6 +148,22 @@ body {
     background-color: #218838; /* Darker shade for hover effect */
     color: #fff;
 }
+
+.button--gold {
+    background-color: darkgoldenrod; /* Set the background color to gold */
+    color: #fff; /* Set the text color to white for contrast */
+    padding: 13px 20px; /* Add padding for better appearance */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Optional: rounded corners */
+    text-decoration: none; /* Remove underline from link */
+    display: inline-block; /* Ensures padding and margins work correctly */
+    transition: background-color 0.3s; /* Add transition for hover effect */
+}
+
+.button--gold:hover {
+    background-color: darkgoldenrod; /* Darken the gold on hover */
+    color: #fff;
+}
 </style>
 </head>
 
@@ -194,11 +210,18 @@ body {
                     </div>
                 </div>
                 <div class="coursedescription-header-end">  
-                @if($progress->completed == 1)
-                    <a href="{{route('watchCourseNext', encryptor('encrypt', $courseId))}}" class="button button--green">
+                @if($stdSegment->completed == 1)
+                    <a href="#" class="button button--gold">
+                        <i class="fas fa-certificate"></i> Certificate
+                    </a>
+                @endif
+                @if($progress->completed == 1 && $stdSegment->segment < $totalCourseSegment)
+                    <a href="{{route('watchCourseNext', encryptor('encrypt', $courseId))}}" 
+                    class="button button--green">
                         <i class="fas fa-arrow-right"></i> Next Segment
                     </a>
                 @endif
+                
                 <a href="#" class="button button--dark" data-bs-toggle="modal" data-bs-target="#ratingModal">
                     <i class="fas fa-star"></i> Leave a Rating
                 </a>

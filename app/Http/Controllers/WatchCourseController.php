@@ -22,8 +22,12 @@ class WatchCourseController extends Controller
 
         //Get segment no
         $segment = Segments::where('id' , encryptor('decrypt',$id))->first();
+        // Count the total number of segments in the course
+        $totalCourseSegment = Segments::where('course_id', $segment->course_id)->count();
         $segmentNo = $segment->segment_no;
         $courseId = $segment->course_id;
+        $totalSegment = Segments::where('course_id',$courseId)->count();
+
         if ($segmentNo == 1){
             $previousSegment = $segmentNo;
         }
@@ -159,7 +163,7 @@ class WatchCourseController extends Controller
             'lastViewedMaterial', 
             'lastViewedAt', 
             'progressRecords','currentLesson','currentMaterial','progress','segment',
-            'segmentProgress','studentId','courseId','quiz','questions'
+            'segmentProgress','studentId','courseId','quiz','questions','stdSegment','totalCourseSegment'
         ));
     }
 

@@ -28,6 +28,17 @@ class DashboardController extends Controller
         ])
         ->where('student_id', currentUserId())
         ->paginate(10);
+        $completedCourses = Enrollment::where('student_id', currentUserId())
+        ->where('completed', 1)
+        ->count();
+        $allCompletedCourses = Enrollment::with([
+            'course.segments', 
+            'course.lessons',
+            'course.instructor.courses' 
+        ])
+            ->where('student_id', currentUserId())
+            ->where('completed', 1)
+            ->paginate(10);
 
         // Fetch progress data for each course
         $progress = Progress::where('student_id', $studentId)->get()->keyBy('course_id'); 
@@ -55,7 +66,7 @@ class DashboardController extends Controller
         }  
 
         return view('students.dashboard', compact('student_info', 'enrollment', 'course', 
-        'checkout','progress','courseProgress'));
+        'checkout','progress','courseProgress','completedCourses','allCompletedCourses'));
     }
 
     public function courseSegment($id)
@@ -68,7 +79,9 @@ class DashboardController extends Controller
         $enrollment = Enrollment::with(['course.segments', 'course.lessons'])
             ->where('student_id', currentUserId())
             ->paginate(10);
-
+        $completedCourses = Enrollment::where('student_id', currentUserId())
+            ->where('completed', 1)
+            ->count();        
         // Fetch all courses
         $course = Course::all();
         // Fetch current course selected
@@ -133,7 +146,7 @@ class DashboardController extends Controller
             'student_info',
             'segments',
             'segmentProgress',
-            'progress', // Pass the segment progress to the view
+            'progress','completedCourses' // Pass the segment progress to the view
         ));
     }
 

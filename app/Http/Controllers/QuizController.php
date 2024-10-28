@@ -103,8 +103,7 @@ class QuizController extends Controller
 
             return response()->json(['error' => 'Failed to save the answer'], 500);
         }
-    }
-    
+    }    
 
     public function finishQuiz(Request $request, $quizId)
     {
@@ -113,7 +112,14 @@ class QuizController extends Controller
         $segmentId = $request->input('segment_id');
         $score = $request->input('score');
         $passMark = $request->input('pass_mark');
-        
+
+        // Get the student's current segment number
+        $stdSegment = Enrollment::where('student_id', $studentId)
+            ->where('course_id', $courseId)
+            ->first();
+
+        $totalCourseSegment = Segments::where('course_id', $courseId)->count();
+
         // Find or create quiz record for the student
         $quizRecord = Progress::firstOrCreate(
             ['student_id' => $studentId, 'course_id' => $courseId, 'segments_id' => $segmentId],
@@ -125,11 +131,20 @@ class QuizController extends Controller
             $quizRecord->completed = 1;
             $quizRecord->progress_percentage = 100;
 
-            // Update the enrollment table to increment the segment attribute
-            \DB::table('enrollments')
-                ->where('student_id', $studentId)
-                ->where('course_id', $courseId)
-                ->increment('segment', 1);
+            // Check if the student is on the last segment
+            if ($stdSegment->segment == $totalCourseSegment) {
+                // If it's the last segment, update the enrollment's completed status to 1
+                \DB::table('enrollments')
+                    ->where('student_id', $studentId)
+                    ->where('course_id', $courseId)
+                    ->update(['completed' => 1]);
+            } else {
+                // Otherwise, increment the segment attribute
+                \DB::table('enrollments')
+                    ->where('student_id', $studentId)
+                    ->where('course_id', $courseId)
+                    ->increment('segment', 1);
+            }
         } else {
             // If score is less than pass mark, check attempts
             if ($quizRecord->quiz_attempt >= 3) {

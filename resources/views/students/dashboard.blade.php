@@ -137,83 +137,85 @@ use Carbon\Carbon;
                 </div>
 
                 <div class="tab-pane fade show active" id="nav-coursesall" role="tabpanel" aria-labelledby="nav-coursesall-tab">
-    <div class="row">
-    @forelse ($enrollment as $a)
-    <div class="col-lg-4 col-md-6 mb-4">
-        <div class="contentCard contentCard--watch-course">
-            <div class="contentCard-top">
-                <a href="#">
-                    <img src="{{ asset('uploads/courses/' . $a->course?->image) }}" alt="course-image" class="img-fluid" />
-                </a>
-            </div>
-            <div class="contentCard-bottom">
-                <div class="course-title-container">
-                    <h5 class="course-title text-center my-4">
-                        <a href="#" class="course-title-link">
-                            {{ $a->course?->title_en ?? 'No title available' }}
-                        </a>
-                    </h5>
-                </div>
-                <div class="d-flex justify-content-between align-items-center mt-3">
-                    <span class="btn btn-outline-primary">
-                        <i class="fas fa-th-large"></i>
-                        {{ $a->course->segments->count() }} {{ Str::plural('segment', $a->course->segments->count()) }}
-                    </span>
-                    <span class="btn btn-outline-success mx-2">
-                        <i class="fas fa-book"></i> 
-                        {{ $a->course->lessons->count() }} {{ Str::plural('lesson', $a->course->lessons->count()) }}
-                    </span>
-                </div>
-
-                {{-- Check for course progress --}}
-               
-                @php
-                    // Fetch the progress percentage, default to 0 if not found
-                    $progressPercentage = $courseProgress[$a->course_id] ?? 0;
-                @endphp
-
-                <div class="contentCard-watch--progress-wrapper text-center">
-                            <div class="contentCard-watch--progress" style="background-color: #d4edda; border-radius: 5px; overflow: hidden; height: 5px;"> <!-- Light green background -->
-                                <span class="percentage" style="width: {{ $progressPercentage }}%; background-color: #28a745; height: 100%; display: block;"></span> <!-- Deep green for completion -->
+                    <div class="row">
+                    @forelse ($enrollment as $a)
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="contentCard contentCard--watch-course">
+                            <div class="contentCard-top">
+                                <a href="#">
+                                    <img src="{{ asset('uploads/courses/' . $a->course?->image) }}" alt="course-image" class="img-fluid" />
+                                </a>
                             </div>
-                            <!-- <p class="mt-2 font-weight-bold" style="color: {{ $progressPercentage > 0 ? '#28a745' : '#dc3545' }};">
-                                {{ $progressPercentage }}% {{ $progressPercentage > 0 ? 'completed' : 'not started yet' }}
-                            </p> -->
-                        </div>               
-                
-                {{-- Additional content for course buttons, etc. --}}
-                <div class="contentCard-button text-center mt-3">
-                    <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('courseSegment', encryptor('encrypt', $a->course?->id)) }}">
-                        @if ($progressPercentage > 0)
-                            Continue Course
-                        @else
-                            Start Course
-                        @endif
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-@empty
-    <div class="col-12 py-5">
-        <div class="col-md-6 col-12 mx-auto text-center">
-            <h5 class="font-title--sm">You Haven't Enrolled in Any Course Yet...</h5>
-            <p class="my-4 font-para--lg">Your Course List is Empty!</p>
-            <a href="{{ route('searchCourse') }}" class="button button-md button--primary">Enroll Now!</a>
-        </div>
-    </div>
-@endforelse
+                            <div class="contentCard-bottom">
+                                <div class="course-title-container">
+                                    <h5 class="course-title text-center my-4">
+                                        <a href="#" class="course-title-link">
+                                            {{ $a->course?->title_en ?? 'No title available' }}
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="btn btn-outline-primary">
+                                        <i class="fas fa-th-large"></i>
+                                        {{ $a->course->segments->count() }} {{ Str::plural('segment', $a->course->segments->count()) }}
+                                    </span>
+                                    <span class="btn btn-outline-success mx-2">
+                                        <i class="fas fa-book"></i> 
+                                        {{ $a->course->lessons->count() }} {{ Str::plural('lesson', $a->course->lessons->count()) }}
+                                    </span>
+                                </div>
+
+                                {{-- Check for course progress --}}
+                            
+                                @php
+                                    // Fetch the progress percentage, default to 0 if not found
+                                    $progressPercentage = $courseProgress[$a->course_id] ?? 0;
+                                @endphp
+
+                                <div class="contentCard-watch--progress-wrapper text-center">
+                                            <div class="contentCard-watch--progress" style="background-color: #d4edda; border-radius: 5px; overflow: hidden; height: 5px;"> <!-- Light green background -->
+                                                <span class="percentage" style="width: {{ $progressPercentage }}%; background-color: #28a745; height: 100%; display: block;"></span> <!-- Deep green for completion -->
+                                            </div>
+                                            <!-- <p class="mt-2 font-weight-bold" style="color: {{ $progressPercentage > 0 ? '#28a745' : '#dc3545' }};">
+                                                {{ $progressPercentage }}% {{ $progressPercentage > 0 ? 'completed' : 'not started yet' }}
+                                            </p> -->
+                                        </div>               
+                                
+                                {{-- Additional content for course buttons, etc. --}}
+                                <div class="contentCard-button text-center mt-3">
+                                    <a class="button button-md button--primary-outline w-100 my-3" href="{{ route('courseSegment', encryptor('encrypt', $a->course?->id)) }}">
+                                        @if($a->completed == 1)
+                                        View Course 
+                                        @elseif ($progressPercentage > 0)
+                                        Continue Course
+                                        @else
+                                            Start Course
+                                        @endif
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12 py-5">
+                        <div class="col-md-6 col-12 mx-auto text-center">
+                            <h5 class="font-title--sm">You Haven't Enrolled in Any Course Yet...</h5>
+                            <p class="my-4 font-para--lg">Your Course List is Empty!</p>
+                            <a href="{{ route('searchCourse') }}" class="button button-md button--primary">Enroll Now!</a>
+                        </div>
+                    </div>
+                @endforelse
 
 
-        <div class="col-lg-12 mt-lg-5">
-            <div class="pagination justify-content-center pb-0">
-                <div class="pagination-group">
-                    {{ $enrollment->links() }}
+                        <div class="col-lg-12 mt-lg-5">
+                            <div class="pagination justify-content-center pb-0">
+                                <div class="pagination-group">
+                                    {{ $enrollment->links() }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 
                 {{-- Completed Courses --}}
@@ -265,7 +267,8 @@ use Carbon\Carbon;
                                         
                                         {{-- Additional content for course buttons, etc. --}}
                                         <div class="contentCard-button text-center mt-3">
-                                            <a class="button button-md button--primary-outline w-100 my-3" href="">
+                                            <a class="button button-md button--primary-outline w-100 my-3" 
+                                            href="{{ route('certificate.show', encryptor('encrypt', $a->course?->id)) }}">
                                                 Get Certificate
                                             </a>
                                         </div>

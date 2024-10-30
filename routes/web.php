@@ -35,6 +35,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\UrlController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\CertificateController;
 
 /* students */
 use App\Http\Controllers\Students\AuthController as sauth;
@@ -191,7 +192,8 @@ Route::middleware(['checkstudent'])->prefix('students')->group(function () {
     Route::post('/quiz/{quizId}/finish', [QuizController::class, 'finishQuiz']);
     Route::post('/quiz/save-answer', [QuizController::class, 'saveAnswer']);
     Route::post('/quiz/update-progress', [QuizController::class, 'updateProgress']);  
-
+    Route::get('/certificate/{id}', [CertificateController::class, 'showCertificate'])
+    ->name('certificate.show');
 });
 
 //----------instructor routes --------------------------------

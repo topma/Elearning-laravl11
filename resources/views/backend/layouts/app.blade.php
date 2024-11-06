@@ -320,6 +320,11 @@
                                         class="las la-question-circle"></i>Questions</a></li>
                         </ul>
                     </li>
+                    <li><a class="" href="{{route('certificates.index')}}" aria-expanded="false">
+                    <i class="las la-atom"></i>
+                            <span class="nav-text">Certificates</span>
+                        </a>
+                    </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="las la-star-half-alt"></i>
                             <span class="nav-text">Reviews</span>
@@ -406,6 +411,11 @@
                             <!-- <li><a href="{{route('question.index')}}"><i
                                         class="las la-question-circle"></i>Questions</a></li> -->
                         </ul>
+                    </li>
+                    <li><a class="" href="{{route('certificates.index')}}" aria-expanded="false">
+                    <i class="las la-atom"></i>
+                            <span class="nav-text">Certificates</span>
+                        </a>
                     </li>
                 <!-- <li><a href="{{route('lesson.index')}}"><i class="las la-chalkboard"></i>Course Lessons</a></li> -->
                 <!-- <li><a href="{{route('material.index')}}"><i class="las la-atom"></i></i>Course Materials</a></li> -->

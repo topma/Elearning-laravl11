@@ -5,12 +5,154 @@ namespace App\Http\Controllers;
 use TCPDF;
 use App\Models\Student; 
 use App\Models\Course; 
+use App\Models\Instructor;
 use Illuminate\Http\Request;
 use Barryvdh\Snappy\Facades\SnappyPdf;
+use App\Models\Certificate;
 
 class CertificateController extends Controller
 {
     //
+    public function index()
+    {
+        $data = Certificate::with(['instructor', 'course'])->get();
+        return view('backend.certificate.index', compact('data'));
+    }
+
+    public function create()
+    {
+        $userRoleId = auth()->user()->role_id;
+        
+        if ($userRoleId == 1){
+            $instructor = Instructor::all();
+            $course = Course::all();
+        }
+        elseif ($userRoleId == 3) {
+            $instructorId = auth()->user()->instructor_id;
+            $instructor = Instructor::where('id', $instructorId)->first();
+            $course = Course::where('instructor_id', $instructorId)->get();
+        }
+
+        return view('backend.certificate.create', compact('instructor','course'));
+       
+    }
+
+    public function store(Request $request)
+    {
+        try {
+            // Check if a certificate already exists for the given course_id
+            $existingCertificate = Certificate::where('course_id', $request->courseId)->first();
+
+            if ($existingCertificate) {
+                // If a certificate exists, return a message indicating it can be edited
+                return redirect()->back()->with('error', 'A certificate has already been added for this course. You can edit it instead.');
+            }
+
+            // Create a new Certificate instance
+            $certificate = new Certificate();
+            $certificate->course_id = $request->courseId;
+
+            // Get the instructor for the course
+            $course = Course::find($request->courseId);
+            $certificate->instructor_id = $course->instructor_id;
+            $certificate->certificate_type = $request->certificateType;
+
+            // Assign certificate_id based on certificateType
+            switch ($request->certificateType) {
+                case 'Default':
+                    $certificate->certificate_id = 2;
+                    break;
+                case 'Nova':
+                    $certificate->certificate_id = 3;
+                    break;
+                case 'Inspire':
+                    $certificate->certificate_id = 4;
+                    break;
+                case 'Eclipse':
+                    $certificate->certificate_id = 5;
+                    break;
+                case 'Kings Digi Hub':
+                    $certificate->certificate_id = 1;
+                    break;
+            }
+
+            // Handle image upload
+            if ($request->hasFile('image')) {
+                $imageName = rand(111, 999) . time() . '.' . $request->image->extension();
+                $request->image->move(public_path('uploads/signatures'), $imageName);
+                $certificate->image = $imageName;
+            }
+
+            // Save the new certificate
+            if ($certificate->save()) {
+                return redirect()->route('certificates.index')->with('success', 'Data Saved');
+            } else {
+                return redirect()->back()->withInput()->with('error', 'Please try again');
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Please try again');
+        }
+    }
+
+    public function edit($id)
+    {   
+        $decryptedId = encryptor('decrypt', $id);
+        $certificate = Certificate::with(['instructor', 'course'])
+        ->where('id', $decryptedId)
+        ->firstOrFail();
+        
+        return view('backend.certificate.edit', compact('certificate'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $id)
+{
+    try {           
+        // Find the student by ID
+        $certificate = Certificate::findOrFail(encryptor('decrypt', $id));
+        
+        // Update student fields            
+            $certificate->certificate_type = $request->certificateType;
+            switch ($request->certificateType) {
+                case 'Default':
+                    $certificate->certificate_id = 2;
+                    break;
+                case 'Nova':
+                    $certificate->certificate_id = 3;
+                    break;
+                case 'Inspire':
+                    $certificate->certificate_id = 4;
+                    break;
+                case 'Eclipse':
+                    $certificate->certificate_id = 5;
+                    break;
+                case 'Kings Digi Hub':
+                    $certificate->certificate_id = 1;
+                    break;
+            } 
+        
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $imageName = rand(111, 999) . time() . '.' . $request->image->extension();
+            $request->image->move(public_path('uploads/signatures'), $imageName);
+            $certificate->image = $imageName;
+        }
+
+        // Save the student record
+        if ($certificate->save()) {
+            return redirect()->route('certificates.index')->with('success', 'Data Saved');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Please try again');
+        }
+    } catch (Exception $e) {
+        // Debug the exception
+        //dd($e);
+        return redirect()->back()->withInput()->with('error', 'Please try again');
+    }
+}
+
     
     public function generateCertificate($recipientName, $courseName, $completionDate)
     {

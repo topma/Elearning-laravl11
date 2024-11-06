@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 28, 2024 at 11:46 AM
+-- Generation Time: Oct 30, 2024 at 04:38 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -225,7 +225,7 @@ CREATE TABLE `enrollments` (
 --
 
 INSERT INTO `enrollments` (`id`, `student_id`, `course_id`, `instructor_id`, `enrollment_date`, `segment`, `completed`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 12, 3, 4, '2024-10-12 07:00:00', 2, 0, '2024-10-13 02:14:01', '2024-10-13 02:14:01', NULL);
+(1, 12, 3, 4, '2024-10-12 07:00:00', 2, 1, '2024-10-13 02:14:01', '2024-10-13 02:14:01', NULL);
 
 -- --------------------------------------------------------
 
